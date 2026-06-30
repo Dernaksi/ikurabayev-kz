@@ -3,6 +3,12 @@
 Source of truth for the personal research website, QR landing page, engineering
 portfolio, and AI-assisted project laboratory for Iskander Kurabayev.
 
+## AI Session Quick Start
+
+New ChatGPT/Codex sessions should begin with START_HERE.md. It defines the
+mandatory reading order, current mission, active task queue, branch rules, and
+safety boundaries.
+
 This repository is not yet a website implementation. It currently defines the
 project context, governance, public content boundaries, and Codex-first workflow
 that future website work should follow.

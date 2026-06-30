@@ -6,6 +6,10 @@ Use this context when starting a new ChatGPT conversation about IKurabayev.kz.
 Project: IKurabayev.kz
 Repository: Dernaksi/ikurabayev-kz
 
+First instruction:
+Read START_HERE.md first, then inspect the mandatory files listed there before
+summarizing project state or proposing work.
+
 This repository is the source of truth for a personal research website, QR
 landing page, engineering portfolio, and AI-assisted project laboratory for
 Iskander Kurabayev.
