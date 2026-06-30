@@ -11,6 +11,12 @@ Kurabayev.
 This repository should evolve conservatively. Treat public credibility,
 provenance, privacy, and reproducibility as first-class requirements.
 
+## First-Read Protocol
+
+Before any work, read START_HERE.md first. Then read the mandatory files listed
+in START_HERE.md. Do not modify files until repository context, active task,
+branch state, and safety boundaries are understood.
+
 ## Working Rules
 
 - Work in conservative research-reproducibility mode.
