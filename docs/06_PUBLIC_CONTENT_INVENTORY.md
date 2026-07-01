@@ -1,117 +1,82 @@
 # Public Content Inventory
 
-## Purpose
+Status: draft for human review.
 
-This inventory is a review skeleton for future public content on IKurabayev.kz.
-It records candidate public material, source status, evidence needs, privacy
-status, and multilingual readiness before any content is published.
+This inventory converts the private evidence digest into public-safe content candidates for IKurabayev.kz. It is not a final biography and should not be treated as launch-ready copy until reviewed.
 
-This file must remain conservative. Do not add final biography text, private
-contact details, unpublished research data, confidential documents, raw
-datasets, or unsupported public claims without explicit review and approval.
+## Privacy boundary
 
-## Source Status Legend
+Do not add or publish:
 
-Use these status values consistently:
+- IIN or other civil identifiers.
+- Private phone numbers.
+- Home or private addresses.
+- Identity-card numbers.
+- Date of birth.
+- Candidate IDs, membership numbers, diploma/certificate registration numbers, or private document identifiers.
+- Raw scans of documents, signatures, seals, QR codes, or EDS blocks.
+- Labor-book scans.
+- Contracts, financial records, or private institutional documents.
+- Documents or personal data about other people.
+- Unpublished research data or confidential materials.
 
-| Status | Meaning | Publication readiness |
-| --- | --- | --- |
-| `placeholder` | Structure exists, content not supplied yet. | Not ready |
-| `needs public source` | Candidate content needs a public or approved source. | Not ready |
-| `approved public source` | Source is public or explicitly approved for publication. | Review before publication |
-| `excluded` | Content must not be published or stored here. | Do not publish |
-| `needs human review` | Human review is required before use. | Not ready |
+## Inventory
 
-## Public Biography Source Inventory
-
-| Item | Candidate public content | Source / evidence | Status | Public-safe? | Language | Notes / next review |
+| Group | Public-safe fact candidate | Suggested public wording | Source label | Verification status | Public risk | Codex-ready? |
 | --- | --- | --- | --- | --- | --- | --- |
-| Preferred public name | Placeholder only | Needs approved source | `placeholder` | Needs review | English / Russian / Kazakh | Confirm exact display form before publication. |
-| Short biography | Placeholder only | Needs approved source | `needs public source` | Needs review | English / Russian / Kazakh | Do not invent roles, affiliations, or achievements. |
-| Professional summary | Placeholder only | Needs approved source | `needs public source` | Needs review | English / Russian / Kazakh | Keep claims factual and source-backed. |
-| Public location / region | Placeholder only | Needs approved source | `needs human review` | Needs review | English / Russian / Kazakh | Avoid private addresses or overly specific private location details. |
+| Identity | Professional name | Iskander Kurabayev is an electrical engineering and energy-efficiency specialist from Kazakhstan. | CV; ORCID profile | Supported by private evidence; public wording needs human approval | Low, if no private contacts are added | Yes |
+| Identity | Academic identifier | ORCID profile may be used as the primary public academic identifier. | ORCID profile | Public link available; review exact link before launch | Low | Yes |
+| Education | Specialist degree | Specialist degree in industrial power supply / electrical engineering from S. Toraighyrov Pavlodar State University, completed with honors. | Higher education diploma; CV | Supported by diploma and CV | Medium: do not publish scan or document numbers | Yes |
+| Education | Master's degree | Master of Technical Sciences in Electrical Power Engineering from S. Seifullin Kazakh Agro Technical University, completed with honors. | Master's diploma; CV | Supported by diploma and CV | Medium: do not publish scan or document numbers | Yes |
+| Education | PhD | PhD in Electrical Engineering / Electrical complexes and systems; dissertation focused on improving efficiency of power supply systems in mining facilities. | PhD diploma; CV | Supported by diploma and CV | Medium: do not publish scan, QR, or document numbers | Yes |
+| Research profile | Core research area | Research interests include insulation parameters, ungrounded and isolated-neutral AC systems, earth-fault current, admittance, conductance, susceptance, and voltage diagnostics. | CV; ORCID profile | Supported by CV and ORCID keywords | Low | Yes |
+| Research profile | Application field | Work connects electrical power supply systems, mining facilities, energy efficiency, measurement, and diagnostic methods. | CV; PhD diploma | Supported by private evidence | Low | Yes |
+| Research profile | Conservative role wording | Academic and professional roles should be stated conservatively because source dates and role names require final reconciliation. | CV; ORCID profile | Needs human reconciliation before final biography | Medium | Review first |
+| Publications | Insulation parameters up to 1000 V | Publication on experimental studies of a method for determining insulation parameters in isolated-neutral networks up to 1000 V. | CV publication list | Needs public metadata/DOI check before launch | Low after verification | Review first |
+| Publications | Asymmetric network method | Conference publication on determining insulation parameters in asymmetric networks up to 1000 V. | CV publication list | Needs public metadata check before launch | Low after verification | Review first |
+| Publications | IET Generation, Transmission & Distribution article | Article on mathematical description of a method for ungrounded AC systems to determine network insulation. | CV publication list | Needs public DOI metadata check before launch | Low after verification | Review first |
+| Publications | ICECET 2022 paper | Conference paper on laboratory experimental research of the developed method for ungrounded AC systems. | CV publication list | Needs public DOI metadata check before launch | Low after verification | Review first |
+| Publications | Operating excavator approbation | Article on approbation of the developed method on an operating excavator. | CV publication list | Needs public DOI/public metadata check before launch | Low after verification | Review first |
+| Publications | Error estimation | Article on error estimation of the developed method for ungrounded AC systems. | CV publication list | Needs public DOI/public metadata check before launch | Low after verification | Review first |
+| Patents | Eurasian patent | Eurasian patent on measuring insulation parameters of isolated-neutral electrical networks up to and above 1000 V using complex-plane quadrants. | CV patent list | Needs public patent-registry check before launch | Low after verification | Review first |
+| Patents | Kazakhstan patent | Kazakhstan patent on measuring insulation parameters of isolated-neutral electrical networks using symmetrical components. | CV patent list | Needs public patent-registry check before launch | Low after verification | Review first |
+| Energy audit credentials | Energy auditor status | Accredited energy auditor in Kazakhstan in the field of energy saving and energy efficiency. | Energy auditor attestations; CV | Supported by official attestations and CV | Medium: do not publish IIN, date of birth, QR/EDS, signatures, scans, or document numbers | Yes |
+| Energy audit credentials | Renewal history | Energy auditor attestation is documented across multiple renewal cycles. | Energy auditor attestations | Supported by private evidence | Medium: avoid certificate numbers unless separately approved | Yes |
+| Energy audit credentials | Electrical safety qualification | V electrical safety admission group is documented in private qualification protocols. | Qualification protocols | Private supporting evidence only | Medium-high: protocols include signatures and employment details | Review first |
+| Energy audit credentials | Energy audit training | Completed professional training and retraining in energy audit, including 120-hour courses. | Energy audit certificates | Supported by private certificates | Medium: no scans/signatures/document numbers | Yes |
+| Awards | Kazakhstan Electric Energy Association award | Honored Energy Worker, Kazakhstan Electric Energy Association. | Award certificate; ORCID profile; CV | Supported by multiple sources | Medium: no scans or certificate numbers | Yes |
+| Awards | Ministry of Energy award | Honored Energy Worker, Ministry of Energy of the Republic of Kazakhstan. | Award certificate; ORCID profile; CV | Supported by multiple sources | Medium: no scans or certificate numbers | Yes |
+| Awards | Later energy-sector distinctions | Additional energy-sector awards are listed in private CV and require separate source-by-source approval before publication. | CV awards section | Needs source-specific review | Medium | Review first |
+| Work experience | Early engineering experience | Engineering experience in energy facilities and technical infrastructure, including work connected with Park of Nuclear Technologies. | CV; ORCID profile | Supported by CV/ORCID; labor-book evidence excluded | Medium: do not use labor-book scans | Review first |
+| Work experience | Energy expertise and audit | Professional experience in energy expertise, energy audit, and energy-saving analysis in Kazakhstan organizations. | CV; ORCID profile | Supported by CV/ORCID | Medium: exact entities and dates need review | Review first |
+| Work experience | Academic teaching | Teaching and academic work in energy-related disciplines at S. Seifullin Kazakh Agro Technical / Research University. | CV; ORCID profile | Supported by private evidence; exact role/date wording needs reconciliation | Medium | Review first |
+| Work experience | Leadership roles | Leadership experience in energy-sector organizations. | CV | Self-reported in private CV | Medium-high: legal entity names and dates need review | Review first |
+| Training / internships | Budker / accelerator-related training | Training related to operation and maintenance of industrial electron accelerator / X-ray equipment. | Training certificate; CV | Supported by private certificate and CV | Medium: wording should be reviewed | Review first |
+| Training / internships | Korea Institute of Energy Research | Completed Korea-Kazakhstan Personnel Exchange Program on Energy Technology at Korea Institute of Energy Research. | Korea certificate; CV; ORCID profile | Supported by multiple sources | Low-medium: no scan/signature | Yes |
+| Training / internships | Poland renewable energy course | Completed training programme on energy from renewable energy sources at the University of Agriculture in Krakow, Poland. | Poland certificate | Supported by certificate | Low-medium: no scan/signature | Yes |
+| Training / internships | Navoi scientific internship | Completed scientific internship at Navoi State Mining and Technological University. | Navoi certificate | Supported by certificate | Low-medium: no scan/signature | Yes |
+| Languages | English credential | IELTS Academic overall band 6.0 / CEFR B2 may be listed if useful. | IELTS certificate; CV | Supported by private evidence | Medium: exclude Candidate ID, candidate number, test form number, photo, and date of birth | Review first |
 
-## Research Interests Inventory
+## Excluded source categories
 
-| Item | Candidate public content | Source / evidence | Status | Public-safe? | Language | Notes / next review |
-| --- | --- | --- | --- | --- | --- | --- |
-| Research area summary | Placeholder only | Needs approved source | `needs public source` | Needs review | English / Russian / Kazakh | Use broad interests only until sources are reviewed. |
-| Current research topics | Placeholder only | Needs approved source | `needs public source` | Needs review | English / Russian / Kazakh | Do not add unpublished results or confidential project details. |
-| Collaboration interests | Placeholder only | Needs approved source | `needs human review` | Needs review | English / Russian / Kazakh | Confirm what is appropriate for public sharing. |
+The following source categories must not be copied into the repository or website:
 
-## Publications And Public Links Inventory
+- Raw diploma and certificate scans.
+- Energy-auditor attestation scans.
+- Electrical-safety qualification protocols.
+- Labor-book scans.
+- IELTS test report scan.
+- IEEE membership card scan.
+- Documents about other people.
+- Identity, benefit, or personal-status documents.
+- Contracts, financial records, and private institutional documents.
 
-| Item | Candidate public content | Source / evidence | Status | Public-safe? | Language | Notes / next review |
-| --- | --- | --- | --- | --- | --- | --- |
-| Publication list | Placeholder only | Needs public source | `needs public source` | Needs review | English | Add only verified public publications or approved links. |
-| Presentation links | Placeholder only | Needs public source | `needs public source` | Needs review | English / Russian / Kazakh | Confirm sharing rights before linking. |
-| Academic profile link | Placeholder only | Needs public source | `placeholder` | Needs review | Link | Add only intentionally public profile URLs. |
-| Research profile link | Placeholder only | Needs public source | `placeholder` | Needs review | Link | Avoid non-public or institution-private pages. |
+## Next review checklist
 
-## Engineering Portfolio Candidates
+Before any public biography or QR landing page copy is drafted:
 
-| Item | Candidate public content | Source / evidence | Status | Public-safe? | Language | Notes / next review |
-| --- | --- | --- | --- | --- | --- | --- |
-| Portfolio project summary | Placeholder only | Needs approved source | `needs public source` | Needs review | English / Russian / Kazakh | Do not add unsupported metrics or private client details. |
-| Open-source project link | Placeholder only | Needs public source | `placeholder` | Needs review | Link | Confirm repository is intended for public sharing. |
-| Engineering case study | Placeholder only | Needs approved source | `needs human review` | Needs review | English / Russian / Kazakh | Exclude confidential implementation details. |
-
-## QR Landing Page Fields
-
-| Item | Candidate public content | Source / evidence | Status | Public-safe? | Language | Notes / next review |
-| --- | --- | --- | --- | --- | --- | --- |
-| Preferred display name | Placeholder only | Needs approved source | `placeholder` | Needs review | English / Russian / Kazakh | Confirm exact spelling and language variants. |
-| Short professional title | Placeholder only | Needs approved source | `needs public source` | Needs review | English / Russian / Kazakh | Do not invent title, role, or affiliation. |
-| Primary public link | Placeholder only | Needs approved source | `placeholder` | Needs review | Link | Use a public route intended for broad sharing. |
-| Academic profile link | Placeholder only | Needs public source | `placeholder` | Needs review | Link | Confirm public profile URL. |
-| Research profile link | Placeholder only | Needs public source | `placeholder` | Needs review | Link | Confirm public profile URL. |
-| Engineering portfolio link | Placeholder only | Needs public source | `placeholder` | Needs review | Link | Link only public and reviewed portfolio material. |
-| Contact route | Placeholder only | Needs approved source | `needs human review` | Needs review | English / Russian / Kazakh | Prefer public contact route; do not add private phone or address. |
-| Language options | Placeholder only | Needs human review | `placeholder` | Needs review | English / Russian / Kazakh | Confirm initial language scope and fallback behavior. |
-| Privacy review status | Placeholder only | Human review required | `needs human review` | Needs review | English | Complete before publication. |
-
-## Claims Requiring Evidence
-
-| Item | Candidate public content | Source / evidence | Status | Public-safe? | Language | Notes / next review |
-| --- | --- | --- | --- | --- | --- | --- |
-| Biography claim | Placeholder only | Needs approved source | `needs public source` | Needs review | English / Russian / Kazakh | Add evidence before wording as fact. |
-| Affiliation claim | Placeholder only | Needs approved source | `needs public source` | Needs review | English / Russian / Kazakh | Confirm current and public-safe affiliation wording. |
-| Publication claim | Placeholder only | Needs public source | `needs public source` | Needs review | English | Verify publication metadata before publication. |
-| Research result claim | Placeholder only | Needs approved public source | `needs public source` | Needs review | English | Do not add unpublished results. |
-| Portfolio achievement claim | Placeholder only | Needs approved source | `needs public source` | Needs review | English / Russian / Kazakh | Do not invent metrics, outcomes, or client details. |
-
-## Content Excluded For Privacy
-
-| Item | Candidate public content | Source / evidence | Status | Public-safe? | Language | Notes / next review |
-| --- | --- | --- | --- | --- | --- | --- |
-| Private phone numbers | Do not publish | Repository policy | `excluded` | No | N/A | Keep out of repository and website. |
-| Private addresses | Do not publish | Repository policy | `excluded` | No | N/A | Keep out of repository and website. |
-| Private correspondence | Do not publish | Repository policy | `excluded` | No | N/A | Keep out of repository and website. |
-| Contracts and financial records | Do not publish | Repository policy | `excluded` | No | N/A | Keep out of repository and website. |
-| Unpublished research data | Do not publish | Repository policy | `excluded` | No | N/A | Keep out of repository and website. |
-| Confidential manuscripts | Do not publish | Repository policy | `excluded` | No | N/A | Keep out of repository and website. |
-| Raw datasets | Do not publish | Repository policy | `excluded` | No | N/A | Keep out of repository and website. |
-| Unsupported claims | Do not publish | Repository policy | `excluded` | No | N/A | Require public or explicitly approved sources. |
-
-## Multilingual Readiness
-
-| Item | Candidate public content | Source / evidence | Status | Public-safe? | Language | Notes / next review |
-| --- | --- | --- | --- | --- | --- | --- |
-| English source text | Placeholder only | Needs approved source | `placeholder` | Needs review | English | Establish source text before translation. |
-| Russian translation | Placeholder only | Needs reviewed source text | `placeholder` | Needs review | Russian | Translation must not strengthen claims. |
-| Kazakh translation | Placeholder only | Needs reviewed source text | `placeholder` | Needs review | Kazakh | Translation must not strengthen claims. |
-| Terminology consistency | Placeholder only | Human review required | `needs human review` | Needs review | English / Russian / Kazakh | Review names, titles, and technical terms. |
-
-## Review Checklist
-
-- [ ] All candidate public content has a public or explicitly approved source.
-- [ ] No private phone numbers, private addresses, secrets, tokens, or `.env`
-      files are included.
-- [ ] No contracts, financial records, private correspondence, unpublished
-      research data, raw datasets, or confidential manuscripts are included.
-- [ ] No unsupported biography, affiliation, publication, research, or portfolio
-      claims are included.
-- [ ] QR landing page fields are reviewed before publication.
-- [ ] English, Russian, and Kazakh content is reviewed for accuracy and claim
-      consistency.
-- [ ] Privacy and public content policy review is complete before website use.
+1. Verify publication metadata from public publisher/DOI pages.
+2. Verify patent metadata from public patent registries.
+3. Reconcile role titles and dates between CV and ORCID.
+4. Decide which public contact route is approved for the website.
+5. Keep all document scans and private identifiers out of the repository.
