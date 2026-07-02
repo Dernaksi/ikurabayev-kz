@@ -35,7 +35,10 @@ Primary buttons:
 
 Secondary links:
 
-- ORCID pending exact link review
+- ORCID 0000-0002-4331-4726:
+  https://orcid.org/0000-0002-4331-4726
+- Scopus Author ID 57473761100:
+  https://www.scopus.com/authid/detail.uri?authorId=57473761100
 - Publications pending metadata verification
 - Patents pending registry verification
 
@@ -44,6 +47,10 @@ Secondary links:
 - Отображаемое имя: Искандер Курабаев
 - Краткое позиционирование: Специалист в области электротехники и
   энергоэффективности из Казахстана.
+- Краткий QR-текст: Искандер Курабаев — специалист в области электротехники и
+  энергоэффективности. Астана, Казахстан. Направления: электротехника,
+  энергоэффективность, идентификация параметров энергосистем, энергоаудит и
+  встроенные измерительные системы.
 - Краткое описание: Искандер Курабаев работает на стыке систем электроснабжения,
   энергоэффективности, измерений и диагностических методов. Его публичные
   исследовательские интересы включают параметры изоляции, сети с изолированной
@@ -58,7 +65,10 @@ Secondary links:
 
 Дополнительные ссылки:
 
-- ORCID: точная ссылка ожидает проверки
+- ORCID 0000-0002-4331-4726:
+  https://orcid.org/0000-0002-4331-4726
+- Scopus Author ID 57473761100:
+  https://www.scopus.com/authid/detail.uri?authorId=57473761100
 - Публикации: ожидается проверка метаданных
 - Патенты: ожидается проверка реестра
 
@@ -96,7 +106,6 @@ identifiers.
 
 ## Not Yet Included
 
-- Exact ORCID URL pending review.
 - Publications pending DOI/publisher verification.
 - Patents pending registry verification.
 - Public contact route pending approval.
