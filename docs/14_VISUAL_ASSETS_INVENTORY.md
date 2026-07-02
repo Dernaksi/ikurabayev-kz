@@ -109,3 +109,25 @@ only and were not copied into `site/assets/`.
 - Patent registry verification remains pending.
 - Kazakh language review remains pending.
 - SEO / metadata can be finalized in a later PR after visual assets are accepted.
+
+## Visual QA notes for PR #24
+
+Local headless Chrome screenshots were checked at 390px, 430px, 768px, 1024px,
+and 1440px widths for `/`, `/qr`, `/en`, `/ru`, and `/kk`.
+
+Findings and corrections:
+
+- Header: the IK mark plus `IKurabayev.kz / Neutral Shift Lab` could become
+  crowded on tablet widths, so the decorative suffix is hidden at 1020px and
+  below.
+- Hero background: the Neutral Shift Lab raster background was readable but
+  visually active, so the dark overlay was strengthened.
+- QR page: the QR card was close to the mobile viewport edge and risked
+  horizontal overflow; the QR shell and card width rules were tightened, long
+  text wrapping was hardened, and the `Home` mini-link is hidden under 500px.
+- Method stack illustration: the previous mobile rule forced a 48rem image with
+  translation, which risked awkward cropping; the mobile rule now uses normal
+  responsive width with no transform.
+- Section illustrations: selected SVG illustrations are capped with
+  `max-height` and `object-fit: contain` so they support the text rather than
+  dominate it.

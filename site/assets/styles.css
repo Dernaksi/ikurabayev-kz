@@ -113,8 +113,13 @@ button:focus-visible,
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
+  min-width: 0;
   font-weight: 800;
   letter-spacing: 0;
+}
+
+.brand span {
+  overflow-wrap: anywhere;
 }
 
 .brand-mark {
@@ -200,10 +205,10 @@ button:focus-visible,
   inset: 1rem calc(50% - 50vw);
   z-index: -1;
   background:
-    linear-gradient(135deg, rgba(16, 20, 24, 0.95), rgba(16, 20, 24, 0.72)),
+    linear-gradient(135deg, rgba(16, 20, 24, 0.97), rgba(16, 20, 24, 0.82)),
     linear-gradient(90deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     linear-gradient(180deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
-    radial-gradient(circle at 20% 20%, rgba(15, 118, 110, 0.56), transparent 22rem),
+    radial-gradient(circle at 20% 20%, rgba(15, 118, 110, 0.42), transparent 22rem),
     url("neutral-shift-lab-bg.jpg") center / cover no-repeat,
     linear-gradient(135deg, var(--hero), var(--hero-2));
   background-size: auto, 34px 34px, 34px 34px, auto, cover, auto;
@@ -260,6 +265,7 @@ h3 {
   color: inherit;
   font-size: clamp(1.22rem, 3vw, 1.65rem);
   line-height: 1.42;
+  overflow-wrap: anywhere;
 }
 
 .intro {
@@ -338,6 +344,9 @@ h3 {
 .identity-panel {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   padding: 1rem;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent),
@@ -386,6 +395,7 @@ h3 {
   position: relative;
   display: grid;
   gap: 0.8rem;
+  min-width: 0;
 }
 
 .station-frame::before {
@@ -590,10 +600,16 @@ h3 {
   display: block;
   width: 100%;
   height: auto;
+  max-height: 22rem;
+  object-fit: contain;
 }
 
 .asset-figure-wide {
   margin-bottom: 1.25rem;
+}
+
+.asset-figure-wide img {
+  max-height: 18rem;
 }
 
 .timeline-item {
@@ -628,7 +644,9 @@ h3 {
 }
 
 .phase-vector-panel {
+  display: block;
   width: 100%;
+  max-width: 100%;
   min-height: 10rem;
   border-radius: var(--radius);
   overflow: visible;
@@ -804,20 +822,23 @@ h3 {
 }
 
 .qr-shell {
+  width: 100%;
   display: grid;
   min-height: 100vh;
   place-items: center;
-  padding: 1rem 0;
+  padding: 1rem;
 }
 
 .qr-card {
-  width: min(100%, 36rem);
+  width: min(36rem, calc(100vw - 2rem));
+  max-width: 36rem;
+  min-width: 0;
   padding: clamp(1.35rem, 5vw, 2.5rem);
   background:
-    linear-gradient(145deg, rgba(16, 20, 24, 0.92), rgba(16, 20, 24, 0.72)),
+    linear-gradient(145deg, rgba(16, 20, 24, 0.96), rgba(16, 20, 24, 0.86)),
     linear-gradient(90deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     linear-gradient(180deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04)),
     url("qr-card-bg.jpg") center / cover no-repeat,
     #101820;
   background-size: auto, 22px 22px, 22px 22px, auto, cover, auto;
@@ -830,6 +851,7 @@ h3 {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  min-width: 0;
 }
 
 .qr-card h1 {
@@ -850,6 +872,7 @@ h3 {
 
 .ru-line {
   border-left: 3px solid #7dd3c7;
+  overflow-wrap: anywhere;
   padding-left: 0.9rem;
 }
 
@@ -907,6 +930,12 @@ h3 {
   }
 }
 
+@media (max-width: 1020px) {
+  .brand::after {
+    display: none;
+  }
+}
+
 @media (max-width: 860px) {
   .nav {
     align-items: flex-start;
@@ -943,18 +972,25 @@ h3 {
     order: -1;
   }
 
-  .brand::after {
-    display: none;
-  }
-
   .asset-figure {
     margin-left: -0.25rem;
     margin-right: -0.25rem;
   }
 
   .asset-figure-wide img {
-    min-width: 48rem;
-    transform: translateX(-18%);
+    max-height: none;
+    min-width: 0;
+    transform: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .qr-card {
+    width: calc(100vw - 3rem);
+  }
+
+  .qr-topline .mini-link {
+    display: none;
   }
 }
 
