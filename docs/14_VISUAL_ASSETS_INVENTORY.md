@@ -131,3 +131,18 @@ Findings and corrections:
 - Section illustrations: selected SVG illustrations are capped with
   `max-height` and `object-fit: contain` so they support the text rather than
   dominate it.
+
+Premium polish follow-up:
+
+- The visual hierarchy was refined again on the same PR branch after reviewing
+  local screenshots at 390px, 430px, 768px, 1024px, and 1440px.
+- QR was tightened into a more badge-like composition: primary actions moved
+  closer to the top, portrait and phase panel are treated as one compact visual
+  unit, and status/profile links are visually quieter.
+- EN/RU profile sections now use stronger hierarchy: major panels for primary
+  explanation sections, quieter supporting cards, record-style publication rows,
+  and compact recognition records.
+- Method stack duplication was reduced by keeping the SVG as the main visual
+  and making the explanatory method cards more compact.
+- Visible ASCII arrows were replaced with `→`; Russian headings received light
+  typography polish without changing technical meaning.
