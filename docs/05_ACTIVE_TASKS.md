@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Full public profile site v0.2 after Cloudflare Pages preview became available.
+Substantive public profile content v0.3 and portrait integration.
 
 ## Recently Completed
 
@@ -19,13 +19,12 @@ Full public profile site v0.2 after Cloudflare Pages preview became available.
 
 ## Next Recommended Tasks
 
-1. Domain activation and DNS verification after `ikurabayev.kz` becomes active.
-2. Photo upload and public-use review for `site/assets/iskander-portrait.jpg`.
-3. Review and approve the public contact route before launch.
-4. Verify publication metadata before publishing final publication claims.
-5. Verify patent registry details before publishing final patent claims.
-6. Complete Kazakh language review.
-7. Later visual refinements if review finds usability or tone issues.
+1. Review and approve the public contact route before launch.
+2. Domain activation and DNS verification after `ikurabayev.kz` becomes active.
+3. Continue public-source audit for publication metadata.
+4. Verify patent registry details before publishing final patent claims.
+5. Complete Kazakh language review.
+6. Add downloadable public CV later only after a sanitized CV is created.
 
 ## Active Branch Convention
 
