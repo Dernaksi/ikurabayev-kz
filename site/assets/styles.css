@@ -1,18 +1,25 @@
 :root {
   color-scheme: light;
-  --bg: #f4f7f8;
-  --ink: #111827;
-  --muted: #53616b;
-  --surface: #ffffff;
-  --surface-strong: #eaf1f2;
-  --line: #d7e0e3;
-  --hero: #101820;
-  --hero-2: #15333a;
+  --paper: #f6f4ee;
+  --graphite: #101418;
+  --graphite-2: #1b2428;
+  --teal: #0f766e;
+  --teal-bright: #5eead4;
+  --amber: #c47a16;
+  --amber-bright: #f59e0b;
+  --bg: var(--paper);
+  --ink: var(--graphite);
+  --muted: #5d676b;
+  --surface: #fffdf7;
+  --surface-strong: #e9efed;
+  --line: #d5ddd9;
+  --hero: var(--graphite);
+  --hero-2: #173236;
   --hero-text: #f8fbfc;
-  --accent: #0f766e;
-  --accent-2: #b45309;
+  --accent: var(--teal);
+  --accent-2: var(--amber);
   --accent-soft: #d7f3ef;
-  --focus: #f59e0b;
+  --focus: var(--amber-bright);
   --shadow: 0 22px 70px rgba(17, 24, 39, 0.12);
   --shadow-soft: 0 12px 34px rgba(17, 24, 39, 0.08);
   --radius: 8px;
@@ -30,10 +37,11 @@ html {
 body {
   margin: 0;
   background:
-    linear-gradient(90deg, rgba(15, 118, 110, 0.07) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(180, 83, 9, 0.06), transparent 28rem),
+    linear-gradient(90deg, rgba(16, 20, 24, 0.045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(196, 122, 22, 0.08), transparent 28rem),
+    radial-gradient(circle at 12% 12%, rgba(15, 118, 110, 0.12), transparent 28rem),
     var(--bg);
-  background-size: 42px 42px, auto;
+  background-size: 36px 36px, auto, auto;
   color: var(--ink);
   font-family:
     ui-sans-serif,
@@ -106,6 +114,13 @@ button:focus-visible,
   letter-spacing: 0;
 }
 
+.brand::after {
+  content: " / Neutral Shift Lab";
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
 .nav-links,
 .action-row,
 .status-row,
@@ -174,8 +189,11 @@ button:focus-visible,
   inset: 1rem calc(50% - 50vw);
   z-index: -1;
   background:
+    linear-gradient(90deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     radial-gradient(circle at 20% 20%, rgba(15, 118, 110, 0.56), transparent 22rem),
     linear-gradient(135deg, var(--hero), var(--hero-2));
+  background-size: 34px 34px, 34px 34px, auto, auto;
 }
 
 .hero-content {
@@ -351,6 +369,25 @@ h3 {
   gap: 1rem;
 }
 
+.station-frame {
+  position: relative;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.station-frame::before {
+  content: "";
+  position: absolute;
+  inset: -0.5rem;
+  z-index: -1;
+  border: 1px solid rgba(94, 234, 212, 0.22);
+  border-radius: calc(var(--radius) + 4px);
+  background:
+    linear-gradient(90deg, rgba(94, 234, 212, 0.1) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(94, 234, 212, 0.1) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
 .portrait-main {
   aspect-ratio: 3 / 4;
   max-height: 32rem;
@@ -417,6 +454,16 @@ h3 {
   padding: 0.46rem 0.75rem;
 }
 
+.process-line {
+  display: inline-flex;
+  margin: 0.25rem 0 1.2rem;
+  border-left: 3px solid var(--teal-bright);
+  color: rgba(248, 251, 252, 0.82);
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding-left: 0.85rem;
+}
+
 .metric-stack {
   display: grid;
   gap: 0.15rem;
@@ -444,6 +491,78 @@ h3 {
 .timeline {
   display: grid;
   gap: 1rem;
+}
+
+.method-stack {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.method-stack article {
+  position: relative;
+  min-height: 10.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(15, 118, 110, 0.1), transparent),
+    var(--surface-strong);
+  padding: 1rem;
+}
+
+.method-stack article::after {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0.8rem;
+  height: 0.32rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--teal), var(--amber), transparent);
+}
+
+.method-stack span,
+.bridge-flow span {
+  display: inline-flex;
+  color: var(--accent);
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.bridge-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.bridge-flow span {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  min-height: 4rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+  color: var(--ink);
+  padding: 0.8rem;
+  text-align: center;
+}
+
+.bridge-flow span:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -0.72rem;
+  width: 0.72rem;
+  height: 2px;
+  background: var(--amber);
+}
+
+.rhythm-card {
+  border-color: color-mix(in srgb, var(--teal) 28%, var(--line));
+  background:
+    linear-gradient(135deg, rgba(94, 234, 212, 0.08), transparent 18rem),
+    var(--surface);
 }
 
 .timeline-item {
@@ -475,6 +594,74 @@ h3 {
   border-radius: var(--radius);
   background: var(--surface-strong);
   padding: 1rem;
+}
+
+.phase-vector-panel {
+  width: 100%;
+  min-height: 10rem;
+  border-radius: var(--radius);
+  overflow: visible;
+}
+
+.phase-vector-panel rect {
+  fill: rgba(16, 20, 24, 0.72);
+  stroke: rgba(94, 234, 212, 0.32);
+  stroke-width: 1.5;
+}
+
+.phase-vector-panel .grid-line {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+}
+
+.phase-vector-panel circle {
+  fill: none;
+  stroke: rgba(94, 234, 212, 0.28);
+  stroke-width: 2;
+}
+
+.phase-vector-panel path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.phase-vector-panel .phase-a {
+  stroke: #5eead4;
+  stroke-width: 4;
+}
+
+.phase-vector-panel .phase-b {
+  stroke: #f59e0b;
+  stroke-width: 4;
+}
+
+.phase-vector-panel .phase-c {
+  stroke: #cbd5e1;
+  stroke-width: 4;
+}
+
+.phase-vector-panel .neutral {
+  stroke: #fef3c7;
+  stroke-dasharray: 5 5;
+  stroke-width: 3;
+}
+
+.phase-vector-panel .wave {
+  stroke: #5eead4;
+  stroke-width: 3;
+}
+
+.phase-vector-panel text {
+  fill: rgba(248, 251, 252, 0.84);
+  font: 800 13px ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.phase-vector-compact {
+  margin: -0.2rem 0 1rem;
+  max-height: 8rem;
 }
 
 .publication-card span {
@@ -596,8 +783,11 @@ h3 {
   width: min(100%, 36rem);
   padding: clamp(1.35rem, 5vw, 2.5rem);
   background:
+    linear-gradient(90deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06)),
     #101820;
+  background-size: 22px 22px, 22px 22px, auto, auto;
   color: var(--hero-text);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.32);
 }
@@ -699,8 +889,17 @@ h3 {
   }
 
   .cards-2,
-  .cards-3 {
+  .cards-3,
+  .method-stack,
+  .bridge-flow {
     grid-template-columns: 1fr;
+  }
+
+  .bridge-flow span:not(:last-child)::after {
+    bottom: -0.72rem;
+    right: auto;
+    width: 2px;
+    height: 0.72rem;
   }
 
   .action-row .button {
@@ -709,5 +908,34 @@ h3 {
 
   .identity-panel {
     order: -1;
+  }
+
+  .brand::after {
+    display: none;
+  }
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .site-header,
+  .phase-vector-panel,
+  .qr-actions {
+    display: none;
+  }
+
+  .hero,
+  .section,
+  .qr-shell {
+    width: 100%;
+  }
+
+  .card,
+  .identity-panel,
+  .qr-card {
+    box-shadow: none;
   }
 }
