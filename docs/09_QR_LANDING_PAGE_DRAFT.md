@@ -1,4 +1,4 @@
-# QR Landing Page Draft v0.2
+# QR Landing Page Draft v0.3
 
 Status: draft for human review.
 
@@ -21,21 +21,27 @@ addresses.
 
 - Display name: Iskander Kurabayev
 - One-line positioning: Electrical engineering researcher,
-  energy-efficiency specialist, and applied measurement engineer from
-  Kazakhstan.
+  energy-efficiency specialist, applied measurement engineer, PhD, and
+  accredited energy auditor in Kazakhstan.
 - Short intro: Iskander Kurabayev works across electrical power systems, energy
   efficiency, measurement, and diagnostic methods, with public research
   interests in insulation parameters, isolated-neutral AC systems, earth-fault
   current, admittance, conductance, susceptance, and voltage diagnostics.
-- Badges: Research; Energy efficiency; Applied measurements; AI Engineering
-  Lab.
+- Visual: owner-reviewed portrait asset, optimized locally as
+  `site/assets/iskander-portrait-qr.jpg`.
+- Trust chips: PhD; Energy auditor; Research; AI Lab.
 
 Primary buttons:
 
 1. Research profile
 2. Engineering portfolio
 3. AI Lab
-4. Contact route pending approval
+4. Selected works
+
+Mini-status:
+
+- Selected works available on profile page.
+- Contact route pending approval.
 
 Secondary links:
 
@@ -50,7 +56,8 @@ Secondary links:
 
 - Отображаемое имя: Искандер Курабаев
 - Краткое позиционирование: Исследователь в области электротехники, специалист
-  по энергоэффективности и инженер прикладных измерений из Казахстана.
+  по энергоэффективности, инженер прикладных измерений, PhD и
+  аккредитованный энергоаудитор РК.
 - Краткий QR-текст: Искандер Курабаев - исследователь в области
   электротехники, специалист по энергоэффективности и инженер прикладных
   измерений из Казахстана.
@@ -65,7 +72,12 @@ Secondary links:
 1. Исследовательский профиль
 2. Инженерное портфолио
 3. AI Lab
-4. Контактный канал ожидает утверждения
+4. Избранные работы
+
+Мини-статус:
+
+- Избранные работы доступны на странице профиля.
+- Контактный канал ожидает утверждения.
 
 Дополнительные ссылки:
 
