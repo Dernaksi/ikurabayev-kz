@@ -42,21 +42,46 @@
             <span>Applied measurement</span>
             <span>AI Engineering Lab</span>
           </div>
+          <p class="process-line">Research -> Measurement -> Energy Audit -> AI Lab</p>
           <div class="action-row" aria-label="Primary routes">
             <a class="button" href="qr/">Open QR card</a>
             <a class="button secondary" href="en/">Read profile</a>
           </div>
         </div>
         <aside class="identity-panel portrait-panel" aria-label="Portrait and profile summary">
-          <img
-            class="portrait portrait-main"
-            src="assets/iskander-portrait.jpg"
-            alt="Portrait of Iskander Kurabayev"
-            width="900"
-            height="1200">
+          <div class="station-frame">
+            <img
+              class="portrait portrait-main"
+              src="assets/iskander-portrait.jpg"
+              alt="Portrait of Iskander Kurabayev"
+              width="900"
+              height="1200">
+            <svg class="phase-vector-panel" viewBox="0 0 320 220" role="img" aria-label="Decorative phase vector and neutral shift panel">
+              <defs>
+                <linearGradient id="phase-home" x1="0" x2="1">
+                  <stop offset="0" stop-color="#5eead4"/>
+                  <stop offset="1" stop-color="#f59e0b"/>
+                </linearGradient>
+              </defs>
+              <rect x="1" y="1" width="318" height="218" rx="10"/>
+              <path class="grid-line" d="M40 24v172M100 24v172M160 24v172M220 24v172M280 24v172M24 50h272M24 110h272M24 170h272"/>
+              <circle cx="160" cy="110" r="56"/>
+              <path class="phase-a" d="M160 110 L232 64"/>
+              <path class="phase-b" d="M160 110 L86 76"/>
+              <path class="phase-c" d="M160 110 L174 188"/>
+              <path class="neutral" d="M160 110 L198 126"/>
+              <path class="wave" d="M34 190 C54 170 72 210 92 190 S130 170 150 190 188 210 208 190 246 170 286 190"/>
+              <text x="238" y="62">A</text>
+              <text x="70" y="76">B</text>
+              <text x="176" y="206">C</text>
+              <text x="204" y="126">N</text>
+              <text x="28" y="34">U0</text>
+              <text x="252" y="34">Y G B C</text>
+            </svg>
+          </div>
           <div class="metric-stack">
-            <span>Public profile v0.3</span>
-            <strong>Research, engineering practice, and AI Lab roadmap</strong>
+            <span>Neutral Shift Lab v0.4</span>
+            <strong>Research, measurement, engineering verification, and AI-assisted traceability</strong>
           </div>
         </aside>
       </section>
@@ -87,35 +112,25 @@
 
       <section class="section section-tight">
         <div class="section-heading">
-          <p class="eyebrow">Profile arc</p>
-          <h2>From energy facilities to PhD research and applied AI tools</h2>
+          <p class="eyebrow">Neutral Shift Lab</p>
+          <h2>A control-station visual system for the same public profile</h2>
         </div>
-        <div class="timeline">
-          <article class="timeline-item">
-            <span>01</span>
-            <h3>Energy systems and audit</h3>
-            <p>
-              Public background includes energy expertise, energy audit,
-              electrical facilities, energy saving, and energy efficiency work
-              in Kazakhstan.
-            </p>
+        <div class="method-stack">
+          <article>
+            <span>Measure</span>
+            <p>Signals, insulation parameters, and diagnostic inputs.</p>
           </article>
-          <article class="timeline-item">
-            <span>02</span>
-            <h3>Research and measurement</h3>
-            <p>
-              Research focuses on insulation parameters, isolated-neutral and
-              ungrounded AC systems, earth-fault current, admittance, and
-              voltage diagnostics.
-            </p>
+          <article>
+            <span>Model</span>
+            <p>Admittance, conductance, susceptance, and vector reasoning.</p>
           </article>
-          <article class="timeline-item">
-            <span>03</span>
-            <h3>AI Engineering Lab</h3>
-            <p>
-              AI Energy Auditor and STM32 / measurement laboratory are public
-              roadmap initiatives, not launched product claims.
-            </p>
+          <article>
+            <span>Diagnose</span>
+            <p>Neutral shift, earth-fault context, and voltage diagnostics.</p>
+          </article>
+          <article>
+            <span>Verify</span>
+            <p>Energy audit, engineering review, and AI-assisted traceability.</p>
           </article>
         </div>
       </section>

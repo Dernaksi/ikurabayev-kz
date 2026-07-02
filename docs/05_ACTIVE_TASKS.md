@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Substantive public profile content v0.3 and portrait integration.
+Neutral Shift Lab visual design system v0.4.
 
 ## Recently Completed
 
@@ -24,7 +24,8 @@ Substantive public profile content v0.3 and portrait integration.
 3. Continue public-source audit for publication metadata.
 4. Verify patent registry details before publishing final patent claims.
 5. Complete Kazakh language review.
-6. Add downloadable public CV later only after a sanitized CV is created.
+6. Review the Neutral Shift Lab visual system on mobile and desktop preview.
+7. Add downloadable public CV later only after a sanitized CV is created.
 
 ## Active Branch Convention
 
