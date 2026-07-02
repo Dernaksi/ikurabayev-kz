@@ -54,3 +54,25 @@ Next work should focus on reconciliation, verified QR links/Russian QR copy, and
 Cloudflare Pages readiness. No `package.json` or dependencies are needed for the
 current deployment path. Framework migration requires a separate future decision
 and PR.
+
+### 2026-07-03 - Make Russian the primary public entry language
+
+Status: accepted
+
+Context:
+The first practical audience for the public site includes Kazakhstan energy
+sector contacts, production and engineering contacts, energy-audit clients, and
+real-world QR visitors who are more likely to work in Russian. English remains
+important for international research and academic review. Kazakh remains
+supported, but its text still requires language review before stronger launch
+use.
+
+Decision:
+Make `/` and `/qr` Russian-first for the initial public experience. Keep `/ru`
+as the primary full profile, keep `/en` as the international research profile,
+and keep `/kk` as a conservative supported route pending language review.
+
+Consequences:
+Navigation, route cards, QR actions, and homepage copy should lead with Russian
+while preserving multilingual access. This decision does not add new biography,
+publication, patent, contact, metric, role, product, or affiliation claims.
