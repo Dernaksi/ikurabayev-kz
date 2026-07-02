@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Neutral Shift Lab visual design system v0.4.
+Public web evidence audit and source-backed profile layer v0.5.
 
 ## Recently Completed
 
@@ -16,16 +16,18 @@ Neutral Shift Lab visual design system v0.4.
 - PR #16: Reconcile blitz plan with dependency-free static HTML path.
 - PR #17: Add verified QR profile links and Russian QR copy.
 - PR #18: Add Cloudflare Pages deployment readiness and `site/_headers`.
+- PR #21: Add portrait and substantive profile content v0.3.
+- PR #22: Add Neutral Shift Lab visual system v0.4.
 
 ## Next Recommended Tasks
 
 1. Review and approve the public contact route before launch.
 2. Domain activation and DNS verification after `ikurabayev.kz` becomes active.
-3. Continue public-source audit for publication metadata.
-4. Verify patent registry details before publishing final patent claims.
-5. Complete Kazakh language review.
-6. Review the Neutral Shift Lab visual system on mobile and desktop preview.
-7. Add downloadable public CV later only after a sanitized CV is created.
+3. Verify patent registry details before publishing final patent claims.
+4. Complete Kazakh language review.
+5. Create and review a sanitized public CV before any downloadable CV is added.
+6. Optional SEO / metadata PR after the public evidence audit is reviewed.
+7. Review the Neutral Shift Lab visual system on mobile and desktop preview.
 
 ## Active Branch Convention
 
