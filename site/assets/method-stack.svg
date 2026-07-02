@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Measure Model Diagnose Verify method stack</title>
+  <desc id="desc">A dark engineering-themed SVG diagram showing four connected stages: Measure, Model, Diagnose, Verify.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#061322"/>
+      <stop offset="0.55" stop-color="#0a1f33"/>
+      <stop offset="1" stop-color="#03101e"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38e8ff"/>
+      <stop offset="0.52" stop-color="#00a7d8"/>
+      <stop offset="1" stop-color="#1d5dff"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffb86b"/>
+      <stop offset="1" stop-color="#f47b35"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#56dfff" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#39e4ff" opacity="0.95"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="360" rx="34" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="360" rx="34" fill="url(#grid)" opacity="0.7"/>
+  <path d="M20 292 C150 232, 270 344, 410 284 S650 244, 806 292 S1030 330, 1180 270" fill="none" stroke="#12d7ff" stroke-opacity="0.15" stroke-width="2"/>
+  <path d="M20 306 C150 246, 270 358, 410 298 S650 258, 806 306 S1030 344, 1180 284" fill="none" stroke="#f58d3d" stroke-opacity="0.18" stroke-width="1.5"/>
+
+  <text x="74" y="61" fill="#eaf9ff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="24" font-weight="700" letter-spacing="2.8">METHOD STACK</text>
+  <text x="74" y="88" fill="#8db4c5" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="14" letter-spacing="1.4">Neutral Shift Lab · engineering evidence loop</text>
+
+  <line x1="166" y1="180" x2="1034" y2="180" stroke="#39e4ff" stroke-width="2" stroke-opacity="0.65" marker-end="url(#arrow)" filter="url(#glow)"/>
+  <line x1="166" y1="185" x2="1034" y2="185" stroke="#ff9d4a" stroke-width="1" stroke-opacity="0.35"/>
+
+  <!-- Step 1 -->
+  <g transform="translate(70 116)">
+    <rect width="210" height="180" rx="26" fill="#071a2d" stroke="#28d7ff" stroke-opacity="0.38"/>
+    <text x="26" y="37" fill="#4cecff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="700" letter-spacing="2">01</text>
+    <text x="62" y="38" fill="#ffffff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="800" letter-spacing="1.4">MEASURE</text>
+    <path d="M39 101 C49 74, 59 74, 69 101 S89 128, 99 101 S119 74, 129 101 S149 128, 159 101" fill="none" stroke="url(#cyan)" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
+    <line x1="32" y1="121" x2="166" y2="121" stroke="#84dfff" stroke-opacity="0.42"/>
+    <circle cx="51" cy="121" r="5" fill="#ffad5c"/>
+    <circle cx="148" cy="121" r="5" fill="#38e8ff"/>
+    <text x="26" y="153" fill="#a9c7d6" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13">signals · voltage · current</text>
+  </g>
+
+  <!-- Step 2 -->
+  <g transform="translate(350 116)">
+    <rect width="210" height="180" rx="26" fill="#071a2d" stroke="#28d7ff" stroke-opacity="0.38"/>
+    <text x="26" y="37" fill="#4cecff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="700" letter-spacing="2">02</text>
+    <text x="62" y="38" fill="#ffffff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="800" letter-spacing="1.4">MODEL</text>
+    <circle cx="105" cy="98" r="48" fill="none" stroke="#67e9ff" stroke-opacity="0.46" stroke-width="2"/>
+    <line x1="105" y1="98" x2="105" y2="48" stroke="#f58d3d" stroke-width="4" stroke-linecap="round"/>
+    <line x1="105" y1="98" x2="61" y2="122" stroke="#38e8ff" stroke-width="4" stroke-linecap="round"/>
+    <line x1="105" y1="98" x2="148" y2="122" stroke="#ffcf70" stroke-width="4" stroke-linecap="round"/>
+    <text x="99" y="45" fill="#f9bd75" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="12">A</text>
+    <text x="50" y="135" fill="#75efff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="12">B</text>
+    <text x="151" y="135" fill="#ffd47d" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="12">C</text>
+    <text x="26" y="153" fill="#a9c7d6" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13">Y = G + jB · parameters</text>
+  </g>
+
+  <!-- Step 3 -->
+  <g transform="translate(630 116)">
+    <rect width="210" height="180" rx="26" fill="#071a2d" stroke="#28d7ff" stroke-opacity="0.38"/>
+    <text x="26" y="37" fill="#4cecff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="700" letter-spacing="2">03</text>
+    <text x="62" y="38" fill="#ffffff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="800" letter-spacing="1.4">DIAGNOSE</text>
+    <circle cx="94" cy="91" r="36" fill="none" stroke="url(#cyan)" stroke-width="5" filter="url(#glow)"/>
+    <line x1="121" y1="118" x2="153" y2="150" stroke="#38e8ff" stroke-width="7" stroke-linecap="round"/>
+    <path d="M61 95 C73 80, 85 112, 98 95 S122 78, 134 96" fill="none" stroke="#ffad5c" stroke-width="3" stroke-linecap="round"/>
+    <text x="75" y="102" fill="#ffffff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="15" font-weight="700">U₀</text>
+    <text x="26" y="153" fill="#a9c7d6" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13">fault state · neutral shift</text>
+  </g>
+
+  <!-- Step 4 -->
+  <g transform="translate(910 116)">
+    <rect width="210" height="180" rx="26" fill="#071a2d" stroke="#28d7ff" stroke-opacity="0.38"/>
+    <text x="26" y="37" fill="#4cecff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="700" letter-spacing="2">04</text>
+    <text x="62" y="38" fill="#ffffff" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="800" letter-spacing="1.4">VERIFY</text>
+    <path d="M105 56 L153 78 V107 C153 134, 127 148, 105 158 C83 148, 57 134, 57 107 V78 Z" fill="none" stroke="url(#cyan)" stroke-width="4" filter="url(#glow)"/>
+    <path d="M80 108 L99 127 L136 87" fill="none" stroke="#ffad5c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="26" y="153" fill="#a9c7d6" font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13">review · evidence · audit trail</text>
+  </g>
+</svg>

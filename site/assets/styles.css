@@ -110,8 +110,19 @@ button:focus-visible,
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   font-weight: 800;
   letter-spacing: 0;
+}
+
+.brand-mark {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.42rem;
+  box-shadow: 0 0 0 1px rgba(15, 118, 110, 0.22);
 }
 
 .brand::after {
@@ -189,11 +200,13 @@ button:focus-visible,
   inset: 1rem calc(50% - 50vw);
   z-index: -1;
   background:
+    linear-gradient(135deg, rgba(16, 20, 24, 0.95), rgba(16, 20, 24, 0.72)),
     linear-gradient(90deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     linear-gradient(180deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     radial-gradient(circle at 20% 20%, rgba(15, 118, 110, 0.56), transparent 22rem),
+    url("neutral-shift-lab-bg.jpg") center / cover no-repeat,
     linear-gradient(135deg, var(--hero), var(--hero-2));
-  background-size: 34px 34px, 34px 34px, auto, auto;
+  background-size: auto, 34px 34px, 34px 34px, auto, cover, auto;
 }
 
 .hero-content {
@@ -565,6 +578,24 @@ h3 {
     var(--surface);
 }
 
+.asset-figure {
+  margin: 1rem 0 1.15rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--teal) 28%, var(--line));
+  border-radius: var(--radius);
+  background: #07131f;
+}
+
+.asset-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.asset-figure-wide {
+  margin-bottom: 1.25rem;
+}
+
 .timeline-item {
   border-left: 3px solid var(--accent);
   padding-left: 1rem;
@@ -783,11 +814,13 @@ h3 {
   width: min(100%, 36rem);
   padding: clamp(1.35rem, 5vw, 2.5rem);
   background:
+    linear-gradient(145deg, rgba(16, 20, 24, 0.92), rgba(16, 20, 24, 0.72)),
     linear-gradient(90deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     linear-gradient(180deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06)),
+    url("qr-card-bg.jpg") center / cover no-repeat,
     #101820;
-  background-size: 22px 22px, 22px 22px, auto, auto;
+  background-size: auto, 22px 22px, 22px 22px, auto, cover, auto;
   color: var(--hero-text);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.32);
 }
@@ -913,6 +946,16 @@ h3 {
   .brand::after {
     display: none;
   }
+
+  .asset-figure {
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+  }
+
+  .asset-figure-wide img {
+    min-width: 48rem;
+    transform: translateX(-18%);
+  }
 }
 
 @media print {
@@ -922,6 +965,7 @@ h3 {
   }
 
   .site-header,
+  .asset-figure,
   .phase-vector-panel,
   .qr-actions {
     display: none;
