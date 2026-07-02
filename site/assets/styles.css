@@ -37,9 +37,9 @@ html {
 body {
   margin: 0;
   background:
-    linear-gradient(90deg, rgba(16, 20, 24, 0.045) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(196, 122, 22, 0.08), transparent 28rem),
-    radial-gradient(circle at 12% 12%, rgba(15, 118, 110, 0.12), transparent 28rem),
+    linear-gradient(90deg, rgba(16, 20, 24, 0.024) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(196, 122, 22, 0.045), transparent 24rem),
+    radial-gradient(circle at 12% 12%, rgba(15, 118, 110, 0.08), transparent 26rem),
     var(--bg);
   background-size: 36px 36px, auto, auto;
   color: var(--ink);
@@ -110,8 +110,24 @@ button:focus-visible,
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
   font-weight: 800;
   letter-spacing: 0;
+}
+
+.brand span {
+  overflow-wrap: anywhere;
+}
+
+.brand-mark {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.42rem;
+  box-shadow: 0 0 0 1px rgba(15, 118, 110, 0.22);
 }
 
 .brand::after {
@@ -189,11 +205,13 @@ button:focus-visible,
   inset: 1rem calc(50% - 50vw);
   z-index: -1;
   background:
+    linear-gradient(135deg, rgba(16, 20, 24, 0.97), rgba(16, 20, 24, 0.82)),
     linear-gradient(90deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     linear-gradient(180deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
-    radial-gradient(circle at 20% 20%, rgba(15, 118, 110, 0.56), transparent 22rem),
+    radial-gradient(circle at 20% 20%, rgba(15, 118, 110, 0.42), transparent 22rem),
+    url("neutral-shift-lab-bg.jpg") center / cover no-repeat,
     linear-gradient(135deg, var(--hero), var(--hero-2));
-  background-size: 34px 34px, 34px 34px, auto, auto;
+  background-size: auto, 34px 34px, 34px 34px, auto, cover, auto;
 }
 
 .hero-content {
@@ -247,6 +265,7 @@ h3 {
   color: inherit;
   font-size: clamp(1.22rem, 3vw, 1.65rem);
   line-height: 1.42;
+  overflow-wrap: anywhere;
 }
 
 .intro {
@@ -293,6 +312,39 @@ h3 {
   padding: clamp(1.25rem, 3vw, 2rem);
 }
 
+.profile-layout {
+  align-items: start;
+  gap: clamp(0.85rem, 2vw, 1.25rem);
+}
+
+.profile-layout .card {
+  box-shadow: none;
+}
+
+.profile-layout .wide-card,
+.profile-layout #about,
+.profile-layout #method-stack,
+.profile-layout #field-lab,
+.profile-layout #selected-works {
+  border-color: color-mix(in srgb, var(--teal) 22%, var(--line));
+  background:
+    linear-gradient(135deg, rgba(15, 118, 110, 0.08), transparent 20rem),
+    var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.profile-layout #education,
+.profile-layout #trajectory,
+.profile-layout #research,
+.profile-layout #engineering,
+.profile-layout #ai-lab,
+.profile-layout #patents,
+.profile-layout #recognition,
+.profile-layout #profiles,
+.profile-layout #contact {
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+}
+
 .card p:last-child,
 .qr-card p:last-child {
   margin-bottom: 0;
@@ -325,11 +377,20 @@ h3 {
 .identity-panel {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   padding: 1rem;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.16), transparent 45%),
+    linear-gradient(90deg, rgba(94, 234, 212, 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(94, 234, 212, 0.055) 1px, transparent 1px),
     rgba(255, 255, 255, 0.08);
+  background-size: auto, 18px 18px, 18px 18px, auto;
   color: var(--hero-text);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 28px 80px rgba(0, 0, 0, 0.28);
 }
 
 .portrait-slot {
@@ -372,7 +433,8 @@ h3 {
 .station-frame {
   position: relative;
   display: grid;
-  gap: 0.8rem;
+  gap: 0.65rem;
+  min-width: 0;
 }
 
 .station-frame::before {
@@ -438,20 +500,20 @@ h3 {
 .credential-strip {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.48rem;
   margin: 1.25rem 0;
 }
 
 .credential-strip span,
 .mini-status span {
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  border-radius: 0.42rem;
+  background: rgba(255, 255, 255, 0.06);
   color: var(--hero-text);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 800;
   line-height: 1.35;
-  padding: 0.46rem 0.75rem;
+  padding: 0.42rem 0.62rem;
 }
 
 .process-line {
@@ -510,6 +572,28 @@ h3 {
   padding: 1rem;
 }
 
+.method-notes {
+  gap: 0.55rem;
+}
+
+.method-notes article {
+  min-height: auto;
+  background:
+    linear-gradient(135deg, rgba(15, 118, 110, 0.06), transparent),
+    color-mix(in srgb, var(--surface-strong) 72%, transparent);
+  padding: 0.9rem;
+}
+
+.method-notes article::after {
+  height: 0.2rem;
+  opacity: 0.7;
+}
+
+.method-notes p {
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
 .method-stack article::after {
   content: "";
   position: absolute;
@@ -565,6 +649,30 @@ h3 {
     var(--surface);
 }
 
+.asset-figure {
+  margin: 1rem 0 1.15rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--teal) 28%, var(--line));
+  border-radius: var(--radius);
+  background: #07131f;
+}
+
+.asset-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 22rem;
+  object-fit: contain;
+}
+
+.asset-figure-wide {
+  margin-bottom: 1.25rem;
+}
+
+.asset-figure-wide img {
+  max-height: 18rem;
+}
+
 .timeline-item {
   border-left: 3px solid var(--accent);
   padding-left: 1rem;
@@ -585,19 +693,29 @@ h3 {
 
 .publication-list {
   display: grid;
-  gap: 0.8rem;
+  gap: 0;
+  border-top: 1px solid var(--line);
 }
 
 .publication-card,
 .recognition-grid span {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-strong);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
   padding: 1rem;
 }
 
+.publication-card {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.28fr) 1fr;
+  gap: 1rem;
+}
+
 .phase-vector-panel {
+  display: block;
   width: 100%;
+  max-width: 100%;
   min-height: 10rem;
   border-radius: var(--radius);
   overflow: visible;
@@ -680,12 +798,15 @@ h3 {
 .publication-card a {
   color: var(--accent);
   font-weight: 800;
+  grid-column: 2;
   overflow-wrap: anywhere;
 }
 
 .recognition-grid {
   display: grid;
-  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--line);
 }
 
 .note {
@@ -773,23 +894,46 @@ h3 {
 }
 
 .qr-shell {
+  width: 100%;
   display: grid;
   min-height: 100vh;
   place-items: center;
-  padding: 1rem 0;
+  padding: 1rem;
 }
 
 .qr-card {
-  width: min(100%, 36rem);
-  padding: clamp(1.35rem, 5vw, 2.5rem);
+  width: min(36rem, calc(100vw - 2rem));
+  max-width: 36rem;
+  min-width: 0;
+  padding: clamp(1.1rem, 4vw, 2rem);
   background:
+    linear-gradient(145deg, rgba(16, 20, 24, 0.96), rgba(16, 20, 24, 0.86)),
     linear-gradient(90deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
     linear-gradient(180deg, rgba(94, 234, 212, 0.08) 1px, transparent 1px),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04)),
+    url("qr-card-bg.jpg") center / cover no-repeat,
     #101820;
-  background-size: 22px 22px, 22px 22px, auto, auto;
+  background-size: auto, 22px 22px, 22px 22px, auto, cover, auto;
   color: var(--hero-text);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.32);
+}
+
+.qr-visual-unit {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 0.86fr) minmax(8rem, 1fr);
+  gap: 0.75rem;
+  align-items: end;
+  margin: 0.85rem 0 1.05rem;
+}
+
+.qr-visual-unit .portrait-qr,
+.qr-visual-unit .phase-vector-compact {
+  width: 100%;
+  margin: 0;
+}
+
+.qr-visual-unit .phase-vector-compact {
+  max-height: 7.2rem;
 }
 
 .qr-topline {
@@ -797,26 +941,31 @@ h3 {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  min-width: 0;
 }
 
 .qr-card h1 {
-  font-size: clamp(2.4rem, 10vw, 4.8rem);
+  margin-bottom: 0.65rem;
+  font-size: clamp(2.25rem, 9vw, 4.3rem);
 }
 
 .qr-actions {
   display: grid;
-  gap: 0.75rem;
-  margin: 1.5rem 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 1rem 0;
 }
 
 .mini-status {
   display: grid;
-  gap: 0.5rem;
-  margin: 1rem 0;
+  gap: 0.4rem;
+  margin: 0.85rem 0;
+  opacity: 0.84;
 }
 
 .ru-line {
   border-left: 3px solid #7dd3c7;
+  overflow-wrap: anywhere;
   padding-left: 0.9rem;
 }
 
@@ -824,6 +973,10 @@ h3 {
   display: grid;
   gap: 0.7rem;
   margin-top: 1rem;
+}
+
+.qr-card .profile-links {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .inline-links {
@@ -874,6 +1027,12 @@ h3 {
   }
 }
 
+@media (max-width: 1020px) {
+  .brand::after {
+    display: none;
+  }
+}
+
 @media (max-width: 860px) {
   .nav {
     align-items: flex-start;
@@ -891,8 +1050,14 @@ h3 {
   .cards-2,
   .cards-3,
   .method-stack,
-  .bridge-flow {
+  .bridge-flow,
+  .publication-card,
+  .recognition-grid {
     grid-template-columns: 1fr;
+  }
+
+  .publication-card a {
+    grid-column: auto;
   }
 
   .bridge-flow span:not(:last-child)::after {
@@ -910,7 +1075,42 @@ h3 {
     order: -1;
   }
 
-  .brand::after {
+  .asset-figure {
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+  }
+
+  .asset-figure-wide img {
+    max-height: none;
+    min-width: 0;
+    transform: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .qr-card {
+    width: calc(100vw - 3rem);
+  }
+
+  .qr-visual-unit {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .qr-visual-unit .portrait-qr {
+    width: min(100%, 12rem);
+  }
+
+  .qr-visual-unit .phase-vector-compact {
+    max-height: 5.75rem;
+  }
+
+  .qr-actions,
+  .qr-card .profile-links {
+    grid-template-columns: 1fr;
+  }
+
+  .qr-topline .mini-link {
     display: none;
   }
 }
@@ -922,6 +1122,7 @@ h3 {
   }
 
   .site-header,
+  .asset-figure,
   .phase-vector-panel,
   .qr-actions {
     display: none;

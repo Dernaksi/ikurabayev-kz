@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">AI Energy Auditor concept</title>
+  <desc id="desc">A static engineering workflow diagram showing measurement evidence, documents and standards flowing into an AI-assisted analysis engine, then through human review to a traceable audit report.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07131f"/>
+      <stop offset="45%" stop-color="#0b2432"/>
+      <stop offset="100%" stop-color="#050b13"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#1de6ff" stop-opacity="0.24"/>
+      <stop offset="48%" stop-color="#08a7c7" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="tealStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#54f4ff"/>
+      <stop offset="60%" stop-color="#0baed0"/>
+      <stop offset="100%" stop-color="#0a5e8f"/>
+    </linearGradient>
+    <linearGradient id="amberStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd27a"/>
+      <stop offset="100%" stop-color="#ff8b2c"/>
+    </linearGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="0 0 0 0 0.02  0 0 0 0 0.80  0 0 0 0 1.00  0 0 0 0.70 0" result="color"/>
+      <feMerge><feMergeNode in="color"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#3adff5" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowTeal" markerWidth="12" markerHeight="12" refX="8" refY="6" orient="auto">
+      <path d="M0,0 L10,6 L0,12 Z" fill="#29d9ee" opacity="0.9"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="12" markerHeight="12" refX="8" refY="6" orient="auto">
+      <path d="M0,0 L10,6 L0,12 Z" fill="#ffb258" opacity="0.95"/>
+    </marker>
+    <style>
+      .title{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:56px;font-weight:760;letter-spacing:0.06em;fill:#f3fbff}
+      .subtitle{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:23px;fill:#b8d5de}
+      .small{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:18px;fill:#9bbcc7}
+      .tiny{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;fill:#8db4c0}
+      .nodeTitle{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:22px;font-weight:720;fill:#ecfbff}
+      .nodeText{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;fill:#a9cbd4}
+      .tag{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;font-weight:700;letter-spacing:0.08em;fill:#06121c}
+      .mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;font-size:16px;fill:#78f2ff}
+      .panel{fill:#0b1825;stroke:#1fbfd6;stroke-opacity:.5;stroke-width:1.2}
+      .panel2{fill:#08131e;stroke:#ffb258;stroke-opacity:.5;stroke-width:1.2}
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" rx="0" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <path d="M0 740 C190 630 320 780 500 700 C720 600 820 735 1030 660 C1220 590 1350 690 1600 560" fill="none" stroke="#24d5ea" stroke-opacity=".13" stroke-width="2"/>
+  <path d="M0 785 C210 680 340 825 520 745 C760 650 875 790 1080 708 C1260 640 1410 725 1600 615" fill="none" stroke="#ff9b43" stroke-opacity=".18" stroke-width="2"/>
+  <path d="M70 120 H470 M70 138 H330" stroke="#29d9ee" stroke-opacity=".45" stroke-width="2"/>
+  <text x="70" y="205" class="title">AI ENERGY AUDITOR</text>
+  <text x="72" y="244" class="subtitle">Evidence-driven audit workflow · concept / in development</text>
+  <text x="72" y="286" class="small">Measurements, documents and standards flow into an AI-assisted analysis layer, then through human review to a traceable report.</text>
+
+  <g transform="translate(70 365)">
+    <rect class="panel" width="285" height="110" rx="22"/>
+    <circle cx="48" cy="55" r="22" fill="#07131f" stroke="url(#tealStroke)" stroke-width="2"/>
+    <path d="M36 55 h24 M48 43 v24" stroke="#54f4ff" stroke-width="3" stroke-linecap="round"/>
+    <text x="90" y="42" class="nodeTitle">Measurements</text>
+    <text x="90" y="69" class="nodeText">meters · logs · photos</text>
+    <text x="90" y="92" class="nodeText">power quality · loads</text>
+  </g>
+  <g transform="translate(70 505)">
+    <rect class="panel" width="285" height="110" rx="22"/>
+    <rect x="31" y="30" width="38" height="50" rx="5" fill="#07131f" stroke="url(#tealStroke)" stroke-width="2"/>
+    <path d="M41 44 h18 M41 56 h18 M41 68 h13" stroke="#54f4ff" stroke-width="2" stroke-linecap="round"/>
+    <text x="90" y="42" class="nodeTitle">Evidence vault</text>
+    <text x="90" y="69" class="nodeText">certificates · invoices</text>
+    <text x="90" y="92" class="nodeText">equipment passports</text>
+  </g>
+  <g transform="translate(70 645)">
+    <rect class="panel2" width="285" height="110" rx="22"/>
+    <circle cx="50" cy="55" r="24" fill="#11151b" stroke="url(#amberStroke)" stroke-width="2"/>
+    <path d="M39 60 L47 69 L63 43" fill="none" stroke="#ffd27a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="90" y="42" class="nodeTitle">Standards</text>
+    <text x="90" y="69" class="nodeText">rules · formulas</text>
+    <text x="90" y="92" class="nodeText">assumptions · limits</text>
+  </g>
+
+  <g transform="translate(575 310)" filter="url(#softGlow)">
+    <rect x="0" y="0" width="450" height="365" rx="34" fill="#07141f" stroke="url(#tealStroke)" stroke-width="2.5"/>
+    <rect x="26" y="26" width="398" height="313" rx="26" fill="#0b1e2b" stroke="#224d5b" stroke-width="1"/>
+    <circle cx="225" cy="122" r="72" fill="#06131c" stroke="url(#tealStroke)" stroke-width="2.2"/>
+    <path d="M178 122 C190 88 216 82 225 122 C237 164 263 157 272 122" fill="none" stroke="#56efff" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="178" cy="122" r="5" fill="#ffb258"/>
+    <circle cx="225" cy="122" r="5" fill="#56efff"/>
+    <circle cx="272" cy="122" r="5" fill="#ffb258"/>
+    <text x="225" y="230" text-anchor="middle" class="nodeTitle">AI-assisted analysis</text>
+    <text x="225" y="260" text-anchor="middle" class="nodeText">extract · compare · calculate · explain</text>
+    <text x="225" y="288" text-anchor="middle" class="nodeText">human-reviewed engineering trace</text>
+    <g transform="translate(63 311)">
+      <rect width="122" height="30" rx="15" fill="#54f4ff"/>
+      <text x="61" y="20" text-anchor="middle" class="tag">RAG</text>
+    </g>
+    <g transform="translate(205 311)">
+      <rect width="82" height="30" rx="15" fill="#ffb258"/>
+      <text x="41" y="20" text-anchor="middle" class="tag">CALC</text>
+    </g>
+    <g transform="translate(307 311)">
+      <rect width="82" height="30" rx="15" fill="#54f4ff"/>
+      <text x="41" y="20" text-anchor="middle" class="tag">LOG</text>
+    </g>
+  </g>
+
+  <g transform="translate(1210 365)">
+    <rect class="panel2" width="320" height="145" rx="24"/>
+    <path d="M42 44 h70 v70 h-70 z" fill="#07131f" stroke="url(#amberStroke)" stroke-width="2"/>
+    <path d="M56 66 h43 M56 84 h43 M56 102 h28" stroke="#ffd27a" stroke-width="2"/>
+    <text x="140" y="51" class="nodeTitle">Human review gate</text>
+    <text x="140" y="81" class="nodeText">engineer approval</text>
+    <text x="140" y="106" class="nodeText">traceable exceptions</text>
+    <text x="140" y="131" class="nodeText">no black-box decision</text>
+  </g>
+  <g transform="translate(1210 575)">
+    <rect class="panel" width="320" height="145" rx="24"/>
+    <path d="M46 38 h76 v82 h-76 z" fill="#07131f" stroke="url(#tealStroke)" stroke-width="2"/>
+    <path d="M61 60 h46 M61 76 h46 M61 92 h30" stroke="#54f4ff" stroke-width="2"/>
+    <path d="M100 107 l9 9 l20 -25" stroke="#54f4ff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="145" y="51" class="nodeTitle">Audit report</text>
+    <text x="145" y="81" class="nodeText">findings · calculations</text>
+    <text x="145" y="106" class="nodeText">evidence links</text>
+    <text x="145" y="131" class="nodeText">action plan</text>
+  </g>
+
+  <path d="M360 420 C450 420 500 405 565 420" fill="none" stroke="#29d9ee" stroke-width="3" stroke-opacity=".85" marker-end="url(#arrowTeal)"/>
+  <path d="M360 560 C455 560 500 515 565 500" fill="none" stroke="#29d9ee" stroke-width="3" stroke-opacity=".75" marker-end="url(#arrowTeal)"/>
+  <path d="M360 700 C455 700 505 640 565 595" fill="none" stroke="#ffb258" stroke-width="3" stroke-opacity=".9" marker-end="url(#arrowAmber)"/>
+  <path d="M1035 480 C1100 480 1140 435 1195 435" fill="none" stroke="#ffb258" stroke-width="3.2" stroke-opacity=".9" marker-end="url(#arrowAmber)"/>
+  <path d="M1370 515 C1370 540 1370 550 1370 565" fill="none" stroke="#29d9ee" stroke-width="3" stroke-opacity=".85" marker-end="url(#arrowTeal)"/>
+
+  <g transform="translate(575 745)">
+    <rect width="700" height="70" rx="20" fill="#07131f" stroke="#214957" stroke-width="1"/>
+    <text x="36" y="31" class="mono">source → extraction → calculation → review → report</text>
+    <text x="36" y="55" class="tiny">Every recommendation keeps a visible evidence trail and human responsibility gate.</text>
+  </g>
+
+  <g opacity=".33">
+    <circle cx="1320" cy="160" r="70" fill="none" stroke="#29d9ee" stroke-width="1"/>
+    <path d="M1320 90 v140 M1250 160 h140 M1270 112 L1370 208 M1370 112 L1270 208" stroke="#29d9ee" stroke-width="1"/>
+    <text x="1308" y="166" class="mono">Y</text>
+    <text x="1410" y="165" class="tiny">G + jB</text>
+  </g>
+</svg>
