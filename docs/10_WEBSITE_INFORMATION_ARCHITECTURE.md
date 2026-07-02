@@ -2,6 +2,14 @@
 
 Status: planning draft for human review.
 
+## Current Status Note
+
+This is a historical v0.1 planning document created before implementation. A
+dependency-free static implementation and Cloudflare Pages deployment readiness
+now exist in later PRs. Older "pending" wording in this document should be read
+in that historical context unless superseded by later documents or merged PRs.
+The privacy, provenance, and conservative publication boundaries remain active.
+
 ## Purpose
 
 This document defines the information architecture for IKurabayev.kz before any

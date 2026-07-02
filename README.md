@@ -9,17 +9,19 @@ New ChatGPT/Codex sessions should begin with START_HERE.md. It defines the
 mandatory reading order, current mission, active task queue, branch rules, and
 safety boundaries.
 
-This repository is not yet a website implementation. It currently defines the
-project context, governance, public content boundaries, and Codex-first workflow
-that future website work should follow.
+This repository contains the project governance documents and a
+dependency-free static HTML site under `site/`. The Cloudflare Pages preview is
+working, while the production custom domain `ikurabayev.kz` remains pending
+activation and DNS completion.
 
 ## Repository Purpose
 
 - Maintain public-facing content strategy for `ikurabayev.kz`.
 - Track research and engineering portfolio decisions with clear provenance.
 - Provide repeatable instructions for AI-assisted work.
-- Keep website implementation work separate from governance decisions until the
-  initial direction is reviewed.
+- Keep website implementation work conservative, reviewable, framework-free,
+  and dependency-free until a future approved issue and pull request justify a
+  different technical path.
 
 ## AI Lab Workflow
 
@@ -36,9 +38,17 @@ Do not push directly to `main`.
 
 ## Current Status
 
-The repository contains only Markdown governance and planning files. Do not add a
-website framework, `package.json`, dependencies, private data, or unpublished
-research data until a specific issue and pull request justify that change.
+The repository contains Markdown governance and planning files plus the current
+dependency-free static HTML site in `site/`.
+
+Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`. The
+custom production domain `ikurabayev.kz` is not active yet and still requires
+domain activation and DNS verification.
+
+The project remains framework-free and dependency-free for now. Do not add a
+website framework, `package.json`, dependencies, private contact details,
+unsupported public claims, or unpublished research data until a specific issue
+and pull request justify that change.
 
 ## Key Documents
 
