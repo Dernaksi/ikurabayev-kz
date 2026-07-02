@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Documentation cleanup after Cloudflare Pages preview became available.
+Full public profile site v0.2 after Cloudflare Pages preview became available.
 
 ## Recently Completed
 
@@ -19,14 +19,13 @@ Documentation cleanup after Cloudflare Pages preview became available.
 
 ## Next Recommended Tasks
 
-1. Content polish for `/ru` and `/en`.
-2. Align ORCID and Scopus wording across `/qr` and language pages.
-3. QR consistency review.
-4. Visual/design polish after content cleanup.
-5. Domain activation and DNS verification after `ikurabayev.kz` becomes active.
-6. Review public contact route before launch.
-7. Verify publication metadata and patent registry details before publishing
-   final claims.
+1. Domain activation and DNS verification after `ikurabayev.kz` becomes active.
+2. Photo upload and public-use review for `site/assets/iskander-portrait.jpg`.
+3. Review and approve the public contact route before launch.
+4. Verify publication metadata before publishing final publication claims.
+5. Verify patent registry details before publishing final patent claims.
+6. Complete Kazakh language review.
+7. Later visual refinements if review finds usability or tone issues.
 
 ## Active Branch Convention
 

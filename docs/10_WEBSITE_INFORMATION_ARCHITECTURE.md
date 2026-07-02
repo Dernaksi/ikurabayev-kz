@@ -10,6 +10,11 @@ now exist in later PRs. Older "pending" wording in this document should be read
 in that historical context unless superseded by later documents or merged PRs.
 The privacy, provenance, and conservative publication boundaries remain active.
 
+The v0.2 site expands the placeholder static skeleton into a fuller public
+profile and QR landing experience while preserving the same route model:
+`/`, `/en`, `/ru`, `/kk`, and `/qr`. The technical path remains static HTML and
+CSS without framework or dependency migration.
+
 ## Purpose
 
 This document defines the information architecture for IKurabayev.kz before any
