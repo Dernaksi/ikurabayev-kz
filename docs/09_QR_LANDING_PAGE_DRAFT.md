@@ -1,4 +1,4 @@
-# QR Landing Page Draft v0.1
+# QR Landing Page Draft v0.2
 
 Status: draft for human review.
 
@@ -20,18 +20,22 @@ addresses.
 ## English
 
 - Display name: Iskander Kurabayev
-- One-line positioning: Electrical engineering and energy-efficiency specialist
-  from Kazakhstan.
+- One-line positioning: Electrical engineering researcher,
+  energy-efficiency specialist, and applied measurement engineer from
+  Kazakhstan.
 - Short intro: Iskander Kurabayev works across electrical power systems, energy
   efficiency, measurement, and diagnostic methods, with public research
   interests in insulation parameters, isolated-neutral AC systems, earth-fault
   current, admittance, conductance, susceptance, and voltage diagnostics.
+- Badges: Research; Energy efficiency; Applied measurements; AI Engineering
+  Lab.
 
 Primary buttons:
 
 1. Research profile
 2. Engineering portfolio
-3. Contact route pending approval
+3. AI Lab
+4. Contact route pending approval
 
 Secondary links:
 
@@ -45,12 +49,11 @@ Secondary links:
 ## Russian
 
 - Отображаемое имя: Искандер Курабаев
-- Краткое позиционирование: Специалист в области электротехники и
-  энергоэффективности из Казахстана.
-- Краткий QR-текст: Искандер Курабаев — специалист в области электротехники и
-  энергоэффективности. Астана, Казахстан. Направления: электротехника,
-  энергоэффективность, идентификация параметров энергосистем, энергоаудит и
-  встроенные измерительные системы.
+- Краткое позиционирование: Исследователь в области электротехники, специалист
+  по энергоэффективности и инженер прикладных измерений из Казахстана.
+- Краткий QR-текст: Искандер Курабаев - исследователь в области
+  электротехники, специалист по энергоэффективности и инженер прикладных
+  измерений из Казахстана.
 - Краткое описание: Искандер Курабаев работает на стыке систем электроснабжения,
   энергоэффективности, измерений и диагностических методов. Его публичные
   исследовательские интересы включают параметры изоляции, сети с изолированной
@@ -61,7 +64,8 @@ Secondary links:
 
 1. Исследовательский профиль
 2. Инженерное портфолио
-3. Контактный канал ожидает утверждения
+3. AI Lab
+4. Контактный канал ожидает утверждения
 
 Дополнительные ссылки:
 
@@ -89,11 +93,15 @@ Kazakh wording is draft text and requires human review before publication.
 
 1. Зерттеу профилі
 2. Инженерлік портфолио
-3. Байланыс арнасы бекітуді күтеді
+3. AI Lab
+4. Байланыс арнасы бекітуді күтеді
 
 Қосымша сілтемелер:
 
-- ORCID: нақты сілтеме тексеруді күтеді
+- ORCID 0000-0002-4331-4726:
+  https://orcid.org/0000-0002-4331-4726
+- Scopus Author ID 57473761100:
+  https://www.scopus.com/authid/detail.uri?authorId=57473761100
 - Жарияланымдар: метадеректерді тексеру күтіледі
 - Патенттер: тізілім арқылы тексеру күтіледі
 
