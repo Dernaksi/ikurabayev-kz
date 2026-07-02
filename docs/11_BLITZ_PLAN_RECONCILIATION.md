@@ -50,11 +50,13 @@ This reconciliation does not:
 
 ## Follow-up Tasks
 
-1. Add verified QR links and Russian QR copy in a separate small content PR.
-2. Prepare Cloudflare Pages readiness for the existing `site/` directory in a
-   separate site/deployment PR.
+1. Completed by PR #17: verified QR links and Russian QR copy.
+2. Completed by PR #18: Cloudflare Pages readiness for the existing `site/`
+   directory.
 3. Review and approve the public contact route before launch.
-4. Clean up stale README/status wording in a later documentation PR.
+4. Verify publication metadata before publishing final publication claims.
+5. Verify patent registry details before publishing final patent claims.
+6. Complete production custom domain activation and DNS verification.
 
 ## Privacy and Reproducibility Boundaries
 
@@ -67,11 +69,9 @@ phrased and subject to human review before publication.
 
 ## Remaining Risks
 
-- `README.md` still contains stale pre-implementation wording and should be
-  cleaned up in a later documentation PR.
 - `docs/10_WEBSITE_INFORMATION_ARCHITECTURE.md` remains a historical
   pre-implementation IA document.
-- Verified ORCID/Scopus links and Russian QR copy are intentionally deferred to
-  a separate content PR.
-- Cloudflare Pages readiness is intentionally deferred to a separate
-  site/deployment PR.
+- Public contact route remains pending approval.
+- Publication metadata remains pending verification.
+- Patent registry details remain pending verification.
+- Production custom domain activation remains pending.

@@ -26,6 +26,16 @@ There is no `package.json`, dependency installation, framework preset, build
 pipeline, JavaScript runtime, analytics, cookies, tracking, contact form,
 redirect layer, Worker, or Pages Function in the current deployment path.
 
+## Current Preview Status
+
+Cloudflare Pages preview is live:
+
+- `https://ikurabayev-kz.pages.dev`
+- `https://ikurabayev-kz.pages.dev/qr`
+
+The custom production domain `ikurabayev.kz` is not active yet. Domain binding
+and DNS should be verified manually after domain activation.
+
 ## Cloudflare Pages Settings
 
 Use the Cloudflare Pages GitHub integration.
