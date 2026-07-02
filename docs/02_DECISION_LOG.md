@@ -33,3 +33,24 @@ Consequences:
 Future work should start from issues, proceed through branches and pull
 requests, and avoid direct pushes to `main`.
 
+### 2026-07-02 - Continue dependency-free static HTML for first deployment
+
+Status: accepted
+
+Context:
+A later blitz plan proposed Astro and a different launch path, but it assumed an
+earlier repository state. The repository already has PR #14 website information
+architecture and PR #15 dependency-free static HTML skeleton.
+
+Decision:
+Continue the dependency-free static HTML site for first Cloudflare Pages
+readiness. Do not migrate to Astro for the first deployment. Keep Astro as a
+future option if site complexity or multilingual duplication justifies it. Use
+`/qr` as the direct QR-code target for business cards and slides while `/`
+remains a neutral gateway.
+
+Consequences:
+Next work should focus on reconciliation, verified QR links/Russian QR copy, and
+Cloudflare Pages readiness. No `package.json` or dependencies are needed for the
+current deployment path. Framework migration requires a separate future decision
+and PR.

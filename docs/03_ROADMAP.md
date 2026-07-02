@@ -2,28 +2,30 @@
 
 ## Phase 0 - Repository Foundation
 
-Status: in progress
+Status: completed
 
 - Add repository governance.
 - Add AI Lab workflow.
 - Add public content policy.
 - Add Codex prompts.
 - Add issue and pull request templates.
-- Keep the repository implementation-free.
+- Establish conservative public-content and AI Lab boundaries before website
+  implementation work.
 
-## Phase 1 - Public Content Inventory
+## Phase 1 - Public Content Inventory And Drafts
 
-Status: planned
+Status: in progress / partially completed
 
-- Identify approved public biography content.
-- Identify approved public research interests.
-- Identify approved engineering portfolio entries.
-- Identify public links for QR landing page use.
-- Decide what must stay private or unpublished.
+- Public content inventory exists as a draft for human review.
+- Public source audit and positioning skeleton exists.
+- Public biography and QR landing page drafts exist.
+- Verified public links, contact route, publications, patents, and project
+  entries remain pending review.
+- Private or unpublished source material remains excluded.
 
 ## Phase 2 - Information Architecture
 
-Status: planned
+Status: completed for v0.1
 
 - Define site sections.
 - Define QR landing page content.
@@ -31,21 +33,30 @@ Status: planned
 - Define research page structure.
 - Decide multilingual strategy for English, Russian, and Kazakh content.
 
-## Phase 3 - Website Implementation
+## Phase 3 - Static Website Implementation
 
-Status: planned
+Status: in progress
 
-- Select the simplest suitable static website approach.
-- Add implementation only after an approved issue and pull request.
-- Add dependencies only when justified by the selected approach.
-- Add checks and deployment documentation.
+- First dependency-free static HTML skeleton is complete under `site/`.
+- Continue the current dependency-free static HTML path for first Cloudflare
+  Pages readiness.
+- Keep Astro as a future option only if complexity or multilingual duplication
+  later justifies it.
+- Do not add dependencies unless a future approved issue and PR justify them.
 
-## Phase 4 - Publication And Maintenance
+## Phase 4 - Deployment Readiness
 
-Status: planned
+Status: next
 
 - Configure deployment.
+- Prepare Cloudflare Pages readiness for the existing `site/` directory.
+- Keep launch checks privacy-safe and dependency-free unless a future PR changes
+  the technical decision.
+
+## Phase 5 - Publication And Maintenance
+
+Status: planned
+
 - Review public content before launch.
 - Track content updates through issues and pull requests.
 - Maintain decision log and roadmap as the project evolves.
-
