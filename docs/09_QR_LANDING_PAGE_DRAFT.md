@@ -8,6 +8,14 @@ This document drafts first-pass QR landing page content for business cards and
 professional sharing. It is not final website copy and must be reviewed before
 publication.
 
+## Current Language Priority
+
+For the first public launch, `/qr` is Russian-first because the likely
+professional meeting, energy-sector, production, and energy-audit audience in
+Kazakhstan primarily works in Russian. English remains visible as the
+international profile route, and Kazakh remains supported pending language
+review.
+
 ## Privacy Boundary
 
 Do not add private identifiers, civil identifiers, private contact details,
@@ -58,7 +66,7 @@ Secondary links:
 - Краткое позиционирование: Исследователь в области электротехники, специалист
   по энергоэффективности, инженер прикладных измерений, PhD и
   аккредитованный энергоаудитор РК.
-- Краткий QR-текст: Искандер Курабаев - исследователь в области
+- Краткий QR-текст: Искандер Курабаев — исследователь в области
   электротехники, специалист по энергоэффективности и инженер прикладных
   измерений из Казахстана.
 - Краткое описание: Искандер Курабаев работает на стыке систем электроснабжения,

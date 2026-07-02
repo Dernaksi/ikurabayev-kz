@@ -146,3 +146,11 @@ Premium polish follow-up:
   and making the explanatory method cards more compact.
 - Visible ASCII arrows were replaced with `→`; Russian headings received light
   typography polish without changing technical meaning.
+
+Russian-first v0.7 visual cleanup:
+
+- The phase-vector / neutral-shift SVG motif remains available as a decorative
+  engineering motif in method and research contexts.
+- It is no longer used directly beside the portrait on the homepage, QR card,
+  or EN/RU hero portrait panels, keeping the identity area calmer and more
+  portrait-led.

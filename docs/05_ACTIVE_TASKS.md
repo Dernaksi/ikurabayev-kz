@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Visual asset integration for Neutral Shift Lab v0.6.
+Russian-first public experience v0.7.
 
 ## Recently Completed
 
@@ -19,16 +19,17 @@ Visual asset integration for Neutral Shift Lab v0.6.
 - PR #21: Add portrait and substantive profile content v0.3.
 - PR #22: Add Neutral Shift Lab visual system v0.4.
 - PR #23: Add public web evidence audit v0.5.
+- PR #24: Integrate visual assets for Neutral Shift Lab v0.6.
 
 ## Next Recommended Tasks
 
 1. Review and approve the public contact route before launch.
 2. Domain activation and DNS verification after `ikurabayev.kz` becomes active.
-3. Finalize SEO / metadata after visual asset integration is reviewed.
+3. Finalize SEO / metadata after Russian-first route priority is accepted.
 4. Verify patent registry details before publishing final patent claims.
 5. Complete Kazakh language review.
 6. Create and review a sanitized public CV before any downloadable CV is added.
-7. Review the Neutral Shift Lab visual system and visual assets on mobile and desktop preview.
+7. Review the Russian-first homepage, QR card, and portrait-only hero treatment on mobile and desktop preview.
 
 ## Active Branch Convention
 

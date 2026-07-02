@@ -15,6 +15,13 @@ profile and QR landing experience while preserving the same route model:
 `/`, `/en`, `/ru`, `/kk`, and `/qr`. The technical path remains static HTML and
 CSS without framework or dependency migration.
 
+The v0.7 route priority makes the public entry experience Russian-first:
+`/` and `/qr` lead in Russian, `/ru` is the primary detailed profile, `/en` is
+the international research profile, and `/kk` remains a conservative supported
+route pending language review. This supersedes older English-first
+language-priority wording in this planning document without changing the
+privacy and evidence boundaries.
+
 ## Purpose
 
 This document defines the information architecture for IKurabayev.kz before any
@@ -51,7 +58,8 @@ and public metadata verification before launch.
 - Credibility before decoration.
 - QR-first access for real-world meetings, business cards, and professional
   introductions.
-- Multilingual by design, with English as the master source.
+- Multilingual by design, with Russian as the primary public entry language and
+  English as the international research profile.
 - Privacy-safe publication and conservative contact routing.
 - Evidence-first claims: unsupported claims remain pending, not final.
 - Simple static-site readiness without choosing a framework yet.
@@ -93,12 +101,14 @@ and reviewable.
 ### `/`
 
 Purpose:
-Provide a neutral gateway into the public identity and language structure.
+Provide a Russian-first gateway into the public identity and language
+structure.
 
 Expected content:
 
-- Short identity line.
-- Language selector for English, Russian, and Kazakh.
+- Russian identity line and public trajectory.
+- Route selector for Russian profile, QR card, English international profile,
+  and Kazakh.
 - Link to the stable QR landing route.
 - Navigation to research/profile/projects/contact sections.
 - No private contact details.
@@ -112,8 +122,7 @@ Privacy risks:
 ### `/en`
 
 Purpose:
-Serve as the master localized public profile page and source baseline for other
-languages.
+Serve as the international / academic public profile page.
 
 Expected structure:
 
@@ -125,7 +134,7 @@ Expected structure:
 
 Content rules:
 
-- English is the master content source.
+- English remains available for international research and academic readers.
 - Final claims must be supported by approved public-safe source material.
 - Pending publication, patent, contact, and project details must remain marked
   as pending.
@@ -133,13 +142,13 @@ Content rules:
 ### `/ru`
 
 Purpose:
-Serve as the Russian localized public profile page with parity to `/en`.
+Serve as the primary detailed public profile page.
 
 Content rules:
 
-- Use the same structure as `/en`.
-- Russian text requires human review before launch.
-- No Russian claim may be stronger than the approved English source.
+- Use the same conservative factual boundaries as `/en`.
+- Russian text requires owner tone review before launch.
+- No Russian claim may be stronger than the approved public source base.
 - Pending items remain pending in Russian.
 
 ### `/kk`
@@ -163,7 +172,8 @@ sharing, and direct introductions.
 Expected content:
 
 - Display name.
-- One-line positioning.
+- Russian one-line positioning.
+- Short English note that the international profile is available in English.
 - Three primary actions:
   1. Research profile.
   2. Engineering portfolio.
@@ -351,9 +361,11 @@ Contact concepts:
 
 ## Multilingual Strategy
 
-- English is the master source.
-- Russian and Kazakh are reviewed translations, not independent claim sources.
-- No translated claim may be stronger than the English approved source.
+- Russian is the primary public entry language for the first launch.
+- English is the international research profile, not the default local route.
+- Russian, English, and Kazakh routes share the same approved public source
+  base; no language may introduce stronger claims than the approved source
+  material.
 - If a translation is not reviewed, mark it as pending human review.
 - Maintain route parity across `/en`, `/ru`, and `/kk`.
 - A language switch should preserve section intent conceptually, but this
