@@ -2,19 +2,25 @@
 
 ## Current Phase
 
-Phase 0/1 transition — AI Lab foundation complete, public content inventory next.
+Static site deployment readiness after PR #14 and PR #15.
 
 ## Recently Completed
 
 - PR #1: Establish AI Lab foundation.
 - PR #2: Codex publish-flow smoke test, closed without merge.
+- PR #9: Sanitized public content inventory.
+- PR #11: Public biography draft.
+- PR #13: QR landing page draft.
+- PR #14: Website information architecture.
+- PR #15: Static website skeleton.
 
 ## Next Recommended Tasks
 
-1. Create public content inventory skeleton.
-2. Define QR landing page information architecture.
-3. Decide static HTML vs Astro only after content structure is clear.
-4. Prepare Cloudflare Pages deployment notes after first website skeleton.
+1. Reconcile blitz plan with current static HTML path.
+2. Add verified QR links and Russian QR copy in a small content PR.
+3. Prepare Cloudflare Pages readiness for existing `site/`.
+4. Review public contact route before launch.
+5. Clean up stale README/status wording in a later documentation PR.
 
 ## Active Branch Convention
 
