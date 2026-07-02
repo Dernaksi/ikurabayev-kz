@@ -62,8 +62,8 @@ These categories are not approved sources until the specific source is reviewed.
 
 | Item | Candidate public fact | Source / evidence | Source type | Identity confidence | Status | Public-safe? | Positioning implication | Notes / next review |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ORCID profile | Placeholder only | Needs verified profile URL | ORCID | `needs human review` | `source candidate` | Needs review | May support research identity. | Confirm exact profile before linking. |
-| Scopus author profile | Placeholder only | Needs verified profile URL | Scopus Author ID | `needs human review` | `source candidate` | Needs review | May support publication audit. | Confirm author identity and publication set. |
+| ORCID profile | ORCID 0000-0002-4331-4726, https://orcid.org/0000-0002-4331-4726 | Owner-approved QR profile link | ORCID | `exact match` | `approved by owner` | Yes | Supports research identity and QR profile routing. | Approved for QR use; do not infer publication completeness or metrics. |
+| Scopus author profile | Scopus Author ID 57473761100, https://www.scopus.com/authid/detail.uri?authorId=57473761100 | Owner-approved QR profile link | Scopus Author ID | `exact match` | `approved by owner` | Yes | Supports publication-audit routing from the QR profile. | Approved for QR use; do not claim publication completeness, citation counts, h-index, affiliations, or metrics. |
 | Web of Science profile | Placeholder only | Needs verified profile URL | Web of Science profile | `needs human review` | `source candidate` | Needs review | May support publication audit. | Confirm author identity and publication set. |
 | Google Scholar profile | Placeholder only | Needs verified profile URL | Google Scholar profile | `needs human review` | `source candidate` | Needs review | May support research overview. | Confirm profile ownership and publication set. |
 | University profile | Placeholder only | Needs verified profile URL | official university profile | `needs human review` | `source candidate` | Needs review | May support affiliation wording. | Confirm currentness before use. |
