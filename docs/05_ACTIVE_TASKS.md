@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Russian-first public experience v0.7.
+Production domain and infrastructure strategy documentation.
 
 ## Recently Completed
 
@@ -20,16 +20,20 @@ Russian-first public experience v0.7.
 - PR #22: Add Neutral Shift Lab visual system v0.4.
 - PR #23: Add public web evidence audit v0.5.
 - PR #24: Integrate visual assets for Neutral Shift Lab v0.6.
+- PR #25: Make Russian-first public experience v0.7.
+- Domain activation and Cloudflare DNS verification for `ikurabayev.kz`.
 
 ## Next Recommended Tasks
 
 1. Review and approve the public contact route before launch.
-2. Domain activation and DNS verification after `ikurabayev.kz` becomes active.
-3. Finalize SEO / metadata after Russian-first route priority is accepted.
+2. Finalize SEO / metadata after Russian-first route priority is accepted.
+3. Decide and configure the `www` to apex redirect policy, or document why both
+   hostnames should remain directly served.
 4. Verify patent registry details before publishing final patent claims.
 5. Complete Kazakh language review.
 6. Create and review a sanitized public CV before any downloadable CV is added.
-7. Review the Russian-first homepage, QR card, and portrait-only hero treatment on mobile and desktop preview.
+7. Review future Claude Design pages in a separate design-intake PR.
+8. Perform final mobile and desktop launch review on the production domain.
 
 ## Active Branch Convention
 

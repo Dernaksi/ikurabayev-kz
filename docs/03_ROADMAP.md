@@ -47,13 +47,18 @@ Status: completed for v0.1 / polish pending
 
 ## Phase 4 - Deployment Readiness
 
-Status: completed for Cloudflare Pages preview / domain pending
+Status: completed for Cloudflare Pages preview and initial production domain
 
 - Cloudflare Pages deployment readiness is complete for the existing `site/`
   directory.
 - Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`.
-- Production custom domain `ikurabayev.kz` remains pending activation and DNS
-  verification.
+- Production custom domain `ikurabayev.kz` is active through Cloudflare Pages,
+  with Cloudflare DNS active for the domain.
+- The owner reports both `https://ikurabayev.kz` and
+  `https://www.ikurabayev.kz` as working.
+- Public launch polish remains pending: contact route, SEO metadata, Kazakh
+  language review, patent-registry verification, and final mobile / desktop
+  review are not complete yet.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
   the technical decision.
 
