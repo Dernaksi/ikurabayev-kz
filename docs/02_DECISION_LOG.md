@@ -125,3 +125,25 @@ files, real AI/API calls, analytics, cookies, forms that submit data, and
 unapproved content claims remain excluded. Any visual deviation from Claude
 Design should be explained as required by security, routing, accessibility, or
 public-content policy.
+
+### 2026-07-03 - Treat Claude Design as the visual source of truth
+
+Status: accepted
+
+Context:
+Earlier Codex visual-polish and redesign attempts diverged from the owner's
+intended Claude Design direction. The owner prefers to continue major visual
+iteration in Claude Design. PR #29 established a faithful-port approach for the
+accepted v1.0 redesign.
+
+Decision:
+Major visual changes should start in Claude Design. Codex should faithfully
+port and sanitize the approved design, then verify accessibility, static-hosting
+compatibility, security, and privacy boundaries. Codex must not creatively
+redesign the site unless explicitly asked.
+
+Consequences:
+Future design PRs should include a faithfulness report that identifies the
+source design, ported sections, deviations, and reasons for deviations. Export
+code must be sanitized before integration. Real AI/API functionality remains a
+separate phase and must not be implied by visual design ports.

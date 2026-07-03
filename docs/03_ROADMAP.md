@@ -66,7 +66,24 @@ Status: completed for Cloudflare Pages preview and initial production domain
 
 Status: planned
 
-- Next safe sequence: docs cleanup, then content polish, then visual polish.
+- Next safe sequence: docs cleanup, then content polish, then visual QA and
+  production-domain review.
 - Review public content before production domain launch.
+- Use `docs/16_VISUAL_DESIGN_SYSTEM.md` as the workflow for major visual
+  changes.
+- Start future major design changes in Claude Design, then integrate them
+  through design-intake pull requests with a faithfulness report.
 - Track content updates through issues and pull requests.
 - Maintain decision log and roadmap as the project evolves.
+
+## Phase 6 - Public AI Assistant Architecture
+
+Status: future / separate phase
+
+- Treat AI console or AI assistant UI as prototype/static/public-facts-only
+  until a separate architecture decision and pull request approve real backend
+  functionality.
+- Design any real AI integration through a backend or edge function with secrets
+  outside GitHub.
+- Do not combine real AI/API launch work with visual design ports unless a
+  future approved task explicitly combines that scope.
