@@ -129,9 +129,10 @@ secrets and private identifiers.
 
 ## Future Design Workflow
 
-The owner is separately improving page design through Claude Design. Those
-outputs may be reviewed later, but they should be integrated only through a
-separate design-intake pull request after owner approval.
+Major visual changes should follow `docs/16_VISUAL_DESIGN_SYSTEM.md`. Claude
+Design is the visual source of truth for approved major visual changes; Codex
+ports the design faithfully, sanitizes incompatible export code, and documents
+any required deviations.
 
 Future design intake should check:
 
@@ -142,8 +143,8 @@ Future design intake should check:
 - no external scripts, analytics, cookies, or unapproved dependencies;
 - consistency with the Russian-first route priority and multilingual strategy.
 
-This infrastructure task intentionally does not redesign or integrate Claude
-Design pages.
+Visual design ports remain separate from production infrastructure decisions
+unless a future task explicitly combines those scopes.
 
 ## Next Safe Tasks
 
@@ -157,4 +158,5 @@ Recommended next tasks:
 5. Verify patent registry details before strengthening patent wording.
 6. Create and review a sanitized public CV before adding any downloadable CV.
 7. Perform final mobile and desktop launch review on the production domain.
-8. Review future Claude Design pages in a separate design-intake PR.
+8. Review future Claude Design changes through the documented design-intake
+   workflow.

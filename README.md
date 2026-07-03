@@ -64,3 +64,5 @@ and pull request justify that change.
 - [docs/03_ROADMAP.md](docs/03_ROADMAP.md) - staged roadmap.
 - [docs/04_PUBLIC_CONTENT_POLICY.md](docs/04_PUBLIC_CONTENT_POLICY.md) - public
   content rules and privacy boundaries.
+- [docs/16_VISUAL_DESIGN_SYSTEM.md](docs/16_VISUAL_DESIGN_SYSTEM.md) - Claude
+  Design to Codex faithful-port workflow.
