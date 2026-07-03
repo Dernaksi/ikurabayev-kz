@@ -20,11 +20,12 @@
           <span>IKurabayev.kz</span>
         </a>
         <div class="nav-links">
-          <a class="nav-strong" href="../ru/">Русский</a>
+          <a class="nav-strong" href="../">Русский</a>
           <a href="#trajectory">Trajectory</a>
           <a href="#research">Research</a>
           <a href="#selected-works">Works</a>
           <a href="#ai-lab">AI Lab</a>
+          <a class="nav-strong" href="#ask">Ask AI</a>
           <a href="../qr/">QR</a>
           <a href="../kk/">Қазақша</a>
         </div>
@@ -71,30 +72,36 @@
         </aside>
       </section>
 
-      <section class="section grid cards-2 profile-layout">
-        <article class="card wide-card" id="about">
-          <p class="eyebrow">About</p>
-          <h2>Electrical systems, energy efficiency, and measurement</h2>
-          <p>
-            Iskander Kurabayev is an electrical engineering researcher,
-            energy-efficiency specialist, applied measurement engineer, PhD,
-            and accredited energy auditor in Kazakhstan. His work connects
-            electrical power systems, mining facilities, energy saving,
-            measurement, and diagnostic methods.
-          </p>
-          <p>
-            The public profile is intentionally factual: it avoids private
-            contact details, document scans, certificate numbers, citation
-            metrics, and unsupported product or affiliation claims.
-          </p>
-        </article>
+      <section id="ask" aria-label="AI"></section>
 
+      <section class="section grid cards-2 profile-layout">
         <article class="card wide-card rhythm-card" id="method-stack">
           <p class="eyebrow">Method stack</p>
           <h2>Measure → Model → Diagnose → Verify</h2>
-          <figure class="asset-figure asset-figure-wide">
-            <img src="../assets/method-stack.svg" alt="Decorative method stack diagram: Measure, Model, Diagnose, Verify" width="1200" height="360">
-          </figure>
+          <div class="signal-chain" role="img" aria-label="Method signal chain: measure the signal, build the model, diagnose the fault, verify stability">
+            <svg class="signal-chain-svg" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true">
+              <line class="sc-mid" x1="0" y1="90" x2="1200" y2="90"></line>
+              <path class="sc-ghost" d="M300,90 Q337.5,58 375,90 Q412.5,122 450,90 Q487.5,58 525,90 Q562.5,122 600,90"></path>
+              <path class="sc-wave" d="M0,90 Q37.5,48 75,90 Q112.5,132 150,90 Q187.5,48 225,90 Q262.5,132 300,90 L600,90 L705,90 M835,90 L1200,90"></path>
+              <path class="sc-spike" d="M705,90 L748,30 L792,150 L835,90"></path>
+              <g class="sc-dot">
+                <circle cx="330" cy="70" r="3.5"></circle>
+                <circle cx="375" cy="90" r="3.5"></circle>
+                <circle cx="420" cy="110" r="3.5"></circle>
+                <circle cx="465" cy="90" r="3.5"></circle>
+                <circle cx="510" cy="70" r="3.5"></circle>
+                <circle cx="555" cy="90" r="3.5"></circle>
+              </g>
+              <path class="sc-check" d="M1118,88 l16,18 l30,-40"></path>
+            </svg>
+            <div class="sc-zones">
+              <div class="sc-zone"><b>Measure</b><i>signal</i></div>
+              <div class="sc-zone"><b>Model</b><i>sample</i></div>
+              <div class="sc-zone"><b>Diagnose</b><i>fault</i></div>
+              <div class="sc-zone"><b>Verify</b><i>stable</i></div>
+            </div>
+            <span class="sc-scan"></span>
+          </div>
           <div class="method-stack method-notes">
             <article>
               <span>Measure</span>
@@ -151,12 +158,31 @@
 
         <article class="card wide-card rhythm-card" id="field-lab">
           <p class="eyebrow">Field-to-lab bridge</p>
-          <h2>Energy systems → audit/expertise → measurement → AI-assisted workflow</h2>
-          <div class="bridge-flow">
-            <span>Energy systems</span>
-            <span>Audit / expertise</span>
-            <span>Measurement</span>
-            <span>AI-assisted workflow</span>
+          <h2>From energy systems to the AI engineering lab</h2>
+          <div class="field-flow" role="img" aria-label="Route from field to lab: energy systems, audit and expertise, measurement, AI-assisted workflow">
+            <span class="ff-line" aria-hidden="true"></span>
+            <ol class="ff-nodes">
+              <li class="ff-node">
+                <span class="ff-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 L5 13 h5 l-1 9 L19 10 h-5 z"></path></svg></span>
+                <span class="ff-label">Energy systems</span>
+                <span class="ff-sub">field</span>
+              </li>
+              <li class="ff-node">
+                <span class="ff-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"></circle><path d="M15 15 L20 20"></path><path d="M7.8 10.5 l1.8 1.8 l3.3 -3.8"></path></svg></span>
+                <span class="ff-label">Audit &amp; expertise</span>
+                <span class="ff-sub">assess</span>
+              </li>
+              <li class="ff-node">
+                <span class="ff-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17 a8 8 0 0 1 16 0"></path><path d="M12 17 L16.5 11.5"></path><circle cx="12" cy="17" r="1.4" fill="currentColor" stroke="none"></circle></svg></span>
+                <span class="ff-label">Measurement</span>
+                <span class="ff-sub">data</span>
+              </li>
+              <li class="ff-node">
+                <span class="ff-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="8" height="8" rx="1"></rect><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"></circle><path d="M12 8 V5 M12 19 V16 M8 12 H5 M19 12 H16 M9.5 8 V6 M14.5 8 V6 M9.5 18 V16 M14.5 18 V16"></path></svg></span>
+                <span class="ff-label">AI-assisted workflow</span>
+                <span class="ff-sub">lab</span>
+              </li>
+            </ol>
           </div>
         </article>
 
@@ -168,6 +194,32 @@
             and isolated-neutral AC systems, earth-fault current, admittance,
             conductance, susceptance, and voltage diagnostics.
           </p>
+          <div class="phasor-wrap">
+            <div class="phasor" role="img" aria-label="Rotating three-phase phasor diagram with neutral-point shift">
+              <svg class="ph-grid" viewBox="0 0 200 200" aria-hidden="true">
+                <circle cx="100" cy="100" r="88"></circle>
+                <circle cx="100" cy="100" r="60"></circle>
+                <circle cx="100" cy="100" r="32"></circle>
+                <line x1="12" y1="100" x2="188" y2="100"></line>
+                <line x1="100" y1="12" x2="100" y2="188"></line>
+                <line class="diag" x1="100" y1="100" x2="100" y2="14"></line>
+                <line class="diag" x1="100" y1="100" x2="174" y2="143"></line>
+                <line class="diag" x1="100" y1="100" x2="26" y2="143"></line>
+              </svg>
+              <div class="ph-shift">
+                <svg class="ph-vectors" viewBox="0 0 200 200" aria-hidden="true">
+                  <line class="ph a" x1="100" y1="100" x2="100" y2="22"></line>
+                  <line class="ph b" x1="100" y1="100" x2="167" y2="139"></line>
+                  <line class="ph c" x1="100" y1="100" x2="33" y2="139"></line>
+                  <circle class="ph-tip a" cx="100" cy="22" r="4.5"></circle>
+                  <circle class="ph-tip b" cx="167" cy="139" r="4.5"></circle>
+                  <circle class="ph-tip c" cx="33" cy="139" r="4.5"></circle>
+                  <circle class="phasor-neutral" cx="100" cy="100" r="4.5"></circle>
+                </svg>
+              </div>
+            </div>
+            <div class="phasor-cap"><span>3-phase · ω</span><span>neutral shift</span></div>
+          </div>
           <ul class="tag-list">
             <li>Electrical power systems</li>
             <li>Mining facilities</li>
@@ -190,9 +242,65 @@
         <article class="card" id="ai-lab">
           <p class="eyebrow">AI Engineering Lab</p>
           <h2>Roadmap initiatives under review</h2>
-          <figure class="asset-figure">
-            <img src="../assets/ai-energy-auditor.svg" alt="Decorative concept diagram for an AI-assisted energy audit workflow" width="1600" height="900">
-          </figure>
+          <div class="ai-lab">
+            <div class="ai-graph" role="img" aria-label="AI inference schematic: V and I input signals, model layer, verdict">
+              <svg viewBox="0 0 220 190" aria-hidden="true">
+                <g class="ai-net-links">
+                  <line x1="28" y1="45" x2="110" y2="38"></line>
+                  <line x1="28" y1="45" x2="110" y2="79"></line>
+                  <line class="hot" x1="28" y1="45" x2="110" y2="120"></line>
+                  <line x1="28" y1="95" x2="110" y2="38"></line>
+                  <line x1="28" y1="95" x2="110" y2="79"></line>
+                  <line x1="28" y1="95" x2="110" y2="120"></line>
+                  <line x1="28" y1="95" x2="110" y2="161"></line>
+                  <line x1="28" y1="145" x2="110" y2="79"></line>
+                  <line class="hot" x1="28" y1="145" x2="110" y2="120"></line>
+                  <line x1="28" y1="145" x2="110" y2="161"></line>
+                  <line x1="110" y1="38" x2="192" y2="95"></line>
+                  <line class="hot" x1="110" y1="79" x2="192" y2="95"></line>
+                  <line class="hot" x1="110" y1="120" x2="192" y2="95"></line>
+                  <line x1="110" y1="161" x2="192" y2="95"></line>
+                </g>
+                <g>
+                  <circle class="ai-node in" cx="28" cy="45" r="6"></circle>
+                  <circle class="ai-node in" cx="28" cy="95" r="6"></circle>
+                  <circle class="ai-node in" cx="28" cy="145" r="6"></circle>
+                  <circle class="ai-node" cx="110" cy="38" r="6"></circle>
+                  <circle class="ai-node" cx="110" cy="79" r="6"></circle>
+                  <circle class="ai-node" cx="110" cy="120" r="6"></circle>
+                  <circle class="ai-node" cx="110" cy="161" r="6"></circle>
+                  <circle class="ai-node out" cx="192" cy="95" r="8"></circle>
+                </g>
+              </svg>
+              <div class="ai-graph-labels">
+                <span>V / I signals</span>
+                <span>model</span>
+                <span>verdict</span>
+              </div>
+            </div>
+            <div class="ai-modules">
+              <div class="ai-mod">
+                <span class="ai-mod-status">In development</span>
+                <h3>AI Energy Auditor</h3>
+                <p>Draft concept for AI-assisted energy audit with traceable reasoning.</p>
+                <div class="ai-mod-tags">
+                  <span>energy audit</span>
+                  <span>LLM-assisted</span>
+                  <span>traceability</span>
+                </div>
+              </div>
+              <div class="ai-mod">
+                <span class="ai-mod-status">In development</span>
+                <h3>STM32 / measurement lab</h3>
+                <p>Hardware branch: signal capture and a measurement test bench.</p>
+                <div class="ai-mod-tags">
+                  <span>STM32</span>
+                  <span>ADC</span>
+                  <span>sensors</span>
+                </div>
+              </div>
+            </div>
+          </div>
           <p>
             AI Energy Auditor and STM32 / measurement laboratory are
             in-development public roadmap initiatives. They are not presented
@@ -298,5 +406,8 @@
         </article>
       </section>
     </main>
+    <script src="../assets/hero-field.js" defer></script>
+    <script src="../assets/enhance.js" defer></script>
+    <script src="../assets/concierge.js" defer></script>
   </body>
 </html>

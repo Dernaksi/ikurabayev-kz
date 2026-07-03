@@ -98,3 +98,30 @@ Do not migrate the public site to virtual/shared hosting as the production core.
 Do not introduce a framework, dependency, or hosting architecture change for
 this decision. Do not directly expose a home server for the public QR/profile
 site.
+
+### 2026-07-03 - Port Claude Design faithfully with public-site sanitization
+
+Status: accepted
+
+Context:
+The owner approved a faithful Claude Design port after earlier visual-polish
+attempts diverged from the supplied design. The export includes usable static
+HTML, CSS, local assets, and local enhancement scripts, but it also includes
+Google Fonts links, Claude preview runtime files, React/Babel support code, and
+a design-environment assistant hook.
+
+Decision:
+Treat the Claude Design static `site/` export as the visual source of truth for
+the v1.0 redesign, while removing incompatible runtime pieces. Keep the public
+site dependency-free and Cloudflare Pages compatible. Allow only local,
+self-contained JavaScript for decorative motion, reveal behavior, and a
+prototype AI panel that uses curated public facts only and makes no external
+requests.
+
+Consequences:
+The port may closely reuse exported section structure, class names, CSS, and
+local assets. External fonts, React/Babel, `support.js`, `.dc.html` runtime
+files, real AI/API calls, analytics, cookies, forms that submit data, and
+unapproved content claims remain excluded. Any visual deviation from Claude
+Design should be explained as required by security, routing, accessibility, or
+public-content policy.

@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Production domain and infrastructure strategy documentation.
+Faithful Claude Design port v1.0.
 
 ## Recently Completed
 
@@ -23,16 +23,24 @@ Production domain and infrastructure strategy documentation.
 - PR #25: Make Russian-first public experience v0.7.
 - Domain activation and Cloudflare DNS verification for `ikurabayev.kz`.
 
+## Current Design Note
+
+Earlier design-polish and Claude-like redesign attempts in PR #27 / #28 are
+not treated as the visual baseline for v1.0. The active task uses the supplied
+Claude Design export as the source of truth, with public-site sanitization only.
+
 ## Next Recommended Tasks
 
-1. Review and approve the public contact route before launch.
-2. Finalize SEO / metadata after Russian-first route priority is accepted.
-3. Decide and configure the `www` to apex redirect policy, or document why both
+1. Review PR for the faithful Claude Design port v1.0 and verify that the
+   unavoidable deviations are limited to sanitization, routing, accessibility,
+   and public-content policy.
+2. Review and approve the public contact route before launch.
+3. Finalize SEO / metadata after Russian-first route priority is accepted.
+4. Decide and configure the `www` to apex redirect policy, or document why both
    hostnames should remain directly served.
-4. Verify patent registry details before publishing final patent claims.
-5. Complete Kazakh language review.
-6. Create and review a sanitized public CV before any downloadable CV is added.
-7. Review future Claude Design pages in a separate design-intake PR.
+5. Verify patent registry details before publishing final patent claims.
+6. Complete Kazakh language review.
+7. Create and review a sanitized public CV before any downloadable CV is added.
 8. Perform final mobile and desktop launch review on the production domain.
 
 ## Active Branch Convention

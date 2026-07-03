@@ -3,13 +3,13 @@
   <desc id="desc">A geometric IK mark for IKurabayev.kz.</desc>
   <defs>
     <linearGradient id="mark" x1="14" y1="86" x2="86" y2="10" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#0f766e"/>
-      <stop offset="0.48" stop-color="#5eead4"/>
-      <stop offset="1" stop-color="#f59e0b"/>
+      <stop offset="0" stop-color="#0f766e"></stop>
+      <stop offset="0.48" stop-color="#5eead4"></stop>
+      <stop offset="1" stop-color="#f59e0b"></stop>
     </linearGradient>
   </defs>
-  <rect width="96" height="96" rx="18" fill="#101418"/>
-  <path d="M24 71V34h10v37H24Zm16 0V25h10v20l20-20h13L60 48l25 23H71L50 52v19H40Z" fill="url(#mark)"/>
-  <circle cx="29" cy="23" r="6" fill="#5eead4"/>
-  <path d="M20 79h56" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" opacity=".72"/>
+  <rect width="96" height="96" rx="18" fill="#101418"></rect>
+  <path d="M24 71V34h10v37H24Zm16 0V25h10v20l20-20h13L60 48l25 23H71L50 52v19H40Z" fill="url(#mark)"></path>
+  <circle cx="29" cy="23" r="6" fill="#5eead4"></circle>
+  <path d="M20 79h56" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" opacity=".72"></path>
 </svg>
