@@ -76,3 +76,25 @@ Consequences:
 Navigation, route cards, QR actions, and homepage copy should lead with Russian
 while preserving multilingual access. This decision does not add new biography,
 publication, patent, contact, metric, role, product, or affiliation claims.
+
+### 2026-07-03 - Use Cloudflare Pages as production host for ikurabayev.kz
+
+Status: accepted
+
+Context:
+The domain `ikurabayev.kz` has been purchased and activated through Cloudflare.
+Cloudflare DNS is active for the domain, and the dependency-free static site is
+already deployed through the Cloudflare Pages project `ikurabayev-kz`. The owner
+reports both `https://ikurabayev.kz` and `https://www.ikurabayev.kz` as working.
+
+Decision:
+Keep the public production QR/profile website on Cloudflare Pages. Use IDHost
+as the domain registrar and only as sandbox, learning, or backup hosting if
+needed. Reserve any future home mini PC for lab/private infrastructure rather
+than the public production website.
+
+Consequences:
+Do not migrate the public site to virtual/shared hosting as the production core.
+Do not introduce a framework, dependency, or hosting architecture change for
+this decision. Do not directly expose a home server for the public QR/profile
+site.

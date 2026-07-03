@@ -11,8 +11,8 @@ safety boundaries.
 
 This repository contains the project governance documents and a
 dependency-free static HTML site under `site/`. The Cloudflare Pages preview is
-working, while the production custom domain `ikurabayev.kz` remains pending
-activation and DNS completion.
+working, and the production custom domain `ikurabayev.kz` is active through
+Cloudflare Pages.
 
 ## Repository Purpose
 
@@ -42,8 +42,11 @@ The repository contains Markdown governance and planning files plus the current
 dependency-free static HTML site in `site/`.
 
 Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`. The
-custom production domain `ikurabayev.kz` is not active yet and still requires
-domain activation and DNS verification.
+custom production domain `https://ikurabayev.kz` is active through Cloudflare
+Pages, with `https://www.ikurabayev.kz` also reported by the owner as working.
+Final launch polish remains pending for public contact routing, SEO metadata,
+Kazakh language review, patent-registry verification, and final mobile /
+desktop review.
 
 The project remains framework-free and dependency-free for now. Do not add a
 website framework, `package.json`, dependencies, private contact details,
