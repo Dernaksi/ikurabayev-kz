@@ -14,55 +14,44 @@
   <body class="qr-page">
     <a class="skip-link" href="#main">Перейти к основному содержанию</a>
     <main id="main" class="qr-shell">
-      <section class="qr-card premium-card" aria-labelledby="qr-title">
+      <section class="qr-card qr-badge premium-card" aria-labelledby="qr-title">
         <div class="qr-topline">
-          <p class="eyebrow">IKurabayev.kz / QR</p>
+          <p class="eyebrow">IKurabayev.kz / access badge</p>
           <a class="mini-link" href="../">Главная</a>
         </div>
-        <div class="qr-visual-unit qr-visual-portrait" aria-label="Портрет">
-          <img
-            class="portrait portrait-qr"
-            src="../assets/iskander-portrait-qr.jpg"
-            alt="Портрет Искандера Курабаева"
-            width="640"
-            height="768">
-        </div>
-        <h1 id="qr-title">Искандер Курабаев</h1>
-        <p class="lead">
-          Исследователь в области электротехники, специалист по
-          энергоэффективности, инженер прикладных измерений, PhD и
-          аккредитованный энергоаудитор РК.
-        </p>
-        <p class="intro qr-secondary-line">
-          International profile available in English.
-        </p>
-
-        <div class="qr-actions" aria-label="Основные действия">
-          <a class="button full" href="../ru/#research">Исследовательский профиль</a>
-          <a class="button full" href="../ru/#engineering">Инженерное портфолио</a>
-          <a class="button full" href="../ru/#ai-lab">AI Lab</a>
-          <a class="button secondary full" href="../ru/#selected-works">Избранные работы</a>
-        </div>
-
-        <p class="intro ru-line">
-          Публичный профиль связывает энергетические объекты, энергоаудит,
-          прикладные измерения, PhD-исследования и AI-инженерную лабораторию.
-        </p>
-
-        <div class="status-list badge-row" aria-label="Публичные маркеры">
-          <span class="chip">PhD</span>
-          <span class="chip">Энергоаудитор</span>
-          <span class="chip">Исследования</span>
-          <span class="chip">AI Lab</span>
+        <div class="qr-badge-grid">
+          <div class="qr-portrait-lockup" aria-label="Портрет">
+            <img
+              class="portrait portrait-qr"
+              src="../assets/iskander-portrait-qr.jpg"
+              alt="Портрет Искандера Курабаева"
+              width="640"
+              height="768">
+          </div>
+          <div class="qr-identity">
+            <p class="eyebrow">Neutral Shift Lab</p>
+            <h1 id="qr-title">Искандер Курабаев</h1>
+            <p class="lead">
+              Исследователь в области электротехники, PhD, аккредитованный
+              энергоаудитор РК и инженер прикладных измерений.
+            </p>
+            <div class="status-list badge-row" aria-label="Публичные маркеры">
+              <span class="chip">PhD</span>
+              <span class="chip">Энергоаудитор</span>
+              <span class="chip">Research</span>
+              <span class="chip">AI Lab</span>
+            </div>
+          </div>
         </div>
 
-        <div class="mini-status" aria-label="Статус">
-          <span>Избранные работы на странице профиля</span>
-          <span>ORCID / Scopus / DOI-linked works</span>
-          <span>Контактный маршрут ожидает утверждения</span>
+        <div class="qr-actions primary-actions" aria-label="Основные действия">
+          <a class="button full" href="../ru/">Русский профиль</a>
+          <a class="button full" href="../ru/#selected-works">Избранные работы</a>
+          <a class="button secondary full" href="../en/">English profile</a>
+          <a class="button ghost full" href="../#ask">IK Lab Console</a>
         </div>
 
-        <div class="profile-links" aria-label="Публичные профильные ссылки">
+        <div class="qr-link-grid" aria-label="Публичные профильные ссылки">
           <a class="profile-link" href="https://orcid.org/0000-0002-4331-4726">
             <span>ORCID</span>
             <strong>0000-0002-4331-4726</strong>
@@ -72,6 +61,8 @@
             <strong>57473761100</strong>
           </a>
         </div>
+
+        <p class="console-note qr-note">Contact route pending approval.</p>
 
         <div class="language-row" aria-label="Языковые ссылки">
           <a href="../ru/">Русский</a>

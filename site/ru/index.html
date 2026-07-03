@@ -11,7 +11,7 @@
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../assets/styles.css">
   </head>
-  <body>
+  <body class="profile-page">
     <a class="skip-link" href="#main">Перейти к основному содержанию</a>
     <header class="site-header">
       <nav class="nav" aria-label="Основная навигация">
@@ -91,6 +91,19 @@
         <article class="card wide-card rhythm-card" id="method-stack">
           <p class="eyebrow">Методический стек</p>
           <h2>Измерить → смоделировать → диагностировать → проверить</h2>
+          <div class="signal-chain signal-chain-compact" role="img" aria-label="Сигнальная цепочка: измерение, модель, диагностика, проверка">
+            <svg class="signal-chain-svg" viewBox="0 0 1200 210" preserveAspectRatio="none" aria-hidden="true">
+              <path class="sc-grid" d="M0 40H1200M0 80H1200M0 120H1200M0 160H1200M120 0V210M240 0V210M360 0V210M480 0V210M600 0V210M720 0V210M840 0V210M960 0V210M1080 0V210"></path>
+              <path class="sc-wave" d="M0 122 C45 72 98 72 145 122 S245 172 295 122 S392 72 440 122"></path>
+              <path class="sc-mid" d="M440 122 H705"></path>
+              <path class="sc-spike" d="M705 122 L748 48 L792 178 L836 122 H1110"></path>
+              <path class="sc-check" d="M1110 122 L1140 156 L1190 58"></path>
+              <circle class="sc-dot" cx="475" cy="92" r="6"></circle>
+              <circle class="sc-dot" cx="520" cy="122" r="5"></circle>
+              <circle class="sc-dot" cx="610" cy="152" r="5"></circle>
+              <rect class="sc-scan" x="0" y="0" width="90" height="210"></rect>
+            </svg>
+          </div>
           <figure class="asset-figure asset-figure-wide">
             <img src="../assets/method-stack.svg" alt="Декоративная схема методического стека: измерить, смоделировать, диагностировать, проверить" width="1200" height="360">
           </figure>
@@ -151,6 +164,12 @@
         <article class="card wide-card rhythm-card" id="field-lab">
           <p class="eyebrow">От объекта к лаборатории</p>
           <h2>Энергосистемы → аудит и экспертиза → измерения → AI-инженерный процесс</h2>
+          <div class="field-flow" aria-label="Маршрут от объекта к лаборатории">
+            <span><b>Энергосистемы</b><i>поле</i></span>
+            <span><b>Аудит и экспертиза</b><i>оценка</i></span>
+            <span><b>Измерения</b><i>данные</i></span>
+            <span><b>AI-assisted workflow</b><i>лаборатория</i></span>
+          </div>
           <div class="bridge-flow">
             <span>Энергосистемы</span>
             <span>Аудит и экспертиза</span>

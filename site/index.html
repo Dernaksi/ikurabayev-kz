@@ -20,7 +20,9 @@
           <span>IKurabayev.kz</span>
         </a>
         <div class="nav-links">
-          <a href="ru/">Русский</a>
+          <a href="#ask">Лаборатория</a>
+          <a href="#method-stack">Метод</a>
+          <a href="#research-cards">Исследования</a>
           <a class="nav-strong" href="qr/">QR</a>
           <a href="en/">English</a>
           <a href="kk/">Қазақша</a>
@@ -29,9 +31,10 @@
     </header>
 
     <main id="main">
-      <section class="hero hero-home">
+      <section class="hero hero-home command-hero">
+        <div class="hero-field" aria-hidden="true"></div>
         <div class="hero-content">
-          <p class="eyebrow">Исследователь / инженер / энергоаудит</p>
+          <p class="eyebrow">AI Engineering Lab / Neutral Shift Lab</p>
           <h1>Искандер Курабаев</h1>
           <p class="lead">
             Исследователь в области электротехники, специалист по
@@ -49,10 +52,11 @@
             <span>Прикладные измерения</span>
             <span>AI Engineering Lab</span>
           </div>
-          <p class="process-line">Исследования → Измерения → Аудит → AI Lab</p>
+          <p class="process-line">Measure -> Model -> Diagnose -> Verify -> Publish</p>
           <div class="action-row" aria-label="Основные маршруты">
             <a class="button" href="ru/">Русский профиль</a>
-            <a class="button secondary" href="qr/">QR-визитка</a>
+            <a class="button secondary" href="#ask">IK Lab Console</a>
+            <a class="button ghost" href="qr/">QR-визитка</a>
           </div>
         </div>
         <aside class="identity-panel portrait-panel" aria-label="Портрет и краткий профиль">
@@ -65,13 +69,164 @@
               height="1200">
           </div>
           <div class="metric-stack">
-            <span>Neutral Shift Lab v0.4</span>
-            <strong>Исследования, измерения, инженерная проверка и AI-инженерный процесс</strong>
+            <span>Neutral Shift Lab v0.9</span>
+            <strong>Публичный профиль, измерения, инженерная проверка и AI-assisted workflow</strong>
           </div>
         </aside>
       </section>
 
-      <section class="section">
+      <section class="section lab-console-section" id="ask">
+        <div class="section-heading">
+          <p class="eyebrow">IK Lab Console</p>
+          <h2>Спросите лабораторию</h2>
+          <p>
+            Static public-profile console for research, energy audit, Neutral
+            Shift Lab, and verified profile routes.
+          </p>
+        </div>
+        <article class="lab-console" aria-labelledby="console-title">
+          <div class="console-topbar">
+            <span class="status-dot">IK Lab Console</span>
+            <span>Source mode: Public facts only</span>
+          </div>
+          <div class="console-grid">
+            <div class="console-copy">
+              <p class="eyebrow">AI Engineering Lab</p>
+              <h3 id="console-title">Публичная инженерная консоль</h3>
+              <p>
+                Режимы консоли помогают перейти к проверенному публичному
+                профилю, исследовательскому фокусу, энергоаудиту и Neutral
+                Shift Lab без раскрытия приватных данных.
+              </p>
+              <div class="console-modes" aria-label="Режимы консоли">
+                <span>Research</span>
+                <span>Energy Audit</span>
+                <span>Neutral Shift</span>
+                <span>Public Profile</span>
+              </div>
+            </div>
+            <div class="console-terminal" aria-label="Статичная консоль AI Lab">
+              <span class="terminal-line">// prototype ready</span>
+              <p>
+                public profile / research / energy audit / Neutral Shift Lab
+              </p>
+              <div class="console-questions" aria-label="Примеры запросов">
+                <span>Чем занимается Искандер?</span>
+                <span>Какие есть публикации?</span>
+                <span>Что такое Neutral Shift Lab?</span>
+                <span>Как связан энергоаудит?</span>
+              </div>
+              <p class="console-note">Prototype UI - live AI integration pending.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="section section-tight" id="method-stack">
+        <div class="section-heading">
+          <p class="eyebrow">Signal chain</p>
+          <h2>Измерить -> смоделировать -> диагностировать -> проверить</h2>
+          <p>
+            Сигнальная цепочка задаёт главный визуальный язык: от измерений и
+            модели к диагностике, инженерной проверке и публикации.
+          </p>
+        </div>
+        <div class="signal-chain" role="img" aria-label="Сигнальная цепочка: измерение, модель, диагностика, проверка, публикация">
+          <svg class="signal-chain-svg" viewBox="0 0 1200 210" preserveAspectRatio="none" aria-hidden="true">
+            <path class="sc-grid" d="M0 40H1200M0 80H1200M0 120H1200M0 160H1200M120 0V210M240 0V210M360 0V210M480 0V210M600 0V210M720 0V210M840 0V210M960 0V210M1080 0V210"></path>
+            <path class="sc-wave" d="M0 122 C45 72 98 72 145 122 S245 172 295 122 S392 72 440 122"></path>
+            <path class="sc-mid" d="M440 122 H705"></path>
+            <path class="sc-spike" d="M705 122 L748 48 L792 178 L836 122 H1110"></path>
+            <path class="sc-check" d="M1110 122 L1140 156 L1190 58"></path>
+            <circle class="sc-dot" cx="475" cy="92" r="6"></circle>
+            <circle class="sc-dot" cx="520" cy="122" r="5"></circle>
+            <circle class="sc-dot" cx="610" cy="152" r="5"></circle>
+            <rect class="sc-scan" x="0" y="0" width="90" height="210"></rect>
+          </svg>
+          <div class="sc-zones" aria-hidden="true">
+            <span><b>Measure</b><i>signal</i></span>
+            <span><b>Model</b><i>sample</i></span>
+            <span><b>Diagnose</b><i>fault</i></span>
+            <span><b>Verify</b><i>stable</i></span>
+            <span><b>Publish</b><i>trace</i></span>
+          </div>
+        </div>
+        <div class="method-stack method-notes">
+          <article>
+            <span>Measure</span>
+            <p>Сигналы, параметры изоляции и диагностические входные данные.</p>
+          </article>
+          <article>
+            <span>Model</span>
+            <p>Проводимость, емкостная проводимость и модельная проверка.</p>
+          </article>
+          <article>
+            <span>Diagnose</span>
+            <p>Изолированная нейтраль, замыкание на землю и диагностика напряжения.</p>
+          </article>
+          <article>
+            <span>Verify</span>
+            <p>Энергоаудит, инженерная проверка и AI-инженерная трассируемость.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section split-section" id="research-cards">
+        <article class="card research-visual-card">
+          <p class="eyebrow">Research focus</p>
+          <h2>Изоляция, нейтраль и векторная диагностика</h2>
+          <p>
+            Публичный исследовательский фокус остаётся в рамках утверждённых
+            тем: параметры изоляции, незаземлённые сети, измерения и
+            диагностика напряжения.
+          </p>
+          <div class="phasor-panel" aria-hidden="true">
+            <span class="phasor-axis x"></span>
+            <span class="phasor-axis y"></span>
+            <span class="phasor-line a"></span>
+            <span class="phasor-line b"></span>
+            <span class="phasor-line c"></span>
+            <span class="phasor-core"></span>
+          </div>
+        </article>
+        <div class="research-grid">
+          <article class="card research-card">
+            <span>01</span>
+            <h3>Сети с изолированной нейтралью</h3>
+            <p>Публичная тема исследований по изоляции и незаземлённым AC-системам.</p>
+          </article>
+          <article class="card research-card">
+            <span>02</span>
+            <h3>Параметры изоляции</h3>
+            <p>Измерительная и модельная логика для инженерной диагностики.</p>
+          </article>
+          <article class="card research-card">
+            <span>03</span>
+            <h3>FFT / DFT измерения</h3>
+            <p>Сигнальный язык для прикладных измерений и проверки данных.</p>
+          </article>
+          <article class="card research-card">
+            <span>04</span>
+            <h3>Energy audit / AI Energy Auditor</h3>
+            <p>AI Lab представлен как прототипный workflow, не как запущенный продукт.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section field-flow-section">
+        <div class="section-heading">
+          <p class="eyebrow">Field flow</p>
+          <h2>Энергосистемы -> аудит -> измерения -> AI-assisted workflow</h2>
+        </div>
+        <div class="field-flow" aria-label="Маршрут от объекта к лаборатории">
+          <span><b>Энергосистемы</b><i>поле</i></span>
+          <span><b>Аудит и экспертиза</b><i>оценка</i></span>
+          <span><b>Измерения</b><i>данные</i></span>
+          <span><b>AI-assisted workflow</b><i>лаборатория</i></span>
+        </div>
+      </section>
+
+      <section class="section routes-section">
         <div class="section-heading">
           <p class="eyebrow">Direct routes</p>
           <h2>Основные входы в публичный профиль</h2>
@@ -97,34 +252,6 @@
             <h3>Қазақша</h3>
             <p>Қазақша қысқа нұсқа сақталған; тілдік тексеру қажет.</p>
           </a>
-        </div>
-      </section>
-
-      <section class="section section-tight">
-        <div class="section-heading">
-          <p class="eyebrow">Neutral Shift Lab</p>
-          <h2>Методический слой: измерить, смоделировать, диагностировать, проверить</h2>
-        </div>
-        <figure class="asset-figure asset-figure-wide">
-          <img src="assets/method-stack.svg" alt="Decorative method stack diagram: Measure, Model, Diagnose, Verify" width="1200" height="360">
-        </figure>
-        <div class="method-stack method-notes">
-          <article>
-            <span>Measure</span>
-            <p>Сигналы, параметры изоляции и диагностические входные данные.</p>
-          </article>
-          <article>
-            <span>Model</span>
-            <p>Проводимость, емкостная проводимость и модельная проверка.</p>
-          </article>
-          <article>
-            <span>Diagnose</span>
-            <p>Изолированная нейтраль, замыкание на землю и диагностика напряжения.</p>
-          </article>
-          <article>
-            <span>Verify</span>
-            <p>Энергоаудит, инженерная проверка и AI-инженерный процесс.</p>
-          </article>
         </div>
       </section>
     </main>

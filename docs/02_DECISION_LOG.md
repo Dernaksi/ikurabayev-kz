@@ -98,3 +98,27 @@ Do not migrate the public site to virtual/shared hosting as the production core.
 Do not introduce a framework, dependency, or hosting architecture change for
 this decision. Do not directly expose a home server for the public QR/profile
 site.
+
+### 2026-07-03 - Use a static AI-era command-center visual system
+
+Status: accepted
+
+Context:
+The owner wants the public site to feel closer to the Claude Design direction:
+a dark AI-engineering command center, stronger signal-chain structure, and an
+AI Lab console. The Claude export contains runtime, form, canvas, external-font,
+and AI-assistant patterns that are not suitable for direct import into the
+current public static site.
+
+Decision:
+Manually rebuild the visual language in the dependency-free static site with
+HTML and CSS only for v0.9. The IK Lab Console is a static prototype UI labelled
+as pending live integration and limited to public facts. Do not add React,
+Babel, external fonts, external scripts, package files, analytics, cookies, or
+real AI integration in this redesign PR.
+
+Consequences:
+The site can look more like an AI-era engineering lab without claiming that a
+live AI service is operating. Real AI integration remains a future Cloudflare
+Function or Worker task with separate security, privacy, and source-of-truth
+review.

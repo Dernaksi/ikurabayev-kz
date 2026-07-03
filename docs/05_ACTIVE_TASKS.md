@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Production domain and infrastructure strategy documentation.
+Claude Design-inspired AI-era redesign v0.9 for the static site.
 
 ## Recently Completed
 
@@ -21,19 +21,21 @@ Production domain and infrastructure strategy documentation.
 - PR #23: Add public web evidence audit v0.5.
 - PR #24: Integrate visual assets for Neutral Shift Lab v0.6.
 - PR #25: Make Russian-first public experience v0.7.
+- PR #26: Document production domain and infrastructure strategy.
 - Domain activation and Cloudflare DNS verification for `ikurabayev.kz`.
 
 ## Next Recommended Tasks
 
-1. Review and approve the public contact route before launch.
-2. Finalize SEO / metadata after Russian-first route priority is accepted.
-3. Decide and configure the `www` to apex redirect policy, or document why both
+1. Review the v0.9 AI-era redesign PR after local and PR checks.
+2. Review and approve the public contact route before launch.
+3. Finalize SEO / metadata after Russian-first route priority is accepted.
+4. Decide and configure the `www` to apex redirect policy, or document why both
    hostnames should remain directly served.
-4. Verify patent registry details before publishing final patent claims.
-5. Complete Kazakh language review.
-6. Create and review a sanitized public CV before any downloadable CV is added.
-7. Review future Claude Design pages in a separate design-intake PR.
-8. Perform final mobile and desktop launch review on the production domain.
+5. Verify patent registry details before publishing final patent claims.
+6. Complete Kazakh language review.
+7. Create and review a sanitized public CV before any downloadable CV is added.
+8. Review future Claude Design pages in a separate design-intake PR.
+9. Perform final mobile and desktop launch review on the production domain.
 
 ## Active Branch Convention
 
