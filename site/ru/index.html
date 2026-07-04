@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../assets/styles.css">
   </head>
   <body>
-    <a class="skip-link" href="#main">Перейти к основному содержанию</a>
+<a class="skip-link" href="#main">Перейти к основному содержанию</a>
     <header class="site-header">
       <nav class="nav" aria-label="Основная навигация">
         <a class="brand" href="../">
@@ -20,10 +20,11 @@
           <span>IKurabayev.kz</span>
         </a>
         <div class="nav-links">
-          <a href="#trajectory">Траектория</a>
-          <a href="#research">Исследования</a>
-          <a href="#selected-works">Работы</a>
-          <a href="#ai-lab">AI Lab</a>
+          <a href="#profile">Профиль</a>
+          <a href="#ch-path">Путь</a>
+          <a href="#ch-expertise">Экспертиза</a>
+          <a href="#ch-science">Наука</a>
+          <a href="#ch-recognition">Признание</a>
           <a class="nav-strong" href="#ask">Спросить ИИ</a>
           <a href="../qr/">QR</a>
           <a href="../en/">English</a>
@@ -33,7 +34,7 @@
     </header>
 
     <main id="main">
-      <section class="hero profile-hero">
+      <section class="hero profile-hero" id="profile">
         <div class="hero-content">
           <p class="eyebrow">Публичный профиль</p>
           <h1>Курабаев Искандер Казбекович</h1>
@@ -43,14 +44,16 @@
             аккредитованный энергоаудитор РК.
           </p>
           <p class="intro">
-            Публичная траектория соединяет энергетические объекты и
-            энергоаудит, PhD-исследования по электротехническим системам,
-            прикладные измерения, преподавание и AI-инженерную лабораторию.
+            Энергетические объекты и энергоаудит, PhD-исследования
+            электротехнических систем, прикладные измерения и преподавание —
+            направления, которые держатся на одном инженерном методе:
+            измерить, смоделировать, проверить.
           </p>
           <div class="credential-strip" aria-label="Публичные маркеры">
             <span>Старший преподаватель</span>
             <span>PhD</span>
-            <span>Энергоаудитор</span>
+            <span>Аккредитованный энергоаудитор</span>
+            <span>Энергоэксперт</span>
             <span>Прикладные измерения</span>
             <span>AI Engineering Lab</span>
           </div>
@@ -71,55 +74,23 @@
         </aside>
       </section>
 
+      <div class="trust-strip" aria-label="Trust markers">
+            <span class="trust-item accent"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 20 6 V11 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 11 V6 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.7 11.8 11 14.2 15.4 9.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Проверенный публичный профиль</span>
+            <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 20 6 V11 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 11 V6 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.7 11.8 11 14.2 15.4 9.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Только публичные факты</span>
+            <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 20 6 V11 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 11 V6 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.7 11.8 11 14.2 15.4 9.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Без приватных данных</span>
+            <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 20 6 V11 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 11 V6 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.7 11.8 11 14.2 15.4 9.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Исследования · Инженерия · Энергоаудит</span>
+      </div>
+
       <section id="ask" aria-label="AI"></section>
 
       <section class="section grid cards-2 profile-layout">
-        <article class="card wide-card rhythm-card" id="method-stack">
-          <p class="eyebrow">Методический стек</p>
-          <h2>Измерить → смоделировать → диагностировать → проверить</h2>
-          <div class="signal-chain" role="img" aria-label="Сигнальная цепь метода: измерение сигнала, построение модели, диагностика дефекта, проверка стабильности">
-            <svg class="signal-chain-svg" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true">
-              <line class="sc-mid" x1="0" y1="90" x2="1200" y2="90"></line>
-              <path class="sc-ghost" d="M300,90 Q337.5,58 375,90 Q412.5,122 450,90 Q487.5,58 525,90 Q562.5,122 600,90"></path>
-              <path class="sc-wave" d="M0,90 Q37.5,48 75,90 Q112.5,132 150,90 Q187.5,48 225,90 Q262.5,132 300,90 L600,90 L705,90 M835,90 L1200,90"></path>
-              <path class="sc-spike" d="M705,90 L748,30 L792,150 L835,90"></path>
-              <g class="sc-dot">
-                <circle cx="330" cy="70" r="3.5"></circle>
-                <circle cx="375" cy="90" r="3.5"></circle>
-                <circle cx="420" cy="110" r="3.5"></circle>
-                <circle cx="465" cy="90" r="3.5"></circle>
-                <circle cx="510" cy="70" r="3.5"></circle>
-                <circle cx="555" cy="90" r="3.5"></circle>
-              </g>
-              <path class="sc-check" d="M1118,88 l16,18 l30,-40"></path>
-            </svg>
-            <div class="sc-zones">
-              <div class="sc-zone"><b>Измерить</b><i>signal</i></div>
-              <div class="sc-zone"><b>Модель</b><i>sample</i></div>
-              <div class="sc-zone"><b>Диагностика</b><i>fault</i></div>
-              <div class="sc-zone"><b>Проверка</b><i>stable</i></div>
-            </div>
-            <span class="sc-scan"></span>
+        <div class="chapter-band" id="ch-path">
+          <span class="chapter-idx">02</span>
+          <div class="chapter-head">
+            <h2 class="chapter-title">Путь</h2>
+            <p class="chapter-sub">Образование, траектория, опыт и международные стажировки</p>
           </div>
-          <div class="method-stack method-notes">
-            <article>
-              <span>Измерить</span>
-              <p>Сигналы, параметры изоляции и входные измерительные данные.</p>
-            </article>
-            <article>
-              <span>Модель</span>
-              <p>Проводимость, емкостная проводимость и векторная диагностика.</p>
-            </article>
-            <article>
-              <span>Диагностика</span>
-              <p>Незаземленные сети переменного тока, изолированная нейтраль и диагностика напряжения.</p>
-            </article>
-            <article>
-              <span>Проверка</span>
-              <p>Энергоаудит, инженерная проверка и AI-инженерная трассируемость.</p>
-            </article>
-          </div>
-        </article>
+        </div>
 
         <article class="card" id="education">
           <p class="eyebrow">Образование</p>
@@ -144,14 +115,220 @@
           <p class="eyebrow">Профессиональная траектория</p>
           <h2>От энергетических объектов к исследованиям и преподаванию</h2>
           <p>
-            Публично безопасный опыт включает энергетическую экспертизу,
-            энергоаудит, электротехнические объекты, измерения, диагностику и
-            преподавание энергетических дисциплин.
+            Всё начинается с математики: призёр областных математических
+            олимпиад, выпускник Казахско-Турецкого лицея. Привычка доводить
+            задачу до строгого числа осталась основой инженерного и
+            исследовательского метода.
           </p>
           <p>
-            Темы преподавания включают промышленные контроллеры, введение в
-            энергетику и автоматизацию, автоматизированный электропривод,
-            энергосбережение и энергоэффективность.
+            Почти два десятилетия практики — от электрохозяйства объектов Парка
+            ядерных технологий до руководства энергетической экспертизой и
+            энергоаудитом. За этим не один десяток проведённых энергоаудитов,
+            экспертиз проектов и обследований энергооборудования — и один
+            рабочий принцип: сначала измерить, затем утверждать.
+          </p>
+          <p>
+            Полевой опыт перерос в PhD-исследования электротехнических систем и
+            в преподавание — промышленные контроллеры, автоматизированный
+            электропривод, энергосбережение и энергоэффективность. Дисциплины
+            ведутся из практики, а не из учебника.
+          </p>
+        </article>
+
+        <article class="card wide-card" id="experience">
+          <p class="eyebrow">Трудовая деятельность</p>
+          <h2>Хронология ролей: от объектов к экспертизе и преподаванию</h2>
+          <div class="experience-list">
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">01/2024 — наст. время</span>
+                <span class="xp-now">Сейчас</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Независимый директор · член Совета директоров</h3>
+                <p class="xp-org">АО «Астана-Энергия», Астана</p>
+                <p class="xp-note">Независимый надзор за деятельностью крупнейшей энергоснабжающей компании столицы; избран решением единственного акционера.</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">01/2023 — наст. время</span>
+                <span class="xp-now">Сейчас</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Старший преподаватель</h3>
+                <p class="xp-org">Казахский агротехнический исследовательский университет имени С. Сейфуллина</p>
+                <p class="xp-note">Промышленные контроллеры, введение в энергетику и автоматизацию, автоматизированный электропривод, энергосбережение и энергоэффективность.</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">04/2018 — 06/2026</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Директор</h3>
+                <p class="xp-org">Филиал ТОО «Эксиллон Энерджи», Астана</p>
+                <p class="xp-note">Энергоэкспертная организация.</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">09/2019 — 07/2023</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Старший преподаватель (внештатный)</h3>
+                <p class="xp-org">Казахский агротехнический университет имени С. Сейфуллина</p>
+                <p class="xp-note">Качество электроэнергии, профессиональный английский для инженеров-энергетиков, техника безопасности в электроустановках.</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">05/2019 — 09/2022</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Президент</h3>
+                <p class="xp-org">АО «Достык Энерго»</p>
+                <p class="xp-note">Энергоснабжающая организация.</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">08/2014 — 04/2018</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Начальник управления энергетической экспертизы и энергоаудита</h3>
+                <p class="xp-org">ТОО «Эл-Нур-Сервис», Астана</p>
+                <p class="xp-note">Проведение энергетического аудита и энергетических экспертиз.</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">01/2014 — 08/2014</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Эксперт</h3>
+                <p class="xp-org">ТОО «Develop Group Kz», Астана</p>
+                <p class="xp-note">Энергетические обследования (энергоаудит).</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">11/2012 — 12/2013</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Эксперт</h3>
+                <p class="xp-org">АО «Казахэнергоэкспертиза», Павлодар</p>
+                <p class="xp-note">Экспертиза энергетических объектов и проектов, профилактические испытания электрооборудования, аттестация персонала по электробезопасности.</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">09/2011 — 08/2012</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Энергоаудитор</h3>
+                <p class="xp-org">ТОО «ЭнергоАудит Казахстан», Павлодар</p>
+                <p class="xp-note">Энергетические обследования и технический анализ потерь, разработка мер по энергосбережению — по совмещению с основной работой.</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">08/2007 — 08/2012</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Инженер-энергетик</h3>
+                <p class="xp-org">АО «Парк ядерных технологий», Курчатов, ВКО</p>
+                <p class="xp-note">Ответственный за электрохозяйство; надзор за строительством и ввод в эксплуатацию инновационных объектов: комплекс радиационных технологий, ускорители электронов ЭЛВ-4 и ИЛУ-10, линия сшитого вспененного полиэтилена, промышленные тепловые насосы.</p>
+              </div>
+            </div>
+            <div class="xp-item">
+              <div class="xp-when">
+                <span class="xp-range">01/2007 — 06/2007</span>
+              </div>
+              <div>
+                <h3 class="xp-role">Преддипломная практика</h3>
+                <p class="xp-org">АО «Павлодарский нефтехимический завод», Павлодар</p>
+                <p class="xp-note">Дипломная работа: «Электроснабжение II очереди комбинированной установки КТ-1 по переработке нефти».</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card wide-card" id="internships">
+          <p class="eyebrow">Международные стажировки</p>
+          <h2>Ускорители электронов и передовая энергетика — из первых рук</h2>
+          <div class="intern-grid">
+            <article class="intern-card">
+              <div class="intern-top">
+                <span class="intern-place">Новосибирск · Россия</span>
+                <span class="intern-date">10 — 11 / 2007</span>
+              </div>
+              <h3>Институт ядерной физики им. Г. И. Будкера СО РАН</h3>
+              <p>
+                Эксплуатация и самостоятельное проведение
+                ремонтно-профилактических работ на промышленных ускорителях
+                электронов серии ЭЛВ — редкая инженерная компетенция на стыке
+                энергетики и ускорительной техники.
+              </p>
+              <div class="intern-tags">
+                <span>ускорители ЭЛВ</span>
+                <span>эксплуатация</span>
+                <span>ремонт и профилактика</span>
+              </div>
+            </article>
+            <article class="intern-card">
+              <div class="intern-top">
+                <span class="intern-place">Тэджон · Республика Корея</span>
+                <span class="intern-date">04 — 09 / 2013</span>
+              </div>
+              <h3>Korea Institute of Energy Research (KIER)</h3>
+              <p>
+                Полугодовая стажировка в одном из ведущих энергетических
+                институтов Азии: возобновляемая энергетика (солнце, ветер,
+                геотермальная), водород и топливные элементы, снижение
+                парниковых газов и захват углерода. Институт раскрыл полный цикл
+                передовых исследований — полдня научные презентации, полдня
+                демонстрация лабораторий.
+              </p>
+              <div class="intern-tags">
+                <span>ВИЭ</span>
+                <span>водород · топливные элементы</span>
+                <span>климатические технологии</span>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <div class="chapter-band" id="ch-expertise">
+          <span class="chapter-idx">03</span>
+          <div class="chapter-head">
+            <h2 class="chapter-title">Экспертиза</h2>
+            <p class="chapter-sub">Аккредитация, инженерная практика и переход в AI-лабораторию</p>
+          </div>
+        </div>
+
+        <article class="card" id="accreditation">
+          <p class="eyebrow">Аккредитация и допуски</p>
+          <h2>Профессиональный энергоаудитор и энергоэксперт</h2>
+          <div class="accred-readout">
+            <span>Аккредитованный энергоаудитор РК</span>
+            <strong>№ KZ55VWE00002159</strong>
+            <em class="accred-since">В энергоаудите и энергетической экспертизе — с 2010 года</em>
+          </div>
+          <ul class="tag-list">
+            <li>V группа допуска по электробезопасности</li>
+            <li>Повышение квалификации · энергоаудит</li>
+          </ul>
+        </article>
+
+        <article class="card" id="engineering">
+          <p class="eyebrow">Инженерная практика</p>
+          <h2>Энергоаудит и прикладные измерения</h2>
+          <p>
+            Инженерная часть описана на публично безопасном уровне:
+            энергетическая экспертиза, энергоаудит, электротехнические объекты,
+            энергосбережение, измерительные системы и диагностика без названий
+            клиентов, объектов, договоров или закрытых материалов.
           </p>
         </article>
 
@@ -185,61 +362,88 @@
           </div>
         </article>
 
-        <article class="card" id="research">
+        <div class="chapter-band" id="ch-science">
+          <span class="chapter-idx">04</span>
+          <div class="chapter-head">
+            <h2 class="chapter-title">Наука и разработки</h2>
+            <p class="chapter-sub">Исследования, грант, AI Lab, публикации и патенты</p>
+          </div>
+        </div>
+
+        <article class="card wide-card" id="research">
           <p class="eyebrow">Исследовательский фокус</p>
           <h2>Изоляция, ток замыкания на землю и диагностика</h2>
-          <p>
-            Публичные исследовательские интересы включают параметры изоляции,
-            незаземленные сети и сети переменного тока с изолированной
-            нейтралью, ток замыкания на землю, проводимость, емкостную
-            проводимость и диагностику напряжения.
-          </p>
-          <div class="phasor-wrap">
-            <div class="phasor" role="img" aria-label="Вращающаяся трёхфазная векторная диаграмма со смещением нейтрали">
-              <svg class="ph-grid" viewBox="0 0 200 200" aria-hidden="true">
-                <circle cx="100" cy="100" r="88"></circle>
-                <circle cx="100" cy="100" r="60"></circle>
-                <circle cx="100" cy="100" r="32"></circle>
-                <line x1="12" y1="100" x2="188" y2="100"></line>
-                <line x1="100" y1="12" x2="100" y2="188"></line>
-                <line class="diag" x1="100" y1="100" x2="100" y2="14"></line>
-                <line class="diag" x1="100" y1="100" x2="174" y2="143"></line>
-                <line class="diag" x1="100" y1="100" x2="26" y2="143"></line>
-              </svg>
-              <div class="ph-shift">
-                <svg class="ph-vectors" viewBox="0 0 200 200" aria-hidden="true">
-                  <line class="ph a" x1="100" y1="100" x2="100" y2="22"></line>
-                  <line class="ph b" x1="100" y1="100" x2="167" y2="139"></line>
-                  <line class="ph c" x1="100" y1="100" x2="33" y2="139"></line>
-                  <circle class="ph-tip a" cx="100" cy="22" r="4.5"></circle>
-                  <circle class="ph-tip b" cx="167" cy="139" r="4.5"></circle>
-                  <circle class="ph-tip c" cx="33" cy="139" r="4.5"></circle>
-                  <circle class="phasor-neutral" cx="100" cy="100" r="4.5"></circle>
-                </svg>
+          <div class="research-body">
+            <div class="research-text">
+              <p>
+                Публичные исследовательские интересы включают параметры изоляции,
+                электрические сети переменного тока с изолированной нейтралью,
+                ток замыкания на землю, проводимость, емкостную проводимость и
+                диагностику напряжения.
+              </p>
+              <ul class="tag-list">
+                <li>Системы электроснабжения</li>
+                <li>Горные объекты</li>
+                <li>Методы измерений</li>
+                <li>Диагностические методы</li>
+              </ul>
+              <p class="research-hint">Наведите курсор — диаграмма наклоняется в 3D; клик — импульс аварийного режима.</p>
+            </div>
+            <div class="phasor-lab" role="img" aria-label="Живая векторная диаграмма однофазного замыкания на землю: земля смещается к аварийной фазе, нейтраль отклоняется (3U₀), здоровые фазы вырастают до корня из трёх">
+              <canvas class="phasor-canvas" aria-hidden="true"></canvas>
+              <div class="phasor-legend" aria-hidden="true">
+                <span><i class="pd-a"></i>3-фаза · ω</span>
+                <span><i class="pd-n"></i>смещение нейтрали · U₀</span>
+                <span><i class="pd-f"></i>ОЗЗ · случайная фаза</span>
               </div>
             </div>
-            <div class="phasor-cap"><span>3-фаза · ω</span><span>смещение нейтрали</span></div>
           </div>
-          <ul class="tag-list">
-            <li>Системы электроснабжения</li>
-            <li>Горные объекты</li>
-            <li>Методы измерений</li>
-            <li>Диагностические методы</li>
-          </ul>
         </article>
 
-        <article class="card" id="engineering">
-          <p class="eyebrow">Инженерная практика</p>
-          <h2>Энергоаудит и прикладные измерения</h2>
-          <p>
-            Инженерная часть описана на публично безопасном уровне:
-            энергетическая экспертиза, энергоаудит, электротехнические объекты,
-            энергосбережение, измерительные системы и диагностика без названий
-            клиентов, объектов, договоров или закрытых материалов.
-          </p>
+        <article class="card wide-card rhythm-card" id="method-stack">
+          <p class="eyebrow">Научный проект · грант AP22787517</p>
+          <h2>От трёхфазного сигнала к цифровому двойнику</h2>
+          <div class="proj-meta">
+            <div class="proj-role">
+              <span class="proj-role-tag">Научный руководитель</span>
+              <strong>Курабаев И. К.</strong>
+            </div>
+            <p class="proj-topic">«Разработка и апробация прототипа устройства для измерения параметров изоляции в электрических сетях с изолированной нейтралью»</p>
+            <div class="proj-facts">
+              <div><span>Грант</span><b>AP22787517</b></div>
+              <div><span>Финансирование</span><b>Молодые учёные · 2024–2026</b></div>
+              <div><span>Организация</span><b>КазАТИУ им. С. Сейфуллина</b></div>
+            </div>
+          </div>
+          <p class="proj-cap">Ниже — сигнальный тракт прототипа: от снятия трёхфазного сигнала до цифрового двойника сети.</p>
+          <div class="dsp-lab" role="img" aria-label="Живая визуализация тракта цифровой обработки сигналов: три фазы с гармониками, АЦП, аналоговые и цифровые фильтры, FFT, SVD-разложение матрицы, цифровой двойник сети">
+            <canvas class="dsp-canvas" aria-hidden="true"></canvas>
+            <div class="dsp-labels" aria-hidden="true">
+              <span><em>01</em><b>3 фазы + гармоники</b><i>u(t)</i></span>
+              <span><em>02</em><b>АЦП</b><i>sample &amp; hold</i></span>
+              <span><em>03</em><b>Фильтры</b><i>аналог + FIR·IIR</i></span>
+              <span><em>04</em><b>FFT</b><i>спектр · f, 3f, 5f</i></span>
+              <span><em>05</em><b>SVD · матрица</b><i>U Σ Vᵀ</i></span>
+              <span><em>06</em><b>Цифровой двойник</b><i>модель сети</i></span>
+            </div>
+          </div>
+          <div class="dsp-notes">
+            <div class="dsp-note">
+              <span>Аналоговый фронт</span>
+              <p>Три фазы с гармониками, дискретизация (АЦП) и аналоговые фильтры на входе.</p>
+            </div>
+            <div class="dsp-note">
+              <span>Цифровая обработка</span>
+              <p>Цифровые фильтры FIR/IIR, FFT-спектр, SVD и матричные разложения сигналов.</p>
+            </div>
+            <div class="dsp-note">
+              <span>Цифровой двойник</span>
+              <p>Живая модель сети с изолированной нейтралью — диагностика и трассируемость.</p>
+            </div>
+          </div>
         </article>
 
-        <article class="card" id="ai-lab">
+        <article class="card wide-card" id="ai-lab">
           <p class="eyebrow">AI Engineering Lab</p>
           <h2>Инициативы дорожной карты</h2>
           <div class="ai-lab">
@@ -301,6 +505,7 @@
               </div>
             </div>
           </div>
+          <p class="process-line">Инструментальная база: Python · C · Arduino / STM32 · сбор и обработка сигналов</p>
           <p>
             AI Energy Auditor и STM32 / measurement laboratory указаны как
             направления в разработке и публичной дорожной карте. Они не
@@ -311,7 +516,7 @@
 
         <article class="card wide-card" id="selected-works">
           <p class="eyebrow">Избранные публикации</p>
-          <h2>Работы по параметрам изоляции и незаземленным сетям переменного тока</h2>
+          <h2>Работы по параметрам изоляции сетей с изолированной нейтралью</h2>
           <div class="publication-list">
             <article class="publication-card">
               <span>2019</span>
@@ -320,22 +525,22 @@
             <article class="publication-card">
               <span>2022 / DOI metadata verified</span>
               <h3>Mathematical description of the method for ungrounded AC systems to determine the network insulation</h3>
-              <a href="https://doi.org/10.1049/gtd2.12436">DOI 10.1049/gtd2.12436</a>
+              <a href="https://doi.org/10.1049/gtd2.12436" target="_blank" rel="noopener noreferrer">DOI 10.1049/gtd2.12436</a>
             </article>
             <article class="publication-card">
               <span>2022 / DOI metadata verified</span>
               <h3>Experimental research of the developed method to determine the network insulation for ungrounded AC systems in laboratory conditions</h3>
-              <a href="https://doi.org/10.1109/ICECET55527.2022.9873012">DOI 10.1109/ICECET55527.2022.9873012</a>
+              <a href="https://doi.org/10.1109/ICECET55527.2022.9873012" target="_blank" rel="noopener noreferrer">DOI 10.1109/ICECET55527.2022.9873012</a>
             </article>
             <article class="publication-card">
               <span>2023 / DOI metadata verified</span>
               <h3>Approbation of the developed method for determining network insulation parameters on an operating excavator</h3>
-              <a href="https://doi.org/10.48081/YIUH4401">DOI 10.48081/YIUH4401</a>
+              <a href="https://doi.org/10.48081/YIUH4401" target="_blank" rel="noopener noreferrer">DOI 10.48081/YIUH4401</a>
             </article>
             <article class="publication-card">
               <span>2023 / DOI metadata verified</span>
               <h3>Error estimation of the developed method for ungrounded AC systems to determine the network insulation</h3>
-              <a href="https://doi.org/10.52167/1609-1817-2023-125-2-428-436">DOI 10.52167/1609-1817-2023-125-2-428-436</a>
+              <a href="https://doi.org/10.52167/1609-1817-2023-125-2-428-436" target="_blank" rel="noopener noreferrer">DOI 10.52167/1609-1817-2023-125-2-428-436</a>
             </article>
           </div>
           <p class="note">
@@ -343,70 +548,175 @@
           </p>
         </article>
 
-        <article class="card" id="patents">
+        <article class="card wide-card" id="patents">
           <p class="eyebrow">Патенты / интеллектуальная собственность</p>
-          <h2>Осторожный публичный статус</h2>
-          <p>
-            Публично безопасные темы включают евразийский патент на измерение
-            параметров изоляции электрических сетей с изолированной нейтралью
-            по квадрантам комплексной плоскости и патент РК на измерение
-            параметров изоляции таких сетей с использованием симметричных
-            составляющих.
-          </p>
+          <h2>Три патента на методы измерения параметров изоляции</h2>
+          <div class="patent-grid">
+            <article class="patent-item">
+              <span class="patent-thumb">
+                <span class="patent-jur">Евразийский патент</span>
+                <img src="../assets/patents/patent-ea.png" alt="Евразийский патент № 041128" width="680" height="962" loading="lazy">
+              </span>
+              <div class="patent-body">
+                <span class="patent-no">№ 041128</span>
+                <p class="patent-title">Способ измерения параметров изоляции электрических сетей с изолированной нейтралью напряжением до и выше 1000 В с учётом квадрантов комплексной плоскости.</p>
+                <div class="patent-meta">
+                  <span>Заявка <b>202090923</b></span>
+                  <span>Подан <b>08.05.2020</b></span>
+                  <span>Выдан <b>16.09.2022</b></span>
+                </div>
+                <div class="patent-meta">
+                  <span>Действует в <b>8 странах</b> ЕАПК</span>
+                </div>
+              </div>
+            </article>
+            <article class="patent-item">
+              <span class="patent-thumb">
+                <span class="patent-jur">Патент РК</span>
+                <img src="../assets/patents/patent-kz-35922.png" alt="Патент Республики Казахстан № 35922" width="680" height="963" loading="lazy">
+              </span>
+              <div class="patent-body">
+                <span class="patent-no">№ 35922</span>
+                <p class="patent-title">Способ измерения параметров изоляции электрических сетей с изолированной нейтралью напряжением до и выше 1000 В с учётом симметричных составляющих.</p>
+                <div class="patent-meta">
+                  <span>Заявка <b>2021/0571.1</b></span>
+                  <span>Подан <b>22.09.2021</b></span>
+                  <span>Опубл. <b>21.10.2022</b></span>
+                </div>
+                <div class="patent-meta">
+                  <span>Авторы: Курабаев И. К., Утегулов А. Б.</span>
+                </div>
+              </div>
+            </article>
+            <article class="patent-item">
+              <span class="patent-thumb">
+                <span class="patent-jur">Патент РК</span>
+                <img src="../assets/patents/patent-kz-37923.png" alt="Патент Республики Казахстан № 37923" width="680" height="963" loading="lazy">
+              </span>
+              <div class="patent-body">
+                <span class="patent-no">№ 37923</span>
+                <p class="patent-title">Способ измерения несимметричных параметров изоляции в электрических сетях с изолированной нейтралью напряжением до и выше 1000 В с учётом метода симметричных составляющих.</p>
+                <div class="patent-meta">
+                  <span>Заявка <b>2024/0964.1</b></span>
+                  <span>Подан <b>11.11.2024</b></span>
+                  <span>Опубл. <b>27.03.2026</b></span>
+                </div>
+                <div class="patent-meta">
+                  <span>Правообладатель: КазАТИУ им. С. Сейфуллина</span>
+                </div>
+              </div>
+            </article>
+          </div>
           <p class="note">
-            Проверка патентных реестров остается ожидаемой; это не заявление о
-            полном проверенном патентном портфеле.
-          </p>
-          <p class="note">
-            Для EA041128B1 найдена публичная страница Google Patents; проверка
-            реестра Казахстана остается ожидаемой для полного портфеля.
+            Мини-копии официальных охранных документов. Полные описания — в
+            Государственном реестре изобретений Республики Казахстан
+            (kazpatent.kz) и реестре Евразийского патентного ведомства.
           </p>
         </article>
+
+        <div class="chapter-band" id="ch-recognition">
+          <span class="chapter-idx">05</span>
+          <div class="chapter-head">
+            <h2 class="chapter-title">Признание и контакты</h2>
+            <p class="chapter-sub">Награды, публичные профили и связь</p>
+          </div>
+        </div>
 
         <article class="card" id="recognition">
           <p class="eyebrow">Признание</p>
           <h2>Отметки в энергетической сфере</h2>
           <div class="recognition-grid">
-            <span>Honored Energy Worker, Kazakhstan Electric Energy Association, 2016</span>
-            <span>Honored Energy Worker, Ministry of Energy of the Republic of Kazakhstan, 2018</span>
-            <span>Заслуженный энергетик, Ministry of Energy of the Republic of Kazakhstan, 2023</span>
-            <span>Award for contribution to energy saving, 2024</span>
+            <article class="award-item">
+              <span class="award-seal"><svg viewBox="0 0 44 54" fill="none" aria-hidden="true"><path d="M15 33 L11 52 L18 47 L22 53 L26 47 L33 52 L29 33" fill="currentColor" opacity="0.14"/><path d="M15 33 L11 52 L18 47 L22 53 L26 47 L33 52 L29 33" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" opacity="0.5"/><polygon points="22,3 37,12 37,29 22,38 7,29 7,12" fill="currentColor" opacity="0.1"/><polygon points="22,3 37,12 37,29 22,38 7,29 7,12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M22 11 l2.55 6.35 6.85 0.5 -5.25 4.45 1.7 6.65 -5.85 -3.65 -5.85 3.65 1.7 -6.65 -5.25 -4.45 6.85 -0.5 z" fill="currentColor"/></svg></span>
+              <div class="award-body">
+                <h3 class="award-title">«Почётный энергетик»</h3>
+                <p class="award-issuer">Казахстанская электроэнергетическая ассоциация</p>
+              </div>
+              <span class="award-year">2016</span>
+            </article>
+            <article class="award-item">
+              <span class="award-seal"><svg viewBox="0 0 44 54" fill="none" aria-hidden="true"><path d="M15 33 L11 52 L18 47 L22 53 L26 47 L33 52 L29 33" fill="currentColor" opacity="0.14"/><path d="M15 33 L11 52 L18 47 L22 53 L26 47 L33 52 L29 33" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" opacity="0.5"/><polygon points="22,3 37,12 37,29 22,38 7,29 7,12" fill="currentColor" opacity="0.1"/><polygon points="22,3 37,12 37,29 22,38 7,29 7,12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M22 11 l2.55 6.35 6.85 0.5 -5.25 4.45 1.7 6.65 -5.85 -3.65 -5.85 3.65 1.7 -6.65 -5.25 -4.45 6.85 -0.5 z" fill="currentColor"/></svg></span>
+              <div class="award-body">
+                <h3 class="award-title">«Почётный энергетик»</h3>
+                <p class="award-issuer">Министерство энергетики Республики Казахстан</p>
+              </div>
+              <span class="award-year">2018</span>
+            </article>
+            <article class="award-item">
+              <span class="award-seal"><svg viewBox="0 0 44 54" fill="none" aria-hidden="true"><path d="M15 33 L11 52 L18 47 L22 53 L26 47 L33 52 L29 33" fill="currentColor" opacity="0.14"/><path d="M15 33 L11 52 L18 47 L22 53 L26 47 L33 52 L29 33" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" opacity="0.5"/><polygon points="22,3 37,12 37,29 22,38 7,29 7,12" fill="currentColor" opacity="0.1"/><polygon points="22,3 37,12 37,29 22,38 7,29 7,12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M22 11 l2.55 6.35 6.85 0.5 -5.25 4.45 1.7 6.65 -5.85 -3.65 -5.85 3.65 1.7 -6.65 -5.25 -4.45 6.85 -0.5 z" fill="currentColor"/></svg></span>
+              <div class="award-body">
+                <h3 class="award-title">«Заслуженный энергетик»</h3>
+                <p class="award-issuer">Министерство энергетики Республики Казахстан</p>
+              </div>
+              <span class="award-year">2023</span>
+            </article>
+            <article class="award-item">
+              <span class="award-seal"><svg viewBox="0 0 44 54" fill="none" aria-hidden="true"><path d="M15 33 L11 52 L18 47 L22 53 L26 47 L33 52 L29 33" fill="currentColor" opacity="0.14"/><path d="M15 33 L11 52 L18 47 L22 53 L26 47 L33 52 L29 33" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" opacity="0.5"/><polygon points="22,3 37,12 37,29 22,38 7,29 7,12" fill="currentColor" opacity="0.1"/><polygon points="22,3 37,12 37,29 22,38 7,29 7,12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M22 11 l2.55 6.35 6.85 0.5 -5.25 4.45 1.7 6.65 -5.85 -3.65 -5.85 3.65 1.7 -6.65 -5.25 -4.45 6.85 -0.5 z" fill="currentColor"/></svg></span>
+              <div class="award-body">
+                <h3 class="award-title">«За вклад в энергосбережение»</h3>
+                <p class="award-issuer">Отраслевая награда</p>
+              </div>
+              <span class="award-year">2024</span>
+            </article>
           </div>
         </article>
 
         <article class="card" id="profiles">
           <p class="eyebrow">Публичные профили</p>
-          <h2>Проверенные профильные ссылки</h2>
+          <h2>Где меня найти официально</h2>
           <div class="profile-links inline-links">
-            <a class="profile-link" href="https://orcid.org/0000-0002-4331-4726">
+            <a class="profile-link" target="_blank" rel="noopener noreferrer" href="https://astana-energy.kz/ru/o-kompanii/sovet-direktorov/kurabaev-iskander-kazbekovich">
+              <span>АО «Астана-Энергия» · Совет директоров</span>
+              <strong>Независимый директор</strong>
+            </a>
+            <a class="profile-link" target="_blank" rel="noopener noreferrer" href="https://kazatu.edu.kz/ru/pps/kurabaev-iskander-kazbekovic">
+              <span>КазАТИУ им. С. Сейфуллина</span>
+              <strong>Профиль ППС</strong>
+            </a>
+            <a class="profile-link" target="_blank" rel="noopener noreferrer" href="https://www.researchgate.net/profile/Iskander-Kurabayev">
+              <span>ResearchGate</span>
+              <strong>Iskander-Kurabayev</strong>
+            </a>
+            <a class="profile-link" target="_blank" rel="noopener noreferrer" href="https://scholar.google.com/citations?user=qc7RAaUAAAAJ&hl=ru">
+              <span>Google Scholar</span>
+              <strong>qc7RAaUAAAAJ</strong>
+            </a>
+            <a class="profile-link" target="_blank" rel="noopener noreferrer" href="https://orcid.org/0000-0002-4331-4726">
               <span>ORCID</span>
               <strong>0000-0002-4331-4726</strong>
             </a>
-            <a class="profile-link" href="https://www.scopus.com/authid/detail.uri?authorId=57473761100">
+            <a class="profile-link" target="_blank" rel="noopener noreferrer" href="https://www.scopus.com/authid/detail.uri?authorId=57473761100">
               <span>Scopus Author ID</span>
               <strong>57473761100</strong>
             </a>
           </div>
-          <p class="note">
-            Публичные источники, проверенные для этого слоя профиля: ORCID,
-            Scopus Author ID, DOI / Crossref metadata, страницы издателей и
-            официальный университетский профиль. Метрики цитирования и частные
-            контактные данные не публикуются.
-          </p>
         </article>
 
-        <article class="card" id="contact">
-          <p class="eyebrow">Контакт</p>
-          <h2>Публичный контактный маршрут ожидает утверждения</h2>
-          <p>
-            Сайт намеренно не публикует телефон, частные адреса электронной
-            почты, мессенджеры, частные адреса или контактные формы. Публичный маршрут можно
-            добавить после отдельного утверждения.
-          </p>
+        <article class="card wide-card" id="contact">
+          <div class="contact-grid">
+            <div class="contact-lead">
+              <p class="eyebrow">Контакт</p>
+              <h2>Связаться напрямую</h2>
+              <p>
+                Открыт к вопросам по энергоаудиту, экспертизе электротехнических
+                систем, научному сотрудничеству и совместным разработкам.
+                Телефон, мессенджеры и частные адреса намеренно не публикуются —
+                для первого контакта используйте электронную почту.
+              </p>
+            </div>
+            <a class="contact-cta" href="mailto:dernaksi@gmail.com">
+              <span class="contact-cta-kicker">Электронная почта</span>
+              <strong class="contact-cta-mail">dernaksi@gmail.com</strong>
+              <span class="contact-cta-go">Написать письмо →</span>
+            </a>
+          </div>
         </article>
+
       </section>
     </main>
     <script src="../assets/hero-field.js" defer></script>
+    <script src="../assets/dsp-lab.js" defer></script>
+    <script src="../assets/phasor-lab.js" defer></script>
     <script src="../assets/enhance.js" defer></script>
     <script src="../assets/concierge.js" defer></script>
   </body>

@@ -147,3 +147,27 @@ Future design PRs should include a faithfulness report that identifies the
 source design, ported sections, deviations, and reasons for deviations. Export
 code must be sanitized before integration. Real AI/API functionality remains a
 separate phase and must not be implied by visual design ports.
+
+### 2026-07-04 - Port Claude Design refinement v1.1 faithfully
+
+Status: accepted
+
+Context:
+The owner provided a newer Claude Design export after PR #29 and approved the
+data visibly displayed in those pages for public display. The export includes a
+clean static `site/` source plus preview/runtime files and raw uploads that must
+not be committed.
+
+Decision:
+Port the clean static `site/` design as a v1.1 visual refinement. Preserve the
+Claude layout, chapter rhythm, portrait station, QR badge, AI console,
+signal-chain, field-flow, phasor/DSP modules, local visual assets, and
+Russian-first route. Sanitize only for security, privacy, accessibility,
+routing, and Cloudflare Pages compatibility.
+
+Consequences:
+The implementation may add approved local static assets and local vanilla
+JavaScript for visual behavior. Google Fonts, preview runtime files, raw
+uploads, provider AI hooks, network/API calls, storage, tracking, and real AI
+service claims remain excluded. Any deviation from the export should be listed
+in the pull request with the exact reason.

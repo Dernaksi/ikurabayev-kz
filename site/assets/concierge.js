@@ -60,30 +60,30 @@
     }
   };
 
-  /* -------------------- shared facts + system prompt -------------------- */
-  var FACTS = [
-    'FACTS about Iskander Kurabayev (public profile, project "Neutral Shift Lab", site IKurabayev.kz):',
-    "- Role: electrical engineering researcher, energy-efficiency specialist, applied measurement engineer, PhD, accredited energy auditor of Kazakhstan; Senior Lecturer at S. Seifullin Kazakh Agrotechnical Research University.",
-    '- Education: PhD in "Electrical complexes and systems"; MSc in electrical power engineering; engineer-electrician in industrial power supply.',
-    "- Method: Measure -> Model -> Diagnose -> Verify.",
-    "- Research: insulation parameters; ungrounded and isolated-neutral AC systems; earth-fault current; conductance and susceptance; voltage diagnostics; mining facilities; measurement and diagnostic methods.",
-    "- Publications with DOI: 2019 method for insulation parameters in an isolated-neutral network up to 1000 V; 2022 mathematical description (DOI 10.1049/gtd2.12436); 2022 laboratory experiment (DOI 10.1109/ICECET55527.2022.9873012); 2023 approbation on an operating excavator (DOI 10.48081/YIUH4401); 2023 error estimation (DOI 10.52167/1609-1817-2023-125-2-428-436). Citation metrics are not published.",
-    "- Patents: Eurasian patent EA041128B1 (insulation parameters of isolated-neutral networks via complex-plane quadrants); Kazakhstan patent using symmetrical components. Registry verification partly pending.",
-    '- AI Engineering Lab (in development, NOT launched products): "AI Energy Auditor" (AI-assisted energy audit with traceable reasoning); "STM32 / measurement lab" (hardware signal capture and test bench).',
-    "- Recognition: Honored Energy Worker (KEA 2016; Ministry of Energy RK 2018), Distinguished Energy Worker (Ministry of Energy RK 2023), energy-saving award (2024).",
-    "- Profiles: ORCID 0000-0002-4331-4726; Scopus Author ID 57473761100.",
-    "RULES: Answer briefly (2-4 sentences). Use ONLY these facts. Never invent client names, facilities, contracts, citation metrics, h-index, or unverified data. For private contacts (phone, personal email, address, messengers) reply that the site intentionally does not publish them and a public contact route is pending approval."
-  ].join("\n");
-
-  var DIRECTIVE = {
-    ru: "Ты — ИИ-ассистент публичного профиля инженера-электротехника Курабаева Искандера Казбековича. Обращайся к нему уважительно по имени и отчеству — «Искандер Казбекович». Отвечай на русском языке.",
-    en: "You are the AI assistant of electrical engineer Iskander Kurabayev's public profile. Answer in English.",
-    kk: "Сен электр-инженері Қорабаев Ескендір Қазбекұлының ашық профилінің ИИ-ассистентісің. Оған есімі мен әкесінің атымен сыпайы қарат — «Ескендір Қазбекұлы». Қазақ тілінде жауап бер."
+  /* engineering-console labels */
+  var CONSOLE = {
+    ru: {
+      mode: "Source mode: Public facts only",
+      flags: ["Prototype UI", "Локально", "Без приватных данных"],
+      proto: "Live AI integration pending",
+      q: "ЗАПРОС",
+      r: "ОТВЕТ"
+    },
+    en: {
+      mode: "Source mode: Public facts only",
+      flags: ["Prototype UI", "Local only", "No private data"],
+      proto: "Live AI integration pending",
+      q: "QUERY",
+      r: "RESPONSE"
+    },
+    kk: {
+      mode: "Source mode: Public facts only",
+      flags: ["Prototype UI", "Жергілікті", "Жеке деректерсіз"],
+      proto: "Live AI integration pending",
+      q: "СҰРАУ",
+      r: "ЖАУАП"
+    }
   };
-
-  function KB(lang) {
-    return DIRECTIVE[lang] + "\n\n" + FACTS;
-  }
 
   /* -------------------- curated fallback answers -------------------- */
   var ANSWERS = {
@@ -161,6 +161,7 @@
     var lang = (document.documentElement.lang || "ru").slice(0, 2).toLowerCase();
     if (!STR[lang]) lang = "ru";
     var T = STR[lang];
+    var C = CONSOLE[lang] || CONSOLE.ru;
     var hasAI = false;
 
     mount.classList.add("section", "concierge");
@@ -168,6 +169,10 @@
 
     var chips = T.suggestions.map(function (s) {
       return '<button type="button">' + esc(s) + "</button>";
+    }).join("");
+
+    var flags = C.flags.map(function (fl) {
+      return '<span class="cm-flag"><i>✓</i>' + esc(fl) + "</span>";
     }).join("");
 
     mount.innerHTML =
@@ -179,7 +184,11 @@
       '<div class="concierge-panel">' +
         '<div class="concierge-head">' +
           '<span class="concierge-status">' + esc(hasAI ? T.online : T.demo) + "</span>" +
-          '<span class="concierge-tag">Live AI integration pending</span>' +
+          '<span class="concierge-tag">' + esc(C.proto) + "</span>" +
+        "</div>" +
+        '<div class="concierge-modes">' +
+          '<span class="cm-title">' + esc(C.mode) + "</span>" +
+          flags +
         "</div>" +
         '<div class="concierge-log">' +
           '<div class="concierge-empty"><b>' + esc(T.emptyKicker) + "</b><span>" + esc(T.emptyText) + "</span></div>" +
@@ -193,7 +202,7 @@
     var log = mount.querySelector(".concierge-log");
     var form = mount.querySelector(".concierge-form");
     var input = mount.querySelector(".concierge-form input");
-    var state = { busy: false, history: [] };
+    var state = { busy: false };
     var tw = null;
 
     function scrollDown() { log.scrollTop = log.scrollHeight; }
@@ -201,6 +210,10 @@
     function addMsg(role, text) {
       var d = document.createElement("div");
       d.className = "msg " + (role === "user" ? "user" : "bot");
+      var lbl = document.createElement("span");
+      lbl.className = "msg-label";
+      lbl.textContent = role === "user" ? C.q : C.r;
+      d.appendChild(lbl);
       var s = document.createElement("span");
       s.className = "msg-txt";
       s.textContent = text || "";
@@ -248,7 +261,6 @@
       input.value = "";
       state.busy = true;
       var typing = showTyping();
-      state.history.push({ role: "user", content: q });
 
       var pending = new Promise(function (res) {
         setTimeout(function () { res(localAnswer(lang, q)); }, 480);
@@ -259,7 +271,6 @@
         .then(function (ans) {
           typing.remove();
           state.busy = false;
-          state.history.push({ role: "assistant", content: ans });
           typewrite(ans);
         });
     }
