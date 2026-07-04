@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Post-v1.0 design workflow documentation and production-domain readiness.
+Claude Design v1.1 faithful refinement.
 
 ## Recently Completed
 
@@ -22,6 +22,7 @@ Post-v1.0 design workflow documentation and production-domain readiness.
 - PR #24: Integrate visual assets for Neutral Shift Lab v0.6.
 - PR #25: Make Russian-first public experience v0.7.
 - PR #29: Add faithful Claude Design port v1.0.
+- PR #30: Document Claude Design faithful-port workflow.
 - Domain activation and Cloudflare DNS verification for `ikurabayev.kz`.
 
 ## Current Design Note
@@ -31,19 +32,21 @@ not treated as the visual baseline for v1.0. PR #29 is the accepted visual
 direction. Future major visual changes should start in Claude Design, then move
 through a faithful Codex port with public-site sanitization only.
 
+The active implementation task is a faithful Claude Design v1.1 refinement.
+Sanitization is limited to security, privacy, accessibility, route cleanliness,
+and Cloudflare Pages compatibility.
+
 ## Next Recommended Tasks
 
-1. Review and approve `docs/16_VISUAL_DESIGN_SYSTEM.md`.
-2. Close obsolete PR #27 and PR #28 without merge if PR #29 supersedes them.
-3. Perform final production-domain visual QA after PR #29 deployment.
-4. Review and approve the public contact route before launch.
-5. Finalize SEO / metadata after Russian-first route priority is accepted.
-6. Decide and configure the `www` to apex redirect policy, or document why both
+1. Perform production-domain visual QA after the Claude Design v1.1 refinement.
+2. Review the public contact route and confirm the intended public email policy.
+3. Finalize SEO / metadata after Russian-first route priority is accepted.
+4. Decide and configure the `www` to apex redirect policy, or document why both
    hostnames should remain directly served.
-7. Complete Kazakh language review.
-8. Verify patent registry details before publishing final patent claims.
-9. Create and review a sanitized public CV before any downloadable CV is added.
-10. Draft an AI public assistant architecture document before any real API work.
+5. Complete Kazakh language review.
+6. Verify patent registry details before publishing final patent claims.
+7. Create and review a sanitized public CV before any downloadable CV is added.
+8. Draft an AI public assistant architecture document before any real API work.
 
 ## Active Branch Convention
 
