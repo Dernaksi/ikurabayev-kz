@@ -55,6 +55,11 @@ Cloudflare Pages readiness. No `package.json` or dependencies are needed for the
 current deployment path. Framework migration requires a separate future decision
 and PR.
 
+Execution note:
+The neutral-gateway wording for `/` was superseded by the accepted 2026-07-03
+Russian-first public-entry decision. The remaining dependency-free deployment
+decision stays current.
+
 ### 2026-07-03 - Make Russian the primary public entry language
 
 Status: accepted
@@ -98,6 +103,11 @@ Do not migrate the public site to virtual/shared hosting as the production core.
 Do not introduce a framework, dependency, or hosting architecture change for
 this decision. Do not directly expose a home server for the public QR/profile
 site.
+
+Execution note:
+Subsequent v1.1 production QA verified the Cloudflare Pages project as healthy
+and both `https://ikurabayev.kz` and `https://www.ikurabayev.kz` as active with
+SSL.
 
 ### 2026-07-03 - Port Claude Design faithfully with public-site sanitization
 
@@ -171,3 +181,35 @@ JavaScript for visual behavior. Google Fonts, preview runtime files, raw
 uploads, provider AI hooks, network/API calls, storage, tracking, and real AI
 service claims remain excluded. Any deviation from the export should be listed
 in the pull request with the exact reason.
+
+Execution note:
+Implemented and merged through PR #31. Claude Design v1.1 is the current
+production visual baseline, and production-domain QA was completed after
+deployment.
+
+### 2026-08-08 - Keep production analytics-free and protect the approved public professional mailbox
+
+Status: accepted
+
+Context:
+Production QA found that Cloudflare Web Analytics could add automatic analytics
+and beacon behavior outside the repository-managed static site. The owner
+disabled Web Analytics. The owner has also explicitly approved the public
+professional mailbox shown in the v1.1 design and chose to retain Cloudflare
+Email Address Obfuscation as anti-harvesting protection for that mailbox.
+
+Decision:
+Keep Cloudflare Web Analytics intentionally disabled. Automatic analytics or
+beacon injection is not part of the approved production architecture, and
+analytics, tracking, and beacons remain prohibited. Allow Cloudflare Email
+Address Obfuscation only as the narrowly approved edge transformation for the
+explicitly approved public professional mailbox. This protection does not make
+the mailbox private. Private or personal email, phone numbers, addresses, and
+other private contact data remain prohibited.
+
+Consequences:
+Repository-managed public site code must remain free of external runtime
+dependencies and telemetry requests. Cloudflare edge configuration remains
+outside Git and should be rechecked after relevant production configuration
+changes. Do not record provider account identifiers, analytics tokens,
+credentials, or other private control-plane data in the repository.

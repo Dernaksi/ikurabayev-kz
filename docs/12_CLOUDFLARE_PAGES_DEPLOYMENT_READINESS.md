@@ -1,11 +1,13 @@
 # Cloudflare Pages Deployment Readiness v0.1
 
-Status: deployment-readiness note for human review.
+Status: historical deployment-readiness record with current post-deployment
+verification.
 
 ## Purpose
 
-This document records the smallest safe Cloudflare Pages deployment path for
-the existing dependency-free static HTML site.
+This document preserves the original v0.1 Cloudflare Pages deployment-readiness
+path and records the current verified production baseline for the existing
+dependency-free static site.
 
 ## Current Site State
 
@@ -20,21 +22,28 @@ Current routes:
 - `/qr`
 
 The `/qr` route is the direct QR-code target for business cards, slides, and
-professional sharing. The root route `/` remains a neutral gateway.
+professional sharing. The root route `/` is the Russian-first public entry.
 
-There is no `package.json`, dependency installation, framework preset, build
-pipeline, JavaScript runtime, analytics, cookies, tracking, contact form,
-redirect layer, Worker, or Pages Function in the current deployment path.
+The current production site has no `package.json`, dependency installation,
+framework preset, build pipeline, server-side JavaScript runtime, contact form,
+redirect layer, Worker, or Pages Function. It uses approved local vanilla
+JavaScript for dependency-free progressive enhancement. Analytics, cookies,
+tracking, and beacon requests are not part of the approved production
+architecture. Cloudflare Email Address Obfuscation is the narrow approved edge
+transformation for the approved public professional mailbox.
 
-## Current Preview Status
+## Current / Post-Deployment Status
 
 Cloudflare Pages preview is live:
 
 - `https://ikurabayev-kz.pages.dev`
 - `https://ikurabayev-kz.pages.dev/qr`
 
-The custom production domain `ikurabayev.kz` is not active yet. Domain binding
-and DNS should be verified manually after domain activation.
+The Cloudflare Pages project was verified healthy during the v1.1 production
+QA. The production branch is `main`, and `https://ikurabayev.kz` and
+`https://www.ikurabayev.kz` were verified active with SSL. Claude Design v1.1
+from PR #31 is the current production visual baseline, and production-domain QA
+has been completed for this release.
 
 ## Cloudflare Pages Settings
 
@@ -47,11 +56,14 @@ Use the Cloudflare Pages GitHub integration.
   explicit command
 - Build output directory: `site`
 
-Domain binding and DNS should be configured in the Cloudflare UI only. Do not
-store domain credentials, API secrets, deployment tokens, or private
-configuration in this repository.
+Domain binding and DNS are configured in Cloudflare. Any future control-plane
+changes should be made in the Cloudflare UI only. Do not store domain
+credentials, API secrets, deployment tokens, or private configuration in this
+repository.
 
-## Pre-Deploy Checklist
+## Original Pre-Deploy Checklist (Historical)
+
+This checklist records the v0.1 readiness process before production activation.
 
 - Confirm the deployment branch is `main`.
 - Confirm the build output directory is `site`.
@@ -72,12 +84,16 @@ After deployment, check:
 - `/qr` loads and remains suitable as the QR-code target.
 - `site/assets/styles.css` is served and applied.
 - ORCID and Scopus links on `/qr` navigate normally.
-- Contact route, publications, and patents remain pending where applicable.
+- The approved public professional contact route remains available without
+  exposing private contact data.
+- Publication metadata and patent-registry details remain pending where
+  applicable.
 - Response headers include the security headers documented below.
 
 ## Security Headers
 
-Cloudflare Pages should apply the headers in `site/_headers`:
+Production applies the headers in `site/_headers`; production QA verified an
+exact match for the current release:
 
 ```text
 /*
@@ -88,18 +104,29 @@ Cloudflare Pages should apply the headers in `site/_headers`:
   Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; object-src 'none';
 ```
 
-These headers are intentionally conservative for the current static site. They
-do not add redirects, HSTS, noindex rules, analytics, cookies, tracking,
-scripts, contact forms, Workers, or Pages Functions.
+These headers are intentionally conservative for the current static site. The
+headers themselves do not add redirects, HSTS, noindex rules, analytics,
+cookies, tracking, contact forms, Workers, or Pages Functions.
 
 The Content Security Policy limits resource loading for the static site. It
 does not block normal top-level navigation from links such as ORCID and Scopus.
 
+## Current Edge Configuration
+
+- Cloudflare Web Analytics is intentionally disabled.
+- Automatic analytics or beacon injection is not approved; analytics,
+  tracking, and beacons remain prohibited.
+- Cloudflare Email Address Obfuscation is intentionally enabled only as
+  anti-harvesting edge protection for the approved public professional mailbox.
+  It does not make the mailbox private.
+- `site/_headers` remains the repository source of truth for production
+  security headers.
+
 ## Domain / DNS Notes
 
-Configure the production domain and DNS records in the Cloudflare UI. Keep DNS
-and Pages binding changes outside the repository unless a future approved task
-requires documentation updates.
+The production domains and DNS records are already configured. Keep future DNS
+and Pages binding changes in the Cloudflare UI unless an approved task requires
+a sanitized documentation update.
 
 ## Privacy and Secret Boundaries
 
@@ -113,9 +140,9 @@ Rollback should use Cloudflare Pages deployment history or a Git revert PR. Do
 not rewrite `main` history. If deployment configuration changes are needed,
 record them in a small follow-up PR.
 
-## Out Of Scope
+## Original v0.1 Readiness Scope (Historical)
 
-This readiness step does not add:
+The original readiness change did not add:
 
 - Website content changes.
 - Existing HTML or CSS edits.
@@ -134,9 +161,9 @@ This readiness step does not add:
 
 ## Remaining Risks
 
-- `README.md` still contains stale pre-implementation wording and should be
-  cleaned up in a later documentation PR.
-- Contact route, publication metadata, and patent registry details remain
-  pending review.
-- Cloudflare UI settings and domain binding must be verified manually after the
-  Pages project is configured.
+- Publication metadata and patent-registry details remain subject to their
+  respective verification tasks.
+- Kazakh language review, SEO metadata, and a sanitized public CV remain
+  pending.
+- Production QA should be repeated after future visual, deployment, DNS, or
+  relevant edge-configuration changes.

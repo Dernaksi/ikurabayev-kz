@@ -25,6 +25,8 @@ be verified from public or explicitly approved sources.
 
 Do not add:
 
+- Private or personal email addresses.
+- Professional mailboxes not explicitly approved for public display.
 - Private phone numbers or private addresses.
 - Tokens, passwords, API keys, SSH keys, secrets, or `.env` files.
 - Contracts, financial records, or private institutional documents.
@@ -40,13 +42,27 @@ the claim as final.
 
 ## Contact Strategy
 
-Prefer public, intentionally shared contact routes. Do not add private phone
-numbers or private addresses. Contact details should be reviewed before
-publication.
+Explicitly owner-approved public professional contact routes may be published.
+The public professional mailbox currently shown on the site is approved for
+public display. Cloudflare Email Address Obfuscation is approved only as
+anti-harvesting edge protection for that mailbox; it does not make the mailbox
+private or confidential.
+
+Do not publish private or personal email, phone numbers, addresses, or other
+private contact data. Any new contact detail still requires explicit review
+before publication.
+
+## Analytics And Tracking
+
+Cloudflare Web Analytics is intentionally disabled. Automatic analytics or
+beacon injection is not part of the approved production architecture.
+Analytics, tracking, and beacons remain disallowed unless a future accepted
+decision and privacy review explicitly change this policy.
 
 ## Multilingual Strategy
 
-The future site may support English, Russian, and Kazakh. Translations should be
-reviewed for accuracy, tone, and consistency. Do not invent translated claims
-that are stronger than the approved source content.
-
+The current site supports Russian, English, and Kazakh through `/ru`, `/en`, and
+`/kk`, with `/` and `/qr` following the Russian-first public-entry decision.
+Translations should be reviewed for accuracy, tone, and consistency. Kazakh
+language quality review remains pending. Do not invent translated claims that
+are stronger than the approved source content.

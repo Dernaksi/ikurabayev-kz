@@ -1,6 +1,7 @@
 # Visual Design System
 
-Status: proposed workflow for owner review after PR #29.
+Status: accepted/current workflow, documented through PR #30 and validated by
+the merged PR #31 v1.1 production port.
 
 ## Purpose
 
@@ -14,6 +15,7 @@ details, and keep the public site safe, accessible, static, and reviewable.
 ## Source Of Truth And Roles
 
 Claude Design is the visual source of truth for major visual changes.
+Claude Design v1.1 from PR #31 is the current production visual baseline.
 
 Codex role:
 
@@ -132,6 +134,13 @@ Do not add:
 - real AI API keys;
 - direct OpenAI or other AI-provider calls from frontend code.
 
+Repository-managed public site code must remain free of external runtime
+dependencies. Analytics, tracking, and beacon requests remain prohibited, and
+Cloudflare Web Analytics is intentionally disabled. Cloudflare Email Address
+Obfuscation is the narrow approved edge transformation for the explicitly
+approved public professional mailbox; it is not a repository runtime dependency
+and does not authorize other external scripts or requests.
+
 ## AI Panel Rule
 
 An AI console, AI concierge, IK Lab Console, or similar interface is a prototype,
@@ -178,7 +187,8 @@ Do not add:
 
 - private phone numbers;
 - private addresses;
-- private email addresses;
+- private or personal email addresses;
+- professional mailboxes not explicitly approved for public display;
 - IIN or other private identity numbers;
 - Cloudflare Account ID or Zone ID;
 - EPP code;
@@ -186,8 +196,13 @@ Do not add:
 - raw or unpublished research data;
 - family or private files.
 
-If a design export includes private identifiers or contact details, stop and
-report the issue before porting that material.
+The current public professional mailbox is explicitly approved for public
+display. Cloudflare Email Address Obfuscation may protect it from basic
+harvesting, but does not make it private or confidential.
+
+If a design export includes private identifiers or contact details not
+explicitly approved for public display, stop and report the issue before
+porting that material.
 
 ## QA Checklist
 
@@ -199,7 +214,8 @@ Every faithful visual port should verify:
 - local assets resolve;
 - CSP remains compatible with `site/_headers`;
 - reduced-motion behavior exists for animation-heavy sections;
-- no external network dependencies;
+- repository-managed public site code has no external runtime dependencies and
+  makes no analytics, tracking, or beacon requests;
 - QR page remains mobile-first and fast to scan;
 - AI panel does not imply a live AI service;
 - privacy and public-content scans are clean except for policy-only references.
