@@ -39,10 +39,11 @@ Cloudflare Pages preview is live:
 - `https://ikurabayev-kz.pages.dev`
 - `https://ikurabayev-kz.pages.dev/qr`
 
-The Cloudflare Pages project is healthy. The production branch is `main`, and
-`https://ikurabayev.kz` and `https://www.ikurabayev.kz` were verified active
-with SSL. Claude Design v1.1 from PR #31 is the current production visual
-baseline, and production-domain QA has been completed for this release.
+The Cloudflare Pages project was verified healthy during the v1.1 production
+QA. The production branch is `main`, and `https://ikurabayev.kz` and
+`https://www.ikurabayev.kz` were verified active with SSL. Claude Design v1.1
+from PR #31 is the current production visual baseline, and production-domain QA
+has been completed for this release.
 
 ## Cloudflare Pages Settings
 

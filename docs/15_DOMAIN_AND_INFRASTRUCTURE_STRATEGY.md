@@ -167,15 +167,8 @@ unless a future task explicitly combines those scopes.
 
 ## Next Safe Tasks
 
-Recommended next tasks:
+`docs/05_ACTIVE_TASKS.md` is the authoritative ordered maintenance queue.
 
-1. Reconcile public-email wording in the local AI concierge with the approved
-   public contact route.
-2. Apply the AI input accessible-name and AI-disclosure readability micro-fix.
-3. Optimize the QR first-view image payload without redesign.
-4. Verify patent registry details before strengthening patent wording.
-5. Finalize SEO metadata.
-6. Decide the `www` versus apex redirect policy.
-7. Complete Kazakh language review.
-8. Create and review a sanitized public CV before adding any downloadable CV.
-9. Draft a separate real-AI backend architecture before any real API work.
+The infrastructure-specific pending decision is the `www` versus apex redirect
+policy. Real-AI/backend architecture remains a separate future architecture
+phase.
