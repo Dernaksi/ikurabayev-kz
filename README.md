@@ -41,12 +41,16 @@ Do not push directly to `main`.
 The repository contains Markdown governance and planning files plus the current
 dependency-free static HTML site in `site/`.
 
+Claude Design v1.1, merged through PR #31, is the current production visual
+baseline. Production-domain QA has been completed for this release.
+
 Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`. The
-custom production domain `https://ikurabayev.kz` is active through Cloudflare
-Pages, with `https://www.ikurabayev.kz` also reported by the owner as working.
-Final launch polish remains pending for public contact routing, SEO metadata,
-Kazakh language review, patent-registry verification, and final mobile /
-desktop review.
+custom production domains `https://ikurabayev.kz` and
+`https://www.ikurabayev.kz` were verified active with SSL through Cloudflare
+Pages. The approved public professional contact route is live. Remaining work
+includes accessibility and QR-payload follow-ups, patent-registry verification,
+SEO metadata, the `www` versus apex policy, Kazakh language review, a sanitized
+public CV, and a separate real-AI backend architecture.
 
 The project remains framework-free and dependency-free for now. Do not add a
 website framework, `package.json`, dependencies, private contact details,

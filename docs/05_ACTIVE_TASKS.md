@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Claude Design v1.1 faithful refinement.
+Post-v1.1 production maintenance and verified-content work.
 
 ## Recently Completed
 
@@ -23,30 +23,38 @@ Claude Design v1.1 faithful refinement.
 - PR #25: Make Russian-first public experience v0.7.
 - PR #29: Add faithful Claude Design port v1.0.
 - PR #30: Document Claude Design faithful-port workflow.
+- PR #31: Port Claude Design refinement v1.1.
 - Domain activation and Cloudflare DNS verification for `ikurabayev.kz`.
+- Production-domain QA for v1.1, including active SSL on the apex and `www`
+  domains and exact production-header verification against `site/_headers`.
+- Owner production decision: Cloudflare Web Analytics disabled and Email
+  Address Obfuscation retained for the approved public professional mailbox.
 
 ## Current Design Note
 
 Earlier design-polish and Claude-like redesign attempts in PR #27 / #28 are
 not treated as the visual baseline for v1.0. PR #29 is the accepted visual
-direction. Future major visual changes should start in Claude Design, then move
+direction for v1.0. PR #31 is the current accepted v1.1 production visual
+baseline. Future major visual changes should start in Claude Design, then move
 through a faithful Codex port with public-site sanitization only.
 
-The active implementation task is a faithful Claude Design v1.1 refinement.
-Sanitization is limited to security, privacy, accessibility, route cleanliness,
-and Cloudflare Pages compatibility.
+Production-domain QA for the v1.1 baseline is complete. Repeat it after future
+visual or infrastructure changes rather than treating it as an active task for
+the current release.
 
 ## Next Recommended Tasks
 
-1. Perform production-domain visual QA after the Claude Design v1.1 refinement.
-2. Review the public contact route and confirm the intended public email policy.
-3. Finalize SEO / metadata after Russian-first route priority is accepted.
-4. Decide and configure the `www` to apex redirect policy, or document why both
-   hostnames should remain directly served.
-5. Complete Kazakh language review.
-6. Verify patent registry details before publishing final patent claims.
-7. Create and review a sanitized public CV before any downloadable CV is added.
-8. Draft an AI public assistant architecture document before any real API work.
+1. Reconcile public-email wording in the local AI concierge with the approved
+   public contact route.
+2. Apply an accessibility micro-fix for the AI input accessible name and
+   stronger AI disclosure readability.
+3. Optimize the QR first-view image payload without redesign.
+4. Verify patent registry details before publishing final patent claims.
+5. Finalize SEO / metadata.
+6. Decide the `www` versus apex redirect policy.
+7. Complete Kazakh language review.
+8. Create and review a sanitized public CV before any downloadable CV is added.
+9. Draft a separate real-AI backend architecture before any real API work.
 
 ## Active Branch Convention
 

@@ -1,6 +1,6 @@
 # Domain and Infrastructure Strategy
 
-Status: planning and operations note for human review.
+Status: accepted/current architecture and operations note.
 
 ## Purpose
 
@@ -26,11 +26,14 @@ Current public-hosting assumptions:
 - Production host: Cloudflare Pages.
 - Current Pages project: `ikurabayev-kz`.
 - Custom production domain: `https://ikurabayev.kz`.
-- `https://www.ikurabayev.kz` is also reported by the owner as working.
+- `https://ikurabayev.kz` and `https://www.ikurabayev.kz` were verified active
+  with SSL.
 
-This document does not claim final public-launch completion. Public contact
-routing, SEO metadata, Kazakh language review, patent-registry verification,
-and final launch review remain pending.
+Claude Design v1.1 from PR #31 is the current production visual baseline, and
+production-domain QA has been completed for this release. The approved public
+professional contact route is live. SEO metadata, Kazakh language review,
+patent-registry verification, a sanitized public CV, the `www` versus apex
+policy, and separate real-AI backend architecture remain pending.
 
 ## DNS Authority
 
@@ -127,6 +130,21 @@ Public documentation should remain architectural and reviewable. If a future
 task needs operational details, create a sanitized runbook that excludes
 secrets and private identifiers.
 
+The public professional mailbox shown on the site is explicitly approved and
+intentionally public. This approval does not extend to private or personal
+email, phone numbers, addresses, or other private contact data.
+
+## Current Edge Policy
+
+- Cloudflare Web Analytics is intentionally disabled, and automatic analytics
+  or beacon injection is not part of the approved production architecture.
+- Analytics, tracking, and beacons remain prohibited.
+- Cloudflare Email Address Obfuscation is intentionally enabled only as
+  anti-harvesting edge protection for the approved public professional mailbox;
+  it does not make the mailbox private.
+- `site/_headers` remains the repository source of truth for security headers,
+  and production QA verified an exact match for the current release.
+
 ## Future Design Workflow
 
 Major visual changes should follow `docs/16_VISUAL_DESIGN_SYSTEM.md`. Claude
@@ -140,7 +158,8 @@ Future design intake should check:
 - factual claim boundaries;
 - accessibility and readable contrast;
 - mobile and desktop responsiveness;
-- no external scripts, analytics, cookies, or unapproved dependencies;
+- repository-managed public site code has no external runtime dependencies,
+  analytics, cookies, tracking, or beacons;
 - consistency with the Russian-first route priority and multilingual strategy.
 
 Visual design ports remain separate from production infrastructure decisions
@@ -150,13 +169,13 @@ unless a future task explicitly combines those scopes.
 
 Recommended next tasks:
 
-1. Review and approve the public contact route.
-2. Finalize SEO metadata after Russian-first route priority is accepted.
-3. Decide and configure whether `www` should redirect to apex, apex should
-   redirect to `www`, or both should remain directly served.
-4. Complete Kazakh language review.
-5. Verify patent registry details before strengthening patent wording.
-6. Create and review a sanitized public CV before adding any downloadable CV.
-7. Perform final mobile and desktop launch review on the production domain.
-8. Review future Claude Design changes through the documented design-intake
-   workflow.
+1. Reconcile public-email wording in the local AI concierge with the approved
+   public contact route.
+2. Apply the AI input accessible-name and AI-disclosure readability micro-fix.
+3. Optimize the QR first-view image payload without redesign.
+4. Verify patent registry details before strengthening patent wording.
+5. Finalize SEO metadata.
+6. Decide the `www` versus apex redirect policy.
+7. Complete Kazakh language review.
+8. Create and review a sanitized public CV before adding any downloadable CV.
+9. Draft a separate real-AI backend architecture before any real API work.

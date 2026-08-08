@@ -20,8 +20,10 @@ Status: in progress / partially completed
 - Public source audit and positioning skeleton exists.
 - Public biography and QR landing page drafts exist.
 - Verified QR profile links and Russian QR copy have been added.
-- Contact route, publications, patents, and project entries remain pending
-  review.
+- The public professional contact route is explicitly approved and published;
+  private contact data remains excluded.
+- Publications, patent-registry details, and project entries remain pending
+  review where applicable.
 - Private or unpublished source material remains excluded.
 
 ## Phase 2 - Information Architecture
@@ -36,39 +38,40 @@ Status: completed for v0.1
 
 ## Phase 3 - Static Website Implementation
 
-Status: completed for v0.1 / polish pending
+Status: completed through Claude Design v1.1 / maintenance pending
 
 - Dependency-free static HTML implementation exists under `site/`.
-- Continue the current dependency-free static HTML path for the first public
-  deployment.
+- Maintain the current dependency-free static HTML path for production.
 - Keep Astro as a future option only if complexity or multilingual duplication
   later justifies it.
 - Do not add dependencies unless a future approved issue and PR justify them.
+- PR #31 is the current production visual baseline.
 
 ## Phase 4 - Deployment Readiness
 
-Status: completed for Cloudflare Pages preview and initial production domain
+Status: completed for Cloudflare Pages production and current production QA
 
 - Cloudflare Pages deployment readiness is complete for the existing `site/`
   directory.
 - Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`.
-- Production custom domain `ikurabayev.kz` is active through Cloudflare Pages,
-  with Cloudflare DNS active for the domain.
-- The owner reports both `https://ikurabayev.kz` and
-  `https://www.ikurabayev.kz` as working.
-- Public launch polish remains pending: contact route, SEO metadata, Kazakh
-  language review, patent-registry verification, and final mobile / desktop
-  review are not complete yet.
+- Production custom domains `https://ikurabayev.kz` and
+  `https://www.ikurabayev.kz` were verified active with SSL through Cloudflare
+  Pages, with Cloudflare DNS active for the domain.
+- Production-domain QA was completed for the v1.1 release; it should be
+  repeated after future visual or infrastructure changes.
+- Remaining polish includes the local AI concierge contact wording,
+  accessibility and QR-payload follow-ups, SEO metadata, the `www` versus apex
+  policy, Kazakh language review, patent-registry verification, and a sanitized
+  public CV.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
   the technical decision.
 
 ## Phase 5 - Publication And Maintenance
 
-Status: planned
+Status: in progress / post-launch maintenance
 
-- Next safe sequence: docs cleanup, then content polish, then visual QA and
-  production-domain review.
-- Review public content before production domain launch.
+- Follow the ordered maintenance queue in `docs/05_ACTIVE_TASKS.md`.
+- Review public content before each production release or claim update.
 - Use `docs/16_VISUAL_DESIGN_SYSTEM.md` as the workflow for major visual
   changes.
 - Start future major design changes in Claude Design, then integrate them
