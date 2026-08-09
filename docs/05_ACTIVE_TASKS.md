@@ -29,6 +29,8 @@ Post-v1.1 production maintenance and verified-content work.
   domains and exact production-header verification against `site/_headers`.
 - Owner production decision: Cloudflare Web Analytics disabled and Email
   Address Obfuscation retained for the approved public professional mailbox.
+- Local AI concierge contact wording reconciled with the approved public
+  professional contact route.
 
 ## Current Design Note
 
@@ -44,17 +46,15 @@ the current release.
 
 ## Next Recommended Tasks
 
-1. Reconcile public-email wording in the local AI concierge with the approved
-   public contact route.
-2. Apply an accessibility micro-fix for the AI input accessible name and
+1. Apply an accessibility micro-fix for the AI input accessible name and
    stronger AI disclosure readability.
-3. Optimize the QR first-view image payload without redesign.
-4. Verify patent registry details before publishing final patent claims.
-5. Finalize SEO / metadata.
-6. Decide the `www` versus apex redirect policy.
-7. Complete Kazakh language review.
-8. Create and review a sanitized public CV before any downloadable CV is added.
-9. Draft a separate real-AI backend architecture before any real API work.
+2. Optimize the QR first-view image payload without redesign.
+3. Verify patent registry details before publishing final patent claims.
+4. Finalize SEO / metadata.
+5. Decide the `www` versus apex redirect policy.
+6. Complete Kazakh language review.
+7. Create and review a sanitized public CV before any downloadable CV is added.
+8. Draft a separate real-AI backend architecture before any real API work.
 
 ## Active Branch Convention
 

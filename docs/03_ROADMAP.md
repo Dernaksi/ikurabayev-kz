@@ -59,8 +59,8 @@ Status: completed for Cloudflare Pages production and current production QA
   Pages, with Cloudflare DNS active for the domain.
 - Production-domain QA was completed for the v1.1 release; it should be
   repeated after future visual or infrastructure changes.
-- Remaining polish includes the local AI concierge contact wording,
-  accessibility and QR-payload follow-ups, SEO metadata, the `www` versus apex
+- Remaining polish includes accessibility and QR-payload follow-ups, SEO
+  metadata, the `www` versus apex
   policy, Kazakh language review, patent-registry verification, and a sanitized
   public CV.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes

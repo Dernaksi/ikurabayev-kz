@@ -48,9 +48,8 @@ Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`. The
 custom production domains `https://ikurabayev.kz` and
 `https://www.ikurabayev.kz` were verified active with SSL through Cloudflare
 Pages. The approved public professional contact route is live. Remaining work
-includes reconciling the local AI concierge public-email wording with the
-approved public professional contact route, accessibility and QR-payload
-follow-ups, patent-registry verification, SEO metadata, the `www` versus apex
+includes accessibility and QR-payload follow-ups, patent-registry verification,
+SEO metadata, the `www` versus apex
 policy, Kazakh language review, a sanitized public CV, and a separate real-AI
 backend architecture.
 
