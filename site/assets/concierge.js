@@ -96,7 +96,7 @@
       { k: ["патент", "изобрет"], a: "Публично упоминаются евразийский патент (EA041128B1) на измерение параметров изоляции сетей с изолированной нейтралью по квадрантам комплексной плоскости и патент РК с использованием симметричных составляющих. Полная проверка реестров частично ожидается." },
       { k: ["образован", "phd", "диплом", "учил"], a: "Образование: PhD по направлению «Электротехнические комплексы и системы», магистр технических наук по электроэнергетике и инженер-электрик по электроснабжению промышленных предприятий." },
       { k: ["награ", "призна", "заслуж", "достиж"], a: "Среди отметок: Почётный энергетик (Ассоциация KEA, 2016; Минэнерго РК, 2018), Заслуженный энергетик (Минэнерго РК, 2023) и награда за вклад в энергосбережение (2024)." },
-      { k: ["контакт", "связ", "телефон", "почт", "email", "написать", "адрес"], a: "Сайт намеренно не публикует телефон, личную почту и адреса. Публичный контактный маршрут может быть добавлен после отдельного утверждения. Для проверенных ссылок есть ORCID и Scopus." },
+      { k: ["контакт", "связ", "телефон", "почт", "email", "написать", "адрес"], a: "Для первого контакта используйте публичную профессиональную электронную почту в разделе «Контакт» на этой странице. Телефон, личная почта, частные адреса и другие приватные контактные данные намеренно не публикуются. Проверенные публичные профили доступны через ORCID и Scopus." },
       { k: ["orcid", "scopus", "профил"], a: "Проверенные публичные профили: ORCID 0000-0002-4331-4726 и Scopus Author ID 57473761100." }
     ],
     en: [
@@ -108,7 +108,7 @@
       { k: ["patent", "invention"], a: "Publicly noted are a Eurasian patent (EA041128B1) on measuring insulation parameters of isolated-neutral networks via complex-plane quadrants, and a Kazakhstan patent using symmetrical components. Full registry verification is partly pending." },
       { k: ["educat", "phd", "degree", "study"], a: "Education: PhD in “Electrical complexes and systems”, MSc in electrical power engineering, and an engineer-electrician degree in industrial power supply." },
       { k: ["award", "recognit", "honor", "achiev"], a: "Recognition includes Honored Energy Worker (KEA, 2016; Ministry of Energy RK, 2018), Distinguished Energy Worker (Ministry of Energy RK, 2023), and an energy-saving award (2024)." },
-      { k: ["contact", "reach", "phone", "mail", "email", "write", "address"], a: "The site intentionally does not publish phone, personal email, or addresses. A public contact route can be added after separate approval. Verified links are available via ORCID and Scopus." },
+      { k: ["contact", "reach", "phone", "mail", "email", "write", "address"], a: "For a first contact, use the public professional email in the “Contact” section on this page. Phone numbers, personal email, private addresses, and other private contact details are intentionally not published. Verified public profiles are available via ORCID and Scopus." },
       { k: ["orcid", "scopus", "profile"], a: "Verified public profiles: ORCID 0000-0002-4331-4726 and Scopus Author ID 57473761100." }
     ],
     kk: [
@@ -120,7 +120,7 @@
       { k: ["патент", "өнертабыс"], a: "Ашық түрде еуразиялық патент (EA041128B1) — бейтарабы оқшауланған желілердің оқшаулау параметрлерін комплексті жазықтық квадранттары бойынша өлшеу және симметриялық құраушыларды пайдаланатын ҚР патенті аталады. Тізілімдерді толық тексеру ішінара күтілуде." },
       { k: ["білім", "phd", "диплом", "оқыд"], a: "Білімі: «Электртехникалық кешендер мен жүйелер» бойынша PhD, электр энергетикасы бойынша техника ғылымдарының магистрі және өнеркәсіптік электрмен жабдықтау бойынша инженер-электрик." },
       { k: ["марапат", "сыйлық", "жетістік", "құрмет"], a: "Марапаттары: Құрметті энергетик (KEA, 2016; ҚР Энергетика министрлігі, 2018), Еңбек сіңірген энергетик (ҚР Энергетика министрлігі, 2023) және энергия үнемдеуге қосқан үлесі үшін марапат (2024)." },
-      { k: ["байланыс", "хабарлас", "телефон", "пошта", "email", "жазу", "мекенжай"], a: "Сайт әдейі телефон, жеке пошта және мекенжайларды жарияламайды. Ашық байланыс маршруты жеке бекітуден кейін қосылуы мүмкін. Тексерілген сілтемелер — ORCID және Scopus." },
+      { k: ["байланыс", "хабарлас", "телефон", "пошта", "email", "жазу", "мекенжай"], a: "Алғашқы байланыс үшін осы беттегі «Байланыс» бөлімінде көрсетілген ашық кәсіби электрондық поштаны пайдаланыңыз. Телефон нөмірлері, жеке электрондық пошта, жеке мекенжайлар және басқа да жеке байланыс деректері әдейі жарияланбайды. Тексерілген ашық профильдер ORCID және Scopus арқылы қолжетімді." },
       { k: ["orcid", "scopus", "профил"], a: "Тексерілген ашық профильдер: ORCID 0000-0002-4331-4726 және Scopus Author ID 57473761100." }
     ]
   };
