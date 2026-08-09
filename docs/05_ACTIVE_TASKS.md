@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Post-v1.1 production maintenance and evidence-backed public-content work.
+Post-v1.2 production maintenance; Claude Design v1.1 remains the visual baseline.
 
 ## Recently Completed
 
@@ -38,6 +38,10 @@ Post-v1.1 production maintenance and evidence-backed public-content work.
 - Public Evidence Spine v0.1 established for 21 bounded high-value facts, with
   the three displayed patent records verified through official EAPO and
   Qazpatent sources.
+- Evidence-backed public release v1.2 reconciled dated patent legal status and
+  official registry links, removed the prohibited energy-auditor document
+  identifier, corrected stale concierge wording, established apex semantic
+  metadata plus robots/sitemap, and added an offline release validator.
 
 ## Current Design Note
 
@@ -53,16 +57,13 @@ the current release.
 
 ## Next Recommended Tasks
 
-1. Reconcile the public presentation with Evidence Spine findings: correct
-   patent legal-status, date, and territorial wording, remove the published
-   energy-auditor document identifier, resolve the conflicting official
-   university-role start-date evidence before changing the timeline, and update
-   the concierge's stale patent-verification wording.
-2. Finalize SEO / metadata.
-3. Decide the `www` versus apex redirect policy.
-4. Complete Kazakh language review.
-5. Create and review a sanitized public CV before any downloadable CV is added.
-6. Draft a separate real-AI backend architecture before any real API work.
+1. Resolve the conflicting official university-role start-date evidence through
+   owner review before changing the production timeline.
+2. Decide whether to implement an optional `www`-to-apex redirect in the
+   Cloudflare control plane; repository canonical metadata already uses apex.
+3. Complete Kazakh language review.
+4. Create and review a sanitized public CV before any downloadable CV is added.
+5. Draft a separate real-AI backend architecture before any real API work.
 
 ## Active Branch Convention
 
