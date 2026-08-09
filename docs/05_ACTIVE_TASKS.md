@@ -31,6 +31,10 @@ Post-v1.1 production maintenance and verified-content work.
   Address Obfuscation retained for the approved public professional mailbox.
 - Local AI concierge contact wording reconciled with the approved public
   professional contact route.
+- AI concierge input given an explicit localized accessible name and prototype
+  disclosure contrast brought into WCAG conformance.
+- QR first-view portrait payload reduced by 87.70% without changing its source
+  photograph, crop, dimensions, or aspect ratio.
 
 ## Current Design Note
 
@@ -46,15 +50,12 @@ the current release.
 
 ## Next Recommended Tasks
 
-1. Apply an accessibility micro-fix for the AI input accessible name and
-   stronger AI disclosure readability.
-2. Optimize the QR first-view image payload without redesign.
-3. Verify patent registry details before publishing final patent claims.
-4. Finalize SEO / metadata.
-5. Decide the `www` versus apex redirect policy.
-6. Complete Kazakh language review.
-7. Create and review a sanitized public CV before any downloadable CV is added.
-8. Draft a separate real-AI backend architecture before any real API work.
+1. Verify patent registry details before publishing final patent claims.
+2. Finalize SEO / metadata.
+3. Decide the `www` versus apex redirect policy.
+4. Complete Kazakh language review.
+5. Create and review a sanitized public CV before any downloadable CV is added.
+6. Draft a separate real-AI backend architecture before any real API work.
 
 ## Active Branch Convention
 

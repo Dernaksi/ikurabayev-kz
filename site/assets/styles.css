@@ -3167,7 +3167,7 @@ h3 {
 }
 
 .concierge-tag {
-  color: var(--faint);
+  color: var(--muted);
 }
 
 /* Source-mode readout — the "engineering console" signature */
