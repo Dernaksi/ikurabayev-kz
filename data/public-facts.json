@@ -31,7 +31,7 @@
       "id": "role.university.current",
       "kind": "professional_role",
       "public": true,
-      "status": "verified_public",
+      "status": "partially_verified",
       "value": {
         "role": "Senior Lecturer",
         "organization": "S. Seifullin Kazakh Agrotechnical Research University",
@@ -39,10 +39,11 @@
         "current_as_of": "2026-08-09"
       },
       "evidence": [
-        "source.katru.faculty_profile"
+        "source.katru.faculty_profile",
+        "source.astana_energy.board_profile"
       ],
       "verified_at": "2026-08-09",
-      "presentation_notes": "The official profile gives 2023-09-01; the current site timeline says 01/2023 and requires a separate presentation reconciliation. Recheck currentness before future publication updates."
+      "presentation_notes": "KATRU, as the employer source, gives 2023-09-01. Astana-Energy's official board biography gives January 2023. This official-source conflict must be resolved or owner-reviewed before changing production timeline wording; v0.1 retains the employer-source date as the primary structured value."
     },
     {
       "id": "role.astana_energy.current",
@@ -302,61 +303,69 @@
       "id": "credential.energy_auditor",
       "kind": "professional_credential",
       "public": true,
-      "status": "owner_approved",
+      "status": "partially_verified",
       "value": {
         "credential": "Accredited energy auditor of the Republic of Kazakhstan",
         "practice_area": "energy saving and energy efficiency",
         "professional_practice_since": 2010
       },
       "evidence": [
+        "source.katru.faculty_profile",
         "source.owner_approval.v1_1_public_content"
       ],
-      "presentation_notes": "The public-safe summary is owner-approved. Certificate, attestation, registration, renewal, QR, signature, and other private-document metadata are deliberately excluded."
+      "verified_at": "2026-08-09",
+      "presentation_notes": "The official KATRU profile publicly verifies the accredited energy-auditor status. The professional_practice_since value and other supporting detail remain owner-approved rather than independently verified. Certificate, attestation, registration, renewal, QR, signature, and other private-document metadata are deliberately excluded."
     },
     {
       "id": "award.keea.honoured_energy_worker",
       "kind": "award",
       "public": true,
-      "status": "owner_approved",
+      "status": "partially_verified",
       "value": {
         "title": "Honoured Energy Worker",
         "issuer": "Kazakhstan Electric Energy Association",
         "year": 2016
       },
       "evidence": [
+        "source.katru.faculty_profile",
         "source.owner_approval.v1_1_public_content"
       ],
-      "presentation_notes": "Approved for public display; source-specific public verification and translation reconciliation remain pending."
+      "verified_at": "2026-08-09",
+      "presentation_notes": "The official KATRU profile publicly supports the award, issuer, and year. The current English title and multilingual normalization remain owner-approved and require translation reconciliation."
     },
     {
       "id": "award.energy_ministry.honoured_energy_worker",
       "kind": "award",
       "public": true,
-      "status": "owner_approved",
+      "status": "partially_verified",
       "value": {
         "title": "Honoured Energy Worker",
         "issuer": "Ministry of Energy of the Republic of Kazakhstan",
         "year": 2018
       },
       "evidence": [
+        "source.katru.faculty_profile",
         "source.owner_approval.v1_1_public_content"
       ],
-      "presentation_notes": "Approved for public display; source-specific public verification and translation reconciliation remain pending."
+      "verified_at": "2026-08-09",
+      "presentation_notes": "The official KATRU profile publicly supports the award, issuer, and year. The current English title and multilingual normalization remain owner-approved and require translation reconciliation."
     },
     {
       "id": "award.energy_ministry.distinguished_power_engineer",
       "kind": "award",
       "public": true,
-      "status": "owner_approved",
+      "status": "partially_verified",
       "value": {
         "title": "Distinguished Power Engineer",
         "issuer": "Ministry of Energy of the Republic of Kazakhstan",
         "year": 2023
       },
       "evidence": [
+        "source.katru.faculty_profile",
         "source.owner_approval.v1_1_public_content"
       ],
-      "presentation_notes": "Approved for public display; the exact official title and multilingual translation require source-specific verification."
+      "verified_at": "2026-08-09",
+      "presentation_notes": "The official KATRU profile publicly supports the award, issuer, and year. The current English title and multilingual normalization remain owner-approved and require translation reconciliation."
     },
     {
       "id": "award.energy_saving_contribution",

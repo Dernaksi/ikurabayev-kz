@@ -55,8 +55,9 @@ the current release.
 
 1. Reconcile the public presentation with Evidence Spine findings: correct
    patent legal-status, date, and territorial wording, remove the published
-   energy-auditor document identifier, and update the concierge's stale patent
-   verification wording.
+   energy-auditor document identifier, resolve the conflicting official
+   university-role start-date evidence before changing the timeline, and update
+   the concierge's stale patent-verification wording.
 2. Finalize SEO / metadata.
 3. Decide the `www` versus apex redirect policy.
 4. Complete Kazakh language review.
