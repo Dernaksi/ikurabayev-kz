@@ -195,7 +195,7 @@
         "</div>" +
         '<div class="concierge-foot">' +
           '<div class="concierge-chips">' + chips + "</div>" +
-          '<form class="concierge-form"><input type="text" autocomplete="off" placeholder="' + esc(T.placeholder) + '"><button type="submit">' + esc(T.send) + " →</button></form>" +
+          '<form class="concierge-form"><input type="text" autocomplete="off" aria-label="' + esc(T.placeholder) + '" placeholder="' + esc(T.placeholder) + '"><button type="submit">' + esc(T.send) + " →</button></form>" +
         "</div>" +
       "</div>";
 
