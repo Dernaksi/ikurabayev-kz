@@ -233,3 +233,30 @@ Update claims and sources through the issue, branch, verification, and pull
 request workflow. Evidence Spine v0.1 does not auto-generate the site or
 introduce a framework, dependency, backend, API, storage, or AI behavior
 change.
+
+### 2026-08-10 - Use the apex canonical metadata host and an offline public-release contract
+
+Status: accepted
+
+Context:
+Read-only production checks found that `https://ikurabayev.kz` and
+`https://www.ikurabayev.kz` both return HTTP 200 without redirecting and serve
+equivalent site content after normalizing Cloudflare email obfuscation. The apex
+form is the established project identity, while the repository previously had
+no canonical metadata, sitemap, or automated guard against reintroducing known
+truth and privacy defects.
+
+Decision:
+Use `https://ikurabayev.kz` as the repository-level canonical metadata host for
+self-canonicals, hreflang, social metadata, JSON-LD, robots, and sitemap. Keep
+the static presentation manually maintained and add a Python-standard-library
+release validator that checks bounded Evidence Spine states, privacy exclusions,
+patent presentation, semantic metadata, sitemap, robots, and the local concierge
+architecture without making network requests.
+
+Consequences:
+The working `www` host may remain operational. Enforcing a `www`-to-apex redirect
+is a separate optional Cloudflare control-plane action and is not implemented or
+claimed here. The validator is an offline repository contract, not runtime
+Evidence Spine loading, live legal-status monitoring, analytics, or an AI
+backend; future routes or contract changes must update it intentionally.

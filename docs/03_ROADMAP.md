@@ -25,7 +25,12 @@ Status: in progress / partially completed
 - Evidence Spine v0.1 provides a machine-readable, public-safe evidence layer
   for a bounded set of high-value facts.
 - Official registry verification is complete for the three displayed patent
-  records; the resulting presentation mismatches remain pending reconciliation.
+  records, and v1.2 reconciles their publication and dated legal-status wording
+  with direct official-registry links.
+- The public energy-auditor fact remains published while its prohibited document
+  identifier has been removed from presentation.
+- Conflicting official university-role start dates remain explicit and require
+  owner review before the production timeline changes.
 - Publication, grant, credential, award, and project entries retain explicit
   evidence-status gaps where applicable.
 - Private or unpublished source material remains excluded.
@@ -65,9 +70,12 @@ Status: completed for Cloudflare Pages production and current production QA
   Pages, with Cloudflare DNS active for the domain.
 - Production-domain QA was completed for the v1.1 release; it should be
   repeated after future visual or infrastructure changes.
-- Remaining polish includes SEO metadata, the `www` versus apex policy, Kazakh
-  language review, patent presentation reconciliation, and a sanitized public
-  CV.
+- Evidence-backed release v1.2 adds apex self-canonicals, reciprocal profile
+  hreflang, normalized social metadata, minimal Person JSON-LD, robots, sitemap,
+  and a dependency-free offline release validator.
+- The apex canonical metadata decision is complete. An optional actual
+  `www`-to-apex redirect remains a separate Cloudflare control-plane task.
+- Remaining polish includes Kazakh language review and a sanitized public CV.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
   the technical decision.
 

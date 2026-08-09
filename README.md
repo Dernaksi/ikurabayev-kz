@@ -52,10 +52,13 @@ not automatically generate or modify the site.
 Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`. The
 custom production domains `https://ikurabayev.kz` and
 `https://www.ikurabayev.kz` were verified active with SSL through Cloudflare
-Pages. The approved public professional contact route is live. Remaining work
-includes reconciling public patent and credential presentation with verified
-evidence, SEO metadata, the `www` versus apex policy, Kazakh language review, a
-sanitized public CV, and a separate real-AI backend architecture.
+Pages. The approved public professional contact route is live. Evidence-backed
+public release v1.2 reconciles patent legal-status presentation and credential
+privacy, establishes apex canonical metadata, adds dependency-free semantic
+publishing, and introduces an offline public-release validator. Remaining work
+includes owner review of conflicting university-role start dates, an optional
+Cloudflare `www`-to-apex redirect, Kazakh language review, a sanitized public CV,
+and a separate real-AI backend architecture.
 
 The project remains framework-free and dependency-free for now. Do not add a
 website framework, `package.json`, dependencies, private contact details,

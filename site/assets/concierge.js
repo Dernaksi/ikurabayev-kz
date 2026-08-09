@@ -10,7 +10,7 @@
     ru: {
       eyebrow: "AI Engineering Lab",
       title: "Спросите лабораторию",
-      intro: "Задайте вопрос о методе, исследованиях, публикациях или дорожной карте — ИИ отвечает по проверенному публичному профилю. Приватные данные не раскрываются намеренно.",
+      intro: "Задайте вопрос о методе, исследованиях, публикациях или дорожной карте — ассистент отвечает по публичным фактам с проверенными источниками. Приватные данные не раскрываются намеренно.",
       online: "Prototype UI · Source mode: Public facts only",
       demo: "Prototype UI · Source mode: Public facts only",
       emptyKicker: "// готов к запросу",
@@ -27,7 +27,7 @@
     en: {
       eyebrow: "AI Engineering Lab",
       title: "Ask the lab",
-      intro: "Ask about the method, research, publications, or roadmap — the assistant answers from a verified public profile. Private details are intentionally withheld.",
+      intro: "Ask about the method, research, publications, or roadmap — the assistant answers from public facts with reviewed sources. Private details are intentionally withheld.",
       online: "Prototype UI · Source mode: Public facts only",
       demo: "Prototype UI · Source mode: Public facts only",
       emptyKicker: "// ready for query",
@@ -44,7 +44,7 @@
     kk: {
       eyebrow: "AI Engineering Lab",
       title: "Зертханадан сұраңыз",
-      intro: "Әдіс, зерттеулер, жарияланымдар немесе даму картасы туралы сұраңыз — ассистент тексерілген ашық профиль бойынша жауап береді. Жеке деректер әдейі ашылмайды.",
+      intro: "Әдіс, зерттеулер, жарияланымдар немесе даму картасы туралы сұраңыз — ассистент дереккөздері қаралған ашық профиль бойынша жауап береді. Жеке деректер әдейі ашылмайды.",
       online: "Prototype UI · Source mode: Public facts only",
       demo: "Prototype UI · Source mode: Public facts only",
       emptyKicker: "// сұрауға дайын",
@@ -93,7 +93,7 @@
       { k: ["метод", "измер", "изоляц", "как устроен"], a: "Метод следует цепочке «Измерить → Смоделировать → Диагностировать → Проверить»: снимаются сигналы и параметры изоляции, строится модель проводимости и ёмкостной проводимости, диагностируются сети с изолированной нейтралью и ток замыкания на землю, результат проходит инженерную проверку." },
       { k: ["ai", "ии", "auditor", "аудитор", "stm", "лаборатор", "нейросет"], a: "AI Engineering Lab включает два направления в разработке: «AI Energy Auditor» — концепт ИИ-ассистированного энергоаудита с трассируемостью выводов, и «STM32 / измерительная лаборатория» — аппаратный сбор сигналов и измерительный стенд. Это дорожная карта, а не запущенные продукты." },
       { k: ["публикац", "стат", "работ", "doi", "исследован"], a: "Опубликованы работы (2019–2023) по определению параметров изоляции в сетях с изолированной нейтралью и незаземлённых сетях переменного тока: математическое описание метода, лабораторные эксперименты, апробация на действующем экскаваторе и оценка погрешности. Часть работ имеет проверенные DOI (см. раздел «Избранные публикации»)." },
-      { k: ["патент", "изобрет"], a: "Публично упоминаются евразийский патент (EA041128B1) на измерение параметров изоляции сетей с изолированной нейтралью по квадрантам комплексной плоскости и патент РК с использованием симметричных составляющих. Полная проверка реестров частично ожидается." },
+      { k: ["патент", "изобрет"], a: "По данным официальных реестров на 09.08.2026, исторические EA 041128 (B1) и патент РК № 35922 не действовали; патент РК № 37923 действовал. Подробности и ссылки на официальные реестры — в разделе «Патенты»." },
       { k: ["образован", "phd", "диплом", "учил"], a: "Образование: PhD по направлению «Электротехнические комплексы и системы», магистр технических наук по электроэнергетике и инженер-электрик по электроснабжению промышленных предприятий." },
       { k: ["награ", "призна", "заслуж", "достиж"], a: "Среди отметок: Почётный энергетик (Ассоциация KEA, 2016; Минэнерго РК, 2018), Заслуженный энергетик (Минэнерго РК, 2023) и награда за вклад в энергосбережение (2024)." },
       { k: ["контакт", "связ", "телефон", "почт", "email", "написать", "адрес"], a: "Для первого контакта используйте публичную профессиональную электронную почту в разделе «Контакт» на этой странице. Телефон, личная почта, частные адреса и другие приватные контактные данные намеренно не публикуются. Проверенные публичные профили доступны через ORCID и Scopus." },
@@ -105,7 +105,7 @@
       { k: ["method", "measure", "insulation", "how does"], a: "The method follows a Measure → Model → Diagnose → Verify chain: signals and insulation parameters are captured, a conductance/susceptance model is built, isolated-neutral networks and earth-fault current are diagnosed, and the result passes engineering review." },
       { k: ["ai", "auditor", "stm", "lab", "neural"], a: "The AI Engineering Lab has two in-development tracks: “AI Energy Auditor” — a concept for AI-assisted energy audit with traceable reasoning, and “STM32 / measurement lab” — hardware signal capture and a test bench. These are roadmap directions, not launched products." },
       { k: ["publicat", "paper", "work", "doi", "research"], a: "Published works (2019–2023) address insulation parameters in isolated-neutral and ungrounded AC systems: a mathematical description of the method, laboratory experiments, approbation on an operating excavator, and error estimation. Several works have verified DOIs (see “Selected publications”)." },
-      { k: ["patent", "invention"], a: "Publicly noted are a Eurasian patent (EA041128B1) on measuring insulation parameters of isolated-neutral networks via complex-plane quadrants, and a Kazakhstan patent using symmetrical components. Full registry verification is partly pending." },
+      { k: ["patent", "invention"], a: "According to the official registries as of 9 August 2026, historical EA 041128 (B1) and Kazakhstan patent No. 35922 were not in force; Kazakhstan patent No. 37923 was active. Details and official registry links are in the “Patents” section." },
       { k: ["educat", "phd", "degree", "study"], a: "Education: PhD in “Electrical complexes and systems”, MSc in electrical power engineering, and an engineer-electrician degree in industrial power supply." },
       { k: ["award", "recognit", "honor", "achiev"], a: "Recognition includes Honored Energy Worker (KEA, 2016; Ministry of Energy RK, 2018), Distinguished Energy Worker (Ministry of Energy RK, 2023), and an energy-saving award (2024)." },
       { k: ["contact", "reach", "phone", "mail", "email", "write", "address"], a: "For a first contact, use the public professional email in the “Contact” section on this page. Phone numbers, personal email, private addresses, and other private contact details are intentionally not published. Verified public profiles are available via ORCID and Scopus." },
@@ -117,7 +117,7 @@
       { k: ["әдіс", "өлше", "оқшаула", "қалай жұмыс"], a: "Әдіс «Өлшеу → Модельдеу → Диагностикалау → Тексеру» тізбегімен жүреді: сигналдар мен оқшаулау параметрлері алынады, өткізгіштік моделі құрылады, бейтарабы оқшауланған желілер мен жерге тұйықталу тогы диагностикаланады, нәтиже инженерлік тексеруден өтеді." },
       { k: ["ai", "ии", "auditor", "аудитор", "stm", "зертхана", "нейрож"], a: "AI Engineering Lab-та әзірленудегі екі бағыт бар: «AI Energy Auditor» — қорытындылары бақыланатын ИИ-ассистенттік энергоаудит тұжырымдамасы және «STM32 / өлшеу зертханасы» — аппараттық сигнал жинау және стенд. Бұл — даму картасы, іске қосылған өнім емес." },
       { k: ["жарияла", "мақала", "жұмыс", "doi", "зерттеу"], a: "Жарияланған жұмыстар (2019–2023) бейтарабы оқшауланған және жерге тұйықталмаған айнымалы ток желілеріндегі оқшаулау параметрлеріне арналған: әдістің математикалық сипаттамасы, зертханалық эксперименттер, жұмыс істеп тұрған экскаватордағы апробация және қателікті бағалау. Бірнеше жұмыстың тексерілген DOI бар («Таңдаулы жарияланымдар» бөлімін қараңыз)." },
-      { k: ["патент", "өнертабыс"], a: "Ашық түрде еуразиялық патент (EA041128B1) — бейтарабы оқшауланған желілердің оқшаулау параметрлерін комплексті жазықтық квадранттары бойынша өлшеу және симметриялық құраушыларды пайдаланатын ҚР патенті аталады. Тізілімдерді толық тексеру ішінара күтілуде." },
+      { k: ["патент", "өнертабыс"], a: "Ресми тізілімдердің 2026 жылғы 9 тамыздағы деректері бойынша, тарихи EA 041128 (B1) және ҚР № 35922 патенті күшінде болмады; ҚР № 37923 патенті күшінде болды. Толық мәліметтер мен ресми тізілім сілтемелері «Патенттер» бөлімінде берілген." },
       { k: ["білім", "phd", "диплом", "оқыд"], a: "Білімі: «Электртехникалық кешендер мен жүйелер» бойынша PhD, электр энергетикасы бойынша техника ғылымдарының магистрі және өнеркәсіптік электрмен жабдықтау бойынша инженер-электрик." },
       { k: ["марапат", "сыйлық", "жетістік", "құрмет"], a: "Марапаттары: Құрметті энергетик (KEA, 2016; ҚР Энергетика министрлігі, 2018), Еңбек сіңірген энергетик (ҚР Энергетика министрлігі, 2023) және энергия үнемдеуге қосқан үлесі үшін марапат (2024)." },
       { k: ["байланыс", "хабарлас", "телефон", "пошта", "email", "жазу", "мекенжай"], a: "Алғашқы байланыс үшін осы беттегі «Байланыс» бөлімінде көрсетілген ашық кәсіби электрондық поштаны пайдаланыңыз. Телефон нөмірлері, жеке электрондық пошта, жеке мекенжайлар және басқа да жеке байланыс деректері әдейі жарияланбайды. Тексерілген ашық профильдер ORCID және Scopus арқылы қолжетімді." },
@@ -126,9 +126,9 @@
   };
 
   var DEFAULT = {
-    ru: "Хороший вопрос. Я отвечаю по проверенному публичному профилю — попробуйте спросить про метод измерения изоляции, исследования, публикации, патенты или AI Engineering Lab. Приватные данные не раскрываются.",
-    en: "Good question. I answer from a verified public profile — try asking about the insulation measurement method, research, publications, patents, or the AI Engineering Lab. Private details are not disclosed.",
-    kk: "Жақсы сұрақ. Мен тексерілген ашық профиль бойынша жауап беремін — оқшаулауды өлшеу әдісі, зерттеулер, жарияланымдар, патенттер немесе AI Engineering Lab туралы сұрап көріңіз. Жеке деректер ашылмайды."
+    ru: "Хороший вопрос. Я отвечаю по публичным фактам с проверенными источниками — попробуйте спросить про метод измерения изоляции, исследования, публикации, патенты или AI Engineering Lab. Приватные данные не раскрываются.",
+    en: "Good question. I answer from public facts with reviewed sources — try asking about the insulation measurement method, research, publications, patents, or the AI Engineering Lab. Private details are not disclosed.",
+    kk: "Жақсы сұрақ. Мен дереккөздері қаралған ашық профиль бойынша жауап беремін — оқшаулауды өлшеу әдісі, зерттеулер, жарияланымдар, патенттер немесе AI Engineering Lab туралы сұрап көріңіз. Жеке деректер ашылмайды."
   };
 
   function localAnswer(lang, q) {
