@@ -1,0 +1,513 @@
+{
+  "schema_version": "0.1",
+  "subject": {
+    "id": "person.iskander_kurabayev",
+    "type": "person",
+    "canonical_claim": "identity.name"
+  },
+  "generated_or_reviewed_at": "2026-08-09",
+  "claims": [
+    {
+      "id": "identity.name",
+      "kind": "identity",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "preferred_public_name": "Iskander Kurabayev",
+        "ru_full_name": "Курабаев Искандер Казбекович"
+      },
+      "evidence": [
+        "source.orcid.public_record",
+        "source.katru.faculty_profile"
+      ],
+      "verified_at": "2026-08-09",
+      "languages": [
+        "en",
+        "ru"
+      ],
+      "presentation_notes": "The Kazakh display form is not canonicalized in v0.1 because the current presentation contains inconsistent variants and awaits human language review."
+    },
+    {
+      "id": "role.university.current",
+      "kind": "professional_role",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "role": "Senior Lecturer",
+        "organization": "S. Seifullin Kazakh Agrotechnical Research University",
+        "since": "2023-09-01",
+        "current_as_of": "2026-08-09"
+      },
+      "evidence": [
+        "source.katru.faculty_profile"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "The official profile gives 2023-09-01; the current site timeline says 01/2023 and requires a separate presentation reconciliation. Recheck currentness before future publication updates."
+    },
+    {
+      "id": "role.astana_energy.current",
+      "kind": "professional_role",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "role": "Independent Director and Board Member",
+        "organization": "Astana-Energy JSC",
+        "elected": "2024-01",
+        "current_as_of": "2026-08-09"
+      },
+      "evidence": [
+        "source.astana_energy.board_profile"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "The official board page confirms the role and January 2024 election. Recheck currentness before future publication updates."
+    },
+    {
+      "id": "profile.orcid",
+      "kind": "academic_profile",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "identifier": "0000-0002-4331-4726",
+        "url": "https://orcid.org/0000-0002-4331-4726"
+      },
+      "evidence": [
+        "source.orcid.public_record"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "Use for identity and profile routing only; do not infer publication completeness, metrics, or current affiliation."
+    },
+    {
+      "id": "profile.scopus",
+      "kind": "academic_profile",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "identifier": "57473761100",
+        "url": "https://www.scopus.com/authid/detail.uri?authorId=57473761100"
+      },
+      "evidence": [
+        "source.scopus.author_profile"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "Use for identity and profile routing only; do not publish citation metrics, h-index, affiliation completeness, or publication completeness."
+    },
+    {
+      "id": "grant.ap22787517",
+      "kind": "research_grant",
+      "public": true,
+      "status": "owner_approved",
+      "value": {
+        "grant_id": "AP22787517",
+        "role": "Principal Investigator",
+        "project_title": "Development and testing of a prototype device for measuring insulation parameters in electrical networks with an isolated neutral",
+        "funding_program": "Young scientists",
+        "period": {
+          "start_year": 2024,
+          "end_year": 2026
+        },
+        "organization": "S. Seifullin KATRU"
+      },
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "presentation_notes": "Approved for public display, but no sufficiently specific official public grant record was identified in this pass. Do not strengthen or extend the claim without a new source review."
+    },
+    {
+      "id": "publication.isolated_neutral_experimental_studies",
+      "kind": "publication",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "title": "Experimental studies of a developed method for determining the insulation parameters in a network with isolated neutral voltage up to 1000 V",
+        "year": 2019,
+        "url": "https://bulletinofscience.kazatu.edu.kz/index.php/bulletinofscience/article/view/293"
+      },
+      "evidence": [
+        "source.publication.isolated_neutral_article",
+        "source.katru.faculty_profile"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "The current site uses a minor readable title variant without the article 'the'. No citation or completeness claim is implied."
+    },
+    {
+      "id": "publication.gtd2_12436",
+      "kind": "publication",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "title": "Mathematical description of the method for ungrounded AC systems to determine the network insulation",
+        "year": 2022,
+        "doi": "10.1049/gtd2.12436",
+        "url": "https://doi.org/10.1049/gtd2.12436"
+      },
+      "evidence": [
+        "source.doi.gtd2_12436"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "Selected-work metadata only; no citation, metric, or completeness claim is implied."
+    },
+    {
+      "id": "publication.icecet_9873012",
+      "kind": "publication",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "title": "Experimental research of the developed method to determine the network insulation for ungrounded AC systems in laboratory conditions",
+        "year": 2022,
+        "doi": "10.1109/ICECET55527.2022.9873012",
+        "url": "https://doi.org/10.1109/ICECET55527.2022.9873012"
+      },
+      "evidence": [
+        "source.doi.icecet_9873012"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "Selected-work metadata only; no citation, metric, or completeness claim is implied."
+    },
+    {
+      "id": "publication.yiuh4401",
+      "kind": "publication",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "title": "Approbation of the developed method for determining network insulation parameters on an operating excavator",
+        "year": 2023,
+        "doi": "10.48081/YIUH4401",
+        "url": "https://doi.org/10.48081/YIUH4401"
+      },
+      "evidence": [
+        "source.doi.yiuh4401"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "Selected-work metadata only; no citation, metric, or completeness claim is implied."
+    },
+    {
+      "id": "publication.kazatc_error_estimation",
+      "kind": "publication",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "title": "Error estimation of the developed method for ungrounded AC systems to determine the network insulation",
+        "year": 2023,
+        "doi": "10.52167/1609-1817-2023-125-2-428-436",
+        "url": "https://doi.org/10.52167/1609-1817-2023-125-2-428-436"
+      },
+      "evidence": [
+        "source.doi.kazatc_error_estimation"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "Selected-work metadata only; no citation, metric, or completeness claim is implied."
+    },
+    {
+      "id": "patent.ea041128",
+      "kind": "patent",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "jurisdiction": "Eurasian Patent Organization",
+        "patent_number": "EA 041128",
+        "publication_code": "B1",
+        "application_number": "202090923",
+        "filing_date": "2020-05-08",
+        "application_publication_date": "2021-11-30",
+        "patent_publication_date": "2022-09-16",
+        "title": "СПОСОБ ИЗМЕРЕНИЯ ПАРАМЕТРОВ ИЗОЛЯЦИИ ЭЛЕКТРИЧЕСКИХ СЕТЕЙ С ИЗОЛИРОВАННОЙ НЕЙТРАЛЬЮ НАПРЯЖЕНИЕМ ДО И ВЫШЕ 1000 В С УЧЕТОМ КВАДРАНТОВ КОМПЛЕКСНОЙ ПЛОСКОСТИ",
+        "subject_roles": [
+          "applicant",
+          "inventor",
+          "patent_holder"
+        ],
+        "legal_status": "not_in_force",
+        "legal_status_checked_at": "2026-08-09",
+        "termination": {
+          "date": "2023-05-09",
+          "reason": "annual_fee_nonpayment"
+        },
+        "territorial_scope": {
+          "contracting_states": [
+            "AM",
+            "AZ",
+            "BY",
+            "KG",
+            "KZ",
+            "RU",
+            "TJ",
+            "TM"
+          ],
+          "in_force_in": []
+        }
+      },
+      "evidence": [
+        "source.eapo.patent_041128"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "Material mismatch: the current RU/EN/KK site says this patent is valid in eight EAPO states, while the official record shows no continuing territory. EAPO labels 2022-09-16 as the patent publication date, not a separate grant date."
+    },
+    {
+      "id": "patent.kz35922",
+      "kind": "patent",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "jurisdiction": "Kazakhstan",
+        "patent_number": "35922",
+        "application_number": "2021/0571.1",
+        "filing_date": "2021-09-22",
+        "bulletin_number": "42",
+        "publication_date": "2022-10-21",
+        "title": "Способ измерения параметров изоляции электрических сетей с изолированной нейтралью напряжением до и выше 1000 В с учетом симметричных составляющих",
+        "subject_roles": [
+          "inventor",
+          "patent_holder"
+        ],
+        "legal_status": "not_in_force",
+        "legal_status_checked_at": "2026-08-09",
+        "termination": {
+          "date": "2022-12-21",
+          "reason": "early_termination_for_nonpayment"
+        }
+      },
+      "evidence": [
+        "source.qazpatent.patent_35922"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "The historical patent record is verified, but its inactive status is not disclosed in the current presentation. Only the subject relationship is stored; other-person metadata from the official record is intentionally omitted."
+    },
+    {
+      "id": "patent.kz37923",
+      "kind": "patent",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "jurisdiction": "Kazakhstan",
+        "patent_number": "37923",
+        "application_number": "2024/0964.1",
+        "filing_date": "2024-11-11",
+        "bulletin_number": "12",
+        "publication_date": "2026-03-27",
+        "title": "Способ измерения несимметричных параметров изоляции в электрических сетях с изолированной нейтралью напряжением до и выше 1000 В с учетом метода симметричных составляющих",
+        "subject_roles": [
+          "inventor"
+        ],
+        "patent_holder": "S. Seifullin Kazakh Agrotechnical Research University",
+        "legal_status": "active",
+        "legal_status_checked_at": "2026-08-09"
+      },
+      "evidence": [
+        "source.qazpatent.patent_37923"
+      ],
+      "verified_at": "2026-08-09",
+      "presentation_notes": "The displayed application, dates, title, and institutional holder align with the official record. Only the subject relationship is stored; other-person metadata from the official record is intentionally omitted."
+    },
+    {
+      "id": "credential.energy_auditor",
+      "kind": "professional_credential",
+      "public": true,
+      "status": "owner_approved",
+      "value": {
+        "credential": "Accredited energy auditor of the Republic of Kazakhstan",
+        "practice_area": "energy saving and energy efficiency",
+        "professional_practice_since": 2010
+      },
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "presentation_notes": "The public-safe summary is owner-approved. Certificate, attestation, registration, renewal, QR, signature, and other private-document metadata are deliberately excluded."
+    },
+    {
+      "id": "award.keea.honoured_energy_worker",
+      "kind": "award",
+      "public": true,
+      "status": "owner_approved",
+      "value": {
+        "title": "Honoured Energy Worker",
+        "issuer": "Kazakhstan Electric Energy Association",
+        "year": 2016
+      },
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "presentation_notes": "Approved for public display; source-specific public verification and translation reconciliation remain pending."
+    },
+    {
+      "id": "award.energy_ministry.honoured_energy_worker",
+      "kind": "award",
+      "public": true,
+      "status": "owner_approved",
+      "value": {
+        "title": "Honoured Energy Worker",
+        "issuer": "Ministry of Energy of the Republic of Kazakhstan",
+        "year": 2018
+      },
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "presentation_notes": "Approved for public display; source-specific public verification and translation reconciliation remain pending."
+    },
+    {
+      "id": "award.energy_ministry.distinguished_power_engineer",
+      "kind": "award",
+      "public": true,
+      "status": "owner_approved",
+      "value": {
+        "title": "Distinguished Power Engineer",
+        "issuer": "Ministry of Energy of the Republic of Kazakhstan",
+        "year": 2023
+      },
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "presentation_notes": "Approved for public display; the exact official title and multilingual translation require source-specific verification."
+    },
+    {
+      "id": "award.energy_saving_contribution",
+      "kind": "award",
+      "public": true,
+      "status": "owner_approved",
+      "value": {
+        "title": "For contribution to energy saving",
+        "issuer": "Industry award",
+        "year": 2024
+      },
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "presentation_notes": "Approved for public display. The generic issuer wording must not be strengthened without a reviewed public source."
+    },
+    {
+      "id": "project.ai_energy_auditor",
+      "kind": "roadmap_project",
+      "public": true,
+      "status": "roadmap_only",
+      "value": {
+        "name": "AI Energy Auditor",
+        "stage": "in_development",
+        "description": "Draft concept for AI-assisted energy audit with traceable reasoning"
+      },
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "presentation_notes": "A public roadmap direction only; not a launched product, commercial platform, real AI service, or validated accuracy claim."
+    },
+    {
+      "id": "project.stm32_lab",
+      "kind": "roadmap_project",
+      "public": true,
+      "status": "roadmap_only",
+      "value": {
+        "name": "STM32 / measurement lab",
+        "stage": "in_development",
+        "description": "Hardware signal capture and a measurement test bench"
+      },
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "presentation_notes": "A public roadmap direction only; not a launched product, commercial platform, or validated performance claim."
+    }
+  ],
+  "sources": [
+    {
+      "id": "source.orcid.public_record",
+      "kind": "public_profile",
+      "url": "https://orcid.org/0000-0002-4331-4726",
+      "checked_at": "2026-08-09",
+      "authority": "ORCID",
+      "source_role": "primary_identity"
+    },
+    {
+      "id": "source.scopus.author_profile",
+      "kind": "public_profile",
+      "url": "https://www.scopus.com/authid/detail.uri?authorId=57473761100",
+      "checked_at": "2026-08-09",
+      "authority": "Scopus",
+      "source_role": "identity_disambiguation"
+    },
+    {
+      "id": "source.katru.faculty_profile",
+      "kind": "official_institutional_profile",
+      "url": "https://kazatu.edu.kz/ru/pps/kurabaev-iskander-kazbekovic",
+      "checked_at": "2026-08-09",
+      "authority": "S. Seifullin Kazakh Agrotechnical Research University",
+      "source_role": "primary_institutional"
+    },
+    {
+      "id": "source.astana_energy.board_profile",
+      "kind": "official_institutional_profile",
+      "url": "https://astana-energy.kz/ru/o-kompanii/sovet-direktorov/kurabaev-iskander-kazbekovich",
+      "checked_at": "2026-08-09",
+      "authority": "Astana-Energy JSC",
+      "source_role": "primary_institutional"
+    },
+    {
+      "id": "source.publication.isolated_neutral_article",
+      "kind": "publisher_page",
+      "url": "https://bulletinofscience.kazatu.edu.kz/index.php/bulletinofscience/article/view/293",
+      "checked_at": "2026-08-09",
+      "authority": "Eurasian Agrotechnical Journal",
+      "source_role": "publication_metadata"
+    },
+    {
+      "id": "source.doi.gtd2_12436",
+      "kind": "doi_metadata",
+      "url": "https://doi.org/10.1049/gtd2.12436",
+      "checked_at": "2026-08-09",
+      "authority": "DOI and publisher metadata",
+      "source_role": "publication_metadata"
+    },
+    {
+      "id": "source.doi.icecet_9873012",
+      "kind": "doi_metadata",
+      "url": "https://doi.org/10.1109/ICECET55527.2022.9873012",
+      "checked_at": "2026-08-09",
+      "authority": "DOI and publisher metadata",
+      "source_role": "publication_metadata"
+    },
+    {
+      "id": "source.doi.yiuh4401",
+      "kind": "doi_metadata",
+      "url": "https://doi.org/10.48081/YIUH4401",
+      "checked_at": "2026-08-09",
+      "authority": "DOI and publisher metadata",
+      "source_role": "publication_metadata"
+    },
+    {
+      "id": "source.doi.kazatc_error_estimation",
+      "kind": "doi_metadata",
+      "url": "https://doi.org/10.52167/1609-1817-2023-125-2-428-436",
+      "checked_at": "2026-08-09",
+      "authority": "DOI and publisher metadata",
+      "source_role": "publication_metadata"
+    },
+    {
+      "id": "source.eapo.patent_041128",
+      "kind": "official_patent_registry",
+      "url": "https://www.eapo.org/pubservices/info/registry/inventions/patents/041128?ipType=InventionPatentCase",
+      "checked_at": "2026-08-09",
+      "authority": "Eurasian Patent Organization",
+      "source_role": "primary_legal_status"
+    },
+    {
+      "id": "source.qazpatent.patent_35922",
+      "kind": "official_patent_registry",
+      "url": "https://gosreestr.kazpatent.kz/Invention/Details?docNumber=347854",
+      "checked_at": "2026-08-09",
+      "authority": "Qazpatent",
+      "source_role": "primary_legal_status"
+    },
+    {
+      "id": "source.qazpatent.patent_37923",
+      "kind": "official_patent_registry",
+      "url": "https://gosreestr.kazpatent.kz/Invention/Details?docNumber=411423",
+      "checked_at": "2026-08-09",
+      "authority": "Qazpatent",
+      "source_role": "primary_legal_status"
+    },
+    {
+      "id": "source.owner_approval.v1_1_public_content",
+      "kind": "owner_approval",
+      "checked_at": "2026-08-09",
+      "authority": "repository_owner",
+      "source_role": "publication_approval",
+      "public_safe_note": "Confirms approval of the current visible public content; does not independently verify factual currentness."
+    }
+  ]
+}

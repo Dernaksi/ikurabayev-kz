@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Post-v1.1 production maintenance and verified-content work.
+Post-v1.1 production maintenance and evidence-backed public-content work.
 
 ## Recently Completed
 
@@ -35,6 +35,9 @@ Post-v1.1 production maintenance and verified-content work.
   disclosure contrast brought into WCAG conformance.
 - QR first-view portrait payload reduced by 87.70% without changing its source
   photograph, crop, dimensions, or aspect ratio.
+- Public Evidence Spine v0.1 established for 21 bounded high-value facts, with
+  the three displayed patent records verified through official EAPO and
+  Qazpatent sources.
 
 ## Current Design Note
 
@@ -50,7 +53,10 @@ the current release.
 
 ## Next Recommended Tasks
 
-1. Verify patent registry details before publishing final patent claims.
+1. Reconcile the public presentation with Evidence Spine findings: correct
+   patent legal-status, date, and territorial wording, remove the published
+   energy-auditor document identifier, and update the concierge's stale patent
+   verification wording.
 2. Finalize SEO / metadata.
 3. Decide the `www` versus apex redirect policy.
 4. Complete Kazakh language review.
