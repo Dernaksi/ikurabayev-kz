@@ -213,3 +213,23 @@ dependencies and telemetry requests. Cloudflare edge configuration remains
 outside Git and should be rechecked after relevant production configuration
 changes. Do not record provider account identifiers, analytics tokens,
 credentials, or other private control-plane data in the repository.
+
+### 2026-08-09 - Establish the public Evidence Spine
+
+Status: accepted
+
+Context:
+High-value public facts are duplicated across presentation and planning files,
+while future SEO, CV, and AI work needs a small, reviewable provenance layer.
+
+Decision:
+Maintain `data/public-facts.json` as the canonical public-safe provenance layer
+for high-value public facts. Registry inclusion does not automatically authorize
+publication; `docs/04_PUBLIC_CONTENT_POLICY.md` remains authoritative, and the
+dependency-free static HTML remains the presentation layer.
+
+Consequences:
+Update claims and sources through the issue, branch, verification, and pull
+request workflow. Evidence Spine v0.1 does not auto-generate the site or
+introduce a framework, dependency, backend, API, storage, or AI behavior
+change.

@@ -22,8 +22,12 @@ Status: in progress / partially completed
 - Verified QR profile links and Russian QR copy have been added.
 - The public professional contact route is explicitly approved and published;
   private contact data remains excluded.
-- Publications, patent-registry details, and project entries remain pending
-  review where applicable.
+- Evidence Spine v0.1 provides a machine-readable, public-safe evidence layer
+  for a bounded set of high-value facts.
+- Official registry verification is complete for the three displayed patent
+  records; the resulting presentation mismatches remain pending reconciliation.
+- Publication, grant, credential, award, and project entries retain explicit
+  evidence-status gaps where applicable.
 - Private or unpublished source material remains excluded.
 
 ## Phase 2 - Information Architecture
@@ -46,6 +50,8 @@ Status: completed through Claude Design v1.1 / maintenance pending
   later justifies it.
 - Do not add dependencies unless a future approved issue and PR justify them.
 - PR #31 is the current production visual baseline.
+- Static HTML remains the manually maintained presentation layer and is not
+  generated from Evidence Spine v0.1.
 
 ## Phase 4 - Deployment Readiness
 
@@ -60,7 +66,8 @@ Status: completed for Cloudflare Pages production and current production QA
 - Production-domain QA was completed for the v1.1 release; it should be
   repeated after future visual or infrastructure changes.
 - Remaining polish includes SEO metadata, the `www` versus apex policy, Kazakh
-  language review, patent-registry verification, and a sanitized public CV.
+  language review, patent presentation reconciliation, and a sanitized public
+  CV.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
   the technical decision.
 
@@ -84,6 +91,8 @@ Status: future / separate phase
 - Treat AI console or AI assistant UI as prototype/static/public-facts-only
   until a separate architecture decision and pull request approve real backend
   functionality.
+- Ground any future AI/agent layer in reviewed public Evidence Spine claims,
+  while keeping that integration a separate future phase.
 - Design any real AI integration through a backend or edge function with secrets
   outside GitHub.
 - Do not combine real AI/API launch work with visual design ports unless a

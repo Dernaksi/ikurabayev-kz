@@ -44,13 +44,18 @@ dependency-free static HTML site in `site/`.
 Claude Design v1.1, merged through PR #31, is the current production visual
 baseline. Production-domain QA has been completed for this release.
 
+The project now separates three layers: the public-safe Evidence Spine in
+`data/public-facts.json`, the manually maintained static presentation under
+`site/`, and a future evidence-grounded AI/agent layer. Evidence Spine v0.1 does
+not automatically generate or modify the site.
+
 Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`. The
 custom production domains `https://ikurabayev.kz` and
 `https://www.ikurabayev.kz` were verified active with SSL through Cloudflare
 Pages. The approved public professional contact route is live. Remaining work
-includes patent-registry verification, SEO metadata, the `www` versus apex
-policy, Kazakh language review, a sanitized public CV, and a separate real-AI
-backend architecture.
+includes reconciling public patent and credential presentation with verified
+evidence, SEO metadata, the `www` versus apex policy, Kazakh language review, a
+sanitized public CV, and a separate real-AI backend architecture.
 
 The project remains framework-free and dependency-free for now. Do not add a
 website framework, `package.json`, dependencies, private contact details,
@@ -70,3 +75,5 @@ and pull request justify that change.
   content rules and privacy boundaries.
 - [docs/16_VISUAL_DESIGN_SYSTEM.md](docs/16_VISUAL_DESIGN_SYSTEM.md) - Claude
   Design to Codex faithful-port workflow.
+- [docs/17_PUBLIC_FACTS_REGISTRY.md](docs/17_PUBLIC_FACTS_REGISTRY.md) - Evidence
+  Spine schema, status model, source hierarchy, privacy boundary, and workflow.
