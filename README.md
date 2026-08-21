@@ -44,10 +44,12 @@ dependency-free static HTML site in `site/`.
 Claude Design v1.1, merged through PR #31, is the current production visual
 baseline. Production-domain QA has been completed for this release.
 
-The project now separates three layers: the public-safe Evidence Spine in
-`data/public-facts.json`, the manually maintained static presentation under
-`site/`, and a future evidence-grounded AI/agent layer. Evidence Spine v0.1 does
-not automatically generate or modify the site.
+The project now separates evidence, presentation, release validation, future AI,
+relationships, deterministic public-CV generation, and block-level provenance.
+Canonical facts remain in `data/public-facts.json`; the compact relationship
+layer is `data/public-research-graph.json`; the manually maintained static
+presentation remains under `site/`. None of the data layers automatically
+generate or modify the site.
 
 Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`. The
 custom production domains `https://ikurabayev.kz` and
@@ -57,8 +59,14 @@ public release v1.2 reconciles patent legal-status presentation and credential
 privacy, establishes apex canonical metadata, adds dependency-free semantic
 publishing, and introduces an offline public-release validator. Remaining work
 includes owner review of conflicting university-role start dates, an optional
-Cloudflare `www`-to-apex redirect, Kazakh language review, a sanitized public CV,
-and a separate real-AI backend architecture.
+Cloudflare `www`-to-apex redirect, Kazakh language review, the long-term semantic
+roles of `/` and `/ru/`, human review/publication of the generated public CV
+drafts, and a separate real-AI backend architecture.
+
+Public Knowledge System v0.2 adds a bounded research graph, deterministic RU/EN
+Living Public CV drafts, block-level provenance, and an offline knowledge
+validator. These generated drafts are not deployed, published as downloads, or
+used by the website at runtime.
 
 The project remains framework-free and dependency-free for now. Do not add a
 website framework, `package.json`, dependencies, private contact details,
@@ -80,3 +88,8 @@ and pull request justify that change.
   Design to Codex faithful-port workflow.
 - [docs/17_PUBLIC_FACTS_REGISTRY.md](docs/17_PUBLIC_FACTS_REGISTRY.md) - Evidence
   Spine schema, status model, source hierarchy, privacy boundary, and workflow.
+- [docs/18_PUBLIC_RESEARCH_GRAPH.md](docs/18_PUBLIC_RESEARCH_GRAPH.md) - bounded
+  relationship model, topics, predicates, status inheritance, and anti-inference
+  rules.
+- [docs/19_LIVING_PUBLIC_CV.md](docs/19_LIVING_PUBLIC_CV.md) - deterministic
+  RU/EN CV generation, block provenance, privacy, and publication workflow.

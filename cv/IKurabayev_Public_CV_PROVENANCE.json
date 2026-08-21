@@ -1,0 +1,661 @@
+{
+  "schema_version": "0.1",
+  "cv_version": "0.2",
+  "source_registry_sha256": "ca8434146e476c66c49babe95d985a769279db8a4d57cb3feb9874ab80bb0f85",
+  "source_graph_sha256": "875c59db3f9f2c6faba4f08fe3d12285281b65205fde340e73ecfce85e970d9a",
+  "source_review_date": "2026-08-10",
+  "hash_scope_note": "SHA-256 values cover exact input/output bytes for reproducibility; they are not a legal or digital signature.",
+  "documents": [
+    {
+      "id": "cv.ru",
+      "language": "ru",
+      "path": "cv/IKurabayev_Public_CV_RU.md",
+      "sha256": "bdca2fa4b8ea465cfdc1d8ca858c5fb6846aaab85b83ba5b387152ee54d3e725",
+      "section_ids": [
+        "cv.section.identity",
+        "cv.section.research_focus",
+        "cv.section.current_roles",
+        "cv.section.education",
+        "cv.section.credential",
+        "cv.section.research_grant",
+        "cv.section.publications",
+        "cv.section.patents",
+        "cv.section.recognition",
+        "cv.section.projects",
+        "cv.section.public_routes"
+      ],
+      "block_ids": [
+        "cv.identity",
+        "cv.research_focus",
+        "cv.roles.university",
+        "cv.roles.astana_energy",
+        "cv.education.phd",
+        "cv.education.master",
+        "cv.education.specialist",
+        "cv.credential.energy_auditor",
+        "cv.grants.ap22787517",
+        "cv.publications.kazatc_error_estimation",
+        "cv.publications.yiuh4401",
+        "cv.publications.gtd2_12436",
+        "cv.publications.icecet_9873012",
+        "cv.publications.isolated_neutral_experimental_studies",
+        "cv.patents.kz37923",
+        "cv.patents.kz35922",
+        "cv.patents.ea041128",
+        "cv.recognition.energy_saving_contribution",
+        "cv.recognition.energy_ministry.distinguished_power_engineer",
+        "cv.recognition.energy_ministry.honoured_energy_worker",
+        "cv.recognition.keea.honoured_energy_worker",
+        "cv.projects.ai_energy_auditor",
+        "cv.projects.stm32_lab",
+        "cv.public_routes"
+      ]
+    },
+    {
+      "id": "cv.en",
+      "language": "en",
+      "path": "cv/IKurabayev_Public_CV_EN.md",
+      "sha256": "d728c0100d086e136eea93e392a1f928eaa53e2fd15260b276f6904f6a5ca523",
+      "section_ids": [
+        "cv.section.identity",
+        "cv.section.research_focus",
+        "cv.section.current_roles",
+        "cv.section.education",
+        "cv.section.credential",
+        "cv.section.research_grant",
+        "cv.section.publications",
+        "cv.section.patents",
+        "cv.section.recognition",
+        "cv.section.projects",
+        "cv.section.public_routes"
+      ],
+      "block_ids": [
+        "cv.identity",
+        "cv.research_focus",
+        "cv.roles.university",
+        "cv.roles.astana_energy",
+        "cv.education.phd",
+        "cv.education.master",
+        "cv.education.specialist",
+        "cv.credential.energy_auditor",
+        "cv.grants.ap22787517",
+        "cv.publications.kazatc_error_estimation",
+        "cv.publications.yiuh4401",
+        "cv.publications.gtd2_12436",
+        "cv.publications.icecet_9873012",
+        "cv.publications.isolated_neutral_experimental_studies",
+        "cv.patents.kz37923",
+        "cv.patents.kz35922",
+        "cv.patents.ea041128",
+        "cv.recognition.energy_saving_contribution",
+        "cv.recognition.energy_ministry.distinguished_power_engineer",
+        "cv.recognition.energy_ministry.honoured_energy_worker",
+        "cv.recognition.keea.honoured_energy_worker",
+        "cv.projects.ai_energy_auditor",
+        "cv.projects.stm32_lab",
+        "cv.public_routes"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "cv.identity",
+      "section_id": "cv.section.identity",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "identity.name"
+      ],
+      "relation_ids": [],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [],
+      "notes": [
+        "generated_public_draft_not_complete_cv"
+      ]
+    },
+    {
+      "id": "cv.research_focus",
+      "section_id": "cv.section.research_focus",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "research.focus.ungrounded_power_systems"
+      ],
+      "relation_ids": [
+        "relation.research_focus.addresses_topic.insulation_parameters",
+        "relation.research_focus.addresses_topic.energy_efficiency"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [],
+      "notes": [
+        "broad_official_profile_topics_only"
+      ]
+    },
+    {
+      "id": "cv.roles.university",
+      "section_id": "cv.section.current_roles",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "role.university.current"
+      ],
+      "relation_ids": [
+        "relation.person.holds_role.university_current"
+      ],
+      "effective_evidence_statuses": [
+        "partially_verified"
+      ],
+      "exclusions": [
+        "start_date_omitted_due_to_source_conflict"
+      ],
+      "notes": [
+        "role_and_organization_only"
+      ]
+    },
+    {
+      "id": "cv.roles.astana_energy",
+      "section_id": "cv.section.current_roles",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "role.astana_energy.current"
+      ],
+      "relation_ids": [
+        "relation.person.holds_role.astana_energy_current"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [],
+      "notes": [
+        "point_in_time_currentness"
+      ]
+    },
+    {
+      "id": "cv.education.phd",
+      "section_id": "cv.section.education",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "education.phd.electrical_complexes_systems"
+      ],
+      "relation_ids": [
+        "relation.person.holds_credential.education_phd"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "education_dates_omitted",
+        "education_honours_omitted",
+        "document_identifiers_omitted"
+      ],
+      "notes": []
+    },
+    {
+      "id": "cv.education.master",
+      "section_id": "cv.section.education",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "education.master.electrical_power_engineering"
+      ],
+      "relation_ids": [
+        "relation.person.holds_credential.education_master"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "education_dates_omitted",
+        "education_honours_omitted",
+        "document_identifiers_omitted"
+      ],
+      "notes": []
+    },
+    {
+      "id": "cv.education.specialist",
+      "section_id": "cv.section.education",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "education.specialist.industrial_power_supply"
+      ],
+      "relation_ids": [
+        "relation.person.holds_credential.education_specialist"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "education_dates_omitted",
+        "education_honours_omitted",
+        "document_identifiers_omitted"
+      ],
+      "notes": []
+    },
+    {
+      "id": "cv.credential.energy_auditor",
+      "section_id": "cv.section.credential",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "credential.energy_auditor"
+      ],
+      "relation_ids": [
+        "relation.person.holds_credential.energy_auditor",
+        "relation.credential.energy_auditor.addresses_topic.energy_audit",
+        "relation.credential.energy_auditor.addresses_topic.energy_efficiency"
+      ],
+      "effective_evidence_statuses": [
+        "partially_verified"
+      ],
+      "exclusions": [
+        "document_identifiers_omitted"
+      ],
+      "notes": [
+        "professional_practice_since_is_owner_approved"
+      ]
+    },
+    {
+      "id": "cv.grants.ap22787517",
+      "section_id": "cv.section.research_grant",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "grant.ap22787517"
+      ],
+      "relation_ids": [
+        "relation.person.leads.ap22787517",
+        "relation.grant.ap22787517.addresses_topic.isolated_neutral_networks",
+        "relation.grant.ap22787517.addresses_topic.measurement_diagnostics"
+      ],
+      "effective_evidence_statuses": [
+        "owner_approved"
+      ],
+      "exclusions": [],
+      "notes": [
+        "owner_approved_independent_grant_verification_incomplete"
+      ]
+    },
+    {
+      "id": "cv.publications.kazatc_error_estimation",
+      "section_id": "cv.section.publications",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "publication.kazatc_error_estimation"
+      ],
+      "relation_ids": [
+        "relation.person.authored.kazatc_error_estimation",
+        "relation.publication.kazatc_error_estimation.addresses_topic.insulation_parameters"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "coauthor_lists_omitted",
+        "metrics_omitted"
+      ],
+      "notes": [
+        "selected_not_complete"
+      ]
+    },
+    {
+      "id": "cv.publications.yiuh4401",
+      "section_id": "cv.section.publications",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "publication.yiuh4401"
+      ],
+      "relation_ids": [
+        "relation.person.authored.yiuh4401",
+        "relation.publication.yiuh4401.addresses_topic.measurement_diagnostics"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "coauthor_lists_omitted",
+        "metrics_omitted"
+      ],
+      "notes": [
+        "selected_not_complete"
+      ]
+    },
+    {
+      "id": "cv.publications.gtd2_12436",
+      "section_id": "cv.section.publications",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "publication.gtd2_12436"
+      ],
+      "relation_ids": [
+        "relation.person.authored.gtd2_12436",
+        "relation.publication.gtd2_12436.addresses_topic.isolated_neutral_networks"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "coauthor_lists_omitted",
+        "metrics_omitted"
+      ],
+      "notes": [
+        "selected_not_complete"
+      ]
+    },
+    {
+      "id": "cv.publications.icecet_9873012",
+      "section_id": "cv.section.publications",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "publication.icecet_9873012"
+      ],
+      "relation_ids": [
+        "relation.person.authored.icecet_9873012",
+        "relation.publication.icecet_9873012.addresses_topic.measurement_diagnostics"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "coauthor_lists_omitted",
+        "metrics_omitted"
+      ],
+      "notes": [
+        "selected_not_complete"
+      ]
+    },
+    {
+      "id": "cv.publications.isolated_neutral_experimental_studies",
+      "section_id": "cv.section.publications",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "publication.isolated_neutral_experimental_studies"
+      ],
+      "relation_ids": [
+        "relation.person.authored.isolated_neutral_experimental_studies",
+        "relation.publication.isolated_neutral_studies.addresses_topic.insulation_parameters"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "coauthor_lists_omitted",
+        "metrics_omitted"
+      ],
+      "notes": [
+        "selected_not_complete"
+      ]
+    },
+    {
+      "id": "cv.patents.kz37923",
+      "section_id": "cv.section.patents",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "patent.kz37923"
+      ],
+      "relation_ids": [
+        "relation.person.inventor_on.kz37923"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "termination_reason_omitted",
+        "other_person_metadata_omitted"
+      ],
+      "notes": [
+        "legal_status_is_point_in_time"
+      ]
+    },
+    {
+      "id": "cv.patents.kz35922",
+      "section_id": "cv.section.patents",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "patent.kz35922"
+      ],
+      "relation_ids": [
+        "relation.person.inventor_on.kz35922"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "termination_reason_omitted",
+        "other_person_metadata_omitted"
+      ],
+      "notes": [
+        "legal_status_is_point_in_time"
+      ]
+    },
+    {
+      "id": "cv.patents.ea041128",
+      "section_id": "cv.section.patents",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "patent.ea041128"
+      ],
+      "relation_ids": [
+        "relation.person.inventor_on.ea041128"
+      ],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "termination_reason_omitted",
+        "other_person_metadata_omitted"
+      ],
+      "notes": [
+        "legal_status_is_point_in_time"
+      ]
+    },
+    {
+      "id": "cv.recognition.energy_saving_contribution",
+      "section_id": "cv.section.recognition",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "award.energy_saving_contribution"
+      ],
+      "relation_ids": [
+        "relation.person.received_award.energy_saving_contribution"
+      ],
+      "effective_evidence_statuses": [
+        "owner_approved"
+      ],
+      "exclusions": [
+        "award_document_identifiers_omitted"
+      ],
+      "notes": [
+        "evidence_status_recorded_in_provenance"
+      ]
+    },
+    {
+      "id": "cv.recognition.energy_ministry.distinguished_power_engineer",
+      "section_id": "cv.section.recognition",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "award.energy_ministry.distinguished_power_engineer"
+      ],
+      "relation_ids": [
+        "relation.person.received_award.distinguished_power_engineer"
+      ],
+      "effective_evidence_statuses": [
+        "partially_verified"
+      ],
+      "exclusions": [
+        "award_document_identifiers_omitted"
+      ],
+      "notes": [
+        "evidence_status_recorded_in_provenance"
+      ]
+    },
+    {
+      "id": "cv.recognition.energy_ministry.honoured_energy_worker",
+      "section_id": "cv.section.recognition",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "award.energy_ministry.honoured_energy_worker"
+      ],
+      "relation_ids": [
+        "relation.person.received_award.energy_ministry_honoured_energy_worker"
+      ],
+      "effective_evidence_statuses": [
+        "partially_verified"
+      ],
+      "exclusions": [
+        "award_document_identifiers_omitted"
+      ],
+      "notes": [
+        "evidence_status_recorded_in_provenance"
+      ]
+    },
+    {
+      "id": "cv.recognition.keea.honoured_energy_worker",
+      "section_id": "cv.section.recognition",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "award.keea.honoured_energy_worker"
+      ],
+      "relation_ids": [
+        "relation.person.received_award.keea_honoured_energy_worker"
+      ],
+      "effective_evidence_statuses": [
+        "partially_verified"
+      ],
+      "exclusions": [
+        "award_document_identifiers_omitted"
+      ],
+      "notes": [
+        "evidence_status_recorded_in_provenance"
+      ]
+    },
+    {
+      "id": "cv.projects.ai_energy_auditor",
+      "section_id": "cv.section.projects",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "project.ai_energy_auditor"
+      ],
+      "relation_ids": [
+        "relation.person.develops.ai_energy_auditor",
+        "relation.project.ai_energy_auditor.addresses_topic.energy_audit",
+        "relation.project.ai_energy_auditor.addresses_topic.ai_assisted_engineering"
+      ],
+      "effective_evidence_statuses": [
+        "roadmap_only"
+      ],
+      "exclusions": [],
+      "notes": [
+        "roadmap_only_in_development_not_launched"
+      ]
+    },
+    {
+      "id": "cv.projects.stm32_lab",
+      "section_id": "cv.section.projects",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "project.stm32_lab"
+      ],
+      "relation_ids": [
+        "relation.person.develops.stm32_lab",
+        "relation.project.stm32_lab.addresses_topic.embedded_measurement_systems",
+        "relation.project.stm32_lab.addresses_topic.measurement_diagnostics"
+      ],
+      "effective_evidence_statuses": [
+        "roadmap_only"
+      ],
+      "exclusions": [],
+      "notes": [
+        "roadmap_only_in_development_not_launched"
+      ]
+    },
+    {
+      "id": "cv.public_routes",
+      "section_id": "cv.section.public_routes",
+      "document_ids": [
+        "cv.ru",
+        "cv.en"
+      ],
+      "claim_ids": [
+        "profile.orcid",
+        "profile.scopus"
+      ],
+      "relation_ids": [],
+      "effective_evidence_statuses": [
+        "verified_public"
+      ],
+      "exclusions": [
+        "literal_email_omitted_use_public_site_route"
+      ],
+      "notes": [
+        "profile_links_do_not_imply_metrics_or_completeness"
+      ]
+    }
+  ]
+}

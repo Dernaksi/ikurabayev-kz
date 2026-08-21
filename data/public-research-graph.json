@@ -1,0 +1,490 @@
+{
+  "schema_version": "0.2",
+  "subject": "person.iskander_kurabayev",
+  "topics": [
+    {
+      "id": "topic.insulation_parameters",
+      "kind": "research_topic",
+      "public": true,
+      "labels": {
+        "en": "Insulation parameters",
+        "ru": "Параметры изоляции"
+      }
+    },
+    {
+      "id": "topic.isolated_neutral_networks",
+      "kind": "research_topic",
+      "public": true,
+      "labels": {
+        "en": "Isolated-neutral and ungrounded electrical networks",
+        "ru": "Электрические сети с изолированной нейтралью"
+      }
+    },
+    {
+      "id": "topic.symmetrical_components",
+      "kind": "research_topic",
+      "public": true,
+      "labels": {
+        "en": "Symmetrical components",
+        "ru": "Симметричные составляющие"
+      }
+    },
+    {
+      "id": "topic.measurement_diagnostics",
+      "kind": "research_topic",
+      "public": true,
+      "labels": {
+        "en": "Electrical measurement and diagnostics",
+        "ru": "Электрические измерения и диагностика"
+      }
+    },
+    {
+      "id": "topic.energy_audit",
+      "kind": "research_topic",
+      "public": true,
+      "labels": {
+        "en": "Energy audit",
+        "ru": "Энергоаудит"
+      }
+    },
+    {
+      "id": "topic.energy_efficiency",
+      "kind": "research_topic",
+      "public": true,
+      "labels": {
+        "en": "Energy efficiency",
+        "ru": "Энергоэффективность"
+      }
+    },
+    {
+      "id": "topic.embedded_measurement_systems",
+      "kind": "research_topic",
+      "public": true,
+      "labels": {
+        "en": "Embedded measurement systems",
+        "ru": "Встраиваемые измерительные системы"
+      }
+    },
+    {
+      "id": "topic.ai_assisted_engineering",
+      "kind": "research_topic",
+      "public": true,
+      "labels": {
+        "en": "AI-assisted engineering",
+        "ru": "AI-ассистированные инженерные процессы"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation.person.holds_role.university_current",
+      "from": "person.iskander_kurabayev",
+      "predicate": "holds_role",
+      "to": "role.university.current",
+      "status": "partially_verified",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.astana_energy.board_profile"
+      ],
+      "note": "Role and organization only; the disputed start date remains unresolved and is excluded from the generated CV."
+    },
+    {
+      "id": "relation.person.holds_role.astana_energy_current",
+      "from": "person.iskander_kurabayev",
+      "predicate": "holds_role",
+      "to": "role.astana_energy.current",
+      "status": "verified_public",
+      "evidence": [
+        "source.astana_energy.board_profile"
+      ],
+      "note": "Point-in-time current role; currentness must be rechecked before later publication updates."
+    },
+    {
+      "id": "relation.person.holds_credential.education_phd",
+      "from": "person.iskander_kurabayev",
+      "predicate": "holds_credential",
+      "to": "education.phd.electrical_complexes_systems",
+      "status": "verified_public",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.astana_energy.board_profile"
+      ]
+    },
+    {
+      "id": "relation.person.holds_credential.education_master",
+      "from": "person.iskander_kurabayev",
+      "predicate": "holds_credential",
+      "to": "education.master.electrical_power_engineering",
+      "status": "verified_public",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.astana_energy.board_profile"
+      ]
+    },
+    {
+      "id": "relation.person.holds_credential.education_specialist",
+      "from": "person.iskander_kurabayev",
+      "predicate": "holds_credential",
+      "to": "education.specialist.industrial_power_supply",
+      "status": "verified_public",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.astana_energy.board_profile"
+      ]
+    },
+    {
+      "id": "relation.person.holds_credential.energy_auditor",
+      "from": "person.iskander_kurabayev",
+      "predicate": "holds_credential",
+      "to": "credential.energy_auditor",
+      "status": "partially_verified",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.person.authored.isolated_neutral_experimental_studies",
+      "from": "person.iskander_kurabayev",
+      "predicate": "authored",
+      "to": "publication.isolated_neutral_experimental_studies",
+      "status": "verified_public",
+      "evidence": [
+        "source.publication.isolated_neutral_article",
+        "source.katru.faculty_profile"
+      ]
+    },
+    {
+      "id": "relation.person.authored.gtd2_12436",
+      "from": "person.iskander_kurabayev",
+      "predicate": "authored",
+      "to": "publication.gtd2_12436",
+      "status": "verified_public",
+      "evidence": [
+        "source.doi.gtd2_12436"
+      ]
+    },
+    {
+      "id": "relation.person.authored.icecet_9873012",
+      "from": "person.iskander_kurabayev",
+      "predicate": "authored",
+      "to": "publication.icecet_9873012",
+      "status": "verified_public",
+      "evidence": [
+        "source.doi.icecet_9873012"
+      ]
+    },
+    {
+      "id": "relation.person.authored.yiuh4401",
+      "from": "person.iskander_kurabayev",
+      "predicate": "authored",
+      "to": "publication.yiuh4401",
+      "status": "verified_public",
+      "evidence": [
+        "source.doi.yiuh4401"
+      ]
+    },
+    {
+      "id": "relation.person.authored.kazatc_error_estimation",
+      "from": "person.iskander_kurabayev",
+      "predicate": "authored",
+      "to": "publication.kazatc_error_estimation",
+      "status": "verified_public",
+      "evidence": [
+        "source.doi.kazatc_error_estimation"
+      ]
+    },
+    {
+      "id": "relation.person.inventor_on.ea041128",
+      "from": "person.iskander_kurabayev",
+      "predicate": "inventor_on",
+      "to": "patent.ea041128",
+      "status": "verified_public",
+      "evidence": [
+        "source.eapo.patent_041128"
+      ],
+      "note": "Historical inventor relationship; the canonical claim records that the patent is not in force."
+    },
+    {
+      "id": "relation.person.inventor_on.kz35922",
+      "from": "person.iskander_kurabayev",
+      "predicate": "inventor_on",
+      "to": "patent.kz35922",
+      "status": "verified_public",
+      "evidence": [
+        "source.qazpatent.patent_35922"
+      ],
+      "note": "Historical inventor relationship; the canonical claim records that the patent is not in force."
+    },
+    {
+      "id": "relation.person.inventor_on.kz37923",
+      "from": "person.iskander_kurabayev",
+      "predicate": "inventor_on",
+      "to": "patent.kz37923",
+      "status": "verified_public",
+      "evidence": [
+        "source.qazpatent.patent_37923"
+      ],
+      "note": "Inventor relationship and legal status are point-in-time public facts."
+    },
+    {
+      "id": "relation.person.leads.ap22787517",
+      "from": "person.iskander_kurabayev",
+      "predicate": "leads",
+      "to": "grant.ap22787517",
+      "status": "owner_approved",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "note": "Publicly approved leadership claim; independent grant verification remains incomplete."
+    },
+    {
+      "id": "relation.person.received_award.keea_honoured_energy_worker",
+      "from": "person.iskander_kurabayev",
+      "predicate": "received_award",
+      "to": "award.keea.honoured_energy_worker",
+      "status": "partially_verified",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.person.received_award.energy_ministry_honoured_energy_worker",
+      "from": "person.iskander_kurabayev",
+      "predicate": "received_award",
+      "to": "award.energy_ministry.honoured_energy_worker",
+      "status": "partially_verified",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.person.received_award.distinguished_power_engineer",
+      "from": "person.iskander_kurabayev",
+      "predicate": "received_award",
+      "to": "award.energy_ministry.distinguished_power_engineer",
+      "status": "partially_verified",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.person.received_award.energy_saving_contribution",
+      "from": "person.iskander_kurabayev",
+      "predicate": "received_award",
+      "to": "award.energy_saving_contribution",
+      "status": "owner_approved",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.person.develops.ai_energy_auditor",
+      "from": "person.iskander_kurabayev",
+      "predicate": "develops",
+      "to": "project.ai_energy_auditor",
+      "status": "roadmap_only",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "note": "In development; not a launched product or real AI service."
+    },
+    {
+      "id": "relation.person.develops.stm32_lab",
+      "from": "person.iskander_kurabayev",
+      "predicate": "develops",
+      "to": "project.stm32_lab",
+      "status": "roadmap_only",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ],
+      "note": "In development; no validated performance claim is implied."
+    },
+    {
+      "id": "relation.research_focus.addresses_topic.insulation_parameters",
+      "from": "research.focus.ungrounded_power_systems",
+      "predicate": "addresses_topic",
+      "to": "topic.insulation_parameters",
+      "status": "verified_public",
+      "evidence": [
+        "source.katru.faculty_profile"
+      ]
+    },
+    {
+      "id": "relation.research_focus.addresses_topic.energy_efficiency",
+      "from": "research.focus.ungrounded_power_systems",
+      "predicate": "addresses_topic",
+      "to": "topic.energy_efficiency",
+      "status": "verified_public",
+      "evidence": [
+        "source.katru.faculty_profile"
+      ]
+    },
+    {
+      "id": "relation.publication.isolated_neutral_studies.addresses_topic.insulation_parameters",
+      "from": "publication.isolated_neutral_experimental_studies",
+      "predicate": "addresses_topic",
+      "to": "topic.insulation_parameters",
+      "status": "verified_public",
+      "evidence": [
+        "source.publication.isolated_neutral_article",
+        "source.katru.faculty_profile"
+      ]
+    },
+    {
+      "id": "relation.publication.gtd2_12436.addresses_topic.isolated_neutral_networks",
+      "from": "publication.gtd2_12436",
+      "predicate": "addresses_topic",
+      "to": "topic.isolated_neutral_networks",
+      "status": "verified_public",
+      "evidence": [
+        "source.doi.gtd2_12436"
+      ]
+    },
+    {
+      "id": "relation.publication.icecet_9873012.addresses_topic.measurement_diagnostics",
+      "from": "publication.icecet_9873012",
+      "predicate": "addresses_topic",
+      "to": "topic.measurement_diagnostics",
+      "status": "verified_public",
+      "evidence": [
+        "source.doi.icecet_9873012"
+      ]
+    },
+    {
+      "id": "relation.publication.yiuh4401.addresses_topic.measurement_diagnostics",
+      "from": "publication.yiuh4401",
+      "predicate": "addresses_topic",
+      "to": "topic.measurement_diagnostics",
+      "status": "verified_public",
+      "evidence": [
+        "source.doi.yiuh4401"
+      ]
+    },
+    {
+      "id": "relation.publication.kazatc_error_estimation.addresses_topic.insulation_parameters",
+      "from": "publication.kazatc_error_estimation",
+      "predicate": "addresses_topic",
+      "to": "topic.insulation_parameters",
+      "status": "verified_public",
+      "evidence": [
+        "source.doi.kazatc_error_estimation"
+      ]
+    },
+    {
+      "id": "relation.patent.ea041128.addresses_topic.isolated_neutral_networks",
+      "from": "patent.ea041128",
+      "predicate": "addresses_topic",
+      "to": "topic.isolated_neutral_networks",
+      "status": "verified_public",
+      "evidence": [
+        "source.eapo.patent_041128"
+      ]
+    },
+    {
+      "id": "relation.patent.kz35922.addresses_topic.symmetrical_components",
+      "from": "patent.kz35922",
+      "predicate": "addresses_topic",
+      "to": "topic.symmetrical_components",
+      "status": "verified_public",
+      "evidence": [
+        "source.qazpatent.patent_35922"
+      ]
+    },
+    {
+      "id": "relation.patent.kz37923.addresses_topic.symmetrical_components",
+      "from": "patent.kz37923",
+      "predicate": "addresses_topic",
+      "to": "topic.symmetrical_components",
+      "status": "verified_public",
+      "evidence": [
+        "source.qazpatent.patent_37923"
+      ]
+    },
+    {
+      "id": "relation.grant.ap22787517.addresses_topic.isolated_neutral_networks",
+      "from": "grant.ap22787517",
+      "predicate": "addresses_topic",
+      "to": "topic.isolated_neutral_networks",
+      "status": "owner_approved",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.grant.ap22787517.addresses_topic.measurement_diagnostics",
+      "from": "grant.ap22787517",
+      "predicate": "addresses_topic",
+      "to": "topic.measurement_diagnostics",
+      "status": "owner_approved",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.credential.energy_auditor.addresses_topic.energy_audit",
+      "from": "credential.energy_auditor",
+      "predicate": "addresses_topic",
+      "to": "topic.energy_audit",
+      "status": "partially_verified",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.credential.energy_auditor.addresses_topic.energy_efficiency",
+      "from": "credential.energy_auditor",
+      "predicate": "addresses_topic",
+      "to": "topic.energy_efficiency",
+      "status": "partially_verified",
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.project.ai_energy_auditor.addresses_topic.energy_audit",
+      "from": "project.ai_energy_auditor",
+      "predicate": "addresses_topic",
+      "to": "topic.energy_audit",
+      "status": "roadmap_only",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.project.ai_energy_auditor.addresses_topic.ai_assisted_engineering",
+      "from": "project.ai_energy_auditor",
+      "predicate": "addresses_topic",
+      "to": "topic.ai_assisted_engineering",
+      "status": "roadmap_only",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.project.stm32_lab.addresses_topic.embedded_measurement_systems",
+      "from": "project.stm32_lab",
+      "predicate": "addresses_topic",
+      "to": "topic.embedded_measurement_systems",
+      "status": "roadmap_only",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ]
+    },
+    {
+      "id": "relation.project.stm32_lab.addresses_topic.measurement_diagnostics",
+      "from": "project.stm32_lab",
+      "predicate": "addresses_topic",
+      "to": "topic.measurement_diagnostics",
+      "status": "roadmap_only",
+      "evidence": [
+        "source.owner_approval.v1_1_public_content"
+      ]
+    }
+  ]
+}

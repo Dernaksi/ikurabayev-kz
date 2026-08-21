@@ -5,7 +5,7 @@
     "type": "person",
     "canonical_claim": "identity.name"
   },
-  "generated_or_reviewed_at": "2026-08-09",
+  "generated_or_reviewed_at": "2026-08-10",
   "claims": [
     {
       "id": "identity.name",
@@ -26,6 +26,55 @@
         "ru"
       ],
       "presentation_notes": "The Kazakh display form is not canonicalized in v0.1 because the current presentation contains inconsistent variants and awaits human language review."
+    },
+    {
+      "id": "education.phd.electrical_complexes_systems",
+      "kind": "education",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "credential": "PhD",
+        "field": "Electrical complexes and systems"
+      },
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.astana_energy.board_profile"
+      ],
+      "verified_at": "2026-08-10",
+      "presentation_notes": "The bounded degree and field are confirmed by official institutional profiles. Institution, dates, honours, dissertation title, document identifiers, and unrelated biographical details are intentionally not recorded."
+    },
+    {
+      "id": "education.master.electrical_power_engineering",
+      "kind": "education",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "credential": "Master of Technical Sciences",
+        "field": "Electrical Power Engineering"
+      },
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.astana_energy.board_profile"
+      ],
+      "verified_at": "2026-08-10",
+      "presentation_notes": "The bounded degree and field are confirmed by official institutional profiles. Institution, dates, honours, document identifiers, and unrelated biographical details are intentionally not recorded."
+    },
+    {
+      "id": "education.specialist.industrial_power_supply",
+      "kind": "education",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "credential": "Specialist degree",
+        "field": "Industrial power supply",
+        "qualification": "Engineer-electrician"
+      },
+      "evidence": [
+        "source.katru.faculty_profile",
+        "source.astana_energy.board_profile"
+      ],
+      "verified_at": "2026-08-10",
+      "presentation_notes": "The bounded qualification and field are confirmed by official institutional profiles. Institution, dates, honours, document identifiers, and unrelated biographical details are intentionally not recorded."
     },
     {
       "id": "role.university.current",
@@ -91,6 +140,23 @@
       ],
       "verified_at": "2026-08-09",
       "presentation_notes": "Use for identity and profile routing only; do not publish citation metrics, h-index, affiliation completeness, or publication completeness."
+    },
+    {
+      "id": "research.focus.ungrounded_power_systems",
+      "kind": "research_focus",
+      "public": true,
+      "status": "verified_public",
+      "value": {
+        "areas": [
+          "Insulation parameters in ungrounded electrical systems",
+          "Energy efficiency in industrial power systems"
+        ]
+      },
+      "evidence": [
+        "source.katru.faculty_profile"
+      ],
+      "verified_at": "2026-08-10",
+      "presentation_notes": "Broad official-profile research areas only. This claim does not establish method effectiveness, validation results, publication completeness, or a stronger current-role statement."
     },
     {
       "id": "grant.ap22787517",
@@ -434,7 +500,7 @@
       "id": "source.katru.faculty_profile",
       "kind": "official_institutional_profile",
       "url": "https://kazatu.edu.kz/ru/pps/kurabaev-iskander-kazbekovic",
-      "checked_at": "2026-08-09",
+      "checked_at": "2026-08-10",
       "authority": "S. Seifullin Kazakh Agrotechnical Research University",
       "source_role": "primary_institutional"
     },
@@ -442,7 +508,7 @@
       "id": "source.astana_energy.board_profile",
       "kind": "official_institutional_profile",
       "url": "https://astana-energy.kz/ru/o-kompanii/sovet-direktorov/kurabaev-iskander-kazbekovich",
-      "checked_at": "2026-08-09",
+      "checked_at": "2026-08-10",
       "authority": "Astana-Energy JSC",
       "source_role": "primary_institutional"
     },
