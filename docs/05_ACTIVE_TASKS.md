@@ -42,6 +42,10 @@ Post-v1.2 production maintenance; Claude Design v1.1 remains the visual baseline
   official registry links, removed the prohibited energy-auditor document
   identifier, corrected stale concierge wording, established apex semantic
   metadata plus robots/sitemap, and added an offline release validator.
+- Public Research Knowledge System v0.2 established a compact relationship
+  graph, four bounded Evidence Spine additions, deterministic RU/EN public CV
+  drafts, block-level provenance, and an offline knowledge validator with six
+  bounded mutation checks. The drafts are not yet published or downloadable.
 
 ## Current Design Note
 
@@ -59,11 +63,15 @@ the current release.
 
 1. Resolve the conflicting official university-role start-date evidence through
    owner review before changing the production timeline.
-2. Decide whether to implement an optional `www`-to-apex redirect in the
+2. Complete Kazakh language review.
+3. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Complete Kazakh language review.
-4. Create and review a sanitized public CV before any downloadable CV is added.
-5. Draft a separate real-AI backend architecture before any real API work.
+4. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile
+   routes without changing the accepted Russian-first information architecture
+   implicitly.
+5. Human-review the generated RU/EN public CV drafts, then scope publication or
+   a downloadable version as a separate task.
+6. Draft a separate real-AI backend architecture before any real API work.
 
 ## Active Branch Convention
 

@@ -24,6 +24,9 @@ Status: in progress / partially completed
   private contact data remains excluded.
 - Evidence Spine v0.1 provides a machine-readable, public-safe evidence layer
   for a bounded set of high-value facts.
+- Public Knowledge System v0.2 adds a compact claim-referenced research graph,
+  deterministic RU/EN public CV drafts, and block-level provenance without
+  generating or changing the website.
 - Official registry verification is complete for the three displayed patent
   records, and v1.2 reconciles their publication and dated legal-status wording
   with direct official-registry links.
@@ -75,7 +78,10 @@ Status: completed for Cloudflare Pages production and current production QA
   and a dependency-free offline release validator.
 - The apex canonical metadata decision is complete. An optional actual
   `www`-to-apex redirect remains a separate Cloudflare control-plane task.
-- Remaining polish includes Kazakh language review and a sanitized public CV.
+- Deterministic sanitized RU/EN public CV drafts now exist for human review;
+  publication or a downloadable CV remains separate work.
+- Remaining polish includes Kazakh language review, the semantic roles of `/`
+  and `/ru/`, and review/publication of the generated public CV.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
   the technical decision.
 
@@ -90,6 +96,8 @@ Status: in progress / post-launch maintenance
 - Start future major design changes in Claude Design, then integrate them
   through design-intake pull requests with a faithfulness report.
 - Track content updates through issues and pull requests.
+- Regenerate Living Public CV artifacts from canonical facts and relationships;
+  do not manually maintain generated Markdown as a separate evidence source.
 - Maintain decision log and roadmap as the project evolves.
 
 ## Phase 6 - Public AI Assistant Architecture
@@ -100,7 +108,8 @@ Status: future / separate phase
   until a separate architecture decision and pull request approve real backend
   functionality.
 - Ground any future AI/agent layer in reviewed public Evidence Spine claims,
-  while keeping that integration a separate future phase.
+  and use only conservative reviewed graph relationships while keeping that
+  integration a separate future phase.
 - Design any real AI integration through a backend or edge function with secrets
   outside GitHub.
 - Do not combine real AI/API launch work with visual design ports unless a

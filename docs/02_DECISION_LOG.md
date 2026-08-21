@@ -260,3 +260,28 @@ is a separate optional Cloudflare control-plane action and is not implemented or
 claimed here. The validator is an offline repository contract, not runtime
 Evidence Spine loading, live legal-status monitoring, analytics, or an AI
 backend; future routes or contract changes must update it intentionally.
+
+### 2026-08-10 - Establish a bounded public research graph and deterministic Living Public CV
+
+Status: accepted
+
+Context:
+Evidence Spine v0.1 provides canonical public-safe facts, but reusable research
+relationships and a sanitized CV still require manual reconstruction. A future
+AI layer also needs an explicit boundary between reviewed facts, conservative
+relationships, derived presentation, and provenance.
+
+Decision:
+Maintain `data/public-research-graph.json` as a compact relationship layer that
+references Evidence Spine claim and source IDs without duplicating claim
+payload. Generate equivalent RU/EN Living Public CV drafts and block-level
+provenance deterministically from the facts registry and graph using Python
+standard-library tooling. Keep generated artifacts derived and require human
+review before any site publication or downloadable CV is added.
+
+Consequences:
+Relationship status cannot exceed the linked claim, roadmap projects remain in
+development, and the conflicting university-role start date is omitted from the
+CV with an explicit provenance exclusion. This decision adds no site runtime,
+framework, dependency, backend, API, storage, analytics, real-AI behavior,
+Cloudflare change, PDF, or DOCX export.
