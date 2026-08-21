@@ -39,6 +39,8 @@ PATENTS = {
     "patent.kz35922": ("not_in_force", "source.qazpatent.patent_35922"),
     "patent.kz37923": ("active", "source.qazpatent.patent_37923"),
 }
+CREDENTIAL_SOURCE_ID = "source.owner_supplied.energy_auditor_certificate_review"
+PUBLIC_TEXT_SUFFIXES = {".css", ".html", ".js", ".json", ".svg", ".txt", ".xml"}
 VOID_TAGS = {
     "area",
     "base",
@@ -231,16 +233,57 @@ def validate_evidence() -> tuple[
         else:
             official_urls[claim_id] = url
 
+    credential = claims.get("credential.energy_auditor", {})
+    credential_value = credential.get("value")
+    if credential.get("status") != "partially_verified":
+        fail("credential.energy_auditor: status must remain partially_verified")
+    if not isinstance(credential_value, dict):
+        fail("credential.energy_auditor: value must be an object")
+    else:
+        expected_credential = {
+            "credential": "Certified energy auditor",
+            "practice_area": "energy saving and energy efficiency improvement",
+            "certificate_issued_on": "2026-08-14",
+            "certificate_valid_until": "2029-08-06",
+        }
+        for key, expected in expected_credential.items():
+            if credential_value.get(key) != expected:
+                fail(f"credential.energy_auditor: expected {key} {expected}")
+    if CREDENTIAL_SOURCE_ID not in credential.get("evidence", []):
+        fail("credential.energy_auditor: sanitized term evidence is missing")
+    credential_source = sources.get(CREDENTIAL_SOURCE_ID, {})
+    if credential_source.get("kind") != "owner_supplied_document_review":
+        fail(f"{CREDENTIAL_SOURCE_ID}: unexpected source kind")
+    if "url" in credential_source:
+        fail(f"{CREDENTIAL_SOURCE_ID}: private evidence must not have a URL")
+
     return claims, sources, official_urls
 
 
 def validate_public_files() -> None:
-    prohibited_pattern = re.compile(rb"KZ55VWE[0-9]{8}")
+    credential_identifier = re.compile(rb"KZ55VWE[0-9]{8}")
+    text_only_patterns = {
+        "12-digit civil identifier": re.compile(
+            rb"(?<![A-Za-z0-9])[0-9]{12}(?![A-Za-z0-9])"
+        ),
+        "absolute Windows path": re.compile(rb"[A-Za-z]:\\"),
+        "private file URL": re.compile(rb"file://", re.IGNORECASE),
+        "accreditation identifier": re.compile(rb"KZ\.S\.", re.IGNORECASE),
+    }
     for path in SITE.rglob("*"):
         if path.is_file():
             try:
-                if prohibited_pattern.search(path.read_bytes()):
-                    fail(f"Prohibited credential identifier found in {path.relative_to(ROOT)}")
+                content = path.read_bytes()
+                if credential_identifier.search(content):
+                    fail(
+                        "Prohibited legacy credential identifier found in "
+                        f"{path.relative_to(ROOT)}"
+                    )
+                if path.suffix.lower() not in PUBLIC_TEXT_SUFFIXES:
+                    continue
+                for label, pattern in text_only_patterns.items():
+                    if pattern.search(content):
+                        fail(f"Prohibited {label} found in {path.relative_to(ROOT)}")
             except OSError as exc:
                 fail(f"Cannot scan {path.relative_to(ROOT)}: {exc}")
 
@@ -349,9 +392,48 @@ def validate_html(
             ),
         },
     }
+    certification_markers = {
+        "/": (
+            "Сертифицированный энергоаудитор",
+            "сертификат выдан 14 августа 2026 года",
+            "действителен до 6 августа 2029 года",
+        ),
+        "/ru/": (
+            "Сертифицированный энергоаудитор",
+            "сертификат выдан 14 августа 2026 года",
+            "действителен до 6 августа 2029 года",
+        ),
+        "/en/": (
+            "Certified energy auditor",
+            "certificate issued 14 August 2026",
+            "valid until 6 August 2029",
+        ),
+        "/kk/": (
+            "Сертификатталған энергоаудитор",
+            "сертификат 2026 жылғы 14 тамызда берілді",
+            "2029 жылғы 6 тамызға дейін жарамды",
+        ),
+        "/qr/": ("сертифицированный энергоаудитор",),
+    }
+    obsolete_certification_wording = (
+        "аккредитованный энергоаудитор",
+        "accredited energy auditor",
+        "аккредиттелген энергоаудитор",
+        "аккредитация",
+        "accreditation",
+        "аккредиттеу",
+    )
 
     for route, (path, canonical) in ROUTES.items():
         parser = parse_page(route, path)
+        visible_text = parser.visible_text
+        for marker in certification_markers[route]:
+            if marker not in visible_text:
+                fail(f"{route}: certification marker is missing: {marker}")
+        visible_casefold = visible_text.casefold()
+        for obsolete in obsolete_certification_wording:
+            if obsolete.casefold() in visible_casefold:
+                fail(f"{route}: obsolete personal-accreditation wording remains: {obsolete}")
         canonicals = [
             link.get("href", "")
             for link in parser.links
@@ -523,6 +605,29 @@ def validate_concierge() -> None:
         if phrase in text:
             fail(f"concierge.js contains stale patent-verification wording: {phrase}")
 
+    certification_markers = (
+        "сертифицированный энергоаудитор",
+        "Сертификат выдан 14 августа 2026 года",
+        "действителен до 6 августа 2029 года",
+        "certified energy auditor",
+        "issued on 14 August 2026",
+        "valid until 6 August 2029",
+        "сертификатталған энергоаудитор",
+        "2026 жылғы 14 тамызда берілді",
+        "2029 жылғы 6 тамызға дейін жарамды",
+    )
+    text_casefold = text.casefold()
+    for marker in certification_markers:
+        if marker.casefold() not in text_casefold:
+            fail(f"concierge.js certification marker is missing: {marker}")
+    for obsolete in (
+        "аккредитованный энергоаудитор",
+        "accredited energy auditor",
+        "аккредиттелген энергоаудитор",
+    ):
+        if obsolete.casefold() in text_casefold:
+            fail(f"concierge.js contains obsolete wording: {obsolete}")
+
     forbidden_runtime = {
         r"\bfetch\s*\(": "fetch",
         r"\bXMLHttpRequest\b": "XMLHttpRequest",
@@ -555,8 +660,8 @@ def main() -> int:
 
     print(
         "Public release validation PASS: evidence states, privacy exclusions, "
-        "localized patent truth, semantic metadata, sitemap, robots, and "
-        "concierge architecture match the bounded v1.2 contract."
+        "localized patent and certification truth, semantic metadata, sitemap, "
+        "robots, and concierge architecture match the bounded v1.2 contract."
     )
     return 0
 
