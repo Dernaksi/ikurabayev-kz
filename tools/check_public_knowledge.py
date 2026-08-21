@@ -10,6 +10,7 @@ import json
 import re
 import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 
@@ -52,6 +53,18 @@ EXPECTED_PUBLICATIONS = {
     "publication.kazatc_error_estimation",
 }
 EXPECTED_PROJECTS = {"project.ai_energy_auditor", "project.stm32_lab"}
+CREDENTIAL_SOURCE_ID = "source.owner_supplied.energy_auditor_certificate_review"
+CREDENTIAL_VALUE_KEYS = {
+    "credential",
+    "practice_area",
+    "professional_practice_since",
+    "certificate_issued_on",
+    "certificate_valid_until",
+}
+OWNER_CONTROLLED_SOURCE_KINDS = {
+    "owner_approval",
+    "owner_supplied_document_review",
+}
 EXPECTED_DOCUMENTS = {
     "cv.ru": ("ru", "cv/IKurabayev_Public_CV_RU.md"),
     "cv.en": ("en", "cv/IKurabayev_Public_CV_EN.md"),
@@ -106,6 +119,17 @@ def ordered_unique(values: list[str]) -> list[str]:
     return list(dict.fromkeys(values))
 
 
+def parse_iso_date(value: object, label: str, errors: list[str]) -> date | None:
+    if not isinstance(value, str):
+        errors.append(f"{label}: expected an ISO date")
+        return None
+    try:
+        return date.fromisoformat(value)
+    except ValueError:
+        errors.append(f"{label}: invalid ISO date {value}")
+        return None
+
+
 def markdown_section(text: str, heading: str) -> str:
     marker = f"## {heading}"
     start = text.find(marker)
@@ -127,7 +151,9 @@ def validate_privacy(paths: list[Path], errors: list[str], root: Path) -> None:
         "Kazakhstan phone number": re.compile(
             r"(?:\+7|\b8)[\s(.-]*[0-9]{3}[\s).-]*[0-9]{3}[\s.-]*[0-9]{2}[\s.-]*[0-9]{2}"
         ),
-        "12-digit civil identifier": re.compile(r"(?<![0-9])[0-9]{12}(?![0-9])"),
+        "12-digit civil identifier": re.compile(
+            r"(?<![A-Za-z0-9])[0-9]{12}(?![A-Za-z0-9])"
+        ),
         "absolute Windows path": re.compile(r"[A-Za-z]:\\"),
         "user-home path": re.compile(r"(?:/Users/|file://)", re.IGNORECASE),
         "private-key material": re.compile(r"BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY"),
@@ -216,19 +242,89 @@ def validate_registry(
     if not isinstance(credential_value, dict):
         errors.append("credential.energy_auditor: missing structured value")
     else:
-        forbidden_fields = {
-            "identifier",
-            "document_number",
-            "certificate_number",
-            "attestation_number",
-            "registration_number",
-        }
-        found = forbidden_fields & set(credential_value)
-        if found:
+        unexpected_fields = set(credential_value) - CREDENTIAL_VALUE_KEYS
+        missing_fields = CREDENTIAL_VALUE_KEYS - set(credential_value)
+        if unexpected_fields:
             errors.append(
-                "credential.energy_auditor: prohibited document fields: "
-                + ", ".join(sorted(found))
+                "credential.energy_auditor: unexpected value fields: "
+                + ", ".join(sorted(unexpected_fields))
             )
+        if missing_fields:
+            errors.append(
+                "credential.energy_auditor: missing value fields: "
+                + ", ".join(sorted(missing_fields))
+            )
+        expected_values = {
+            "credential": "Certified energy auditor",
+            "practice_area": "energy saving and energy efficiency improvement",
+            "professional_practice_since": 2010,
+            "certificate_issued_on": "2026-08-14",
+            "certificate_valid_until": "2029-08-06",
+        }
+        for key, expected in expected_values.items():
+            if credential_value.get(key) != expected:
+                errors.append(
+                    f"credential.energy_auditor: value.{key} must remain {expected}"
+                )
+        issued_on = parse_iso_date(
+            credential_value.get("certificate_issued_on"),
+            "credential.energy_auditor: certificate_issued_on",
+            errors,
+        )
+        valid_until = parse_iso_date(
+            credential_value.get("certificate_valid_until"),
+            "credential.energy_auditor: certificate_valid_until",
+            errors,
+        )
+        if issued_on and valid_until and issued_on >= valid_until:
+            errors.append(
+                "credential.energy_auditor: certificate issue date must precede validity end"
+            )
+    if credential.get("status") != "partially_verified":
+        errors.append("credential.energy_auditor: status must remain partially_verified")
+    if credential.get("verified_at") != "2026-08-21":
+        errors.append("credential.energy_auditor: verified_at must remain 2026-08-21")
+    expected_credential_evidence = {
+        "source.katru.faculty_profile",
+        "source.owner_approval.v1_1_public_content",
+        CREDENTIAL_SOURCE_ID,
+    }
+    credential_evidence = credential.get("evidence")
+    if not isinstance(credential_evidence, list) or set(
+        credential_evidence
+    ) != expected_credential_evidence:
+        errors.append("credential.energy_auditor: unexpected evidence set")
+    credential_note = str(credential.get("presentation_notes", "")).lower()
+    for marker in (
+        "not been independently verified",
+        "civil identifier",
+        "raw document",
+        "file name",
+        "path",
+    ):
+        if marker not in credential_note:
+            errors.append(
+                f"credential.energy_auditor: presentation limitation missing: {marker}"
+            )
+
+    credential_source = sources.get(CREDENTIAL_SOURCE_ID)
+    expected_source = {
+        "id": CREDENTIAL_SOURCE_ID,
+        "kind": "owner_supplied_document_review",
+        "checked_at": "2026-08-21",
+        "authority": "repository_owner",
+        "source_role": "credential_issue_and_validity",
+        "public_safe_note": (
+            "Sanitized review confirms only the certified-energy-auditor wording, "
+            "issue date, and validity end date approved for public display. Private "
+            "artifact and document metadata are intentionally excluded; this is not "
+            "independent public verification."
+        ),
+    }
+    if credential_source != expected_source:
+        errors.append(
+            f"{CREDENTIAL_SOURCE_ID}: sanitized source contract changed or includes private fields"
+        )
     return claims, sources
 
 
@@ -324,7 +420,8 @@ def validate_graph(
             non_owner_sources = [
                 item
                 for item in evidence
-                if sources.get(item, {}).get("kind") != "owner_approval"
+                if sources.get(item, {}).get("kind")
+                not in OWNER_CONTROLLED_SOURCE_KINDS
             ]
             if not non_owner_sources:
                 errors.append(
@@ -428,6 +525,28 @@ def validate_cv_semantics(document_text: dict[str, str], errors: list[str]) -> N
         for marker in markers:
             if marker not in text:
                 errors.append(f"{document_id}: inactive/active patent marker missing: {marker}")
+
+    required_credential_markers = {
+        "cv.ru": (
+            "Сертифицированный энергоаудитор",
+            "Сертификат выдан 2026-08-14",
+            "действителен до 2029-08-06",
+        ),
+        "cv.en": (
+            "Certified energy auditor",
+            "Certificate issued on 2026-08-14",
+            "valid until 2029-08-06",
+        ),
+    }
+    for document_id, markers in required_credential_markers.items():
+        text = document_text.get(document_id, "")
+        for marker in markers:
+            if marker not in text:
+                errors.append(f"{document_id}: certification marker missing: {marker}")
+    if "Аккредитованный энергоаудитор" in ru:
+        errors.append("cv.ru: obsolete personal-accreditation wording is prohibited")
+    if "Accredited energy auditor" in en:
+        errors.append("cv.en: obsolete personal-accreditation wording is prohibited")
 
     if "AI Energy Auditor" not in ru or "в разработке" not in ru:
         errors.append("cv.ru: AI Energy Auditor must remain in development")
@@ -536,6 +655,25 @@ def validate_manifest_and_documents(
         "notes", []
     ):
         errors.append("provenance: the 2010 practice start needs an owner-approved note")
+    required_credential_exclusions = {
+        "certificate_identifier_omitted",
+        "civil_identifier_omitted",
+        "qr_content_omitted",
+        "address_omitted",
+        "signature_and_seal_omitted",
+        "raw_document_and_path_omitted",
+    }
+    if not required_credential_exclusions.issubset(
+        set(credential_block.get("exclusions", []))
+    ):
+        errors.append("provenance: credential privacy exclusions are incomplete")
+    required_credential_notes = {
+        "certificate_dates_from_sanitized_owner_supplied_document_review",
+        "certificate_dates_not_independently_verified_publicly",
+        "professional_practice_since_is_owner_approved",
+    }
+    if not required_credential_notes.issubset(set(credential_block.get("notes", []))):
+        errors.append("provenance: credential evidence limitations are incomplete")
 
     validate_cv_semantics(document_text, errors)
 
@@ -667,6 +805,32 @@ def run_mutation_self_tests(root: Path) -> int:
         "relation status must match claim status roadmap_only",
     )
 
+    invalid_term_registry = copy.deepcopy(registry)
+    for claim in invalid_term_registry["claims"]:
+        if claim["id"] == "credential.energy_auditor":
+            claim["value"]["certificate_valid_until"] = "2026-08-01"
+            break
+    mutation_errors = []
+    validate_registry(invalid_term_registry, mutation_errors)
+    record(
+        "credential validity before issue date",
+        mutation_errors,
+        "certificate issue date must precede validity end",
+    )
+
+    credential_number_registry = copy.deepcopy(registry)
+    for claim in credential_number_registry["claims"]:
+        if claim["id"] == "credential.energy_auditor":
+            claim["value"]["certificate_number"] = "prohibited"
+            break
+    mutation_errors = []
+    validate_registry(credential_number_registry, mutation_errors)
+    record(
+        "credential identifier field inserted",
+        mutation_errors,
+        "unexpected value fields: certificate_number",
+    )
+
     dated_documents = dict(document_text)
     dated_documents["cv.en"] = dated_documents["cv.en"].replace(
         "## Education", "Start: 2023-09-01\n\n## Education", 1
@@ -718,7 +882,7 @@ def run_mutation_self_tests(root: Path) -> int:
             print(f"- {item}", file=sys.stderr)
         return 1
     print(
-        "Public knowledge mutation self-tests PASS: 6/6 bounded in-memory "
+        "Public knowledge mutation self-tests PASS: 8/8 bounded in-memory "
         "mutations rejected without filesystem changes."
     )
     return 0
@@ -729,7 +893,7 @@ def main() -> int:
     parser.add_argument(
         "--self-test",
         action="store_true",
-        help="run six bounded temporary mutation tests after baseline validation",
+        help="run eight bounded temporary mutation tests after baseline validation",
     )
     args = parser.parse_args()
     if args.self_test:
@@ -743,8 +907,9 @@ def main() -> int:
         return 1
     print(
         "Public knowledge validation PASS: registry, graph, deterministic CV, "
-        "block provenance, privacy, dated patent status, disputed-role omission, "
-        "and roadmap boundaries match the bounded v0.2 contract."
+        "block provenance, privacy, credential term, dated patent status, "
+        "disputed-role omission, and roadmap boundaries match the bounded "
+        "v0.2 contract."
     )
     return 0
 

@@ -49,9 +49,11 @@ Claim fields:
 - `languages`: included only where locale handling materially affects identity.
 
 Source fields contain only public-safe provenance: `id`, `kind`, optional
-public `url`, `checked_at`, `authority`, and `source_role`. Generic owner
-approval deliberately omits private artifact names, paths, identifiers, and
-metadata.
+public `url`, `checked_at`, `authority`, `source_role`, and an optional
+`public_safe_note`. Generic owner approval and sanitized owner-supplied document
+review deliberately omit private artifact names, paths, identifiers, and
+metadata. A sanitized private-evidence source never receives a URL and does not
+count as independent public verification.
 
 `public: true` means the registry entry is safe to review publicly. It does not
 automatically authorize every field for every presentation. The public-content
@@ -79,7 +81,9 @@ Use the strongest available source for the field being verified:
 2. Official institutional or issuer records.
 3. DOI, publisher metadata, ORCID, and curated academic identity records.
 4. Reputable secondary databases only as supporting evidence.
-5. Generic owner approval where no suitable public source is available.
+5. Sanitized review of owner-supplied evidence for specifically approved
+   public-safe fields where no suitable public source is available.
+6. Generic owner approval.
 
 The current website is a presentation reference, not independent evidence.
 Search snippets and visual copies of documents are not authoritative registry
@@ -92,6 +96,11 @@ identifiers, certificate or attestation identifiers, private file names or
 paths, raw scans, QR or EDS content, signatures, seals, contracts, unpublished
 research data, confidential project details, or information about other private
 individuals.
+
+The owner may explicitly approve a minimal public-safe fact learned from private
+evidence, such as credential issue and validity dates. In that case, record only
+the approved fact, a generic sanitized source, and the independent-verification
+gap. Never record or link the private artifact or its identifying metadata.
 
 An official public record may expose fields outside this boundary. Record only
 the minimum fact needed for the reviewed claim. Patent entries therefore store
