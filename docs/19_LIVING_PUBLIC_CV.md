@@ -92,15 +92,28 @@ either disputed 2023 date.
 
 ## Credential Boundary
 
-The public accredited energy-auditor status is independently supported. The
-`professional_practice_since` value remains owner-approved within a
-`partially_verified` claim. When the generated CV includes `2010`, the
-corresponding provenance block records:
+The general public energy-auditor status is supported by an official
+institutional profile. The certified-energy-auditor wording and the current
+certificate term, issued `2026-08-14` and valid until `2029-08-06`, come from a
+sanitized review of owner-supplied private evidence and are not independently
+verified through a public registry or issuer page. The
+`professional_practice_since` value remains owner-approved within the same
+`partially_verified` claim.
+
+The generated credential block records the private-evidence limitation and the
+following exclusions:
+
+- certificate and accreditation identifiers;
+- civil identifier;
+- QR content;
+- address;
+- signature and seal;
+- raw document, file name, and path.
+
+When the generated CV includes `2010`, the corresponding provenance block also
+records:
 
 `professional_practice_since_is_owner_approved`
-
-No certificate, attestation, registration, renewal, QR, signature, or document
-identifier is included.
 
 ## Block-Level Provenance
 
@@ -150,7 +163,7 @@ python -m json.tool cv/IKurabayev_Public_CV_PROVENANCE.json
 The knowledge validator checks IDs, evidence references, status inheritance,
 topic and predicate contracts, privacy patterns, input/output hashes, block
 coverage, RU/EN structure, disputed-date omission, dated patent status, roadmap
-wording, and generated-file drift. Its self-test performs six bounded in-memory
+wording, and generated-file drift. Its self-test performs eight bounded in-memory
 mutations and confirms that each is rejected without changing the filesystem.
 
 ## Human Review And Future Exports

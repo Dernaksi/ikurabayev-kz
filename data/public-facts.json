@@ -5,7 +5,7 @@
     "type": "person",
     "canonical_claim": "identity.name"
   },
-  "generated_or_reviewed_at": "2026-08-10",
+  "generated_or_reviewed_at": "2026-08-21",
   "claims": [
     {
       "id": "identity.name",
@@ -371,16 +371,19 @@
       "public": true,
       "status": "partially_verified",
       "value": {
-        "credential": "Accredited energy auditor of the Republic of Kazakhstan",
-        "practice_area": "energy saving and energy efficiency",
-        "professional_practice_since": 2010
+        "credential": "Certified energy auditor",
+        "practice_area": "energy saving and energy efficiency improvement",
+        "professional_practice_since": 2010,
+        "certificate_issued_on": "2026-08-14",
+        "certificate_valid_until": "2029-08-06"
       },
       "evidence": [
         "source.katru.faculty_profile",
-        "source.owner_approval.v1_1_public_content"
+        "source.owner_approval.v1_1_public_content",
+        "source.owner_supplied.energy_auditor_certificate_review"
       ],
-      "verified_at": "2026-08-09",
-      "presentation_notes": "The official KATRU profile publicly verifies the accredited energy-auditor status. The professional_practice_since value and other supporting detail remain owner-approved rather than independently verified. Certificate, attestation, registration, renewal, QR, signature, and other private-document metadata are deliberately excluded."
+      "verified_at": "2026-08-21",
+      "presentation_notes": "The official KATRU profile publicly supports the general energy-auditor status. Sanitized review of owner-supplied private credential evidence supports the certified wording and the 2026-08-14 to 2029-08-06 term, but those fields have not been independently verified through a public registry or issuer page. The professional_practice_since value remains owner-approved. Certificate and accreditation identifiers, civil identifier, QR content, address, photo, signatures, seal, raw document, file name, path, and other private metadata are deliberately excluded."
     },
     {
       "id": "award.keea.honoured_energy_worker",
@@ -583,6 +586,14 @@
       "authority": "repository_owner",
       "source_role": "publication_approval",
       "public_safe_note": "Confirms approval of the current visible public content; does not independently verify factual currentness."
+    },
+    {
+      "id": "source.owner_supplied.energy_auditor_certificate_review",
+      "kind": "owner_supplied_document_review",
+      "checked_at": "2026-08-21",
+      "authority": "repository_owner",
+      "source_role": "credential_issue_and_validity",
+      "public_safe_note": "Sanitized review confirms only the certified-energy-auditor wording, issue date, and validity end date approved for public display. Private artifact and document metadata are intentionally excluded; this is not independent public verification."
     }
   ]
 }

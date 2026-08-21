@@ -8,6 +8,7 @@ import hashlib
 import json
 import sys
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 
 
@@ -114,6 +115,15 @@ def required_text(value: dict[str, object], key: str, claim_id: str) -> str:
     item = value.get(key)
     if not isinstance(item, str) or not item:
         raise ValueError(f"{claim_id}: missing string value.{key}")
+    return item
+
+
+def required_iso_date(value: dict[str, object], key: str, claim_id: str) -> str:
+    item = required_text(value, key, claim_id)
+    try:
+        date.fromisoformat(item)
+    except ValueError as exc:
+        raise ValueError(f"{claim_id}: value.{key} must be an ISO date") from exc
     return item
 
 
@@ -306,6 +316,18 @@ def build_blocks(
     practice_since = credential.get("professional_practice_since")
     if not isinstance(practice_since, int):
         raise ValueError("credential.energy_auditor: missing professional_practice_since")
+    certificate_issued_on = required_iso_date(
+        credential, "certificate_issued_on", "credential.energy_auditor"
+    )
+    certificate_valid_until = required_iso_date(
+        credential, "certificate_valid_until", "credential.energy_auditor"
+    )
+    if date.fromisoformat(certificate_issued_on) >= date.fromisoformat(
+        certificate_valid_until
+    ):
+        raise ValueError(
+            "credential.energy_auditor: certificate issue date must precede validity end"
+        )
     blocks.append(
         Block(
             id="cv.credential.energy_auditor",
@@ -323,17 +345,30 @@ def build_blocks(
                 ),
             ),
             ru_lines=(
-                "- Аккредитованный энергоаудитор Республики Казахстан в области "
-                f"энергосбережения и энергоэффективности; профессиональная практика "
-                f"указана с {practice_since} года.",
+                "- Сертифицированный энергоаудитор в области энергосбережения и "
+                "повышения энергоэффективности. Сертификат выдан "
+                f"{certificate_issued_on} и действителен до {certificate_valid_until}; "
+                f"профессиональная практика указана с {practice_since} года.",
             ),
             en_lines=(
-                "- Accredited energy auditor of the Republic of Kazakhstan in "
-                f"energy saving and energy efficiency; professional practice is "
-                f"recorded since {practice_since}.",
+                "- Certified energy auditor in the field of energy saving and energy "
+                "efficiency improvement. Certificate issued on "
+                f"{certificate_issued_on} and valid until {certificate_valid_until}; "
+                f"professional practice is recorded since {practice_since}.",
             ),
-            exclusions=("document_identifiers_omitted",),
-            notes=("professional_practice_since_is_owner_approved",),
+            exclusions=(
+                "certificate_identifier_omitted",
+                "civil_identifier_omitted",
+                "qr_content_omitted",
+                "address_omitted",
+                "signature_and_seal_omitted",
+                "raw_document_and_path_omitted",
+            ),
+            notes=(
+                "certificate_dates_from_sanitized_owner_supplied_document_review",
+                "certificate_dates_not_independently_verified_publicly",
+                "professional_practice_since_is_owner_approved",
+            ),
         )
     )
 

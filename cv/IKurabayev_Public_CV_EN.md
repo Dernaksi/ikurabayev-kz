@@ -5,7 +5,7 @@
 ## Profile
 
 - **Name:** Iskander Kurabayev.
-- **Source-registry review date:** 2026-08-10.
+- **Source-registry review date:** 2026-08-21.
 
 ## Research focus
 
@@ -28,7 +28,7 @@
 
 ## Professional credential
 
-- Accredited energy auditor of the Republic of Kazakhstan in energy saving and energy efficiency; professional practice is recorded since 2010.
+- Certified energy auditor in the field of energy saving and energy efficiency improvement. Certificate issued on 2026-08-14 and valid until 2029-08-06; professional practice is recorded since 2010.
 
 ## Research project
 
