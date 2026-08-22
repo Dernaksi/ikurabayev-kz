@@ -55,10 +55,12 @@ the visual baseline.
   details.
 - PR #50 completed the RU/EN Living Public CV publication-readiness audit and
   corrected the bounded award mapping and Russian provenance terminology.
-- Issue #51 scopes publication of the reviewed CV as deterministic,
-  dependency-free RU/EN
-  HTML at `/cv/` and `/en/cv/`, while retaining Markdown as review artifacts
-  and deferring PDF export.
+- PR #52 published the reviewed CV as deterministic, dependency-free RU/EN HTML
+  at `/cv/` and `/en/cv/`, retained Markdown as review artifacts, and deferred
+  PDF export.
+- Issue #53 scopes a bounded Kazakh language pass. Clear interface,
+  terminology, and copy defects are corrected without canonicalizing the
+  unresolved `Қорабаев` / `Құрабаев` display-name variants.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
   Cloudflare Pages preview hosts across desktop and 390x844 mobile checks;
   canonical metadata, robots, sitemap, and the privacy boundary remained intact.
@@ -77,7 +79,8 @@ the current release.
 
 ## Next Recommended Tasks
 
-1. Complete Kazakh language review.
+1. Owner-review and canonicalize the Kazakh display name, then close the
+   remaining identity boundary in the language review.
 2. Resolve the conflicting official university-role start-date evidence through
    owner review before changing the production timeline.
 3. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile

@@ -86,8 +86,9 @@ Status: completed for Cloudflare Pages production and current production QA
 - Production QA on 2026-08-22 confirmed the certified-energy-auditor update on
   the apex, `www`, and Cloudflare Pages preview hosts across desktop and mobile
   route checks, with apex canonical metadata retained.
-- Remaining polish includes Kazakh language review and the semantic roles of
-  `/` and `/ru/`.
+- A bounded Kazakh language pass has corrected interface, terminology, and
+  copy defects. Owner canonicalization of the Kazakh display name remains open,
+  together with the semantic roles of `/` and `/ru/`.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
   the technical decision.
 

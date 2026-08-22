@@ -783,6 +783,27 @@ def validate_concierge() -> None:
         if obsolete.casefold() in text_casefold:
             fail(f"concierge.js contains obsolete wording: {obsolete}")
 
+    kazakh_markers = (
+        "Зертханаға сұрақ қойыңыз",
+        "Прототиптік интерфейс · Дереккөз режимі: тек ашық деректер",
+        "Тек жергілікті",
+        "Нақты AI интеграциясы қосылмаған",
+        "құжаттың өзге деректемелері әдейі жарияланбайды",
+        "Бірнеше жұмыстың DOI-ы тексерілген",
+    )
+    for marker in kazakh_markers:
+        if marker not in text:
+            fail(f"concierge.js Kazakh language marker is missing: {marker}")
+    for stale in (
+        'title: "Зертханадан сұраңыз"',
+        "Төмендегі кеңесті басыңыз",
+        "ИИ-ассистенттік",
+        "электртехника саласының зерттеушісі",
+        "Электртехникалық кешендер мен жүйелер",
+    ):
+        if stale in text:
+            fail(f"concierge.js contains stale mixed-language Kazakh UI: {stale}")
+
     forbidden_runtime = {
         r"\bfetch\s*\(": "fetch",
         r"\bXMLHttpRequest\b": "XMLHttpRequest",
@@ -800,6 +821,40 @@ def validate_concierge() -> None:
             fail(f"concierge.js contains prohibited {label} construct")
 
 
+def validate_kazakh_language_contract() -> None:
+    path = SITE / "kk" / "index.html"
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        fail(f"/kk/: cannot read Kazakh HTML for language validation: {exc}")
+        return
+
+    markers = (
+        'aria-label="Сенім белгілері"',
+        "AI-дан сұрау",
+        "Қазіргі ашық мәлімет",
+        "Электротехникалық кешендер мен жүйелер",
+        "жоспарлы-профилактикалық жөндеу жұмыстарын",
+        "Аналогтық кіріс сатысы",
+        "Инженерлік тәжірибе жариялауға қауіпсіз деңгейде берілген",
+    )
+    for marker in markers:
+        if marker not in text:
+            fail(f"/kk/: reviewed Kazakh language marker is missing: {marker}")
+    for stale in (
+        'aria-label="Trust markers"',
+        "ИИ-ден сұрау",
+        "электртехникалық",
+        "Электртехникалық",
+        "Ағымдағы ашық тұжырым",
+        "Ашық түрде қауіпсіз тәжірибе",
+        "жөндеу-профилактикалық жұмыстарды",
+        "Аналогтық фронт",
+    ):
+        if stale in text:
+            fail(f"/kk/: stale or mixed-language wording remains: {stale}")
+
+
 def main() -> int:
     claims, sources, official_urls = validate_evidence()
     validate_public_files()
@@ -807,6 +862,7 @@ def main() -> int:
     validate_cv_html()
     validate_sitemap_and_robots()
     validate_concierge()
+    validate_kazakh_language_contract()
 
     if errors:
         print("Public release validation FAILED:", file=sys.stderr)
@@ -817,8 +873,8 @@ def main() -> int:
     print(
         "Public release validation PASS: evidence states, privacy exclusions, "
         "localized patent and certification truth, generated Living Public CV routes, "
-        "semantic metadata, sitemap, robots, and concierge architecture match the "
-        "bounded v1.2 contract."
+        "Kazakh language markers, semantic metadata, sitemap, robots, and concierge "
+        "architecture match the bounded v1.2 contract."
     )
     return 0
 

@@ -178,8 +178,9 @@ changes the information architecture:
 - `/kk`
 
 The root and QR routes currently follow Russian-first public entry. English
-remains the international profile layer. Kazakh remains supported and should not
-be strengthened without language review.
+remains the international profile layer. Kazakh remains supported and has
+received a bounded language pass; its display name must not be canonicalized or
+strengthened without explicit owner review.
 
 ## Privacy Boundaries
 

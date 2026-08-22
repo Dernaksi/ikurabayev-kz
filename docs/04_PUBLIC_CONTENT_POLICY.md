@@ -64,5 +64,7 @@ decision and privacy review explicitly change this policy.
 The current site supports Russian, English, and Kazakh through `/ru`, `/en`, and
 `/kk`, with `/` and `/qr` following the Russian-first public-entry decision.
 Translations should be reviewed for accuracy, tone, and consistency. Kazakh
-language quality review remains pending. Do not invent translated claims that
-are stronger than the approved source content.
+interface and terminology received a bounded review, but the Kazakh display
+name remains non-canonical pending explicit owner review. Do not invent
+translated claims or identity forms that are stronger than the approved source
+content.
