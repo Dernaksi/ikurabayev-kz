@@ -1,0 +1,202 @@
+/* Living Public CV routes — generated content, shared static presentation. */
+
+.cv-shell {
+  width: min(100% - 2.5rem, 980px);
+  margin: 0 auto;
+  padding: 4.5rem 0 3rem;
+}
+
+.cv-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(135deg, rgba(45, 212, 191, 0.1), transparent 48%),
+    var(--surface);
+  box-shadow: var(--shadow-soft);
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+}
+
+.cv-hero::after {
+  content: "CV // TRACEABLE";
+  position: absolute;
+  right: 1.5rem;
+  top: 1.25rem;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+
+.cv-hero h1 {
+  max-width: 760px;
+  margin: 0.55rem 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 6vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.cv-lead {
+  max-width: 720px;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: clamp(1.02rem, 2.2vw, 1.25rem);
+}
+
+.cv-scope {
+  max-width: 760px;
+  margin: 1rem 0 0;
+  color: var(--muted);
+}
+
+.cv-reviewed {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1.4rem 0 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(7, 11, 11, 0.55);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.55rem 0.7rem;
+}
+
+.cv-reviewed span {
+  color: var(--teal-bright);
+}
+
+.cv-sections {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cv-section {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: rgba(13, 20, 19, 0.88);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.cv-section h2 {
+  margin: 0 0 0.8rem;
+  color: var(--teal-bright);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cv-section ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cv-section li {
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+  padding: 0.72rem 0;
+}
+
+.cv-section li + li {
+  border-top: 1px solid var(--line-soft);
+}
+
+.cv-section strong {
+  color: var(--ink);
+}
+
+.cv-section a {
+  color: var(--teal-bright);
+  text-underline-offset: 0.2em;
+}
+
+.cv-section a:hover {
+  color: #fff;
+}
+
+.cv-footer {
+  margin-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  padding: 1.25rem 0 0;
+}
+
+.cv-footer p {
+  max-width: 760px;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .cv-shell {
+    width: min(100% - 1.25rem, 980px);
+    padding-top: 1.25rem;
+  }
+
+  .cv-hero::after {
+    display: none;
+  }
+
+  .cv-nav-links {
+    gap: 0.55rem;
+  }
+
+  .cv-nav-links a {
+    font-size: 0.75rem;
+  }
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    color: #111;
+    background: #fff;
+  }
+
+  .site-header,
+  .skip-link {
+    display: none;
+  }
+
+  .cv-shell {
+    width: 100%;
+    padding: 0;
+  }
+
+  .cv-hero,
+  .cv-section {
+    break-inside: avoid;
+    border-color: #bbb;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .cv-hero h1,
+  .cv-section strong {
+    color: #111;
+  }
+
+  .cv-lead,
+  .cv-scope,
+  .cv-reviewed,
+  .cv-section li,
+  .cv-footer {
+    color: #333;
+  }
+
+  .cv-section h2,
+  .cv-section a,
+  .cv-reviewed span {
+    color: #075f55;
+  }
+}

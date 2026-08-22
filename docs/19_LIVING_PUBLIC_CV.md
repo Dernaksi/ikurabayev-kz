@@ -4,8 +4,8 @@
 
 The Living Public CV is a deterministic, sanitized presentation derived from
 the reviewed public facts and relationship graph. It provides equivalent
-Russian and English Markdown drafts without making those drafts the canonical
-source of truth.
+Russian and English Markdown review documents and published HTML routes without
+making any generated document the canonical source of truth.
 
 Canonical facts remain in `data/public-facts.json`. Canonical relationships
 remain in `data/public-research-graph.json`. Generated CV files must never be
@@ -26,10 +26,13 @@ Generated outputs:
 
 - `cv/IKurabayev_Public_CV_RU.md`
 - `cv/IKurabayev_Public_CV_EN.md`
+- `site/cv/index.html`
+- `site/en/cv/index.html`
 - `cv/IKurabayev_Public_CV_PROVENANCE.json`
 
-The outputs are public drafts for human review. They are not deployed under
-`site/`, not advertised as a download, and not automatically published.
+The Markdown outputs remain public review artifacts. The equivalent HTML
+outputs are published at `/cv/` and `/en/cv/`. The generator owns only those two
+site documents; all other static profile pages remain manually maintained.
 
 ## Deterministic Build Contract
 
@@ -50,14 +53,14 @@ Determinism rules:
 - use no random values, locale-dependent formatting, or machine paths;
 - write UTF-8 with LF line endings;
 - serialize JSON with stable indentation and a final newline;
-- compare all three generated artifacts byte-for-byte in `--check` mode.
+- compare all five generated artifacts byte-for-byte in `--check` mode.
 
-Unchanged inputs therefore produce byte-identical RU, EN, and provenance
-outputs.
+Unchanged inputs therefore produce byte-identical RU Markdown, EN Markdown, RU
+HTML, EN HTML, and provenance outputs.
 
 ## Selected Public Content
 
-The current generated drafts include only reviewed public-safe blocks:
+The current generated documents include only reviewed public-safe blocks:
 
 - public identity;
 - broad research focus;
@@ -136,7 +139,7 @@ self-hash would be recursive.
 
 ## No Manual Editing
 
-Do not manually correct generated Markdown or provenance files. Instead:
+Do not manually correct generated Markdown, HTML, or provenance files. Instead:
 
 1. update the canonical fact, relationship, or bounded renderer;
 2. run `python tools/build_public_cv.py --write`;
@@ -168,9 +171,9 @@ mutations and confirms that each is rejected without changing the filesystem.
 
 ## Human Review And Future Exports
 
-Generation does not authorize publication. A human must review factual
-currentness, language, tone, and privacy before any CV is linked from the site or
-offered as a download.
+Generation alone does not authorize publication. Factual currentness, language,
+tone, and privacy must be reviewed before a generated route or download is
+published.
 
 The publication-readiness audit on 2026-08-22 checked RU/EN section parity,
 block provenance, privacy exclusions, credential limitations, current-role date
@@ -180,14 +183,16 @@ and the Russian provenance-footer terminology. The English CV intentionally
 retains official Russian-language patent titles until approved English
 translations exist.
 
-Remaining human review must confirm current factual currency, Russian and
-English tone, the selected-not-complete scope, and the intended publication
-format. This audit does not authorize a site link or downloadable artifact.
+The owner reviewed the corrected artifacts and delegated selection of the first
+publication format. HTML was selected as the primary public format because it
+is accessible, responsive, indexable, and requires no additional dependency or
+download workflow. This decision authorizes only the two generated HTML routes;
+it does not authorize a downloadable artifact.
 
-PDF, DOCX, print styling, website integration, and additional languages require
-separate approved tasks. Any future export should consume the same canonical
-JSON and provenance model rather than treating a generated Markdown file as the
-new evidence source.
+PDF, DOCX, and additional languages require separate approved tasks. The HTML
+routes include bounded print styling, but no PDF is generated. Any future export
+should consume the same canonical JSON and provenance model rather than treating
+a generated Markdown or HTML file as the new evidence source.
 
 ## Privacy And Runtime Boundary
 
@@ -196,6 +201,7 @@ route and does not copy the approved mailbox. It includes no phone number,
 personal email, private address, civil identifier, private source path, raw
 document, other-person record, unpublished data, or confidential project detail.
 
-The generator and validators are offline repository tools. They add no website
-runtime loading, framework, dependency, backend, API, storage, analytics,
-tracking, network request, or real-AI behavior.
+The generator and validators are offline repository tools. The published HTML
+contains no runtime JSON loading or runtime script and adds no framework,
+dependency, backend, API, storage, analytics, tracking, network request, or
+real-AI behavior.

@@ -48,8 +48,9 @@ The project now separates evidence, presentation, release validation, future AI,
 relationships, deterministic public-CV generation, and block-level provenance.
 Canonical facts remain in `data/public-facts.json`; the compact relationship
 layer is `data/public-research-graph.json`; the manually maintained static
-presentation remains under `site/`. None of the data layers automatically
-generate or modify the site.
+presentation remains under `site/`, except for the generated RU/EN Living
+Public CV routes at `/cv/` and `/en/cv/`. The CV generator owns only those two
+site documents; it does not modify the main profile routes.
 
 Cloudflare Pages preview is live at `https://ikurabayev-kz.pages.dev`. The
 custom production domains `https://ikurabayev.kz` and
@@ -59,19 +60,20 @@ public release v1.2 reconciles patent legal-status presentation and credential
 privacy, establishes apex canonical metadata, adds dependency-free semantic
 publishing, and introduces an offline public-release validator. PRs #45 and #46
 publish the owner-approved certified-energy-auditor status and 2026-08-14 to
-2029-08-06 term through the Evidence Spine, generated RU/EN public CV drafts,
+2029-08-06 term through the Evidence Spine, generated RU/EN public CV,
 localized site routes, and the local public-facts-only concierge. Production QA
 on 2026-08-22 confirmed the update on the apex, `www`, and Cloudflare Pages
-preview hosts without publishing private credential details. Remaining work
-includes human review/publication of the generated public CV drafts, Kazakh
+preview hosts without publishing private credential details. The reviewed
+Living Public CV is published as dependency-free RU/EN HTML at `/cv/` and
+`/en/cv/`; PDF remains a separate future export. Remaining work includes Kazakh
 language review, owner review of conflicting university-role start dates, the
 long-term semantic roles of `/` and `/ru/`, an optional Cloudflare
 `www`-to-apex redirect, and a separate real-AI backend architecture.
 
 Public Knowledge System v0.2 adds a bounded research graph, deterministic RU/EN
-Living Public CV drafts, block-level provenance, and an offline knowledge
-validator. These generated drafts are not deployed, published as downloads, or
-used by the website at runtime.
+Living Public CV documents, block-level provenance, and offline validators. The
+Markdown artifacts remain review documents; equivalent generated HTML is
+published without runtime JSON loading, scripts, or private evidence.
 
 The project remains framework-free and dependency-free for now. Do not add a
 website framework, `package.json`, dependencies, private contact details,

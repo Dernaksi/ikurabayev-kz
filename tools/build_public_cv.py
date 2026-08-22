@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html as html_lib
 import json
+import re
 import sys
 from dataclasses import dataclass
 from datetime import date
@@ -17,11 +19,15 @@ REGISTRY_PATH = ROOT / "data" / "public-facts.json"
 GRAPH_PATH = ROOT / "data" / "public-research-graph.json"
 RU_PATH = ROOT / "cv" / "IKurabayev_Public_CV_RU.md"
 EN_PATH = ROOT / "cv" / "IKurabayev_Public_CV_EN.md"
+RU_HTML_PATH = ROOT / "site" / "cv" / "index.html"
+EN_HTML_PATH = ROOT / "site" / "en" / "cv" / "index.html"
 PROVENANCE_PATH = ROOT / "cv" / "IKurabayev_Public_CV_PROVENANCE.json"
 
 DOCUMENT_PATHS = {
     "cv.ru": "cv/IKurabayev_Public_CV_RU.md",
     "cv.en": "cv/IKurabayev_Public_CV_EN.md",
+    "cv.site.ru": "site/cv/index.html",
+    "cv.site.en": "site/en/cv/index.html",
 }
 STATUS_ORDER = {
     "verified_public": 0,
@@ -716,6 +722,196 @@ def render_document(language: str, blocks: list[Block]) -> bytes:
     return "\n".join(lines).encode("utf-8")
 
 
+INLINE_PATTERN = re.compile(
+    r"\*\*(?P<strong>[^*]+)\*\*"
+    r"|\[(?P<label>[^\]]+)\]\((?P<link>https://[^)\s]+)\)"
+    r"|(?P<url>https://[^\s<]+)"
+)
+
+
+def render_inline_html(value: str) -> str:
+    """Render the deliberately small Markdown subset used by CV blocks."""
+
+    parts: list[str] = []
+    offset = 0
+    for match in INLINE_PATTERN.finditer(value):
+        parts.append(html_lib.escape(value[offset:match.start()]))
+        strong = match.group("strong")
+        label = match.group("label")
+        link = match.group("link")
+        bare_url = match.group("url")
+        if strong is not None:
+            parts.append(f"<strong>{html_lib.escape(strong)}</strong>")
+        elif label is not None and link is not None:
+            parts.append(
+                f'<a href="{html_lib.escape(link, quote=True)}" '
+                'target="_blank" rel="noopener noreferrer">'
+                f"{html_lib.escape(label)}</a>"
+            )
+        elif bare_url is not None:
+            escaped_url = html_lib.escape(bare_url, quote=True)
+            parts.append(
+                f'<a href="{escaped_url}" target="_blank" '
+                f'rel="noopener noreferrer">{html_lib.escape(bare_url)}</a>'
+            )
+        offset = match.end()
+    parts.append(html_lib.escape(value[offset:]))
+    return "".join(parts)
+
+
+def render_html_document(
+    language: str,
+    blocks: list[Block],
+    review_date: str,
+) -> bytes:
+    """Render one deterministic, script-free public CV route."""
+
+    if language == "ru":
+        title = "Искандер Курабаев — публичное CV"
+        description = (
+            "Публичное CV Искандера Курабаева: текущие роли, образование, "
+            "энергоаудит, исследования, публикации, патенты и награды."
+        )
+        canonical = "https://ikurabayev.kz/cv/"
+        counterpart = "https://ikurabayev.kz/en/cv/"
+        back_url = "/"
+        back_label = "Публичный профиль"
+        switch_label = "English CV"
+        skip_label = "Перейти к содержанию CV"
+        eyebrow = "Living Public CV · RU"
+        lead = "Избранное публичное CV с проверяемым происхождением блоков."
+        scope_note = (
+            "Не исчерпывающий список. Частные данные, идентификаторы документов, "
+            "метрики цитирования и неподтверждённые сведения исключены."
+        )
+        source_note = (
+            "Сформировано детерминированно из публичных JSON-реестров репозитория. "
+            "Хеши и происхождение блоков записаны в сопроводительном манифесте."
+        )
+        reviewed_label = "Реестр проверен"
+    else:
+        title = "Iskander Kurabayev — Public CV"
+        description = (
+            "Public CV of Iskander Kurabayev: current roles, education, energy "
+            "audit, research, publications, patents, and recognition."
+        )
+        canonical = "https://ikurabayev.kz/en/cv/"
+        counterpart = "https://ikurabayev.kz/cv/"
+        back_url = "/en/"
+        back_label = "Public profile"
+        switch_label = "Русское CV"
+        skip_label = "Skip to CV content"
+        eyebrow = "Living Public CV · EN"
+        lead = "Selected public CV with traceable block-level provenance."
+        scope_note = (
+            "Not an exhaustive record. Private data, document identifiers, "
+            "citation metrics, and unsupported claims are excluded."
+        )
+        source_note = (
+            "Generated deterministically from the repository's public JSON "
+            "registries. Block hashes and provenance are recorded in the "
+            "companion manifest."
+        )
+        reviewed_label = "Registry reviewed"
+
+    section_parts: list[str] = []
+    current_section = ""
+    for block in blocks:
+        if block.section_id != current_section:
+            if current_section:
+                section_parts.extend(("      </ul>", "    </section>"))
+            current_section = block.section_id
+            section_slug = current_section.removeprefix("cv.section.").replace("_", "-")
+            heading = SECTION_HEADINGS[language][current_section]
+            section_parts.extend(
+                (
+                    f'    <section class="cv-section" id="{section_slug}">',
+                    f"      <h2>{html_lib.escape(heading)}</h2>",
+                    "      <ul>",
+                )
+            )
+        for line in block.lines(language):
+            item = line[2:] if line.startswith("- ") else line
+            section_parts.append(
+                f'        <li data-cv-block="{html_lib.escape(block.id, quote=True)}">'
+                f"{render_inline_html(item)}</li>"
+            )
+    if current_section:
+        section_parts.extend(("      </ul>", "    </section>"))
+
+    profile_page = {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "@id": f"{canonical}#page",
+        "url": canonical,
+        "inLanguage": language,
+        "mainEntity": {"@id": "https://ikurabayev.kz/#person"},
+    }
+    json_ld = json.dumps(profile_page, ensure_ascii=False, indent=8)
+    sections = "\n".join(section_parts)
+    document = f"""<!doctype html>
+<html lang="{language}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{html_lib.escape(description, quote=True)}">
+    <link rel="canonical" href="{canonical}">
+    <link rel="alternate" hreflang="ru" href="https://ikurabayev.kz/cv/">
+    <link rel="alternate" hreflang="en" href="https://ikurabayev.kz/en/cv/">
+    <link rel="alternate" hreflang="x-default" href="https://ikurabayev.kz/cv/">
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="{html_lib.escape(title, quote=True)}">
+    <meta property="og:description" content="{html_lib.escape(description, quote=True)}">
+    <meta property="og:url" content="{canonical}">
+    <meta property="og:image" content="https://ikurabayev.kz/assets/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{html_lib.escape(title, quote=True)}">
+    <meta name="twitter:description" content="{html_lib.escape(description, quote=True)}">
+    <meta name="twitter:image" content="https://ikurabayev.kz/assets/og-image.png">
+    <title>{html_lib.escape(title)}</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/cv.css">
+    <script type="application/ld+json">
+{json_ld}
+    </script>
+  </head>
+  <body data-generated-public-cv="true">
+    <!-- Generated by tools/build_public_cv.py; do not edit manually. -->
+    <a class="skip-link" href="#main">{html_lib.escape(skip_label)}</a>
+    <header class="site-header">
+      <nav class="nav" aria-label="CV navigation">
+        <a class="brand" href="{back_url}">
+          <img class="brand-mark" src="/assets/ik-logo.svg" alt="" width="32" height="32">
+          <span>IKurabayev.kz</span>
+        </a>
+        <div class="nav-links cv-nav-links">
+          <a href="{back_url}">{html_lib.escape(back_label)}</a>
+          <a class="nav-strong" href="{counterpart}">{html_lib.escape(switch_label)}</a>
+        </div>
+      </nav>
+    </header>
+    <main class="cv-shell" id="main">
+      <header class="cv-hero">
+        <p class="eyebrow">{html_lib.escape(eyebrow)}</p>
+        <h1>{html_lib.escape(title)}</h1>
+        <p class="cv-lead">{html_lib.escape(lead)}</p>
+        <p class="cv-scope">{html_lib.escape(scope_note)}</p>
+        <p class="cv-reviewed"><span>{html_lib.escape(reviewed_label)}</span> {review_date}</p>
+      </header>
+      <div class="cv-sections">
+{sections}
+      </div>
+      <footer class="cv-footer">
+        <p>{html_lib.escape(source_note)}</p>
+      </footer>
+    </main>
+  </body>
+</html>
+"""
+    return document.encode("utf-8")
+
+
 def build_provenance(
     blocks: list[Block],
     claims: dict[str, dict[str, object]],
@@ -725,6 +921,8 @@ def build_provenance(
     review_date: str,
     ru_bytes: bytes,
     en_bytes: bytes,
+    ru_html_bytes: bytes,
+    en_html_bytes: bytes,
 ) -> bytes:
     section_ids = ordered_unique([block.section_id for block in blocks])
     block_ids = [block.id for block in blocks]
@@ -742,6 +940,22 @@ def build_provenance(
             "language": "en",
             "path": DOCUMENT_PATHS["cv.en"],
             "sha256": sha256_bytes(en_bytes),
+            "section_ids": section_ids,
+            "block_ids": block_ids,
+        },
+        {
+            "id": "cv.site.ru",
+            "language": "ru",
+            "path": DOCUMENT_PATHS["cv.site.ru"],
+            "sha256": sha256_bytes(ru_html_bytes),
+            "section_ids": section_ids,
+            "block_ids": block_ids,
+        },
+        {
+            "id": "cv.site.en",
+            "language": "en",
+            "path": DOCUMENT_PATHS["cv.site.en"],
+            "sha256": sha256_bytes(en_html_bytes),
             "section_ids": section_ids,
             "block_ids": block_ids,
         },
@@ -763,7 +977,7 @@ def build_provenance(
             {
                 "id": block.id,
                 "section_id": block.section_id,
-                "document_ids": ["cv.ru", "cv.en"],
+                "document_ids": ["cv.ru", "cv.en", "cv.site.ru", "cv.site.en"],
                 "claim_ids": list(block.claim_ids),
                 "relation_ids": list(block.relation_ids),
                 "effective_evidence_statuses": ordered_statuses,
@@ -801,6 +1015,8 @@ def build_outputs() -> dict[Path, bytes]:
     review_date = registry.get("generated_or_reviewed_at")
     if not isinstance(review_date, str):
         raise ValueError("registry review date must be a string")
+    ru_html_bytes = render_html_document("ru", blocks, review_date)
+    en_html_bytes = render_html_document("en", blocks, review_date)
     provenance_bytes = build_provenance(
         blocks,
         claims,
@@ -810,10 +1026,14 @@ def build_outputs() -> dict[Path, bytes]:
         review_date,
         ru_bytes,
         en_bytes,
+        ru_html_bytes,
+        en_html_bytes,
     )
     return {
         RU_PATH: ru_bytes,
         EN_PATH: en_bytes,
+        RU_HTML_PATH: ru_html_bytes,
+        EN_HTML_PATH: en_html_bytes,
         PROVENANCE_PATH: provenance_bytes,
     }
 
@@ -841,7 +1061,7 @@ def check_outputs(outputs: dict[Path, bytes]) -> int:
         for item in drift:
             print(f"- {item}", file=sys.stderr)
         return 1
-    print("Public CV generation check PASS: all three artifacts are byte-identical.")
+    print("Public CV generation check PASS: all five artifacts are byte-identical.")
     return 0
 
 

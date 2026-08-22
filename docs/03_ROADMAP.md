@@ -25,8 +25,9 @@ Status: in progress / partially completed
 - Evidence Spine v0.1 provides a machine-readable, public-safe evidence layer
   for a bounded set of high-value facts.
 - Public Knowledge System v0.2 adds a compact claim-referenced research graph,
-  deterministic RU/EN public CV drafts, and block-level provenance without
-  generating or changing the website.
+  deterministic RU/EN public CV documents, and block-level provenance. The
+  generator owns only the two dedicated HTML CV routes and does not change the
+  manually maintained profile routes.
 - Official registry verification is complete for the three displayed patent
   records, and v1.2 reconciles their publication and dated legal-status wording
   with direct official-registry links.
@@ -60,8 +61,8 @@ Status: completed through Claude Design v1.1 / maintenance pending
   later justifies it.
 - Do not add dependencies unless a future approved issue and PR justify them.
 - PR #31 is the current production visual baseline.
-- Static HTML remains the manually maintained presentation layer and is not
-  generated from Evidence Spine v0.1.
+- Static HTML remains manually maintained except for `/cv/` and `/en/cv/`,
+  which are generated offline from the reviewed facts and graph.
 
 ## Phase 4 - Deployment Readiness
 
@@ -80,13 +81,13 @@ Status: completed for Cloudflare Pages production and current production QA
   and a dependency-free offline release validator.
 - The apex canonical metadata decision is complete. An optional actual
   `www`-to-apex redirect remains a separate Cloudflare control-plane task.
-- Deterministic sanitized RU/EN public CV drafts now exist for human review;
-  publication or a downloadable CV remains separate work.
+- The reviewed deterministic RU/EN public CV is published as dependency-free
+  HTML at `/cv/` and `/en/cv/`; a downloadable PDF remains separate work.
 - Production QA on 2026-08-22 confirmed the certified-energy-auditor update on
   the apex, `www`, and Cloudflare Pages preview hosts across desktop and mobile
   route checks, with apex canonical metadata retained.
-- Remaining polish includes Kazakh language review, the semantic roles of `/`
-  and `/ru/`, and review/publication of the generated public CV.
+- Remaining polish includes Kazakh language review and the semantic roles of
+  `/` and `/ru/`.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
   the technical decision.
 
