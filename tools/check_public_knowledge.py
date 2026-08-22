@@ -548,6 +548,17 @@ def validate_cv_semantics(document_text: dict[str, str], errors: list[str]) -> N
     if "Accredited energy auditor" in en:
         errors.append("cv.en: obsolete personal-accreditation wording is prohibited")
 
+    required_ru_award_markers = (
+        "**2023.** «Заслуженный энергетик» — Министерство энергетики Республики Казахстан.",
+        "**2018.** «Почётный энергетик» — Министерство энергетики Республики Казахстан.",
+        "**2016.** «Почётный энергетик» — Казахстанская электроэнергетическая ассоциация.",
+    )
+    for marker in required_ru_award_markers:
+        if marker not in ru:
+            errors.append(f"cv.ru: award translation mapping is incorrect: {marker}")
+    if "сопроводительном манифесте" not in ru:
+        errors.append("cv.ru: provenance footer must use the Russian term манифест")
+
     if "AI Energy Auditor" not in ru or "в разработке" not in ru:
         errors.append("cv.ru: AI Energy Auditor must remain in development")
     if "STM32 / измерительная лаборатория" not in ru or ru.count("в разработке") < 2:

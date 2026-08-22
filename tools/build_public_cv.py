@@ -541,19 +541,19 @@ def build_blocks(
         (
             "award.energy_ministry.distinguished_power_engineer",
             "relation.person.received_award.distinguished_power_engineer",
-            "«Почётный энергетик» — Министерство энергетики Республики Казахстан",
+            "«Заслуженный энергетик» — Министерство энергетики Республики Казахстан",
             "Distinguished Power Engineer — Ministry of Energy of the Republic of Kazakhstan",
         ),
         (
             "award.energy_ministry.honoured_energy_worker",
             "relation.person.received_award.energy_ministry_honoured_energy_worker",
-            "«Заслуженный энергетик» — Министерство энергетики Республики Казахстан",
+            "«Почётный энергетик» — Министерство энергетики Республики Казахстан",
             "Honoured Energy Worker — Ministry of Energy of the Republic of Kazakhstan",
         ),
         (
             "award.keea.honoured_energy_worker",
             "relation.person.received_award.keea_honoured_energy_worker",
-            "«Заслуженный энергетик» — Казахстанская электроэнергетическая ассоциация",
+            "«Почётный энергетик» — Казахстанская электроэнергетическая ассоциация",
             "Honoured Energy Worker — Kazakhstan Electric Energy Association",
         ),
     )
@@ -697,7 +697,7 @@ def render_document(language: str, blocks: list[Block]) -> bytes:
                 "---",
                 "",
                 "Источник фактов и связей: публичные JSON-реестры репозитория. "
-                "Хеши и происхождение блоков записаны в сопроводительном manifest; "
+                "Хеши и происхождение блоков записаны в сопроводительном манифесте; "
                 "они не являются юридической или цифровой подписью.",
                 "",
             )
