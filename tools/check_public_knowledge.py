@@ -68,6 +68,8 @@ OWNER_CONTROLLED_SOURCE_KINDS = {
 EXPECTED_DOCUMENTS = {
     "cv.ru": ("ru", "cv/IKurabayev_Public_CV_RU.md"),
     "cv.en": ("en", "cv/IKurabayev_Public_CV_EN.md"),
+    "cv.site.ru": ("ru", "site/cv/index.html"),
+    "cv.site.en": ("en", "site/en/cv/index.html"),
 }
 RELATION_KEYS = {"id", "from", "predicate", "to", "status", "evidence", "note"}
 PAYLOAD_KEYS = {
@@ -590,7 +592,7 @@ def validate_manifest_and_documents(
     documents = unique_index(manifest.get("documents"), "provenance documents", errors)
     blocks = unique_index(manifest.get("blocks"), "provenance blocks", errors)
     if set(documents) != set(EXPECTED_DOCUMENTS):
-        errors.append("provenance: expected exactly RU and EN documents")
+        errors.append("provenance: expected RU/EN Markdown and HTML documents")
     block_order = [
         item.get("id")
         for item in manifest.get("blocks", [])
@@ -641,8 +643,13 @@ def validate_manifest_and_documents(
         for relation_id in relation_ids:
             if relation_id not in relations:
                 errors.append(f"{block_id}: unresolved relation reference {relation_id}")
-        if block.get("document_ids") != ["cv.ru", "cv.en"]:
-            errors.append(f"{block_id}: block must support both documents")
+        if block.get("document_ids") != [
+            "cv.ru",
+            "cv.en",
+            "cv.site.ru",
+            "cv.site.en",
+        ]:
+            errors.append(f"{block_id}: block must support all four CV documents")
         statuses = {
             str(claims[item].get("status")) for item in claim_ids if item in claims
         }

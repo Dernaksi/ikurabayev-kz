@@ -45,14 +45,20 @@ the visual baseline.
   metadata plus robots/sitemap, and added an offline release validator.
 - Public Research Knowledge System v0.2 established a compact relationship
   graph, four bounded Evidence Spine additions, deterministic RU/EN public CV
-  drafts, block-level provenance, and an offline knowledge validator with eight
-  bounded mutation checks. The drafts are not yet published or downloadable.
+  documents, block-level provenance, and an offline knowledge validator with
+  eight bounded mutation checks. The Markdown outputs remain review artifacts.
 - PR #45 recorded the owner-approved certified-energy-auditor status and
   2026-08-14 to 2029-08-06 term in the Evidence Spine and deterministic RU/EN
   public CV drafts while retaining the partially verified evidence status.
 - PR #46 reconciled the same bounded certification status and term across the
   localized site and local concierge without publishing private credential
   details.
+- PR #50 completed the RU/EN Living Public CV publication-readiness audit and
+  corrected the bounded award mapping and Russian provenance terminology.
+- Issue #51 scopes publication of the reviewed CV as deterministic,
+  dependency-free RU/EN
+  HTML at `/cv/` and `/en/cv/`, while retaining Markdown as review artifacts
+  and deferring PDF export.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
   Cloudflare Pages preview hosts across desktop and 390x844 mobile checks;
   canonical metadata, robots, sitemap, and the privacy boundary remained intact.
@@ -71,16 +77,15 @@ the current release.
 
 ## Next Recommended Tasks
 
-1. Human-review the generated RU/EN public CV drafts, then scope publication or
-   a downloadable version as a separate task.
-2. Complete Kazakh language review.
-3. Resolve the conflicting official university-role start-date evidence through
+1. Complete Kazakh language review.
+2. Resolve the conflicting official university-role start-date evidence through
    owner review before changing the production timeline.
-4. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile
+3. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile
    routes without changing the accepted Russian-first information architecture
    implicitly.
-5. Decide whether to implement an optional `www`-to-apex redirect in the
+4. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
+5. Scope a downloadable PDF CV export from the same canonical block model.
 6. Draft a separate real-AI backend architecture before any real API work.
 
 ## Active Branch Convention

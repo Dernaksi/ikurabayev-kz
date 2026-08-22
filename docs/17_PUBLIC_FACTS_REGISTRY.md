@@ -19,12 +19,14 @@ API, backend, RAG system, or replacement for public-content review.
 1. **Evidence layer:** `data/public-facts.json` stores public-safe claims,
    sources, statuses, and review dates.
 2. **Presentation layer:** the dependency-free static HTML under `site/` and the
-   local concierge remain manually maintained public presentation.
+   local concierge are public presentation. The main routes remain manually
+   maintained; the dedicated RU/EN CV routes are generated offline.
 3. **Future AI/agent layer:** any later evidence-grounded assistant must be a
    separate approved architecture and may consume only reviewed public facts.
 
-The current Cloudflare Pages site deploys `site/`; the registry is not
-automatically deployed or read at runtime.
+The current Cloudflare Pages site deploys `site/`; the registry is not deployed
+or read at runtime. Only the generated static CV documents contain its reviewed,
+allowlisted presentation values.
 
 ## Registry Contract
 

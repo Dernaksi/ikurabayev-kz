@@ -310,3 +310,27 @@ and private artifact metadata remain excluded. PRs #45 and #46 implement the
 decision. Production QA on 2026-08-22 confirmed the bounded update on the apex,
 `www`, and Cloudflare Pages preview hosts without changing the dependency-free
 runtime architecture.
+
+### 2026-08-23 - Publish the Living Public CV as generated RU/EN HTML
+
+Status: accepted
+
+Context:
+The deterministic RU/EN Markdown CV and provenance manifest passed a bounded
+publication-readiness audit. The owner reviewed the corrected artifacts and
+delegated selection of the first public format. The site needs an accessible,
+indexable CV without creating a second manually maintained evidence surface.
+
+Decision:
+Publish equivalent generated HTML at `/cv/` and `/en/cv/` from the existing
+ordered bilingual block model. Keep Markdown as review artifacts and make the
+generator own only the two dedicated HTML routes. Link the localized CV from the
+corresponding profile pages, add reciprocal CV hreflang and sitemap entries, and
+extend offline validation and provenance hashes to all five generated outputs.
+
+Consequences:
+The main profile routes remain manually maintained. The new CV pages add no
+framework, package dependency, runtime JSON loading, runtime script, backend,
+analytics, or private evidence. PDF and additional languages remain separate
+future tasks. English patent entries retain official Russian-language titles
+until reviewed translations exist.
