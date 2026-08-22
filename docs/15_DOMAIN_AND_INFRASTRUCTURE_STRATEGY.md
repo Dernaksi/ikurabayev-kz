@@ -32,8 +32,9 @@ Current public-hosting assumptions:
 Claude Design v1.1 from PR #31 is the current production visual baseline, and
 production-domain QA has been completed for this release. The approved public
 professional contact route is live. SEO metadata, Kazakh language review,
-patent-registry verification, a sanitized public CV, the `www` versus apex
-policy, and separate real-AI backend architecture remain pending.
+patent-registry verification, and a sanitized public CV have since received
+bounded production work. The Kazakh display-name canonicalization, `www` versus
+apex policy, and separate real-AI backend architecture remain pending.
 
 ## DNS Authority
 
