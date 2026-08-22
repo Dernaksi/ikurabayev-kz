@@ -172,6 +172,18 @@ Generation does not authorize publication. A human must review factual
 currentness, language, tone, and privacy before any CV is linked from the site or
 offered as a download.
 
+The publication-readiness audit on 2026-08-22 checked RU/EN section parity,
+block provenance, privacy exclusions, credential limitations, current-role date
+handling, patent status wording, award translation mapping, and roadmap-only
+project language. It corrected the bounded Russian award labels in the renderer
+and the Russian provenance-footer terminology. The English CV intentionally
+retains official Russian-language patent titles until approved English
+translations exist.
+
+Remaining human review must confirm current factual currency, Russian and
+English tone, the selected-not-complete scope, and the intended publication
+format. This audit does not authorize a site link or downloadable artifact.
+
 PDF, DOCX, print styling, website integration, and additional languages require
 separate approved tasks. Any future export should consume the same canonical
 JSON and provenance model rather than treating a generated Markdown file as the
