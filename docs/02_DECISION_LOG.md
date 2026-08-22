@@ -285,3 +285,28 @@ development, and the conflicting university-role start date is omitted from the
 CV with an explicit provenance exclusion. This decision adds no site runtime,
 framework, dependency, backend, API, storage, analytics, real-AI behavior,
 Cloudflare change, PDF, or DOCX export.
+
+### 2026-08-21 - Publish a bounded certified-energy-auditor status and term
+
+Status: accepted
+
+Context:
+The owner received a current energy-auditor certificate and explicitly approved
+public display of the certification status, issue date, and validity end date
+while prohibiting publication of the document and its private details.
+
+Decision:
+Publish the status "certified energy auditor," issue date 2026-08-14, and
+validity end date 2029-08-06 through the Evidence Spine, generated RU/EN public
+CV drafts, localized static site, and local public-facts-only concierge. Keep
+the Evidence Spine claim partially verified because the term is supported by a
+sanitized owner-supplied document review rather than an independent public
+registry source.
+
+Consequences:
+Certificate identifiers, civil identifiers, QR or electronic-signature content,
+addresses, photographs, signatures, seals, issuer personnel, raw files, paths,
+and private artifact metadata remain excluded. PRs #45 and #46 implement the
+decision. Production QA on 2026-08-22 confirmed the bounded update on the apex,
+`www`, and Cloudflare Pages preview hosts without changing the dependency-free
+runtime architecture.
