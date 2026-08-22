@@ -57,11 +57,16 @@ custom production domains `https://ikurabayev.kz` and
 Pages. The approved public professional contact route is live. Evidence-backed
 public release v1.2 reconciles patent legal-status presentation and credential
 privacy, establishes apex canonical metadata, adds dependency-free semantic
-publishing, and introduces an offline public-release validator. Remaining work
-includes owner review of conflicting university-role start dates, an optional
-Cloudflare `www`-to-apex redirect, Kazakh language review, the long-term semantic
-roles of `/` and `/ru/`, human review/publication of the generated public CV
-drafts, and a separate real-AI backend architecture.
+publishing, and introduces an offline public-release validator. PRs #45 and #46
+publish the owner-approved certified-energy-auditor status and 2026-08-14 to
+2029-08-06 term through the Evidence Spine, generated RU/EN public CV drafts,
+localized site routes, and the local public-facts-only concierge. Production QA
+on 2026-08-22 confirmed the update on the apex, `www`, and Cloudflare Pages
+preview hosts without publishing private credential details. Remaining work
+includes human review/publication of the generated public CV drafts, Kazakh
+language review, owner review of conflicting university-role start dates, the
+long-term semantic roles of `/` and `/ru/`, an optional Cloudflare
+`www`-to-apex redirect, and a separate real-AI backend architecture.
 
 Public Knowledge System v0.2 adds a bounded research graph, deterministic RU/EN
 Living Public CV drafts, block-level provenance, and an offline knowledge

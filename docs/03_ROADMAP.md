@@ -30,8 +30,10 @@ Status: in progress / partially completed
 - Official registry verification is complete for the three displayed patent
   records, and v1.2 reconciles their publication and dated legal-status wording
   with direct official-registry links.
-- The public energy-auditor fact remains published while its prohibited document
-  identifier has been removed from presentation.
+- The owner-approved certified-energy-auditor status and 2026-08-14 to
+  2029-08-06 term are published through the Evidence Spine, generated RU/EN CV
+  drafts, and localized site presentation. Private credential details and the
+  source document remain excluded, and the claim remains partially verified.
 - Conflicting official university-role start dates remain explicit and require
   owner review before the production timeline changes.
 - Publication, grant, credential, award, and project entries retain explicit
@@ -80,6 +82,9 @@ Status: completed for Cloudflare Pages production and current production QA
   `www`-to-apex redirect remains a separate Cloudflare control-plane task.
 - Deterministic sanitized RU/EN public CV drafts now exist for human review;
   publication or a downloadable CV remains separate work.
+- Production QA on 2026-08-22 confirmed the certified-energy-auditor update on
+  the apex, `www`, and Cloudflare Pages preview hosts across desktop and mobile
+  route checks, with apex canonical metadata retained.
 - Remaining polish includes Kazakh language review, the semantic roles of `/`
   and `/ru/`, and review/publication of the generated public CV.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
