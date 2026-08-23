@@ -73,6 +73,11 @@ EXPECTED_DOCUMENTS = {
     "cv.site.ru": ("ru", "site/cv/index.html"),
     "cv.site.en": ("en", "site/en/cv/index.html"),
 }
+PDF_PROVENANCE_PATH = "cv/IKurabayev_Public_CV_PDF_PROVENANCE.json"
+EXPECTED_PDF_DOCUMENTS = {
+    "cv.pdf.ru": ("ru", "site/output/pdf/IKurabayev_Public_CV_RU.pdf"),
+    "cv.pdf.en": ("en", "site/output/pdf/IKurabayev_Public_CV_EN.pdf"),
+}
 RELATION_KEYS = {"id", "from", "predicate", "to", "status", "evidence", "note"}
 PAYLOAD_KEYS = {
     "value",
@@ -538,6 +543,108 @@ def validate_document_hash(
         errors.append(f"{document_id}: document SHA-256 mismatch")
 
 
+def validate_pdf_manifest(
+    root: Path,
+    pdf_manifest: dict[str, object],
+    main_manifest: dict[str, object],
+    registry_raw: bytes,
+    graph_raw: bytes,
+    registry: dict[str, object],
+    errors: list[str],
+) -> None:
+    if (
+        pdf_manifest.get("schema_version") != "0.1"
+        or pdf_manifest.get("pdf_cv_version") != "0.1"
+    ):
+        errors.append("PDF provenance: unexpected schema or PDF CV version")
+    if pdf_manifest.get("source_registry_sha256") != sha256_bytes(registry_raw):
+        errors.append("PDF provenance: source registry SHA-256 mismatch")
+    if pdf_manifest.get("source_graph_sha256") != sha256_bytes(graph_raw):
+        errors.append("PDF provenance: source graph SHA-256 mismatch")
+    if pdf_manifest.get("source_review_date") != registry.get("generated_or_reviewed_at"):
+        errors.append("PDF provenance: source review date does not match registry")
+    hash_note = str(pdf_manifest.get("hash_scope_note", "")).lower()
+    if "not a legal or digital signature" not in hash_note:
+        errors.append("PDF provenance: hashes must be described as non-signatures")
+
+    generator = pdf_manifest.get("generator")
+    if not isinstance(generator, dict):
+        errors.append("PDF provenance: generator contract is missing")
+    else:
+        if generator.get("script") != "tools/build_public_cv_pdf.py":
+            errors.append("PDF provenance: unexpected generator script")
+        if not isinstance(generator.get("reportlab_version"), str):
+            errors.append("PDF provenance: ReportLab version is missing")
+        if not isinstance(generator.get("pypdf_version"), str):
+            errors.append("PDF provenance: pypdf version is missing")
+        for font_key in ("font_regular", "font_bold"):
+            font = generator.get(font_key)
+            if not isinstance(font, dict) or set(font) != {"file", "sha256"}:
+                errors.append(f"PDF provenance: invalid {font_key} contract")
+                continue
+            file_name = font.get("file")
+            digest = font.get("sha256")
+            if (
+                not isinstance(file_name, str)
+                or Path(file_name).name != file_name
+                or not isinstance(digest, str)
+                or not re.fullmatch(r"[0-9a-f]{64}", digest)
+            ):
+                errors.append(f"PDF provenance: invalid {font_key} metadata")
+        portability = str(generator.get("portability_note", "")).lower()
+        if "byte-identical" not in portability or "no runtime dependency" not in portability:
+            errors.append("PDF provenance: portability limitation is incomplete")
+
+    documents = unique_index(
+        pdf_manifest.get("documents"), "PDF provenance documents", errors
+    )
+    if set(documents) != set(EXPECTED_PDF_DOCUMENTS):
+        errors.append("PDF provenance: expected exact RU and EN PDF documents")
+    main_blocks = main_manifest.get("blocks")
+    block_order = [
+        item.get("id")
+        for item in main_blocks
+        if isinstance(item, dict) and isinstance(item.get("id"), str)
+    ] if isinstance(main_blocks, list) else []
+    section_order = ordered_unique(
+        [
+            str(item.get("section_id"))
+            for item in main_blocks
+            if isinstance(item, dict) and isinstance(item.get("section_id"), str)
+        ]
+    ) if isinstance(main_blocks, list) else []
+
+    for document_id, (language, relative_path) in EXPECTED_PDF_DOCUMENTS.items():
+        document = documents.get(document_id)
+        if not document:
+            continue
+        if document.get("language") != language or document.get("path") != relative_path:
+            errors.append(f"{document_id}: unexpected language or path")
+        if document.get("section_ids") != section_order:
+            errors.append(f"{document_id}: section order differs from canonical CV")
+        if document.get("block_ids") != block_order:
+            errors.append(f"{document_id}: block order differs from canonical CV")
+        page_count = document.get("page_count")
+        if not isinstance(page_count, int) or not 1 <= page_count <= 8:
+            errors.append(f"{document_id}: unexpected page count")
+        path = root / relative_path
+        try:
+            content = path.read_bytes()
+        except OSError as exc:
+            errors.append(f"{document_id}: unreadable PDF export: {exc}")
+            continue
+        validate_document_hash(document_id, document, content, errors)
+        if not content.startswith(b"%PDF-") or not content.rstrip().endswith(b"%%EOF"):
+            errors.append(f"{document_id}: invalid PDF file envelope")
+        if b"/JavaScript" in content or b"/AcroForm" in content:
+            errors.append(f"{document_id}: PDF must remain static and script-free")
+
+    privacy_note = str(pdf_manifest.get("privacy_note", "")).lower()
+    for marker in ("credential identifiers", "civil identifiers", "private paths"):
+        if marker not in privacy_note:
+            errors.append(f"PDF provenance: privacy exclusion missing: {marker}")
+
+
 def validate_cv_semantics(document_text: dict[str, str], errors: list[str]) -> None:
     ru = document_text.get("cv.ru", "")
     en = document_text.get("cv.en", "")
@@ -764,9 +871,11 @@ def validate_repository(root: Path, *, run_generator: bool = True) -> list[str]:
     registry_path = root / "data" / "public-facts.json"
     graph_path = root / "data" / "public-research-graph.json"
     provenance_path = root / "cv" / "IKurabayev_Public_CV_PROVENANCE.json"
+    pdf_provenance_path = root / PDF_PROVENANCE_PATH
     registry_raw, registry = load_json(registry_path, errors, "registry")
     graph_raw, graph = load_json(graph_path, errors, "graph")
     _, manifest = load_json(provenance_path, errors, "provenance")
+    _, pdf_manifest = load_json(pdf_provenance_path, errors, "PDF provenance")
     claims, sources = validate_registry(registry, errors)
     _, relations = validate_graph(graph, claims, sources, errors)
     validate_manifest_and_documents(
@@ -779,11 +888,21 @@ def validate_repository(root: Path, *, run_generator: bool = True) -> list[str]:
         relations,
         errors,
     )
+    validate_pdf_manifest(
+        root,
+        pdf_manifest,
+        manifest,
+        registry_raw,
+        graph_raw,
+        registry,
+        errors,
+    )
     validate_privacy(
         [
             registry_path,
             graph_path,
             provenance_path,
+            pdf_provenance_path,
             root / "cv" / "IKurabayev_Public_CV_RU.md",
             root / "cv" / "IKurabayev_Public_CV_EN.md",
         ],
@@ -815,10 +934,18 @@ def run_mutation_self_tests(root: Path) -> int:
         setup_errors,
         "provenance",
     )
+    _, pdf_manifest = load_json(
+        root / PDF_PROVENANCE_PATH,
+        setup_errors,
+        "PDF provenance",
+    )
     claims = unique_index(registry.get("claims"), "registry claims", setup_errors)
     sources = unique_index(registry.get("sources"), "registry sources", setup_errors)
     documents = unique_index(
         manifest.get("documents"), "provenance documents", setup_errors
+    )
+    pdf_documents = unique_index(
+        pdf_manifest.get("documents"), "PDF provenance documents", setup_errors
     )
     try:
         document_text = {
@@ -829,9 +956,11 @@ def run_mutation_self_tests(root: Path) -> int:
                 encoding="utf-8"
             ),
         }
+        pdf_en_bytes = (root / EXPECTED_PDF_DOCUMENTS["cv.pdf.en"][1]).read_bytes()
     except (OSError, UnicodeError) as exc:
         setup_errors.append(f"cannot read generated documents: {exc}")
         document_text = {}
+        pdf_en_bytes = b""
     if setup_errors:
         print("Mutation self-test setup FAILED:", file=sys.stderr)
         for item in setup_errors:
@@ -938,13 +1067,26 @@ def run_mutation_self_tests(root: Path) -> int:
         "document SHA-256 mismatch",
     )
 
+    mutation_errors = []
+    validate_document_hash(
+        "cv.pdf.en",
+        pdf_documents["cv.pdf.en"],
+        pdf_en_bytes + b"Manual PDF drift test.",
+        mutation_errors,
+    )
+    record(
+        "generated PDF manually edited",
+        mutation_errors,
+        "document SHA-256 mismatch",
+    )
+
     if failures:
         print("Public knowledge mutation self-tests FAILED:", file=sys.stderr)
         for item in failures:
             print(f"- {item}", file=sys.stderr)
         return 1
     print(
-        "Public knowledge mutation self-tests PASS: 8/8 bounded in-memory "
+        "Public knowledge mutation self-tests PASS: 9/9 bounded in-memory "
         "mutations rejected without filesystem changes."
     )
     return 0
@@ -955,7 +1097,7 @@ def main() -> int:
     parser.add_argument(
         "--self-test",
         action="store_true",
-        help="run eight bounded temporary mutation tests after baseline validation",
+        help="run nine bounded temporary mutation tests after baseline validation",
     )
     args = parser.parse_args()
     if args.self_test:
@@ -968,8 +1110,8 @@ def main() -> int:
             print(f"- {item}", file=sys.stderr)
         return 1
     print(
-        "Public knowledge validation PASS: registry, graph, deterministic CV, "
-        "block provenance, privacy, credential term, dated patent status, "
+        "Public knowledge validation PASS: registry, graph, deterministic CV and PDF, "
+        "block and PDF provenance, privacy, credential term, dated patent status, "
         "disputed-role omission, and roadmap boundaries match the bounded "
         "v0.2 contract."
     )

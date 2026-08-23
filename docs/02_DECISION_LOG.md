@@ -359,3 +359,27 @@ Source-specific abbreviated author strings are not silently rewritten because
 they may reflect publication or patent metadata, and historical drafts remain
 non-canonical reference material. This decision adds no private identity data,
 runtime behavior, dependency, or new professional claim.
+
+### 2026-08-23 - Publish reproducible RU/EN PDF CV exports
+
+Status: accepted
+
+Context:
+The generated RU/EN HTML CV is accessible and indexable, but professional use
+also benefits from a stable downloadable document. A PDF must not become a
+second manually maintained fact surface or weaken the repository's privacy and
+provenance controls.
+
+Decision:
+Generate two static A4 PDFs offline from the existing ordered bilingual CV block
+model. Publish them under `site/output/pdf/`, link each localized HTML CV to its
+matching file, and maintain a separate PDF provenance manifest containing
+source hashes, output hashes, page counts, ReportLab version, and exact font
+hashes. Require byte-identical regeneration plus rendered-page inspection.
+
+Consequences:
+The deployed PDFs contain no runtime code, form, JavaScript, private evidence,
+or new claim. ReportLab and pypdf are build-time tools only and are not shipped
+as a website dependency. Byte-identical regeneration requires the recorded
+tool version and font bytes. PDF layout must be re-rendered and reviewed after
+future source or renderer changes.

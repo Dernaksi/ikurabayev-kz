@@ -1,0 +1,117 @@
+{
+  "schema_version": "0.1",
+  "pdf_cv_version": "0.1",
+  "source_registry_sha256": "999844b4f5d3b4f3a40442f892e1219831e8ab32b6c9e5b9bfbefd158cff0ff8",
+  "source_graph_sha256": "875c59db3f9f2c6faba4f08fe3d12285281b65205fde340e73ecfce85e970d9a",
+  "source_review_date": "2026-08-23",
+  "hash_scope_note": "SHA-256 values cover exact input, font, and PDF bytes for reproducibility; they are not a legal or digital signature.",
+  "generator": {
+    "script": "tools/build_public_cv_pdf.py",
+    "reportlab_version": "4.4.9",
+    "pypdf_version": "6.10.0",
+    "font_regular": {
+      "file": "Ubuntu-R.ttf",
+      "sha256": "52c1afa489ae7bfd893af6cdd9f1af258005703600449e70d338caabcff507e5"
+    },
+    "font_bold": {
+      "file": "Ubuntu-B.ttf",
+      "sha256": "c90e629e932f768909bdce1481ccd259d8aff1490a4bc1cf94d5413492317336"
+    },
+    "portability_note": "Byte-identical regeneration requires the recorded ReportLab version and exact font bytes; the deployed PDFs have no runtime dependency."
+  },
+  "documents": [
+    {
+      "id": "cv.pdf.ru",
+      "language": "ru",
+      "path": "site/output/pdf/IKurabayev_Public_CV_RU.pdf",
+      "sha256": "c096b74d0392a1902463284e05b88db9ce551ac6826cd7dc51ef1df0295d5971",
+      "page_count": 2,
+      "section_ids": [
+        "cv.section.identity",
+        "cv.section.research_focus",
+        "cv.section.current_roles",
+        "cv.section.education",
+        "cv.section.credential",
+        "cv.section.research_grant",
+        "cv.section.publications",
+        "cv.section.patents",
+        "cv.section.recognition",
+        "cv.section.projects",
+        "cv.section.public_routes"
+      ],
+      "block_ids": [
+        "cv.identity",
+        "cv.research_focus",
+        "cv.roles.university",
+        "cv.roles.astana_energy",
+        "cv.education.phd",
+        "cv.education.master",
+        "cv.education.specialist",
+        "cv.credential.energy_auditor",
+        "cv.grants.ap22787517",
+        "cv.publications.kazatc_error_estimation",
+        "cv.publications.yiuh4401",
+        "cv.publications.gtd2_12436",
+        "cv.publications.icecet_9873012",
+        "cv.publications.isolated_neutral_experimental_studies",
+        "cv.patents.kz37923",
+        "cv.patents.kz35922",
+        "cv.patents.ea041128",
+        "cv.recognition.energy_saving_contribution",
+        "cv.recognition.energy_ministry.distinguished_power_engineer",
+        "cv.recognition.energy_ministry.honoured_energy_worker",
+        "cv.recognition.keea.honoured_energy_worker",
+        "cv.projects.ai_energy_auditor",
+        "cv.projects.stm32_lab",
+        "cv.public_routes"
+      ]
+    },
+    {
+      "id": "cv.pdf.en",
+      "language": "en",
+      "path": "site/output/pdf/IKurabayev_Public_CV_EN.pdf",
+      "sha256": "7ce4a3b35ba6913c841f553ffd4e8bfa7cc3d44816f7ed63233357331034ff16",
+      "page_count": 2,
+      "section_ids": [
+        "cv.section.identity",
+        "cv.section.research_focus",
+        "cv.section.current_roles",
+        "cv.section.education",
+        "cv.section.credential",
+        "cv.section.research_grant",
+        "cv.section.publications",
+        "cv.section.patents",
+        "cv.section.recognition",
+        "cv.section.projects",
+        "cv.section.public_routes"
+      ],
+      "block_ids": [
+        "cv.identity",
+        "cv.research_focus",
+        "cv.roles.university",
+        "cv.roles.astana_energy",
+        "cv.education.phd",
+        "cv.education.master",
+        "cv.education.specialist",
+        "cv.credential.energy_auditor",
+        "cv.grants.ap22787517",
+        "cv.publications.kazatc_error_estimation",
+        "cv.publications.yiuh4401",
+        "cv.publications.gtd2_12436",
+        "cv.publications.icecet_9873012",
+        "cv.publications.isolated_neutral_experimental_studies",
+        "cv.patents.kz37923",
+        "cv.patents.kz35922",
+        "cv.patents.ea041128",
+        "cv.recognition.energy_saving_contribution",
+        "cv.recognition.energy_ministry.distinguished_power_engineer",
+        "cv.recognition.energy_ministry.honoured_energy_worker",
+        "cv.recognition.keea.honoured_energy_worker",
+        "cv.projects.ai_energy_auditor",
+        "cv.projects.stm32_lab",
+        "cv.public_routes"
+      ]
+    }
+  ],
+  "privacy_note": "Private contacts, credential identifiers, civil identifiers, QR content, addresses, signatures, seals, photographs, raw documents, and private paths are excluded."
+}

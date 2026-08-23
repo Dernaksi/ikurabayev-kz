@@ -82,7 +82,8 @@ Status: completed for Cloudflare Pages production and current production QA
 - The apex canonical metadata decision is complete. An optional actual
   `www`-to-apex redirect remains a separate Cloudflare control-plane task.
 - The reviewed deterministic RU/EN public CV is published as dependency-free
-  HTML at `/cv/` and `/en/cv/`; a downloadable PDF remains separate work.
+  HTML at `/cv/` and `/en/cv/`. Issue #55 adds reproducible, static RU/EN PDF
+  downloads from the same block model with separate hashes and visual QA.
 - Production QA on 2026-08-22 confirmed the certified-energy-auditor update on
   the apex, `www`, and Cloudflare Pages preview hosts across desktop and mobile
   route checks, with apex canonical metadata retained.
@@ -90,6 +91,10 @@ Status: completed for Cloudflare Pages production and current production QA
   copy defects. The owner-approved exact display name
   `Қорабаев Ескендір Қазбекұлы` is canonical in the Evidence Spine; the semantic
   roles of `/` and `/ru/` remain open.
+- Production QA on 2026-08-23 confirmed the merged Kazakh language and identity
+  release on the apex, `www`, and Cloudflare Pages preview hosts. The external
+  university start-date discrepancy is deferred until its source page is
+  corrected; generated CVs continue to omit the disputed date.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
   the technical decision.
 

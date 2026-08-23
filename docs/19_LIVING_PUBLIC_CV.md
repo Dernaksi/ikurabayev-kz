@@ -4,8 +4,9 @@
 
 The Living Public CV is a deterministic, sanitized presentation derived from
 the reviewed public facts and relationship graph. It provides equivalent
-Russian and English Markdown review documents and published HTML routes without
-making any generated document the canonical source of truth.
+Russian and English Markdown review documents, published HTML routes, and
+downloadable static PDF exports without making any generated document the
+canonical source of truth.
 
 Canonical facts remain in `data/public-facts.json`. Canonical relationships
 remain in `data/public-research-graph.json`. Generated CV files must never be
@@ -16,6 +17,7 @@ edited as independent source material.
 Generator:
 
 - `tools/build_public_cv.py`
+- `tools/build_public_cv_pdf.py`
 
 Exact inputs:
 
@@ -29,10 +31,14 @@ Generated outputs:
 - `site/cv/index.html`
 - `site/en/cv/index.html`
 - `cv/IKurabayev_Public_CV_PROVENANCE.json`
+- `site/output/pdf/IKurabayev_Public_CV_RU.pdf`
+- `site/output/pdf/IKurabayev_Public_CV_EN.pdf`
+- `cv/IKurabayev_Public_CV_PDF_PROVENANCE.json`
 
 The Markdown outputs remain public review artifacts. The equivalent HTML
 outputs are published at `/cv/` and `/en/cv/`. The generator owns only those two
-site documents; all other static profile pages remain manually maintained.
+site documents. Each page links to its matching static PDF under `/output/pdf/`;
+all other static profile pages remain manually maintained.
 
 ## Deterministic Build Contract
 
@@ -58,6 +64,22 @@ Determinism rules:
 Unchanged inputs therefore produce byte-identical RU Markdown, EN Markdown, RU
 HTML, EN HTML, and provenance outputs.
 
+The PDF generator is a separate offline build step using ReportLab and pypdf.
+It uses the same `build_blocks()` allowlist, fixed A4 layout, invariant PDF
+metadata, fixed punctuation normalization, and a reviewed Unicode font pair.
+Its manifest records the ReportLab version and exact SHA-256 hashes of the
+regular and bold font bytes. Byte-identical PDF regeneration therefore requires
+that recorded environment; the deployed PDF files have no runtime dependency.
+The accepted Issue #55 build uses the bundled workspace Python runtime with
+ReportLab 4.4.9, pypdf 6.10.0, and the bundled Ubuntu Regular/Bold font pair.
+Visual QA uses Poppler 26.05.0 at 140 DPI. System Python is not assumed to
+contain these build-time packages.
+
+```powershell
+python tools/build_public_cv_pdf.py --write
+python tools/build_public_cv_pdf.py --check
+```
+
 ## Selected Public Content
 
 The current generated documents include only reviewed public-safe blocks:
@@ -82,8 +104,10 @@ reasons and other-person metadata.
 ## Conflicting University Start Date
 
 Official sources disagree on the university-role start date. The canonical
-claim retains that conflict for review, but the CV renderer never reads or
-prints the claim's `since` value.
+claim retains the employer-source value and the public source discrepancy, but
+the CV renderer never reads or prints the claim's `since` value. Reconciliation
+is deferred until the external Astana-Energy profile is corrected and rechecked;
+it is not an active content task.
 
 The generated role block includes role, organization, and point-in-time
 currentness only. Its provenance contains the structured exclusion:
@@ -137,14 +161,23 @@ cover exact bytes for reproducibility; they are not a legal or digital
 signature. The manifest intentionally does not contain its own hash because a
 self-hash would be recursive.
 
+`cv/IKurabayev_Public_CV_PDF_PROVENANCE.json` separately records the same input
+hashes and review date, exact RU/EN PDF hashes, page counts, ordered section and
+block IDs, ReportLab version, font filenames and hashes, portability limitation,
+and PDF-specific privacy boundary. Machine-absolute font paths are never stored.
+
 ## No Manual Editing
 
-Do not manually correct generated Markdown, HTML, or provenance files. Instead:
+Do not manually correct generated Markdown, HTML, PDF, or provenance files.
+Instead:
 
 1. update the canonical fact, relationship, or bounded renderer;
 2. run `python tools/build_public_cv.py --write`;
 3. review the generated diff;
 4. run `python tools/build_public_cv.py --check` and the validators.
+
+For PDF-affecting changes, also run the PDF generator with `--write`, render all
+pages through Poppler, inspect every page, then run `--check`.
 
 Manual output drift is rejected both by the generator and by provenance document
 hash checks.
@@ -158,16 +191,25 @@ python tools/check_public_release.py
 python tools/check_public_knowledge.py
 python tools/check_public_knowledge.py --self-test
 python tools/build_public_cv.py --check
+python tools/build_public_cv_pdf.py --check
 python -m json.tool data/public-facts.json
 python -m json.tool data/public-research-graph.json
 python -m json.tool cv/IKurabayev_Public_CV_PROVENANCE.json
+python -m json.tool cv/IKurabayev_Public_CV_PDF_PROVENANCE.json
 ```
 
 The knowledge validator checks IDs, evidence references, status inheritance,
 topic and predicate contracts, privacy patterns, input/output hashes, block
 coverage, RU/EN structure, disputed-date omission, dated patent status, roadmap
-wording, and generated-file drift. Its self-test performs eight bounded in-memory
-mutations and confirms that each is rejected without changing the filesystem.
+wording, and generated-file drift. Its self-test performs nine bounded in-memory
+mutations, including manual PDF drift, and confirms that each is rejected
+without changing the filesystem.
+
+The Issue #55 visual QA renders both two-page A4 PDFs to PNG at 140 DPI and
+reviews all four pages. The reviewed layout has no clipped text, overlap,
+missing glyphs, broken section transition, form field, JavaScript, or unreadable
+footer. Patent sections begin on page two in both languages to preserve heading
+context.
 
 ## Human Review And Future Exports
 
@@ -183,16 +225,14 @@ and the Russian provenance-footer terminology. The English CV intentionally
 retains official Russian-language patent titles until approved English
 translations exist.
 
-The owner reviewed the corrected artifacts and delegated selection of the first
-publication format. HTML was selected as the primary public format because it
-is accessible, responsive, indexable, and requires no additional dependency or
-download workflow. This decision authorizes only the two generated HTML routes;
-it does not authorize a downloadable artifact.
+The owner reviewed the corrected artifacts and delegated selection of public
+formats. HTML remains the primary accessible, responsive, and indexable format.
+Issue #55 adds PDF as a static professional-use download from the same canonical
+block model; it does not replace HTML or become an evidence source.
 
-PDF, DOCX, and additional languages require separate approved tasks. The HTML
-routes include bounded print styling, but no PDF is generated. Any future export
-should consume the same canonical JSON and provenance model rather than treating
-a generated Markdown or HTML file as the new evidence source.
+DOCX and additional languages require separate approved tasks. Any future
+export must consume the same canonical JSON and provenance model rather than
+treating generated Markdown, HTML, or PDF as a new evidence source.
 
 ## Privacy And Runtime Boundary
 
@@ -201,7 +241,7 @@ route and does not copy the approved mailbox. It includes no phone number,
 personal email, private address, civil identifier, private source path, raw
 document, other-person record, unpublished data, or confidential project detail.
 
-The generator and validators are offline repository tools. The published HTML
-contains no runtime JSON loading or runtime script and adds no framework,
-dependency, backend, API, storage, analytics, tracking, network request, or
-real-AI behavior.
+The generators and validators are offline repository tools. The published HTML
+and PDF contain no runtime JSON loading or runtime script and add no framework,
+runtime dependency, backend, API, storage, analytics, tracking, network request,
+or real-AI behavior.

@@ -39,6 +39,18 @@ CV_ROUTES = {
         "en",
     ),
 }
+PDF_EXPORTS = {
+    "/cv/": (
+        SITE / "output" / "pdf" / "IKurabayev_Public_CV_RU.pdf",
+        "/output/pdf/IKurabayev_Public_CV_RU.pdf",
+        "Скачать PDF",
+    ),
+    "/en/cv/": (
+        SITE / "output" / "pdf" / "IKurabayev_Public_CV_EN.pdf",
+        "/output/pdf/IKurabayev_Public_CV_EN.pdf",
+        "Download PDF",
+    ),
+}
 PROFILE_ROUTES = {"/", "/ru/", "/en/", "/kk/"}
 HREFLANG = {
     "ru": "https://ikurabayev.kz/ru/",
@@ -640,6 +652,28 @@ def validate_cv_html() -> None:
             if obsolete.casefold() in visible_casefold:
                 fail(f"{route}: obsolete personal-accreditation wording remains: {obsolete}")
 
+        pdf_path, pdf_href, pdf_label = PDF_EXPORTS[route]
+        pdf_links = [
+            anchor for anchor in parser.anchors if anchor.get("href") == pdf_href
+        ]
+        if len(pdf_links) != 1:
+            fail(f"{route}: expected one localized PDF download link")
+        elif "download" not in pdf_links[0]:
+            fail(f"{route}: PDF link must use the download attribute")
+        if pdf_label not in visible_text:
+            fail(f"{route}: localized PDF download label is missing")
+        try:
+            pdf_bytes = pdf_path.read_bytes()
+        except OSError as exc:
+            fail(f"{route}: PDF export cannot be read: {exc}")
+        else:
+            if not pdf_bytes.startswith(b"%PDF-") or not pdf_bytes.rstrip().endswith(b"%%EOF"):
+                fail(f"{route}: PDF export has an invalid file envelope")
+            if not 50_000 <= len(pdf_bytes) <= 1_000_000:
+                fail(f"{route}: PDF export has an unexpected file size")
+            if b"/JavaScript" in pdf_bytes or b"/AcroForm" in pdf_bytes:
+                fail(f"{route}: PDF export must remain static and script-free")
+
         canonicals = [
             link.get("href", "")
             for link in parser.links
@@ -891,7 +925,8 @@ def main() -> int:
 
     print(
         "Public release validation PASS: evidence states, privacy exclusions, "
-        "localized patent and certification truth, generated Living Public CV routes, "
+        "localized patent and certification truth, generated Living Public CV routes "
+        "and PDF downloads, "
         "Kazakh language markers, semantic metadata, sitemap, robots, and concierge "
         "architecture match the bounded v1.2 contract."
     )

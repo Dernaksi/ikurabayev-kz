@@ -65,23 +65,29 @@ localized site routes, and the local public-facts-only concierge. Production QA
 on 2026-08-22 confirmed the update on the apex, `www`, and Cloudflare Pages
 preview hosts without publishing private credential details. The reviewed
 Living Public CV is published as dependency-free RU/EN HTML at `/cv/` and
-`/en/cv/`; PDF remains a separate future export. A bounded Kazakh language pass
-has corrected interface and terminology defects, and the owner-approved exact
-Kazakh display name `Қорабаев Ескендір Қазбекұлы` is now canonical in the
-Evidence Spine. Remaining work includes owner review of conflicting
-university-role start dates, the
+`/en/cv/`. Issue #55 adds downloadable static RU/EN PDF exports from the same
+reviewed block model, with separate byte-level provenance and no runtime
+dependency. A bounded Kazakh language pass has corrected interface and
+terminology defects, and the owner-approved exact Kazakh display name
+`Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The
+university-role source discrepancy is deferred until the external
+Astana-Energy profile is corrected; generated CVs continue to omit the disputed
+start date. Remaining work includes the
 long-term semantic roles of `/` and `/ru/`, an optional Cloudflare
 `www`-to-apex redirect, and a separate real-AI backend architecture.
 
 Public Knowledge System v0.2 adds a bounded research graph, deterministic RU/EN
 Living Public CV documents, block-level provenance, and offline validators. The
-Markdown artifacts remain review documents; equivalent generated HTML is
-published without runtime JSON loading, scripts, or private evidence.
+Markdown artifacts remain review documents; equivalent generated HTML and
+static PDF exports are published without runtime JSON loading, scripts, or
+private evidence.
 
-The project remains framework-free and dependency-free for now. Do not add a
-website framework, `package.json`, dependencies, private contact details,
-unsupported public claims, or unpublished research data until a specific issue
-and pull request justify that change.
+The deployed site remains framework-free and dependency-free at runtime. The
+separate PDF build uses approved offline tooling pinned by recorded version and
+font hashes. Do not add a website framework, `package.json`, runtime
+dependencies, private contact details, unsupported public claims, or
+unpublished research data until a specific issue and pull request justify that
+change.
 
 ## Key Documents
 
