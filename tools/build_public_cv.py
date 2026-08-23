@@ -789,6 +789,8 @@ def render_html_document(
             "Хеши и происхождение блоков записаны в сопроводительном манифесте."
         )
         reviewed_label = "Реестр проверен"
+        pdf_href = "/output/pdf/IKurabayev_Public_CV_RU.pdf"
+        pdf_label = "Скачать PDF"
     else:
         title = "Iskander Kurabayev — Public CV"
         description = (
@@ -813,6 +815,8 @@ def render_html_document(
             "companion manifest."
         )
         reviewed_label = "Registry reviewed"
+        pdf_href = "/output/pdf/IKurabayev_Public_CV_EN.pdf"
+        pdf_label = "Download PDF"
 
     section_parts: list[str] = []
     current_section = ""
@@ -898,6 +902,7 @@ def render_html_document(
         <p class="cv-lead">{html_lib.escape(lead)}</p>
         <p class="cv-scope">{html_lib.escape(scope_note)}</p>
         <p class="cv-reviewed"><span>{html_lib.escape(reviewed_label)}</span> {review_date}</p>
+        <a class="cv-download" href="{pdf_href}" download="">{html_lib.escape(pdf_label)}</a>
       </header>
       <div class="cv-sections">
 {sections}

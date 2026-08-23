@@ -69,6 +69,28 @@
   color: var(--teal-bright);
 }
 
+.cv-download {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.55rem;
+  margin-top: 0.9rem;
+  border: 1px solid var(--teal);
+  border-radius: var(--radius);
+  background: rgba(45, 212, 191, 0.1);
+  color: var(--teal-bright);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.65rem 0.85rem;
+  text-decoration: none;
+}
+
+.cv-download:hover {
+  border-color: var(--teal-bright);
+  background: rgba(45, 212, 191, 0.16);
+  color: #fff;
+}
+
 .cv-sections {
   display: grid;
   gap: 1rem;
@@ -164,7 +186,8 @@
   }
 
   .site-header,
-  .skip-link {
+  .skip-link,
+  .cv-download {
     display: none;
   }
 

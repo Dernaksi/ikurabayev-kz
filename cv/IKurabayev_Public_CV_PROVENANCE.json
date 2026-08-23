@@ -100,7 +100,7 @@
       "id": "cv.site.ru",
       "language": "ru",
       "path": "site/cv/index.html",
-      "sha256": "e95f957ea96dee1670f79a87197b4178b1f2824e857edd59e97c354fbd634464",
+      "sha256": "3015211cb63cc9de33149d558a7cd7c24d8b95583fd27b2bb8c409dbda4b2528",
       "section_ids": [
         "cv.section.identity",
         "cv.section.research_focus",
@@ -145,7 +145,7 @@
       "id": "cv.site.en",
       "language": "en",
       "path": "site/en/cv/index.html",
-      "sha256": "df35b9ee63f35ee2a3318febc25ab6912b8c3587484ac892b3ca84c5fe10aec9",
+      "sha256": "8d3fdbc9a98b9f640eb01ce372ce576dfd83a635b420e1492d854dc6c742e391",
       "section_ids": [
         "cv.section.identity",
         "cv.section.research_focus",

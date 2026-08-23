@@ -46,7 +46,7 @@ the visual baseline.
 - Public Research Knowledge System v0.2 established a compact relationship
   graph, four bounded Evidence Spine additions, deterministic RU/EN public CV
   documents, block-level provenance, and an offline knowledge validator with
-  eight bounded mutation checks. The Markdown outputs remain review artifacts.
+  nine bounded mutation checks. The Markdown outputs remain review artifacts.
 - PR #45 recorded the owner-approved certified-energy-auditor status and
   2026-08-14 to 2029-08-06 term in the Evidence Spine and deterministic RU/EN
   public CV drafts while retaining the partially verified evidence status.
@@ -62,6 +62,12 @@ the visual baseline.
   terminology, and copy defects are corrected, and owner review canonicalizes
   the exact full name `Қорабаев Ескендір Қазбекұлы` without rewriting
   source-specific abbreviated author strings.
+- PR #54 merged that language and identity review. Production QA on 2026-08-23
+  confirmed the exact Kazakh name, reviewed language markers, RU/EN CV review
+  date, and privacy boundary on the apex, `www`, and Cloudflare Pages preview.
+- Issue #55 adds two reproducible static PDF CV exports, localized download
+  links, separate font/output provenance, and rendered-page QA without changing
+  the deployed runtime architecture.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
   Cloudflare Pages preview hosts across desktop and 390x844 mobile checks;
   canonical metadata, robots, sitemap, and the privacy boundary remained intact.
@@ -80,15 +86,16 @@ the current release.
 
 ## Next Recommended Tasks
 
-1. Resolve the conflicting official university-role start-date evidence through
-   owner review before changing the production timeline.
-2. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile
+The university-role start-date discrepancy is not an active task. Retain the
+employer-source canonical value and keep the start date omitted from generated
+CVs until the external Astana-Energy profile is corrected and rechecked.
+
+1. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile
    routes without changing the accepted Russian-first information architecture
    implicitly.
-3. Decide whether to implement an optional `www`-to-apex redirect in the
+2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-4. Scope a downloadable PDF CV export from the same canonical block model.
-5. Draft a separate real-AI backend architecture before any real API work.
+3. Draft a separate real-AI backend architecture before any real API work.
 
 ## Active Branch Convention
 
