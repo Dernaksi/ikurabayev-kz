@@ -87,8 +87,9 @@ Status: completed for Cloudflare Pages production and current production QA
   the apex, `www`, and Cloudflare Pages preview hosts across desktop and mobile
   route checks, with apex canonical metadata retained.
 - A bounded Kazakh language pass has corrected interface, terminology, and
-  copy defects. Owner canonicalization of the Kazakh display name remains open,
-  together with the semantic roles of `/` and `/ru/`.
+  copy defects. The owner-approved exact display name
+  `Қорабаев Ескендір Қазбекұлы` is canonical in the Evidence Spine; the semantic
+  roles of `/` and `/ru/` remain open.
 - Keep launch checks privacy-safe and dependency-free unless a future PR changes
   the technical decision.
 

@@ -54,6 +54,8 @@ EXPECTED_PUBLICATIONS = {
 }
 EXPECTED_PROJECTS = {"project.ai_energy_auditor", "project.stm32_lab"}
 CREDENTIAL_SOURCE_ID = "source.owner_supplied.energy_auditor_certificate_review"
+KAZAKH_IDENTITY_SOURCE_ID = "source.owner_approval.kazakh_display_name"
+KAZAKH_FULL_NAME = "Қорабаев Ескендір Қазбекұлы"
 CREDENTIAL_VALUE_KEYS = {
     "credential",
     "practice_area",
@@ -209,6 +211,48 @@ def validate_registry(
         for source_id in evidence:
             if source_id not in sources:
                 errors.append(f"{claim_id}: unresolved evidence reference {source_id}")
+
+    identity = claims.get("identity.name", {})
+    identity_value = identity.get("value")
+    expected_identity = {
+        "preferred_public_name": "Iskander Kurabayev",
+        "ru_full_name": "Курабаев Искандер Казбекович",
+        "kk_full_name": KAZAKH_FULL_NAME,
+    }
+    if identity_value != expected_identity:
+        errors.append("identity.name: canonical multilingual identity changed")
+    if identity.get("status") != "partially_verified":
+        errors.append("identity.name: mixed public and owner evidence must remain partially_verified")
+    if identity.get("verified_at") != "2026-08-23":
+        errors.append("identity.name: owner-approved Kazakh form must remain dated 2026-08-23")
+    if identity.get("languages") != ["en", "ru", "kk"]:
+        errors.append("identity.name: expected ordered en, ru, and kk language coverage")
+    expected_identity_evidence = {
+        "source.orcid.public_record",
+        "source.katru.faculty_profile",
+        KAZAKH_IDENTITY_SOURCE_ID,
+    }
+    if set(identity.get("evidence", [])) != expected_identity_evidence:
+        errors.append("identity.name: unexpected evidence set")
+    identity_note = str(identity.get("presentation_notes", ""))
+    for marker in (KAZAKH_FULL_NAME, "not been independently verified", "abbreviated author"):
+        if marker not in identity_note:
+            errors.append(f"identity.name: presentation limitation missing: {marker}")
+
+    identity_source = sources.get(KAZAKH_IDENTITY_SOURCE_ID)
+    expected_identity_source = {
+        "id": KAZAKH_IDENTITY_SOURCE_ID,
+        "kind": "owner_approval",
+        "checked_at": "2026-08-23",
+        "authority": "repository_owner",
+        "source_role": "kazakh_identity_canonicalization",
+        "public_safe_note": (
+            "Confirms the exact Kazakh full name approved for public display. "
+            "This is authoritative owner approval, not independent public verification."
+        ),
+    }
+    if identity_source != expected_identity_source:
+        errors.append(f"{KAZAKH_IDENTITY_SOURCE_ID}: owner-approval source contract changed")
 
     university = claims.get("role.university.current", {})
     university_value = university.get("value")

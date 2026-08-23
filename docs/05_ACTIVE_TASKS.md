@@ -59,8 +59,9 @@ the visual baseline.
   at `/cv/` and `/en/cv/`, retained Markdown as review artifacts, and deferred
   PDF export.
 - Issue #53 scopes a bounded Kazakh language pass. Clear interface,
-  terminology, and copy defects are corrected without canonicalizing the
-  unresolved `Қорабаев` / `Құрабаев` display-name variants.
+  terminology, and copy defects are corrected, and owner review canonicalizes
+  the exact full name `Қорабаев Ескендір Қазбекұлы` without rewriting
+  source-specific abbreviated author strings.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
   Cloudflare Pages preview hosts across desktop and 390x844 mobile checks;
   canonical metadata, robots, sitemap, and the privacy boundary remained intact.
@@ -79,17 +80,15 @@ the current release.
 
 ## Next Recommended Tasks
 
-1. Owner-review and canonicalize the Kazakh display name, then close the
-   remaining identity boundary in the language review.
-2. Resolve the conflicting official university-role start-date evidence through
+1. Resolve the conflicting official university-role start-date evidence through
    owner review before changing the production timeline.
-3. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile
+2. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile
    routes without changing the accepted Russian-first information architecture
    implicitly.
-4. Decide whether to implement an optional `www`-to-apex redirect in the
+3. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-5. Scope a downloadable PDF CV export from the same canonical block model.
-6. Draft a separate real-AI backend architecture before any real API work.
+4. Scope a downloadable PDF CV export from the same canonical block model.
+5. Draft a separate real-AI backend architecture before any real API work.
 
 ## Active Branch Convention
 

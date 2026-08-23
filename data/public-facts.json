@@ -5,27 +5,30 @@
     "type": "person",
     "canonical_claim": "identity.name"
   },
-  "generated_or_reviewed_at": "2026-08-21",
+  "generated_or_reviewed_at": "2026-08-23",
   "claims": [
     {
       "id": "identity.name",
       "kind": "identity",
       "public": true,
-      "status": "verified_public",
+      "status": "partially_verified",
       "value": {
         "preferred_public_name": "Iskander Kurabayev",
-        "ru_full_name": "Курабаев Искандер Казбекович"
+        "ru_full_name": "Курабаев Искандер Казбекович",
+        "kk_full_name": "Қорабаев Ескендір Қазбекұлы"
       },
       "evidence": [
         "source.orcid.public_record",
-        "source.katru.faculty_profile"
+        "source.katru.faculty_profile",
+        "source.owner_approval.kazakh_display_name"
       ],
-      "verified_at": "2026-08-09",
+      "verified_at": "2026-08-23",
       "languages": [
         "en",
-        "ru"
+        "ru",
+        "kk"
       ],
-      "presentation_notes": "The Kazakh display form is not canonicalized in v0.1 because the current presentation contains inconsistent variants and awaits human language review."
+      "presentation_notes": "The English and Russian identity forms remain supported by reviewed public profiles. The repository owner approved the exact Kazakh display form Қорабаев Ескендір Қазбекұлы on 2026-08-23. The claim remains partially_verified because the Kazakh form has not been independently verified through a suitable public authority. Source-specific abbreviated author strings are not silently normalized by this identity decision."
     },
     {
       "id": "education.phd.electrical_complexes_systems",
@@ -586,6 +589,14 @@
       "authority": "repository_owner",
       "source_role": "publication_approval",
       "public_safe_note": "Confirms approval of the current visible public content; does not independently verify factual currentness."
+    },
+    {
+      "id": "source.owner_approval.kazakh_display_name",
+      "kind": "owner_approval",
+      "checked_at": "2026-08-23",
+      "authority": "repository_owner",
+      "source_role": "kazakh_identity_canonicalization",
+      "public_safe_note": "Confirms the exact Kazakh full name approved for public display. This is authoritative owner approval, not independent public verification."
     },
     {
       "id": "source.owner_supplied.energy_auditor_certificate_review",

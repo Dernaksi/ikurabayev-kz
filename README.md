@@ -66,9 +66,10 @@ on 2026-08-22 confirmed the update on the apex, `www`, and Cloudflare Pages
 preview hosts without publishing private credential details. The reviewed
 Living Public CV is published as dependency-free RU/EN HTML at `/cv/` and
 `/en/cv/`; PDF remains a separate future export. A bounded Kazakh language pass
-has corrected interface and terminology defects; the Kazakh display name still
-requires owner canonicalization. Remaining work includes owner review of
-conflicting university-role start dates, the
+has corrected interface and terminology defects, and the owner-approved exact
+Kazakh display name `Қорабаев Ескендір Қазбекұлы` is now canonical in the
+Evidence Spine. Remaining work includes owner review of conflicting
+university-role start dates, the
 long-term semantic roles of `/` and `/ru/`, an optional Cloudflare
 `www`-to-apex redirect, and a separate real-AI backend architecture.
 
@@ -103,4 +104,4 @@ and pull request justify that change.
 - [docs/19_LIVING_PUBLIC_CV.md](docs/19_LIVING_PUBLIC_CV.md) - deterministic
   RU/EN CV generation, block provenance, privacy, and publication workflow.
 - [docs/20_KAZAKH_LANGUAGE_REVIEW.md](docs/20_KAZAKH_LANGUAGE_REVIEW.md) -
-  bounded Kazakh copy audit, corrections, and unresolved identity boundary.
+  bounded Kazakh copy audit, corrections, and approved identity boundary.

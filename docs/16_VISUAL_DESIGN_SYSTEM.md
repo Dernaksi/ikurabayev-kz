@@ -179,8 +179,9 @@ changes the information architecture:
 
 The root and QR routes currently follow Russian-first public entry. English
 remains the international profile layer. Kazakh remains supported and has
-received a bounded language pass; its display name must not be canonicalized or
-strengthened without explicit owner review.
+received a bounded language pass. Its exact owner-approved full name is
+`Қорабаев Ескендір Қазбекұлы`; visual ports must preserve this spelling and
+order unless the owner explicitly changes it.
 
 ## Privacy Boundaries
 

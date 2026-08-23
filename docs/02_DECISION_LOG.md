@@ -334,3 +334,28 @@ framework, package dependency, runtime JSON loading, runtime script, backend,
 analytics, or private evidence. PDF and additional languages remain separate
 future tasks. English patent entries retain official Russian-language titles
 until reviewed translations exist.
+
+### 2026-08-23 - Canonicalize the owner-approved Kazakh display name
+
+Status: accepted
+
+Context:
+The bounded Kazakh language review found inconsistent name variants across the
+current profile, source-oriented author strings, and historical content drafts.
+The repository owner explicitly confirmed that the full name currently shown on
+the Kazakh profile is correct.
+
+Decision:
+Use `Қорабаев Ескендір Қазбекұлы` as the exact canonical Kazakh full name for
+public identity presentation. Record the approval as a public-safe owner source
+in the Evidence Spine and keep the multilingual identity claim
+`partially_verified`: its English and Russian forms have reviewed public
+evidence, while the Kazakh form is owner-approved without independent public
+verification.
+
+Consequences:
+The approved full name is locked by offline validators and working memory.
+Source-specific abbreviated author strings are not silently rewritten because
+they may reflect publication or patent metadata, and historical drafts remain
+non-canonical reference material. This decision adds no private identity data,
+runtime behavior, dependency, or new professional claim.

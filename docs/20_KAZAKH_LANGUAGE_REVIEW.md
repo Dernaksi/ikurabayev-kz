@@ -5,14 +5,16 @@
 Issue #53 performs a bounded language-quality pass over the existing Kazakh
 profile route and its shared local concierge strings. It does not redesign the
 site, translate official publication titles, add a Kazakh CV route, or change
-facts, dates, evidence status, privacy policy, or runtime architecture.
+professional facts, credential dates, privacy policy, or runtime architecture.
+The owner-approved identity reconciliation is recorded separately in the
+Evidence Spine.
 
 ## Reviewed Corrections
 
 The pass corrects:
 
 - mixed Russian and English interface labels in the Kazakh route and concierge;
-- the technical spelling `электротехникалық` → `электротехникалық`;
+- the technical spelling `электртехникалық` → `электротехникалық`;
 - awkward literal constructions in the professional trajectory, internships,
   interactive diagram guidance, AI-lab description, and citation disclaimer;
 - established Kazakh labels for trust markers, prototype status, traceability,
@@ -25,19 +27,22 @@ abbreviations, product/roadmap names, and dated patent legal-status statements
 remain unchanged where translation would create a new claim or alter an
 official label.
 
-## Unresolved Kazakh Display Name
+## Approved Kazakh Display Name
 
-The Evidence Spine identity claim currently authorizes only English and Russian
-forms. Its presentation note explicitly says that the Kazakh display form is
-not canonicalized because the repository contains inconsistent variants:
+On 2026-08-23, the repository owner confirmed that the exact full name already
+shown on the Kazakh profile is correct:
 
-- `Қорабаев Ескендір Қазбекұлы` on the current Kazakh profile;
-- `Құрабаев И. К.` in project and patent presentation;
-- `Ескендір Құрабаев` in the earlier Kazakh biography draft.
+`Қорабаев Ескендір Қазбекұлы`
 
-This pass deliberately does not choose among those variants. Canonicalization
-requires explicit owner approval, followed by an Evidence Spine update and a
-single reviewed replacement across the Kazakh presentation and concierge.
+The Evidence Spine now records that form and its public-safe owner-approval
+source. The multilingual identity claim is `partially_verified`: reviewed
+public profiles support the English and Russian forms, while the Kazakh form
+has explicit owner approval but no independent public-authority verification.
+
+Source-specific abbreviated author strings such as `Құрабаев И. К.` are not
+silently normalized because they may reproduce publication or patent metadata.
+Earlier biography and QR drafts remain historical, non-canonical planning
+material rather than production identity sources.
 
 ## Privacy And Claim Boundary
 
@@ -50,6 +55,6 @@ public wording and dates.
 ## Validation
 
 The offline public-release validator locks the corrected Kazakh interface and
-terminology markers, rejects the known stale mixed-language forms, and retains
-the existing certification, patent-status, metadata, privacy, and no-network
-runtime checks.
+terminology markers and the exact owner-approved full name, rejects the known
+stale mixed-language forms, and retains the existing certification,
+patent-status, metadata, privacy, and no-network runtime checks.

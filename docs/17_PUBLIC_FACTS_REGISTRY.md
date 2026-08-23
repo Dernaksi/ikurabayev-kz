@@ -61,6 +61,19 @@ count as independent public verification.
 automatically authorize every field for every presentation. The public-content
 policy remains authoritative.
 
+## Localized Identity Contract
+
+The canonical `identity.name` claim contains the reviewed English and Russian
+forms plus the exact owner-approved Kazakh form
+`Қорабаев Ескендір Қазбекұлы`. The claim remains `partially_verified` because
+the Kazakh form is supported by owner approval rather than independent public
+evidence. This field-level limitation is explicit in `presentation_notes` and
+must not be silently promoted to `verified_public`.
+
+The canonical full name governs public identity presentation. Source-specific
+abbreviated author strings may remain unchanged when they reproduce publication
+or patent metadata; they are not alternative canonical display names.
+
 ## Statuses
 
 | Status | Meaning |
