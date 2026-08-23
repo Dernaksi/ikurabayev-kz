@@ -1,16 +1,16 @@
 {
   "schema_version": "0.1",
   "cv_version": "0.2",
-  "source_registry_sha256": "0d8a3c8aea56ab1ec7ceb74726e82f46a0948c35e33b662044fe9ffb30cd38ac",
+  "source_registry_sha256": "999844b4f5d3b4f3a40442f892e1219831e8ab32b6c9e5b9bfbefd158cff0ff8",
   "source_graph_sha256": "875c59db3f9f2c6faba4f08fe3d12285281b65205fde340e73ecfce85e970d9a",
-  "source_review_date": "2026-08-21",
+  "source_review_date": "2026-08-23",
   "hash_scope_note": "SHA-256 values cover exact input/output bytes for reproducibility; they are not a legal or digital signature.",
   "documents": [
     {
       "id": "cv.ru",
       "language": "ru",
       "path": "cv/IKurabayev_Public_CV_RU.md",
-      "sha256": "acfd2acac4443a220d79a56a6e71619717a15635de35e69af1f765250095c660",
+      "sha256": "8ed187f4f34afefbf9079534019c44b1e69fcebc8d7e334ffe33a4ee645c497a",
       "section_ids": [
         "cv.section.identity",
         "cv.section.research_focus",
@@ -55,7 +55,7 @@
       "id": "cv.en",
       "language": "en",
       "path": "cv/IKurabayev_Public_CV_EN.md",
-      "sha256": "70dd1b70b9dd990b6c2a66df9f25ce13167929a4467909193baa93ee50408b74",
+      "sha256": "6186978cbbac063d5157e1140d8466c6881f238b2094aee4d65aeb88826e6181",
       "section_ids": [
         "cv.section.identity",
         "cv.section.research_focus",
@@ -100,7 +100,7 @@
       "id": "cv.site.ru",
       "language": "ru",
       "path": "site/cv/index.html",
-      "sha256": "08833a6caef07c9053c8b89b035252f1a2b5ca43a0357a0b859a583d87876640",
+      "sha256": "e95f957ea96dee1670f79a87197b4178b1f2824e857edd59e97c354fbd634464",
       "section_ids": [
         "cv.section.identity",
         "cv.section.research_focus",
@@ -145,7 +145,7 @@
       "id": "cv.site.en",
       "language": "en",
       "path": "site/en/cv/index.html",
-      "sha256": "5195a7dfd786d50bfa17ce1db3b31b03196d18bf655ff43a534b6a168563f04b",
+      "sha256": "df35b9ee63f35ee2a3318febc25ab6912b8c3587484ac892b3ca84c5fe10aec9",
       "section_ids": [
         "cv.section.identity",
         "cv.section.research_focus",
@@ -202,7 +202,7 @@
       ],
       "relation_ids": [],
       "effective_evidence_statuses": [
-        "verified_public"
+        "partially_verified"
       ],
       "exclusions": [],
       "notes": [

@@ -178,8 +178,10 @@ changes the information architecture:
 - `/kk`
 
 The root and QR routes currently follow Russian-first public entry. English
-remains the international profile layer. Kazakh remains supported and should not
-be strengthened without language review.
+remains the international profile layer. Kazakh remains supported and has
+received a bounded language pass. Its exact owner-approved full name is
+`Қорабаев Ескендір Қазбекұлы`; visual ports must preserve this spelling and
+order unless the owner explicitly changes it.
 
 ## Privacy Boundaries
 

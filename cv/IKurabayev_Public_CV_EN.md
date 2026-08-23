@@ -5,7 +5,7 @@
 ## Profile
 
 - **Name:** Iskander Kurabayev.
-- **Source-registry review date:** 2026-08-21.
+- **Source-registry review date:** 2026-08-23.
 
 ## Research focus
 

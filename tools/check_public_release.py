@@ -57,6 +57,8 @@ PATENTS = {
     "patent.kz37923": ("active", "source.qazpatent.patent_37923"),
 }
 CREDENTIAL_SOURCE_ID = "source.owner_supplied.energy_auditor_certificate_review"
+KAZAKH_IDENTITY_SOURCE_ID = "source.owner_approval.kazakh_display_name"
+KAZAKH_FULL_NAME = "Қорабаев Ескендір Қазбекұлы"
 PUBLIC_TEXT_SUFFIXES = {".css", ".html", ".js", ".json", ".svg", ".txt", ".xml"}
 VOID_TAGS = {
     "area",
@@ -221,6 +223,20 @@ def validate_evidence() -> tuple[
         for source_id in evidence:
             if source_id not in sources:
                 fail(f"{claim_id}: unresolved evidence reference {source_id}")
+
+    identity = claims.get("identity.name", {})
+    identity_value = identity.get("value")
+    if identity.get("status") != "partially_verified":
+        fail("identity.name: mixed public and owner evidence must remain partially_verified")
+    if not isinstance(identity_value, dict) or identity_value.get("kk_full_name") != KAZAKH_FULL_NAME:
+        fail("identity.name: approved Kazakh full name is missing or changed")
+    if KAZAKH_IDENTITY_SOURCE_ID not in identity.get("evidence", []):
+        fail("identity.name: Kazakh owner-approval evidence is missing")
+    identity_source = sources.get(KAZAKH_IDENTITY_SOURCE_ID, {})
+    if identity_source.get("kind") != "owner_approval":
+        fail(f"{KAZAKH_IDENTITY_SOURCE_ID}: unexpected source kind")
+    if "url" in identity_source:
+        fail(f"{KAZAKH_IDENTITY_SOURCE_ID}: owner approval must not have a URL")
 
     official_urls: dict[str, str] = {}
     for claim_id, (legal_status, source_id) in PATENTS.items():
@@ -783,6 +799,28 @@ def validate_concierge() -> None:
         if obsolete.casefold() in text_casefold:
             fail(f"concierge.js contains obsolete wording: {obsolete}")
 
+    kazakh_markers = (
+        KAZAKH_FULL_NAME,
+        "Зертханаға сұрақ қойыңыз",
+        "Прототиптік интерфейс · Дереккөз режимі: тек ашық деректер",
+        "Тек жергілікті",
+        "Нақты AI интеграциясы қосылмаған",
+        "құжаттың өзге деректемелері әдейі жарияланбайды",
+        "Бірнеше жұмыстың DOI-ы тексерілген",
+    )
+    for marker in kazakh_markers:
+        if marker not in text:
+            fail(f"concierge.js Kazakh language marker is missing: {marker}")
+    for stale in (
+        'title: "Зертханадан сұраңыз"',
+        "Төмендегі кеңесті басыңыз",
+        "ИИ-ассистенттік",
+        "электртехника саласының зерттеушісі",
+        "Электртехникалық кешендер мен жүйелер",
+    ):
+        if stale in text:
+            fail(f"concierge.js contains stale mixed-language Kazakh UI: {stale}")
+
     forbidden_runtime = {
         r"\bfetch\s*\(": "fetch",
         r"\bXMLHttpRequest\b": "XMLHttpRequest",
@@ -800,6 +838,42 @@ def validate_concierge() -> None:
             fail(f"concierge.js contains prohibited {label} construct")
 
 
+def validate_kazakh_language_contract() -> None:
+    path = SITE / "kk" / "index.html"
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        fail(f"/kk/: cannot read Kazakh HTML for language validation: {exc}")
+        return
+
+    markers = (
+        f"<h1>{KAZAKH_FULL_NAME}</h1>",
+        f'<title>{KAZAKH_FULL_NAME} | Ашық профиль</title>',
+        'aria-label="Сенім белгілері"',
+        "AI-дан сұрау",
+        "Қазіргі ашық мәлімет",
+        "Электротехникалық кешендер мен жүйелер",
+        "жоспарлы-профилактикалық жөндеу жұмыстарын",
+        "Аналогтық кіріс сатысы",
+        "Инженерлік тәжірибе жариялауға қауіпсіз деңгейде берілген",
+    )
+    for marker in markers:
+        if marker not in text:
+            fail(f"/kk/: reviewed Kazakh language marker is missing: {marker}")
+    for stale in (
+        'aria-label="Trust markers"',
+        "ИИ-ден сұрау",
+        "электртехникалық",
+        "Электртехникалық",
+        "Ағымдағы ашық тұжырым",
+        "Ашық түрде қауіпсіз тәжірибе",
+        "жөндеу-профилактикалық жұмыстарды",
+        "Аналогтық фронт",
+    ):
+        if stale in text:
+            fail(f"/kk/: stale or mixed-language wording remains: {stale}")
+
+
 def main() -> int:
     claims, sources, official_urls = validate_evidence()
     validate_public_files()
@@ -807,6 +881,7 @@ def main() -> int:
     validate_cv_html()
     validate_sitemap_and_robots()
     validate_concierge()
+    validate_kazakh_language_contract()
 
     if errors:
         print("Public release validation FAILED:", file=sys.stderr)
@@ -817,8 +892,8 @@ def main() -> int:
     print(
         "Public release validation PASS: evidence states, privacy exclusions, "
         "localized patent and certification truth, generated Living Public CV routes, "
-        "semantic metadata, sitemap, robots, and concierge architecture match the "
-        "bounded v1.2 contract."
+        "Kazakh language markers, semantic metadata, sitemap, robots, and concierge "
+        "architecture match the bounded v1.2 contract."
     )
     return 0
 
