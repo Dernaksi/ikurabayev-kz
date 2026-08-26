@@ -115,18 +115,21 @@ Status: in progress / post-launch maintenance
 
 ## Phase 6 - Public AI Assistant Architecture
 
-Status: in progress / architecture readiness proposed in issue #57
+Status: in progress / Gate A accepted in PR #58; disabled Gate B proposed in issue #59
 
-- Treat AI console or AI assistant UI as prototype/static/public-facts-only
-  until a separate architecture decision and pull request approve real backend
-  functionality.
+- Keep the visible AI console prototype/static/public-facts-only. Gate B may
+  deploy only a fail-closed same-origin route that returns 503 and cannot call a
+  model provider.
 - Ground any future AI/agent layer in reviewed public Evidence Spine claims,
   and use only conservative reviewed graph relationships while keeping that
   integration a separate future phase.
 - Design any real AI integration through a backend or edge function with secrets
   outside GitHub.
-- Review `docs/21_PUBLIC_AI_ASSISTANT_ARCHITECTURE.md` and the machine-readable
-  `data/public-ai-contract.json` before any backend implementation.
+- Treat `docs/21_PUBLIC_AI_ASSISTANT_ARCHITECTURE.md` and the machine-readable
+  `data/public-ai-contract.json` as the accepted Gate A boundary.
+- Gate B builds and hashes an allowlisted server-side grounding module and tests
+  the disabled Pages Function without credentials, external calls, storage, or
+  runtime dependencies.
 - Require the offline public-AI validator, refusal suite, and model evaluations
   to pass before a provider-backed pilot or public endpoint is enabled.
 - Do not combine real AI/API launch work with visual design ports unless a

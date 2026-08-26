@@ -1,0 +1,31 @@
+{
+  "artifact_id": "public-ai-grounding-provenance-v0",
+  "counts": {
+    "claims": 25,
+    "relations": 39,
+    "sources": 15,
+    "topics": 8
+  },
+  "output": {
+    "path": "functions/api/ai/_grounding.js",
+    "payload_sha256": "308913d3f63244700ca30e91baf86ca75d5e7d2810057c41d286d0e99292f4b7",
+    "sha256": "72a91bb32b0656e36b8329e7bb643c5157bdd0d38ee09344757c093524f35e63"
+  },
+  "reviewed_at": "2026-08-26",
+  "runtime_boundary": "server_side_only",
+  "schema_version": "0.1",
+  "sources": [
+    {
+      "path": "data/public-ai-contract.json",
+      "sha256": "9bdf7c9cd86cb0aa3c050ca0960eaff87b5509977d68ae2102514f595a280680"
+    },
+    {
+      "path": "data/public-facts.json",
+      "sha256": "999844b4f5d3b4f3a40442f892e1219831e8ab32b6c9e5b9bfbefd158cff0ff8"
+    },
+    {
+      "path": "data/public-research-graph.json",
+      "sha256": "875c59db3f9f2c6faba4f08fe3d12285281b65205fde340e73ecfce85e970d9a"
+    }
+  ]
+}

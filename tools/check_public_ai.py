@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Validate the architecture-only public AI assistant readiness contract."""
+"""Validate the disabled public AI backend and readiness contract."""
 
 from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -31,6 +33,7 @@ REQUIRED_REFUSALS = {
     "out_of_scope",
     "prompt_injection",
     "insufficient_public_evidence",
+    "service_unavailable",
 }
 REQUIRED_CASES = {
     "answer.credential.ru",
@@ -104,6 +107,149 @@ def false_flags(
             errors.append(f"{label}.{field} must remain false")
 
 
+def sha256_file(path: Path, errors: list[str], label: str) -> str:
+    try:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError as exc:
+        errors.append(f"{label}: cannot read {path}: {exc}")
+        return ""
+
+
+def validate_backend_files(
+    root: Path, contract: dict[str, object], errors: list[str]
+) -> None:
+    routes = load_json(root / "site" / "_routes.json", errors, "Pages routes")
+    if routes != {"version": 1, "include": ["/api/ai/ask"], "exclude": []}:
+        errors.append("Pages routes: only /api/ai/ask may invoke a Function")
+
+    handler_path = root / "functions" / "api" / "ai" / "ask.js"
+    try:
+        handler = handler_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        errors.append(f"backend skeleton: cannot read handler: {exc}")
+        handler = ""
+    for marker in (
+        'from "./_grounding.js"',
+        "export async function handleRequest",
+        "export function onRequestPost",
+        '"same_origin_required"',
+        '"service_unavailable"',
+        '"Cache-Control": "no-store"',
+    ):
+        if marker not in handler:
+            errors.append(f"backend skeleton: required marker missing: {marker}")
+    forbidden_handler = {
+        r"\bfetch\s*\(": "outbound fetch",
+        r"api\.openai\.com": "provider endpoint",
+        r"OPENAI_API_KEY": "provider credential binding",
+        r"\bconsole\.(?:log|info|warn|error)\b": "content logging",
+        r"\b(?:localStorage|sessionStorage|indexedDB)\b": "browser storage",
+        r"document\s*\.\s*cookie": "cookies",
+    }
+    for pattern, label in forbidden_handler.items():
+        if re.search(pattern, handler, flags=re.IGNORECASE):
+            errors.append(f"backend skeleton: prohibited {label} construct")
+
+    grounding_path = root / "functions" / "api" / "ai" / "_grounding.js"
+    try:
+        grounding_module = grounding_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        errors.append(f"grounding output: cannot read module: {exc}")
+        grounding_module = ""
+    for label, pattern in PRIVACY_PATTERNS.items():
+        if pattern.search(grounding_module):
+            errors.append(f"grounding privacy scan: {label} found in generated module")
+
+    provenance_path = root / "data" / "public-ai-grounding-provenance.json"
+    provenance = load_json(
+        provenance_path, errors, "public AI grounding provenance"
+    )
+    if provenance.get("schema_version") != "0.1":
+        errors.append("grounding provenance: schema_version must remain 0.1")
+    if provenance.get("runtime_boundary") != "server_side_only":
+        errors.append("grounding provenance: runtime boundary must remain server_side_only")
+    if provenance.get("reviewed_at") != contract.get("reviewed_at"):
+        errors.append("grounding provenance: reviewed_at must match the contract")
+
+    expected_sources = {
+        "data/public-ai-contract.json": root / "data" / "public-ai-contract.json",
+        "data/public-facts.json": root / "data" / "public-facts.json",
+        "data/public-research-graph.json": root / "data" / "public-research-graph.json",
+    }
+    source_entries = provenance.get("sources")
+    source_map: dict[str, str] = {}
+    if not isinstance(source_entries, list):
+        errors.append("grounding provenance: sources must be an array")
+    else:
+        for entry in source_entries:
+            if not isinstance(entry, dict):
+                errors.append("grounding provenance: invalid source entry")
+                continue
+            path = entry.get("path")
+            digest = entry.get("sha256")
+            if not isinstance(path, str) or not isinstance(digest, str):
+                errors.append("grounding provenance: source path/hash must be strings")
+                continue
+            if path in source_map:
+                errors.append(f"grounding provenance: duplicate source path {path}")
+            source_map[path] = digest
+    if set(source_map) != set(expected_sources):
+        errors.append("grounding provenance: source path set is not exact")
+    for relative, path in expected_sources.items():
+        if source_map.get(relative) != sha256_file(
+            path, errors, f"grounding provenance source {relative}"
+        ):
+            errors.append(f"grounding provenance: source hash mismatch for {relative}")
+
+    output = provenance.get("output")
+    if not isinstance(output, dict):
+        errors.append("grounding provenance: output must be an object")
+    else:
+        if output.get("path") != "functions/api/ai/_grounding.js":
+            errors.append("grounding provenance: unexpected output path")
+        expected_output_hash = sha256_file(
+            grounding_path,
+            errors,
+            "grounding output",
+        )
+        if output.get("sha256") != expected_output_hash:
+            errors.append("grounding provenance: output hash mismatch")
+        if not re.fullmatch(r"[a-f0-9]{64}", str(output.get("payload_sha256", ""))):
+            errors.append("grounding provenance: payload hash must be SHA-256")
+
+    grounding = contract.get("grounding")
+    counts = provenance.get("counts")
+    if not isinstance(grounding, dict) or not isinstance(counts, dict):
+        errors.append("grounding provenance: counts or contract grounding missing")
+    else:
+        if counts.get("claims") != len(grounding.get("allowed_claim_ids", [])):
+            errors.append("grounding provenance: claim count mismatch")
+        if counts.get("relations") != len(grounding.get("allowed_relation_ids", [])):
+            errors.append("grounding provenance: relation count mismatch")
+        for key in ("sources", "topics"):
+            if not isinstance(counts.get(key), int) or counts[key] <= 0:
+                errors.append(f"grounding provenance: {key} count must be positive")
+
+
+def run_grounding_check(root: Path, errors: list[str]) -> None:
+    builder = root / "tools" / "build_public_ai_grounding.py"
+    try:
+        result = subprocess.run(
+            [sys.executable, "-B", str(builder), "--check"],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=30,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        errors.append(f"grounding generator check could not run: {exc}")
+        return
+    if result.returncode != 0:
+        details = (result.stderr or result.stdout).strip().replace("\n", " | ")
+        errors.append(f"grounding generator drift check failed: {details}")
+
+
 def validate_contract(
     contract: dict[str, object],
     registry: dict[str, object],
@@ -122,16 +268,36 @@ def validate_contract(
     if not isinstance(lifecycle, dict):
         errors.append("lifecycle: expected an object")
     else:
-        if lifecycle.get("status") != "architecture_only":
-            errors.append("lifecycle.status must remain architecture_only")
+        if lifecycle.get("status") != "backend_skeleton":
+            errors.append("lifecycle.status must remain backend_skeleton")
         false_flags(
             lifecycle,
             ("public_endpoint_enabled", "paid_api_calls_enabled"),
             "lifecycle",
             errors,
         )
-        if lifecycle.get("next_gate") != "owner-approved backend implementation issue":
-            errors.append("lifecycle.next_gate must require an owner-approved issue")
+        if lifecycle.get("disabled_route_deployed") is not True:
+            errors.append("lifecycle.disabled_route_deployed must remain true")
+        if lifecycle.get("next_gate") != "owner-approved private provider pilot issue":
+            errors.append("lifecycle.next_gate must require an owner-approved private pilot issue")
+
+    backend = contract.get("backend_skeleton")
+    if not isinstance(backend, dict):
+        errors.append("backend_skeleton: expected an object")
+    else:
+        expected_backend = {
+            "adapter": "Cloudflare Pages Functions",
+            "function_path": "functions/api/ai/ask.js",
+            "routes_path": "site/_routes.json",
+            "runtime_mode": "disabled",
+            "provider_call_enabled": False,
+            "grounding_bundle_path": "functions/api/ai/_grounding.js",
+            "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
+            "rate_limit_status": "required_before_provider_pilot",
+        }
+        for key, expected in expected_backend.items():
+            if backend.get(key) != expected:
+                errors.append(f"backend_skeleton.{key} must remain {expected!r}")
 
     transport = contract.get("transport")
     if not isinstance(transport, dict):
@@ -445,7 +611,10 @@ def validate_repository(root: Path = ROOT) -> list[str]:
     graph = load_json(root / "data" / "public-research-graph.json", load_errors, "graph")
     if load_errors:
         return load_errors
-    return validate_contract(contract, registry, graph)
+    errors = validate_contract(contract, registry, graph)
+    validate_backend_files(root, contract, errors)
+    run_grounding_check(root, errors)
+    return errors
 
 
 def run_self_tests(root: Path = ROOT) -> int:
@@ -487,6 +656,14 @@ def run_self_tests(root: Path = ROOT) -> int:
     tests.append(("premature endpoint", mutation, registry, graph, "public_endpoint_enabled must remain false"))
 
     mutation = copy.deepcopy(contract)
+    mutation["lifecycle"]["disabled_route_deployed"] = False
+    tests.append(("missing disabled route gate", mutation, registry, graph, "disabled_route_deployed must remain true"))
+
+    mutation = copy.deepcopy(contract)
+    mutation["backend_skeleton"]["provider_call_enabled"] = True
+    tests.append(("premature provider call", mutation, registry, graph, "provider_call_enabled must remain False"))
+
+    mutation = copy.deepcopy(contract)
     mutation["output_contract"]["citations_required_for_answer"] = False
     tests.append(("missing citation gate", mutation, registry, graph, "citations_required_for_answer must remain true"))
 
@@ -525,7 +702,7 @@ def run_self_tests(root: Path = ROOT) -> int:
         return 1
 
     print(
-        "Public AI mutation self-tests PASS: 12/12 bounded in-memory "
+        "Public AI mutation self-tests PASS: 14/14 bounded in-memory "
         "mutations rejected without filesystem changes."
     )
     return 0
@@ -536,7 +713,7 @@ def main() -> int:
     parser.add_argument(
         "--self-test",
         action="store_true",
-        help="run twelve bounded in-memory mutation tests after baseline validation",
+        help="run fourteen bounded in-memory mutation tests after baseline validation",
     )
     args = parser.parse_args()
     if args.self_test:
@@ -549,7 +726,7 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
     print(
-        "Public AI readiness validation PASS: architecture-only lifecycle, "
+        "Public AI readiness validation PASS: disabled backend-skeleton lifecycle, "
         "provider isolation, evidence grounding, refusal suite, and privacy boundary."
     )
     return 0
