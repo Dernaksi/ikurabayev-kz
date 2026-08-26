@@ -115,7 +115,7 @@ Status: in progress / post-launch maintenance
 
 ## Phase 6 - Public AI Assistant Architecture
 
-Status: future / separate phase
+Status: in progress / architecture readiness proposed in issue #57
 
 - Treat AI console or AI assistant UI as prototype/static/public-facts-only
   until a separate architecture decision and pull request approve real backend
@@ -125,5 +125,9 @@ Status: future / separate phase
   integration a separate future phase.
 - Design any real AI integration through a backend or edge function with secrets
   outside GitHub.
+- Review `docs/21_PUBLIC_AI_ASSISTANT_ARCHITECTURE.md` and the machine-readable
+  `data/public-ai-contract.json` before any backend implementation.
+- Require the offline public-AI validator, refusal suite, and model evaluations
+  to pass before a provider-backed pilot or public endpoint is enabled.
 - Do not combine real AI/API launch work with visual design ports unless a
   future approved task explicitly combines that scope.

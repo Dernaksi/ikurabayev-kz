@@ -2,8 +2,8 @@
 
 ## Current Phase
 
-Post-certification-release production maintenance; Claude Design v1.1 remains
-the visual baseline.
+Public AI assistant architecture readiness; Claude Design v1.1 remains the
+visual baseline and the live concierge remains a local-only prototype.
 
 ## Recently Completed
 
@@ -65,7 +65,7 @@ the visual baseline.
 - PR #54 merged that language and identity review. Production QA on 2026-08-23
   confirmed the exact Kazakh name, reviewed language markers, RU/EN CV review
   date, and privacy boundary on the apex, `www`, and Cloudflare Pages preview.
-- Issue #55 adds two reproducible static PDF CV exports, localized download
+- PR #56 publishes two reproducible static PDF CV exports, localized download
   links, separate font/output provenance, and rendered-page QA without changing
   the deployed runtime architecture.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
@@ -84,6 +84,13 @@ Production-domain QA for the v1.1 baseline is complete. Repeat it after future
 visual or infrastructure changes rather than treating it as an active task for
 the current release.
 
+## Active Work
+
+- Issue #57 defines a proposed same-origin public AI assistant architecture, a
+  machine-readable evidence and refusal contract, and an offline readiness
+  validator. It intentionally does not enable a backend, provider credential,
+  paid API call, persistent state, tools, uploads, analytics, or tracking.
+
 ## Next Recommended Tasks
 
 The university-role start-date discrepancy is not an active task. Retain the
@@ -95,7 +102,9 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Draft a separate real-AI backend architecture before any real API work.
+3. Review and accept the issue #57 public-AI architecture before any real API
+   work; subsequent backend, private pilot, and public activation gates remain
+   separate issues.
 
 ## Active Branch Convention
 

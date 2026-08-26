@@ -383,3 +383,29 @@ or new claim. ReportLab and pypdf are build-time tools only and are not shipped
 as a website dependency. Byte-identical regeneration requires the recorded
 tool version and font bytes. PDF layout must be re-rendered and reviewed after
 future source or renderer changes.
+
+### 2026-08-26 - Define a bounded public AI assistant readiness gate
+
+Status: proposed
+
+Context:
+The production site contains a local public-facts-only concierge prototype.
+Turning it into a real AI assistant requires an explicit boundary between the
+browser, edge backend, model provider, Evidence Spine, research graph, and
+private or unpublished information. Provider access must not weaken the current
+privacy, provenance, analytics, or dependency decisions.
+
+Decision:
+Propose a same-origin `POST /api/ai/ask` architecture using a server-side
+OpenAI Responses API call with `store: false`, no tools, no uploads, no web
+search, no persistent memory, and a secret stored outside GitHub. Require
+allowlisted claim and relation IDs, structured citations or categorized
+refusals, an offline readiness validator, and separate approval gates for the
+backend skeleton, private provider pilot, and public activation.
+
+Consequences:
+Issue #57 and `docs/21_PUBLIC_AI_ASSISTANT_ARCHITECTURE.md` define the proposal.
+The current production concierge remains local-only, the endpoint and paid API
+calls remain disabled, and no provider credential or private data is added.
+Merging the architecture does not authorize a backend launch; each later gate
+requires its own issue, review, tests, and explicit owner approval.

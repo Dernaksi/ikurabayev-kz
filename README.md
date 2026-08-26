@@ -65,16 +65,19 @@ localized site routes, and the local public-facts-only concierge. Production QA
 on 2026-08-22 confirmed the update on the apex, `www`, and Cloudflare Pages
 preview hosts without publishing private credential details. The reviewed
 Living Public CV is published as dependency-free RU/EN HTML at `/cv/` and
-`/en/cv/`. Issue #55 adds downloadable static RU/EN PDF exports from the same
+`/en/cv/`. PR #56 adds downloadable static RU/EN PDF exports from the same
 reviewed block model, with separate byte-level provenance and no runtime
-dependency. A bounded Kazakh language pass has corrected interface and
+dependency. Issue #57 now proposes the architecture and offline readiness gate
+for a future real public AI assistant; it does not enable a backend or paid API
+call. A bounded Kazakh language pass has corrected interface and
 terminology defects, and the owner-approved exact Kazakh display name
 `Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The
 university-role source discrepancy is deferred until the external
 Astana-Energy profile is corrected; generated CVs continue to omit the disputed
 start date. Remaining work includes the
 long-term semantic roles of `/` and `/ru/`, an optional Cloudflare
-`www`-to-apex redirect, and a separate real-AI backend architecture.
+`www`-to-apex redirect, and later implementation gates for the proposed AI
+backend architecture.
 
 Public Knowledge System v0.2 adds a bounded research graph, deterministic RU/EN
 Living Public CV documents, block-level provenance, and offline validators. The
@@ -111,3 +114,6 @@ change.
   RU/EN CV generation, block provenance, privacy, and publication workflow.
 - [docs/20_KAZAKH_LANGUAGE_REVIEW.md](docs/20_KAZAKH_LANGUAGE_REVIEW.md) -
   bounded Kazakh copy audit, corrections, and approved identity boundary.
+- [docs/21_PUBLIC_AI_ASSISTANT_ARCHITECTURE.md](docs/21_PUBLIC_AI_ASSISTANT_ARCHITECTURE.md) -
+  proposed same-origin, evidence-grounded public AI assistant architecture and
+  rollout gates.
