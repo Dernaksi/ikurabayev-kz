@@ -67,9 +67,11 @@ preview hosts without publishing private credential details. The reviewed
 Living Public CV is published as dependency-free RU/EN HTML at `/cv/` and
 `/en/cv/`. PR #56 adds downloadable static RU/EN PDF exports from the same
 reviewed block model, with separate byte-level provenance and no runtime
-dependency. Issue #57 now proposes the architecture and offline readiness gate
-for a future real public AI assistant; it does not enable a backend or paid API
-call. A bounded Kazakh language pass has corrected interface and
+dependency. PR #58 accepts the architecture and offline readiness gate for a
+future real public AI assistant. Issue #59 implements the next fail-closed Gate
+B as a disabled Cloudflare Pages Function, deterministic server-side grounding
+bundle, and offline tests; it still makes no provider or paid API call. A
+bounded Kazakh language pass has corrected interface and
 terminology defects, and the owner-approved exact Kazakh display name
 `Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The
 university-role source discrepancy is deferred until the external

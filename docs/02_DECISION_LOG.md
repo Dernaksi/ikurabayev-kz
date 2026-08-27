@@ -386,7 +386,7 @@ future source or renderer changes.
 
 ### 2026-08-26 - Define a bounded public AI assistant readiness gate
 
-Status: proposed
+Status: accepted
 
 Context:
 The production site contains a local public-facts-only concierge prototype.
@@ -409,3 +409,30 @@ The current production concierge remains local-only, the endpoint and paid API
 calls remain disabled, and no provider credential or private data is added.
 Merging the architecture does not authorize a backend launch; each later gate
 requires its own issue, review, tests, and explicit owner approval.
+
+Execution note:
+The owner reviewed and accepted Gate A, and PR #58 was merged on 2026-08-26.
+
+### 2026-08-26 - Add a fail-closed public AI backend skeleton
+
+Status: proposed
+
+Context:
+Accepted Gate A requires a reviewable implementation boundary before any model
+provider, credential, spend, or public AI activation is considered. The static
+site must remain fully usable if the backend route exists but AI is disabled.
+
+Decision:
+For Gate B, use a Cloudflare Pages Function at `POST /api/ai/ask`, route only
+that path through Pages Functions, and return a deterministic localized 503 for
+every otherwise valid request. Generate a minimal server-side grounding module
+from explicit contract allowlists, record hashes and counts in a provenance
+manifest, and prohibit outbound fetch, provider credentials, logging, storage,
+cookies, tools, uploads, and paid calls.
+
+Consequences:
+Issue #59 and its pull request contain an executable but providerless edge
+skeleton. Deployment may expose a disabled same-origin route, not an AI answer
+service. A private provider pilot, rate-limit configuration, model evaluation,
+credential setup outside GitHub, spend ceiling, and any UI activation remain a
+separate Gate C issue and require explicit owner approval.

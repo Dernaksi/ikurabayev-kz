@@ -2,8 +2,8 @@
 
 ## Current Phase
 
-Public AI assistant architecture readiness; Claude Design v1.1 remains the
-visual baseline and the live concierge remains a local-only prototype.
+Public AI assistant disabled backend skeleton; Claude Design v1.1 remains the
+visual baseline and the visible concierge remains a local-only prototype.
 
 ## Recently Completed
 
@@ -68,6 +68,9 @@ visual baseline and the live concierge remains a local-only prototype.
 - PR #56 publishes two reproducible static PDF CV exports, localized download
   links, separate font/output provenance, and rendered-page QA without changing
   the deployed runtime architecture.
+- PR #58 accepts the bounded public AI architecture, machine-readable evidence
+  and refusal contract, and offline readiness validator without enabling an
+  endpoint or provider call.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
   Cloudflare Pages preview hosts across desktop and 390x844 mobile checks;
   canonical metadata, robots, sitemap, and the privacy boundary remained intact.
@@ -86,10 +89,11 @@ the current release.
 
 ## Active Work
 
-- Issue #57 defines a proposed same-origin public AI assistant architecture, a
-  machine-readable evidence and refusal contract, and an offline readiness
-  validator. It intentionally does not enable a backend, provider credential,
-  paid API call, persistent state, tools, uploads, analytics, or tracking.
+- Issue #59 adds a same-origin Cloudflare Pages Function skeleton, an exact
+  route boundary, a deterministic hashed server-side grounding bundle, and
+  offline request/failure tests. The route remains disabled at the application
+  level: valid requests return 503 and no provider call, credential, spend,
+  persistent state, tools, uploads, analytics, or tracking is introduced.
 
 ## Next Recommended Tasks
 
@@ -102,9 +106,9 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Review and accept the issue #57 public-AI architecture before any real API
-   work; subsequent backend, private pilot, and public activation gates remain
-   separate issues.
+3. Review the issue #59 disabled backend skeleton. A private provider pilot,
+   rate limiting, model selection, spend ceiling, and public activation remain
+   separate later gates.
 
 ## Active Branch Convention
 

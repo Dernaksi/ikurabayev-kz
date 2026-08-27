@@ -1,14 +1,14 @@
 # Public AI Assistant Architecture
 
-Status: proposed for owner review under issue #57
+Status: Gate A accepted in PR #58; disabled Gate B proposed under issue #59
 
 Reviewed: 2026-08-26
 
 ## Purpose
 
 This document defines the smallest safe architecture for turning the existing
-local public-facts-only concierge into a real AI assistant. It is an
-architecture and readiness gate, not a live backend launch.
+local public-facts-only concierge into a real AI assistant. Gate A is accepted.
+Gate B adds only a fail-closed backend skeleton, not a live AI launch.
 
 The first live version should answer short questions about Iskander Kurabayev's
 reviewed public profile, research, publications, patents, credentials, and
@@ -24,8 +24,8 @@ The machine-readable source of truth for this boundary is
 The proposed v0 assistant uses:
 
 - the existing static concierge as the user interface;
-- a same-origin `POST /api/ai/ask` endpoint implemented later as a Cloudflare
-  Worker or equivalent edge function;
+- a same-origin `POST /api/ai/ask` endpoint implemented as a Cloudflare Pages
+  Function and kept providerless during Gate B;
 - the OpenAI Responses API from the server side only;
 - a Cloudflare secret binding for the provider credential;
 - one request and one answer over HTTP, with `store: false`;
@@ -38,6 +38,27 @@ The proposed v0 assistant uses:
 No model is fixed at the architecture stage. Candidate models must be compared
 with the checked-in evaluation cases for grounded-answer success, refusal
 success, latency, token use, and cost per successful answer.
+
+## Current Gate B Implementation
+
+The Gate B implementation is deliberately useful but inert:
+
+- `site/_routes.json` sends only `/api/ai/ask` to Pages Functions;
+- `functions/api/ai/ask.js` validates method, same origin, media type, exact
+  fields, language, session form, size, control characters, and URL retrieval;
+- every otherwise valid RU/EN request returns a localized structured 503 with
+  `service_unavailable`; there is no provider branch or outbound fetch;
+- `tools/build_public_ai_grounding.py` deterministically selects only the
+  contract allowlists and writes a server-side module plus byte-level
+  provenance;
+- `tools/check_public_ai.py` verifies the route, handler safety markers, source
+  and output hashes, counts, privacy boundary, and byte-identical regeneration;
+- `tools/test_public_ai_backend.mjs` exercises request rejection and fail-closed
+  behavior with Node built-ins only.
+
+The current bundle contains 25 claims, 39 relations, 15 sources, and 8 topics.
+These counts describe reviewed grounding records, not model performance or a
+live service. The browser does not load the bundle.
 
 ## System Boundary
 
@@ -225,7 +246,7 @@ The contract includes eight initial cases:
 - refusals for a private credential identifier, unpublished results,
   unsupported inference, prompt injection, and an out-of-scope request.
 
-The offline validator also runs twelve bounded mutations that try to enable
+The offline validator also runs fourteen bounded mutations that try to enable
 storage, tools, direct client credential access, premature endpoint launch,
 uncited answers, unknown evidence IDs, and other prohibited changes.
 
@@ -241,17 +262,18 @@ met on repeated runs.
 
 ## Rollout Plan
 
-### Gate A — architecture readiness (this issue)
+### Gate A — architecture readiness (accepted in PR #58)
 
 - approve this document and the machine-readable contract;
 - keep the production endpoint disabled;
 - run offline validation and mutation tests.
 
-### Gate B — backend skeleton
+### Gate B — backend skeleton (issue #59)
 
 - add the same-origin edge endpoint without a provider call;
 - build and hash the minimal server-side grounding bundle;
-- add request, output-schema, rate-limit, and failure-path tests;
+- add request and failure-path tests while leaving output-schema and configured
+  edge-rate-limit verification for Gate C, where provider traffic first exists;
 - preserve the local concierge as the production fallback.
 
 ### Gate C — private provider pilot
@@ -285,15 +307,18 @@ HTTP is appropriate for one-request/one-answer workflows.
 Repository privacy, provenance, analytics, and secret-handling rules remain
 authoritative even if provider capabilities later expand.
 
-## Open Decisions For The Backend Issue
+The Pages Function adapter and route behavior were also checked against the
+official Cloudflare Pages Functions
+[routing](https://developers.cloudflare.com/pages/functions/routing/) and
+[API reference](https://developers.cloudflare.com/pages/functions/api-reference/)
+on 2026-08-26. File-based routing maps the handler path, while `_routes.json`
+restricts invocation to the single approved endpoint.
 
-- Cloudflare Worker route versus Pages Function deployment adapter;
-- exact server-side grounding-bundle format and hash manifest;
+## Open Decisions For The Private Pilot
+
 - model candidates and pass thresholds after current pricing/availability
   review;
 - edge rate-limit values and cost ceiling;
-- localized outage/refusal copy;
 - whether live Kazakh support is ready after owner linguistic evaluation.
 
-None of these open decisions blocks review of the architecture-only readiness
-gate.
+None of these decisions is implemented or authorized by Gate B.

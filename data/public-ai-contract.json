@@ -3,10 +3,21 @@
   "contract_id": "public-ai-assistant-v0",
   "reviewed_at": "2026-08-26",
   "lifecycle": {
-    "status": "architecture_only",
+    "status": "backend_skeleton",
     "public_endpoint_enabled": false,
+    "disabled_route_deployed": true,
     "paid_api_calls_enabled": false,
-    "next_gate": "owner-approved backend implementation issue"
+    "next_gate": "owner-approved private provider pilot issue"
+  },
+  "backend_skeleton": {
+    "adapter": "Cloudflare Pages Functions",
+    "function_path": "functions/api/ai/ask.js",
+    "routes_path": "site/_routes.json",
+    "runtime_mode": "disabled",
+    "provider_call_enabled": false,
+    "grounding_bundle_path": "functions/api/ai/_grounding.js",
+    "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
+    "rate_limit_status": "required_before_provider_pilot"
   },
   "transport": {
     "public_path": "/api/ai/ask",
@@ -192,7 +203,8 @@
     "unsupported_inference",
     "out_of_scope",
     "prompt_injection",
-    "insufficient_public_evidence"
+    "insufficient_public_evidence",
+    "service_unavailable"
   ],
   "evaluation_cases": [
     {
