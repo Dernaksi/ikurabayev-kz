@@ -357,6 +357,14 @@ addTest("private preview sends a stateless structured Luna request", async () =>
   assert.equal(providerBody.max_output_tokens, 700);
   assert.equal(providerBody.text.format.type, "json_schema");
   assert.equal(providerBody.text.format.strict, true);
+  assert.match(
+    providerBody.instructions,
+    /Do not refuse solely because a directly relevant record is partially_verified/,
+  );
+  assert.match(
+    providerBody.instructions,
+    /Every cited source_id must belong to the same citation_allowlist entry/,
+  );
   assert.match(providerBody.safety_identifier, /^[a-f0-9]{64}$/);
   const providerInput = JSON.parse(providerBody.input);
   assert.equal(providerBody.input.length < 12_000, true);
@@ -365,6 +373,19 @@ addTest("private preview sends a stateless structured Luna request", async () =>
   assert.equal(
     providerInput.public_grounding.claims.some(({id}) => id === "credential.energy_auditor"),
     true,
+  );
+  assert.deepEqual(providerInput.citation_allowlist, providerInput.public_grounding.claims.map(
+    ({id, evidence}) => ({claim_id: id, source_ids: evidence}),
+  ));
+  const citationProperties = providerBody.text.format.schema
+    .properties.citations.items.properties;
+  assert.deepEqual(
+    citationProperties.claim_id.enum,
+    providerInput.public_grounding.claims.map(({id}) => id),
+  );
+  assert.deepEqual(
+    citationProperties.source_ids.items.enum,
+    providerInput.public_grounding.sources.map(({id}) => id),
   );
   assert.equal(capturedOptions.headers.Authorization, "Bearer test-only-openai-key");
 });
