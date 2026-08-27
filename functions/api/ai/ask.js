@@ -2,6 +2,7 @@ import {
   PUBLIC_AI_GROUNDING,
   PUBLIC_AI_GROUNDING_SHA256,
 } from "./_grounding.js";
+import {runPrivatePilot} from "./_pilot.js";
 
 
 const ALLOWED_LANGUAGES = new Set(["ru", "en"]);
@@ -56,7 +57,7 @@ function groundingIsReady() {
 }
 
 
-export async function handleRequest(request) {
+export async function handleRequest(request, runtime = {}) {
   if (!(request instanceof Request)) {
     return errorResponse(500, "invalid_runtime_request", "Invalid runtime request.");
   }
@@ -141,21 +142,27 @@ export async function handleRequest(request) {
     return errorResponse(503, "grounding_unavailable", "Public grounding is unavailable.");
   }
 
-  return jsonResponse(503, {
-    decision: "refuse",
+  const pilot = await runPrivatePilot({
+    request,
     language,
-    answer: DISABLED_MESSAGE[language],
-    citations: [],
-    refusal_category: "service_unavailable",
+    question: normalizedQuestion,
+    session,
+    env: runtime.env,
+    fetchFn: runtime.fetchFn,
+    rateLimiter: runtime.rateLimiter,
   });
+  if (!runtime.env || runtime.env.AI_PILOT_ENABLED !== "true") {
+    pilot.body.answer = DISABLED_MESSAGE[language];
+  }
+  return jsonResponse(pilot.status, pilot.body, pilot.headers);
 }
 
 
 export function onRequestPost(context) {
-  return handleRequest(context.request);
+  return handleRequest(context.request, {env: context.env});
 }
 
 
 export function onRequest(context) {
-  return handleRequest(context.request);
+  return handleRequest(context.request, {env: context.env});
 }

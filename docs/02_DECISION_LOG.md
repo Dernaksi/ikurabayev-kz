@@ -415,7 +415,7 @@ The owner reviewed and accepted Gate A, and PR #58 was merged on 2026-08-26.
 
 ### 2026-08-26 - Add a fail-closed public AI backend skeleton
 
-Status: proposed
+Status: accepted
 
 Context:
 Accepted Gate A requires a reviewable implementation boundary before any model
@@ -436,3 +436,38 @@ skeleton. Deployment may expose a disabled same-origin route, not an AI answer
 service. A private provider pilot, rate-limit configuration, model evaluation,
 credential setup outside GitHub, spend ceiling, and any UI activation remain a
 separate Gate C issue and require explicit owner approval.
+
+Execution note:
+Gate B was merged through PR #60.
+
+### 2026-08-27 - Implement a private Preview-only OpenAI provider pilot
+
+Status: proposed
+
+Context:
+The owner completed the bounded OpenAI project, model, spend, retention, hosted
+tool, and Preview credential setup and explicitly authorized the next private
+pilot step. Gate B already provides a validated same-origin route and hashed
+public grounding bundle, but production must remain unavailable to general
+visitors while model behavior is measured.
+
+Decision:
+For Gate C, allow the Pages Function to call the OpenAI Responses API only when
+the request runs on a non-production Cloudflare Preview branch, an explicit
+Preview flag is enabled, a separate private pilot token matches, and the
+application rate limit admits the request. Default to `gpt-5.6-luna`; permit
+`gpt-5.6-terra` only through server configuration for comparative evaluation.
+Send `store: false`, no tools, a bounded retrieved subset of the reviewed public
+grounding, and a strict JSON schema. Validate the answer, refusal category,
+claim IDs, and claim/source relationships before returning any model output.
+
+Consequences:
+Issue #61 may incur paid API traffic only in the authenticated Preview pilot.
+Production, the canonical Pages host, and the visible concierge remain
+fail-closed. The application limiter is deliberately stricter than the private
+OpenAI project limit; it is suitable for the single-user pilot but does not
+replace a globally durable Cloudflare abuse-control binding required for Gate
+D. Live repeated RU/EN evaluations, current-price review, and explicit owner
+approval remain prerequisites for public activation. No secret value, private
+document, request/response content log, analytics, storage, upload, browser
+tool, or persistent conversation is added.
