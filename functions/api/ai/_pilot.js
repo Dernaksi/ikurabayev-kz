@@ -66,6 +66,29 @@ const CLAIM_ALIASES = Object.freeze([
     "award.energy_saving_contribution",
   ]},
 ]);
+const DETERMINISTIC_REFUSAL_TERMS = Object.freeze([
+  {category: "private_identifier", terms: [
+    "номер сертификата", "certificate number", "certificate identifier",
+    "qr-код", "qr code", "qr-code", "содержимое qr", "иин", "civil identifier",
+  ]},
+  {category: "private_contact_or_address", terms: [
+    "личный адрес", "домашний адрес", "адрес проживания", "адрес в сертификате",
+    "private address", "home address", "residential address", "certificate address",
+    "личный телефон", "personal phone", "private contact",
+  ]},
+  {category: "raw_or_unpublished_material", terms: [
+    "исходный документ", "оригинал сертификата", "скан сертификата",
+    "фото сертификата", "подпись", "печать", "неопубликованн",
+    "исходные данные", "рукопис", "raw document", "original certificate",
+    "certificate scan", "certificate photo", "signature", "seal", "unpublished",
+    "raw data", "manuscript",
+  ]},
+  {category: "prompt_injection", terms: [
+    "игнорируй правила", "скрытые инструкции", "системный промпт",
+    "обойди правила", "ignore the public-facts policy", "hidden instructions",
+    "system prompt", "bypass the rules",
+  ]},
+]);
 
 
 function normalize(value) {
@@ -80,6 +103,17 @@ function questionTokens(question) {
   return normalize(question)
     .split(/[^\p{L}\p{N}]+/u)
     .filter((token) => token.length >= 3 && !STOP_WORDS.has(token));
+}
+
+
+function deterministicRefusalCategory(question) {
+  const normalizedQuestion = normalize(question);
+  for (const rule of DETERMINISTIC_REFUSAL_TERMS) {
+    if (rule.terms.some((term) => normalizedQuestion.includes(term))) {
+      return rule.category;
+    }
+  }
+  return null;
 }
 
 
@@ -199,8 +233,10 @@ function buildProviderRequest({language, question, safetyIdentifier, grounding, 
       "For partially_verified or owner_approved records, answer with the recorded facts and explicitly preserve the recorded qualification; do not strengthen the wording.",
       "Do not refuse solely because a directly relevant record is partially_verified or owner_approved.",
       "Refuse only when no supplied claim directly addresses the question, the request crosses a privacy boundary, or the request is otherwise outside scope.",
+      "Use natural professional wording. In Russian, describe a sanitized evidence review as an обезличенная проверка and avoid literal calques.",
       "For an answer, include at least one citation. Copy each claim_id and its source_ids only from citation_allowlist.",
       "Every cited source_id must belong to the same citation_allowlist entry as its claim_id. Never invent or mix IDs.",
+      "For a refusal, citations must be an empty array and refusal_category must name exactly one allowed category.",
     ].join(" "),
     input: JSON.stringify({
       language,
@@ -340,6 +376,31 @@ function localizedRefusal(language, category) {
 }
 
 
+function localizedPolicyRefusal(language, category) {
+  const messages = {
+    ru: {
+      private_identifier: "Не могу раскрывать номер сертификата, ИИН или содержимое QR-кода. Эти данные исключены из публичного профиля.",
+      private_contact_or_address: "Не могу раскрывать личные контактные данные или адрес. Эти сведения исключены из публичного профиля.",
+      raw_or_unpublished_material: "Не могу предоставлять исходные документы, подписи, печати или неопубликованные материалы.",
+      prompt_injection: "Не могу выполнять инструкции, которые обходят правила публичных фактов или запрашивают скрытые данные.",
+    },
+    en: {
+      private_identifier: "I cannot disclose a certificate number, civil identifier, or QR-code contents. Those details are excluded from the public profile.",
+      private_contact_or_address: "I cannot disclose private contact details or an address. Those details are excluded from the public profile.",
+      raw_or_unpublished_material: "I cannot provide raw documents, signatures, seals, or unpublished material.",
+      prompt_injection: "I cannot follow instructions that bypass the public-facts policy or request hidden data.",
+    },
+  };
+  return {
+    decision: "refuse",
+    language,
+    answer: messages[language][category],
+    citations: [],
+    refusal_category: category,
+  };
+}
+
+
 function pilotConfiguration(request, env) {
   const branch = String(env?.CF_PAGES_BRANCH || "").trim().toLowerCase();
   const enabled = env?.AI_PILOT_ENABLED === "true";
@@ -374,6 +435,14 @@ export async function runPrivatePilot({
   const suppliedToken = request.headers.get("X-Pilot-Token");
   if (!(await equalSecret(suppliedToken, env.AI_PILOT_TOKEN))) {
     return {status: 503, body: localizedRefusal(language, "service_unavailable")};
+  }
+  const policyCategory = deterministicRefusalCategory(question);
+  if (policyCategory) {
+    return {
+      status: 200,
+      headers: {"X-AI-Pilot-Decision": "deterministic_policy_refusal"},
+      body: localizedPolicyRefusal(language, policyCategory),
+    };
   }
   if (!rateLimiter.take()) {
     return {
