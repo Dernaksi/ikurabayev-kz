@@ -7,6 +7,7 @@ const ALLOWED_MODELS = new Set([DEFAULT_MODEL, "gpt-5.6-terra"]);
 const MAX_OUTPUT_TOKENS = 700;
 const MAX_RESPONSE_CHARACTERS = 2400;
 const PROVIDER_TIMEOUT_MS = 15_000;
+const MAX_PROVIDER_ATTEMPTS = 2;
 const PILOT_REQUESTS_PER_MINUTE = 2;
 const REFUSAL_CATEGORIES = new Set([
   "private_identifier",
@@ -277,6 +278,19 @@ function extractOutputText(providerResponse) {
 }
 
 
+function parseValidatedProviderOutput(providerJson, language, grounding) {
+  const outputText = extractOutputText(providerJson);
+  if (!outputText) return null;
+  let output;
+  try {
+    output = JSON.parse(outputText);
+  } catch {
+    return null;
+  }
+  return validateProviderOutput(output, language, grounding) ? output : null;
+}
+
+
 function hasExactKeys(value, expected) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const actual = Object.keys(value).sort();
@@ -469,55 +483,71 @@ export async function runPrivatePilot({
     grounding,
     model: configuration.model,
   });
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
-  let providerResponse;
-  try {
-    providerResponse = await fetchFn(OPENAI_RESPONSES_URL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-      signal: controller.signal,
-    });
-  } catch {
-    return {status: 503, body: localizedRefusal(language, "service_unavailable")};
-  } finally {
-    clearTimeout(timeout);
-  }
-  if (!providerResponse?.ok) {
-    return {status: 503, body: localizedRefusal(language, "service_unavailable")};
-  }
-
-  let providerJson;
-  try {
-    providerJson = await providerResponse.json();
-  } catch {
-    return {status: 502, body: localizedRefusal(language, "service_unavailable")};
-  }
-  const outputText = extractOutputText(providerJson);
-  if (!outputText) {
-    return {status: 502, body: localizedRefusal(language, "service_unavailable")};
-  }
-
   let output;
-  try {
-    output = JSON.parse(outputText);
-  } catch {
+  let providerAttempts = 0;
+  let totalInputTokens = 0;
+  let totalOutputTokens = 0;
+  for (let attempt = 1; attempt <= MAX_PROVIDER_ATTEMPTS; attempt += 1) {
+    providerAttempts = attempt;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
+    const attemptBody = attempt === 1 ? requestBody : {
+      ...requestBody,
+      instructions: [
+        requestBody.instructions,
+        "Validation retry: return exactly one JSON object that matches the schema.",
+        "For an answer, use one or more exact claim/source pairs from citation_allowlist.",
+        "For a refusal, use citations [] and one non-null allowed refusal_category.",
+      ].join(" "),
+    };
+    let providerResponse;
+    try {
+      providerResponse = await fetchFn(OPENAI_RESPONSES_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(attemptBody),
+        signal: controller.signal,
+      });
+    } catch {
+      return {status: 503, body: localizedRefusal(language, "service_unavailable")};
+    } finally {
+      clearTimeout(timeout);
+    }
+    if (!providerResponse?.ok) {
+      return {status: 503, body: localizedRefusal(language, "service_unavailable")};
+    }
+
+    let providerJson;
+    try {
+      providerJson = await providerResponse.json();
+    } catch {
+      providerJson = null;
+    }
+    const usage = providerJson?.usage || {};
+    if (Number.isInteger(usage.input_tokens) && usage.input_tokens >= 0) {
+      totalInputTokens += usage.input_tokens;
+    }
+    if (Number.isInteger(usage.output_tokens) && usage.output_tokens >= 0) {
+      totalOutputTokens += usage.output_tokens;
+    }
+    output = parseValidatedProviderOutput(providerJson, language, grounding);
+    if (output) break;
+  }
+  if (!output) {
     return {status: 502, body: localizedRefusal(language, "service_unavailable")};
   }
-  if (!validateProviderOutput(output, language, grounding)) {
-    return {status: 502, body: localizedRefusal(language, "service_unavailable")};
+  const headers = {
+    "X-AI-Pilot-Attempts": String(providerAttempts),
+    "X-AI-Pilot-Model": configuration.model,
+  };
+  if (totalInputTokens > 0) {
+    headers["X-AI-Pilot-Input-Tokens"] = String(totalInputTokens);
   }
-  const usage = providerJson.usage || {};
-  const headers = {"X-AI-Pilot-Model": configuration.model};
-  if (Number.isInteger(usage.input_tokens) && usage.input_tokens >= 0) {
-    headers["X-AI-Pilot-Input-Tokens"] = String(usage.input_tokens);
-  }
-  if (Number.isInteger(usage.output_tokens) && usage.output_tokens >= 0) {
-    headers["X-AI-Pilot-Output-Tokens"] = String(usage.output_tokens);
+  if (totalOutputTokens > 0) {
+    headers["X-AI-Pilot-Output-Tokens"] = String(totalOutputTokens);
   }
   return {status: 200, body: output, headers};
 }
@@ -527,6 +557,7 @@ export const PRIVATE_PILOT_POLICY = Object.freeze({
   allowedModels: [...ALLOWED_MODELS],
   defaultModel: DEFAULT_MODEL,
   maxOutputTokens: MAX_OUTPUT_TOKENS,
+  maxProviderAttempts: MAX_PROVIDER_ATTEMPTS,
   maxRequestsPerMinute: PILOT_REQUESTS_PER_MINUTE,
   providerTimeoutMs: PROVIDER_TIMEOUT_MS,
 });

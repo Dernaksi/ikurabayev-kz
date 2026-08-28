@@ -230,6 +230,7 @@ addTest("pilot policy is bounded", async () => {
   assert.equal(PRIVATE_PILOT_POLICY.defaultModel, "gpt-5.6-luna");
   assert.equal(PRIVATE_PILOT_POLICY.maxRequestsPerMinute, 2);
   assert.equal(PRIVATE_PILOT_POLICY.maxOutputTokens, 700);
+  assert.equal(PRIVATE_PILOT_POLICY.maxProviderAttempts, 2);
   assert.equal(PRIVATE_PILOT_POLICY.providerTimeoutMs, 15_000);
 });
 
@@ -430,6 +431,7 @@ addTest("private preview sends a stateless structured Luna request", async () =>
   assert.equal(response.status, 200);
   assert.equal(body.decision, "answer");
   assert.equal(response.headers.get("X-AI-Pilot-Model"), "gpt-5.6-luna");
+  assert.equal(response.headers.get("X-AI-Pilot-Attempts"), "1");
   assert.equal(capturedUrl, "https://api.openai.com/v1/responses");
   assert.equal(providerBody.model, "gpt-5.6-luna");
   assert.equal(providerBody.store, false);
@@ -511,7 +513,57 @@ addTest("unknown model fails closed before provider", async () => {
   assert.equal(calls, 0);
 });
 
+addTest("invalid structured output receives one bounded validation retry", async () => {
+  let calls = 0;
+  const requestBodies = [];
+  const invalidOutput = {
+    decision: "answer",
+    language: "ru",
+    answer: "Недопустимый ответ.",
+    citations: [{
+      claim_id: "credential.energy_auditor",
+      source_ids: ["source.qazpatent.patent_37923"],
+    }],
+    refusal_category: null,
+  };
+  const validOutput = {
+    decision: "answer",
+    language: "ru",
+    answer: "Статус подтвержден в пределах опубликованного срока и с сохранением оговорки.",
+    citations: [{
+      claim_id: "credential.energy_auditor",
+      source_ids: ["source.owner_supplied.energy_auditor_certificate_review"],
+    }],
+    refusal_category: null,
+  };
+  const response = await handleRequest(makeRequest({
+    language: "ru",
+    question: "Какой статус у сертифицированного энергоаудитора?",
+    session: SESSION,
+  }, {endpoint: PREVIEW_ENDPOINT, pilotToken: PILOT_TOKEN}), {
+    env: pilotEnv(),
+    fetchFn: async (_url, options) => {
+      calls += 1;
+      requestBodies.push(JSON.parse(options.body));
+      const output = calls === 1 ? invalidOutput : validOutput;
+      return providerResponse(output, {usage: {input_tokens: 100, output_tokens: 20}});
+    },
+    rateLimiter: {take: () => true},
+  });
+  assert.equal(response.status, 200);
+  assert.equal((await responseJson(response)).decision, "answer");
+  assert.equal(calls, 2);
+  assert.equal(response.headers.get("X-AI-Pilot-Attempts"), "2");
+  assert.equal(response.headers.get("X-AI-Pilot-Input-Tokens"), "200");
+  assert.equal(response.headers.get("X-AI-Pilot-Output-Tokens"), "40");
+  assert.doesNotMatch(requestBodies[0].instructions, /Validation retry/);
+  assert.match(requestBodies[1].instructions, /Validation retry/);
+  assert.equal(requestBodies[1].store, false);
+  assert.deepEqual(requestBodies[1].tools, []);
+});
+
 addTest("mismatched citation is discarded", async () => {
+  let calls = 0;
   const invalidOutput = {
     decision: "answer",
     language: "ru",
@@ -528,7 +580,10 @@ addTest("mismatched citation is discarded", async () => {
     session: SESSION,
   }, {endpoint: PREVIEW_ENDPOINT, pilotToken: PILOT_TOKEN}), {
     env: pilotEnv(),
-    fetchFn: async () => providerResponse(invalidOutput),
+    fetchFn: async () => {
+      calls += 1;
+      return providerResponse(invalidOutput);
+    },
     rateLimiter: {take: () => true},
   });
   const body = await responseJson(response);
@@ -536,6 +591,7 @@ addTest("mismatched citation is discarded", async () => {
   assert.equal(body.decision, "refuse");
   assert.equal(body.refusal_category, "service_unavailable");
   assert.deepEqual(body.citations, []);
+  assert.equal(calls, 2);
 });
 
 addTest("non-selected claim citation is discarded", async () => {
@@ -563,18 +619,23 @@ addTest("non-selected claim citation is discarded", async () => {
 });
 
 addTest("provider failure stays generic and fail closed", async () => {
+  let calls = 0;
   const response = await handleRequest(makeRequest({
     language: "en",
     question: "What is the energy auditor credential?",
     session: SESSION,
   }, {endpoint: PREVIEW_ENDPOINT, pilotToken: PILOT_TOKEN}), {
     env: pilotEnv(),
-    fetchFn: async () => new Response("provider detail must not escape", {status: 500}),
+    fetchFn: async () => {
+      calls += 1;
+      return new Response("provider detail must not escape", {status: 500});
+    },
     rateLimiter: {take: () => true},
   });
   const body = await responseJson(response);
   assert.equal(response.status, 503);
   assert.equal(JSON.stringify(body).includes("provider detail"), false);
+  assert.equal(calls, 1);
 });
 
 addTest("backend source keeps logging and browser storage disabled", async () => {

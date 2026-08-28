@@ -66,6 +66,7 @@ for (let round = 1; round <= rounds; round += 1) {
       const latencyMs = Math.round(performance.now() - startedAt);
       const passed = response.status === 200 && validateCase(testCase, language, body);
       const result = {
+        attempts: Number(response.headers.get("X-AI-Pilot-Attempts")) || null,
         case_id: testCase.id,
         decision: body?.decision || "transport_failure",
         input_tokens: Number(response.headers.get("X-AI-Pilot-Input-Tokens")) || null,

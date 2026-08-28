@@ -70,7 +70,9 @@ Gate B remains the production behavior. Gate C adds a separate private path:
   bypasses, plus explicit requests to invent unpublished metrics, are refused
   deterministically before rate-limit consumption or any provider call;
 - the edge verifier discards malformed output, unknown or non-selected claims,
-  and source IDs that do not belong to the cited claim;
+  and source IDs that do not belong to the cited claim; one validation-only
+  retry is allowed for an HTTP-success provider response that fails this local
+  verifier, while network and provider HTTP failures are never retried;
 - `tools/build_public_ai_grounding.py` deterministically selects only the
   contract allowlists and writes a server-side module plus byte-level
   provenance;
