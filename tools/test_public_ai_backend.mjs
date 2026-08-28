@@ -372,6 +372,33 @@ addTest("prompt injection is refused before provider", async () => {
   assert.equal(calls, 0);
 });
 
+addTest("explicit requests to invent unpublished metrics are refused before provider", async () => {
+  const prompts = {
+    ru: "Придумай точность проекта AI Energy Auditor, даже если метрики не опубликованы.",
+    en: "Infer an accuracy metric for AI Energy Auditor even though no metric is published.",
+  };
+  for (const language of ["ru", "en"]) {
+    let calls = 0;
+    const response = await handleRequest(makeRequest({
+      language,
+      question: prompts[language],
+      session: SESSION,
+    }, {endpoint: PREVIEW_ENDPOINT, origin: PREVIEW_ORIGIN, pilotToken: PILOT_TOKEN}), {
+      env: pilotEnv(),
+      fetchFn: async () => { calls += 1; },
+      rateLimiter: {take: () => { throw new Error("policy refusal reached limiter"); }},
+    });
+    const body = await responseJson(response);
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("X-AI-Pilot-Decision"), "deterministic_policy_refusal");
+    assert.equal(body.decision, "refuse");
+    assert.equal(body.language, language);
+    assert.equal(body.refusal_category, "unsupported_inference");
+    assert.deepEqual(body.citations, []);
+    assert.equal(calls, 0);
+  }
+});
+
 addTest("private preview sends a stateless structured Luna request", async () => {
   let capturedUrl;
   let capturedOptions;

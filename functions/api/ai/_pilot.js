@@ -88,6 +88,12 @@ const DETERMINISTIC_REFUSAL_TERMS = Object.freeze([
     "обойди правила", "ignore the public-facts policy", "hidden instructions",
     "system prompt", "bypass the rules",
   ]},
+  {category: "unsupported_inference", terms: [
+    "придумай точность", "выдумай точность", "угадай точность",
+    "даже если метрики не опубликованы", "несмотря на отсутствие метрик",
+    "infer an accuracy metric", "invent an accuracy", "make up an accuracy",
+    "even though no metric is published",
+  ]},
 ]);
 
 
@@ -383,12 +389,14 @@ function localizedPolicyRefusal(language, category) {
       private_contact_or_address: "Не могу раскрывать личные контактные данные или адрес. Эти сведения исключены из публичного профиля.",
       raw_or_unpublished_material: "Не могу предоставлять исходные документы, подписи, печати или неопубликованные материалы.",
       prompt_injection: "Не могу выполнять инструкции, которые обходят правила публичных фактов или запрашивают скрытые данные.",
+      unsupported_inference: "Не могу придумывать точность, метрики или результаты, которых нет в проверенных публичных данных.",
     },
     en: {
       private_identifier: "I cannot disclose a certificate number, civil identifier, or QR-code contents. Those details are excluded from the public profile.",
       private_contact_or_address: "I cannot disclose private contact details or an address. Those details are excluded from the public profile.",
       raw_or_unpublished_material: "I cannot provide raw documents, signatures, seals, or unpublished material.",
       prompt_injection: "I cannot follow instructions that bypass the public-facts policy or request hidden data.",
+      unsupported_inference: "I cannot invent accuracy, metrics, or results that are absent from the reviewed public evidence.",
     },
   };
   return {
