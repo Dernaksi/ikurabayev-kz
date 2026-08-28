@@ -370,7 +370,7 @@ def validate_contract(
             "provider_timeout_ms": 15000,
             "max_output_tokens": 700,
             "public_activation_authorized": False,
-            "live_evaluation_status": "pending_preview_deployment",
+            "live_evaluation_status": "terra_preview_repeated_ru_en_passed",
         }
         for key, expected in expected_pilot.items():
             if private_pilot.get(key) != expected:

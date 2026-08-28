@@ -471,3 +471,15 @@ D. Live repeated RU/EN evaluations, current-price review, and explicit owner
 approval remain prerequisites for public activation. No secret value, private
 document, request/response content log, analytics, storage, upload, browser
 tool, or persistent conversation is added.
+
+Execution note:
+On 2026-08-28, the authenticated Preview pilot completed repeated RU/EN live
+evaluation with `gpt-5.6-terra`. Explicit private-data, raw-material,
+prompt-injection, and invented-metric requests are rejected deterministically
+before a provider call. A single observed valid-HTTP but invalid structured
+output led to one bounded validation-only retry without weakening citation or
+privacy verification. The final full round on commit `463aae7` passed all 16
+checked-in RU/EN variants; the credential RU case exercised the retry and
+passed. This evidence supports Gate C private-pilot review only. Production and
+public activation remain unauthorized, and final Luna-versus-Terra selection is
+still open.

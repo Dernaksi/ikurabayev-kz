@@ -95,8 +95,10 @@ the current release.
 - Issue #61 adds Gate C as a private provider pilot. Provider traffic requires
   an authenticated non-production Preview branch, explicit enablement, a
   private token, Luna or Terra, a two-request-per-minute application limit, and
-  strict output/citation validation. Production and the visible concierge
-  remain fail-closed; live RU/EN evaluations are pending Preview deployment.
+  strict output/citation validation. Repeated RU/EN Terra Preview evaluation
+  passes the checked-in suite, including deterministic refusals and the bounded
+  validation retry. Production and the visible concierge remain fail-closed;
+  PR #62 awaits final owner review and merge approval.
 
 ## Next Recommended Tasks
 
@@ -109,9 +111,9 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Deploy the issue #61 branch to Cloudflare Preview, add only the remaining
-   Preview pilot token and non-secret variables, then run the bounded RU/EN
-   Luna evaluation before any Terra comparison or Gate D proposal.
+3. Review PR #62 for squash merge as the private Gate C pilot. Keep public
+   activation unauthorized; final Luna-versus-Terra selection and any Gate D
+   proposal remain separate future work.
 
 ## Active Branch Convention
 

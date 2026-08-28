@@ -89,6 +89,24 @@ The current bundle contains 25 claims, 39 relations, 15 sources, and 8 topics.
 These counts describe reviewed grounding records, not model performance or a
 live service. The browser does not load the bundle.
 
+### Preview evaluation evidence
+
+On 2026-08-28, `gpt-5.6-terra` completed repeated authenticated Preview runs
+over the checked-in RU/EN suite. The final full round on commit `463aae7`
+passed 16/16 variants. The RU credential answer used two provider attempts and
+passed, directly exercising the bounded validation-only retry after the same
+case had produced one fail-closed 502 in an earlier run. Deterministic privacy,
+raw-material, prompt-injection, and invented-metric refusals returned no model
+token counts because no provider call was made. Evaluation output recorded only
+case IDs, language, decision, latency, token counts, attempt count, model,
+status, and pass/fail; request and response content and credentials were not
+logged.
+
+This is Gate C evidence, not authorization for a public service. Production,
+the visible concierge, and the canonical Pages host remain fail-closed. Luna
+has not completed the same final UTF-8 evaluation sequence, so final
+Luna-versus-Terra selection remains open.
+
 ### Preview control-plane configuration
 
 The Gate C branch requires these settings in Cloudflare **Preview only**:

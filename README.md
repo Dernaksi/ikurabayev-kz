@@ -74,7 +74,9 @@ grounding bundle, and offline tests. Issue #61 implements Gate C as a private
 Preview-only provider pilot: production and the public concierge remain
 disabled, while an authenticated non-production branch may call the OpenAI
 Responses API with `store: false`, no tools, bounded grounding, strict
-citations, and a two-request-per-minute application limit. A
+citations, and a two-request-per-minute application limit. Repeated RU/EN Terra
+Preview evaluation passes the checked-in suite on the final Gate C commit;
+public activation and final Luna-versus-Terra selection remain unauthorized. A
 bounded Kazakh language pass has corrected interface and
 terminology defects, and the owner-approved exact Kazakh display name
 `Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The

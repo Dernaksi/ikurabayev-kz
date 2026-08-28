@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
   "contract_id": "public-ai-assistant-v0",
-  "reviewed_at": "2026-08-27",
+  "reviewed_at": "2026-08-28",
   "lifecycle": {
     "status": "private_provider_pilot",
     "public_endpoint_enabled": false,
@@ -41,7 +41,7 @@
     "provider_timeout_ms": 15000,
     "max_output_tokens": 700,
     "public_activation_authorized": false,
-    "live_evaluation_status": "pending_preview_deployment"
+    "live_evaluation_status": "terra_preview_repeated_ru_en_passed"
   },
   "transport": {
     "public_path": "/api/ai/ask",
@@ -60,7 +60,7 @@
       "https://developers.openai.com/api/docs/guides/migrate-to-responses",
       "https://developers.openai.com/api/docs/guides/structured-outputs"
     ],
-    "reference_checked_at": "2026-08-27",
+    "reference_checked_at": "2026-08-28",
     "model_selection": {
       "policy": "private_pilot_default_with_comparative_evaluation",
       "fixed_model": null,
