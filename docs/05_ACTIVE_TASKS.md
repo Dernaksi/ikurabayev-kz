@@ -2,8 +2,9 @@
 
 ## Current Phase
 
-Public AI assistant disabled backend skeleton; Claude Design v1.1 remains the
-visual baseline and the visible concierge remains a local-only prototype.
+Public AI assistant private Preview pilot; Claude Design v1.1 remains the
+visual baseline and the visible production concierge remains a local-only
+prototype.
 
 ## Recently Completed
 
@@ -71,6 +72,8 @@ visual baseline and the visible concierge remains a local-only prototype.
 - PR #58 accepts the bounded public AI architecture, machine-readable evidence
   and refusal contract, and offline readiness validator without enabling an
   endpoint or provider call.
+- PR #60 implements Gate B as a disabled providerless Pages Function with a
+  deterministic server-side grounding bundle and offline failure-path tests.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
   Cloudflare Pages preview hosts across desktop and 390x844 mobile checks;
   canonical metadata, robots, sitemap, and the privacy boundary remained intact.
@@ -89,11 +92,13 @@ the current release.
 
 ## Active Work
 
-- Issue #59 adds a same-origin Cloudflare Pages Function skeleton, an exact
-  route boundary, a deterministic hashed server-side grounding bundle, and
-  offline request/failure tests. The route remains disabled at the application
-  level: valid requests return 503 and no provider call, credential, spend,
-  persistent state, tools, uploads, analytics, or tracking is introduced.
+- Issue #61 adds Gate C as a private provider pilot. Provider traffic requires
+  an authenticated non-production Preview branch, explicit enablement, a
+  private token, Luna or Terra, a two-request-per-minute application limit, and
+  strict output/citation validation. Repeated RU/EN Terra Preview evaluation
+  passes the checked-in suite, including deterministic refusals and the bounded
+  validation retry. Production and the visible concierge remain fail-closed;
+  PR #62 awaits final owner review and merge approval.
 
 ## Next Recommended Tasks
 
@@ -106,9 +111,9 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Review the issue #59 disabled backend skeleton. A private provider pilot,
-   rate limiting, model selection, spend ceiling, and public activation remain
-   separate later gates.
+3. Review PR #62 for squash merge as the private Gate C pilot. Keep public
+   activation unauthorized; final Luna-versus-Terra selection and any Gate D
+   proposal remain separate future work.
 
 ## Active Branch Convention
 

@@ -1,14 +1,15 @@
 # Public AI Assistant Architecture
 
-Status: Gate A accepted in PR #58; disabled Gate B proposed under issue #59
+Status: Gates A-B accepted; private Gate C implemented under issue #61
 
-Reviewed: 2026-08-26
+Reviewed: 2026-08-27
 
 ## Purpose
 
 This document defines the smallest safe architecture for turning the existing
-local public-facts-only concierge into a real AI assistant. Gate A is accepted.
-Gate B adds only a fail-closed backend skeleton, not a live AI launch.
+local public-facts-only concierge into a real AI assistant. Gates A and B are
+accepted. Gate C adds an authenticated Preview-only provider path, not a public
+AI launch.
 
 The first live version should answer short questions about Iskander Kurabayev's
 reviewed public profile, research, publications, patents, credentials, and
@@ -25,7 +26,8 @@ The proposed v0 assistant uses:
 
 - the existing static concierge as the user interface;
 - a same-origin `POST /api/ai/ask` endpoint implemented as a Cloudflare Pages
-  Function and kept providerless during Gate B;
+  Function, fail-closed in production and provider-capable only in private
+  Preview during Gate C;
 - the OpenAI Responses API from the server side only;
 - a Cloudflare secret binding for the provider credential;
 - one request and one answer over HTTP, with `store: false`;
@@ -35,30 +37,90 @@ The proposed v0 assistant uses:
   graph;
 - structured answers with claim/source citations or a categorized refusal.
 
-No model is fixed at the architecture stage. Candidate models must be compared
-with the checked-in evaluation cases for grounded-answer success, refusal
-success, latency, token use, and cost per successful answer.
+No final public model is fixed. Gate C uses Luna as the cost-controlled default
+and permits Terra only for an explicit comparison. The candidates must be
+measured with the checked-in evaluation cases for grounded-answer success,
+refusal success, latency, token use, and cost per successful answer.
 
-## Current Gate B Implementation
+## Current Gate C Implementation
 
-The Gate B implementation is deliberately useful but inert:
+Gate B remains the production behavior. Gate C adds a separate private path:
 
 - `site/_routes.json` sends only `/api/ai/ask` to Pages Functions;
 - `functions/api/ai/ask.js` validates method, same origin, media type, exact
   fields, language, session form, size, control characters, and URL retrieval;
-- every otherwise valid RU/EN request returns a localized structured 503 with
-  `service_unavailable`; there is no provider branch or outbound fetch;
+- production, `main`, the canonical `*.pages.dev` host, missing configuration,
+  missing/invalid pilot authentication, and unknown model configuration all
+  return a localized structured failure before an outbound call;
+- only a non-production Preview branch with `AI_PILOT_ENABLED=true`, a matching
+  private `X-Pilot-Token`, `OPENAI_API_KEY`, and an allowlisted server-side model
+  may call the provider;
+- `gpt-5.6-luna` is the default pilot candidate; `gpt-5.6-terra` is available
+  only for explicit comparative evaluation;
+- the application admits at most two requests per minute per active isolate,
+  below the configured private provider-project limit of three requests per
+  minute; a globally durable edge limiter remains a Gate D requirement;
+- each provider request uses `/v1/responses`, `store: false`, `background:
+  false`, no tools, a 700-token output ceiling, a 15-second timeout, an
+  ephemeral session hash, and Structured Outputs through `text.format`;
+- deterministic local retrieval sends no more than five allowlisted claims plus
+  their connected reviewed relations, sources, and topics;
+- after Preview authentication, explicit requests for private identifiers,
+  private contact or address data, raw or unpublished material, and prompt
+  bypasses, plus explicit requests to invent unpublished metrics, are refused
+  deterministically before rate-limit consumption or any provider call;
+- the edge verifier discards malformed output, unknown or non-selected claims,
+  and source IDs that do not belong to the cited claim; one validation-only
+  retry is allowed for an HTTP-success provider response that fails this local
+  verifier, while network and provider HTTP failures are never retried;
 - `tools/build_public_ai_grounding.py` deterministically selects only the
   contract allowlists and writes a server-side module plus byte-level
   provenance;
 - `tools/check_public_ai.py` verifies the route, handler safety markers, source
   and output hashes, counts, privacy boundary, and byte-identical regeneration;
-- `tools/test_public_ai_backend.mjs` exercises request rejection and fail-closed
-  behavior with Node built-ins only.
+- `tools/test_public_ai_backend.mjs` exercises request rejection, production
+  isolation, authentication, rate limiting, request shape, model allowlisting,
+  provider failures, and citation rejection with a stubbed fetch only;
+- `tools/run_public_ai_pilot_evals.mjs` is an explicit paid/live Preview runner
+  for repeated RU/EN cases; it reports only case IDs, decisions, latency, token
+  counts, model, and pass/fail, never questions, answers, or credentials.
 
 The current bundle contains 25 claims, 39 relations, 15 sources, and 8 topics.
 These counts describe reviewed grounding records, not model performance or a
 live service. The browser does not load the bundle.
+
+### Preview evaluation evidence
+
+On 2026-08-28, `gpt-5.6-terra` completed repeated authenticated Preview runs
+over the checked-in RU/EN suite. The final full round on commit `463aae7`
+passed 16/16 variants. The RU credential answer used two provider attempts and
+passed, directly exercising the bounded validation-only retry after the same
+case had produced one fail-closed 502 in an earlier run. Deterministic privacy,
+raw-material, prompt-injection, and invented-metric refusals returned no model
+token counts because no provider call was made. Evaluation output recorded only
+case IDs, language, decision, latency, token counts, attempt count, model,
+status, and pass/fail; request and response content and credentials were not
+logged.
+
+This is Gate C evidence, not authorization for a public service. Production,
+the visible concierge, and the canonical Pages host remain fail-closed. Luna
+has not completed the same final UTF-8 evaluation sequence, so final
+Luna-versus-Terra selection remains open.
+
+### Preview control-plane configuration
+
+The Gate C branch requires these settings in Cloudflare **Preview only**:
+
+- encrypted secret `OPENAI_API_KEY`;
+- encrypted secret `AI_PILOT_TOKEN`, at least 32 characters and unrelated to
+  the provider key;
+- text variable `AI_PILOT_ENABLED` with exact value `true`;
+- text variable `AI_PILOT_MODEL` with `gpt-5.6-luna` for the first run.
+
+Do not add these settings to Production. The provider key alone never enables
+the path. Changing `AI_PILOT_MODEL` to `gpt-5.6-terra` is reserved for a later
+controlled comparison after the Luna baseline. Secret values must not be pasted
+into issues, pull requests, logs, screenshots, or evaluation output.
 
 ## System Boundary
 
@@ -200,7 +262,8 @@ The backend returns a validated envelope equivalent to:
       "claim_id": "research.focus.ungrounded_power_systems",
       "source_ids": ["source.katru.faculty_profile"]
     }
-  ]
+  ],
+  "refusal_category": null
 }
 ```
 
@@ -255,10 +318,22 @@ python tools/check_public_ai.py
 python tools/check_public_ai.py --self-test
 ```
 
-Before a provider-backed pilot, the implementation issue must add executable
-model evaluations for all cases in Russian and English. A model or prompt is
-acceptable only when grounded-answer and refusal thresholds are defined and
-met on repeated runs.
+After the PR has a private Preview deployment, the owner may set
+`PUBLIC_AI_PILOT_URL` and `AI_PILOT_TOKEN` only in the local shell and run:
+
+```powershell
+node tools/run_public_ai_pilot_evals.mjs
+```
+
+The runner defaults to three repetitions of every RU/EN prompt and waits 31
+seconds between calls so it stays below the reviewed private-pilot rate. Set
+`PUBLIC_AI_EVAL_CASE` to one checked-in case ID for a bounded smoke test. Do not
+commit or paste the local token.
+
+Gate C includes executable prompts for all cases in Russian and English. A
+model or prompt is acceptable only after repeated Preview runs meet the checked
+expectations. The live evaluation remains pending deployment and is not
+simulated by the offline suite.
 
 ## Rollout Plan
 
@@ -278,10 +353,12 @@ met on repeated runs.
 
 ### Gate C — private provider pilot
 
-- configure the API credential as a Cloudflare secret outside GitHub;
-- select a model through repeated RU/EN evaluations;
-- set a small spend ceiling and test provider failures;
-- keep the endpoint unavailable to general visitors.
+- configure credentials as Preview-only Cloudflare secrets outside GitHub;
+- require a separate pilot token and explicit Preview enable flag;
+- default to Luna and compare Terra only through repeated RU/EN evaluations;
+- keep application/provider rate limits and the small spend ceiling active;
+- test provider failures with offline stubs before any paid evaluation;
+- keep the endpoint unavailable to general visitors and production.
 
 ### Gate D — bounded public activation
 
@@ -297,8 +374,10 @@ authorize later gates automatically.
 ## Official API Basis
 
 The API-specific choices were checked against the official OpenAI
-[API deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist)
-on 2026-08-26. The checklist identifies the Responses API as the starting point
+[API deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist),
+[Responses migration guide](https://developers.openai.com/api/docs/guides/migrate-to-responses),
+and [Structured Outputs guide](https://developers.openai.com/api/docs/guides/structured-outputs)
+on 2026-08-27. The guidance identifies the Responses API as the starting point
 for current applications, recommends selecting a model through representative
 evaluation, supports stateless `store: false` requests, recommends a
 privacy-preserving safety identifier for end-user applications, and says plain
@@ -314,11 +393,11 @@ official Cloudflare Pages Functions
 on 2026-08-26. File-based routing maps the handler path, while `_routes.json`
 restricts invocation to the single approved endpoint.
 
-## Open Decisions For The Private Pilot
+## Remaining Decisions After Implementation
 
-- model candidates and pass thresholds after current pricing/availability
-  review;
-- edge rate-limit values and cost ceiling;
+- repeated RU/EN Luna results and whether a Terra comparison is justified;
+- current pricing and cost per successful answer after measured token use;
+- a globally durable Cloudflare abuse-control binding before Gate D;
 - whether live Kazakh support is ready after owner linguistic evaluation.
 
-None of these decisions is implemented or authorized by Gate B.
+None of these decisions authorizes Gate D or changes the production concierge.

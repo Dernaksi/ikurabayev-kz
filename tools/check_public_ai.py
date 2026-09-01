@@ -130,25 +130,76 @@ def validate_backend_files(
         handler = ""
     for marker in (
         'from "./_grounding.js"',
+        'from "./_pilot.js"',
         "export async function handleRequest",
         "export function onRequestPost",
         '"same_origin_required"',
-        '"service_unavailable"',
         '"Cache-Control": "no-store"',
     ):
         if marker not in handler:
             errors.append(f"backend skeleton: required marker missing: {marker}")
     forbidden_handler = {
-        r"\bfetch\s*\(": "outbound fetch",
-        r"api\.openai\.com": "provider endpoint",
-        r"OPENAI_API_KEY": "provider credential binding",
         r"\bconsole\.(?:log|info|warn|error)\b": "content logging",
         r"\b(?:localStorage|sessionStorage|indexedDB)\b": "browser storage",
         r"document\s*\.\s*cookie": "cookies",
     }
     for pattern, label in forbidden_handler.items():
         if re.search(pattern, handler, flags=re.IGNORECASE):
-            errors.append(f"backend skeleton: prohibited {label} construct")
+            errors.append(f"backend handler: prohibited {label} construct")
+
+    pilot_path = root / "functions" / "api" / "ai" / "_pilot.js"
+    try:
+        pilot = pilot_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        errors.append(f"private pilot: cannot read provider adapter: {exc}")
+        pilot = ""
+    for marker in (
+        'https://api.openai.com/v1/responses',
+        'const DEFAULT_MODEL = "gpt-5.6-luna"',
+        '"gpt-5.6-terra"',
+        "store: false",
+        "background: false",
+        "tools: []",
+        'type: "json_schema"',
+        'request.headers.get("X-Pilot-Token")',
+        'env?.AI_PILOT_ENABLED === "true"',
+        '"service_unavailable"',
+        "PRODUCTION_BRANCHES",
+        "validateProviderOutput",
+    ):
+        if marker not in pilot:
+            errors.append(f"private pilot: required marker missing: {marker}")
+    forbidden_pilot = {
+        r"\bconsole\.(?:log|info|warn|error)\b": "content logging",
+        r"\b(?:localStorage|sessionStorage|indexedDB)\b": "browser storage",
+        r"document\s*\.\s*cookie": "cookies",
+        r"previous_response_id": "response chaining",
+        r'"type"\s*:\s*"(?:web_search|file_search|computer_use|code_interpreter)"': "provider tools",
+    }
+    for pattern, label in forbidden_pilot.items():
+        if re.search(pattern, pilot, flags=re.IGNORECASE):
+            errors.append(f"private pilot: prohibited {label} construct")
+
+    eval_path = root / "tools" / "run_public_ai_pilot_evals.mjs"
+    try:
+        eval_runner = eval_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        errors.append(f"private pilot evals: cannot read runner: {exc}")
+        eval_runner = ""
+    for marker in (
+        "PUBLIC_AI_PILOT_URL",
+        "AI_PILOT_TOKEN",
+        "PUBLIC_AI_EVAL_ROUNDS",
+        "PUBLIC_AI_EVAL_INTERVAL_MS",
+        "PUBLIC_AI_EVAL_CASE",
+        'for (const language of ["ru", "en"])',
+    ):
+        if marker not in eval_runner:
+            errors.append(f"private pilot evals: required marker missing: {marker}")
+    if "body?.answer" in eval_runner or "question:" in re.sub(
+        r"question:\s*testCase\.prompts\[language\]", "", eval_runner
+    ):
+        errors.append("private pilot evals: response text or prompt logging boundary changed")
 
     grounding_path = root / "functions" / "api" / "ai" / "_grounding.js"
     try:
@@ -268,18 +319,20 @@ def validate_contract(
     if not isinstance(lifecycle, dict):
         errors.append("lifecycle: expected an object")
     else:
-        if lifecycle.get("status") != "backend_skeleton":
-            errors.append("lifecycle.status must remain backend_skeleton")
+        if lifecycle.get("status") != "private_provider_pilot":
+            errors.append("lifecycle.status must remain private_provider_pilot")
         false_flags(
             lifecycle,
-            ("public_endpoint_enabled", "paid_api_calls_enabled"),
+            ("public_endpoint_enabled",),
             "lifecycle",
             errors,
         )
+        if lifecycle.get("paid_api_calls_enabled") is not True:
+            errors.append("lifecycle.paid_api_calls_enabled must be true only for the private pilot")
         if lifecycle.get("disabled_route_deployed") is not True:
             errors.append("lifecycle.disabled_route_deployed must remain true")
-        if lifecycle.get("next_gate") != "owner-approved private provider pilot issue":
-            errors.append("lifecycle.next_gate must require an owner-approved private pilot issue")
+        if lifecycle.get("next_gate") != "owner-approved bounded public activation issue":
+            errors.append("lifecycle.next_gate must require a separate public-activation issue")
 
     backend = contract.get("backend_skeleton")
     if not isinstance(backend, dict):
@@ -289,15 +342,43 @@ def validate_contract(
             "adapter": "Cloudflare Pages Functions",
             "function_path": "functions/api/ai/ask.js",
             "routes_path": "site/_routes.json",
-            "runtime_mode": "disabled",
-            "provider_call_enabled": False,
+            "runtime_mode": "private_preview",
+            "provider_call_enabled": True,
             "grounding_bundle_path": "functions/api/ai/_grounding.js",
             "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
-            "rate_limit_status": "required_before_provider_pilot",
+            "rate_limit_status": "private_fixed_window_2_rpm_plus_provider_project_limits",
         }
         for key, expected in expected_backend.items():
             if backend.get(key) != expected:
                 errors.append(f"backend_skeleton.{key} must remain {expected!r}")
+
+    private_pilot = contract.get("private_pilot")
+    if not isinstance(private_pilot, dict):
+        errors.append("private_pilot: expected an object")
+    else:
+        expected_pilot = {
+            "issue": 61,
+            "cloudflare_environment": "Preview",
+            "production_branch": "main",
+            "enable_variable": "AI_PILOT_ENABLED",
+            "model_variable": "AI_PILOT_MODEL",
+            "authentication_header": "X-Pilot-Token",
+            "default_model": "gpt-5.6-luna",
+            "application_requests_per_minute": 2,
+            "provider_project_requests_per_minute": 3,
+            "provider_project_tokens_per_minute": 10000,
+            "provider_timeout_ms": 15000,
+            "max_output_tokens": 700,
+            "public_activation_authorized": False,
+            "live_evaluation_status": "terra_preview_repeated_ru_en_passed",
+        }
+        for key, expected in expected_pilot.items():
+            if private_pilot.get(key) != expected:
+                errors.append(f"private_pilot.{key} must remain {expected!r}")
+        if private_pilot.get("secret_bindings") != ["OPENAI_API_KEY", "AI_PILOT_TOKEN"]:
+            errors.append("private_pilot.secret_bindings must retain the two reviewed binding names")
+        if private_pilot.get("allowed_models") != ["gpt-5.6-luna", "gpt-5.6-terra"]:
+            errors.append("private_pilot.allowed_models must remain Luna and Terra")
 
     transport = contract.get("transport")
     if not isinstance(transport, dict):
@@ -331,6 +412,11 @@ def validate_contract(
         "https://developers.openai.com/api/docs/guides/deployment-checklist"
     ):
         errors.append("provider: official deployment-checklist reference is required")
+    if provider.get("implementation_references") != [
+        "https://developers.openai.com/api/docs/guides/migrate-to-responses",
+        "https://developers.openai.com/api/docs/guides/structured-outputs",
+    ]:
+        errors.append("provider: current Responses and Structured Outputs references are required")
     if provider.get("reference_checked_at") != contract.get("reviewed_at"):
         errors.append("provider: reference_checked_at must match reviewed_at")
 
@@ -338,10 +424,14 @@ def validate_contract(
     if not isinstance(model_selection, dict):
         errors.append("provider.model_selection: expected an object")
     else:
-        if model_selection.get("policy") != "evaluation_required":
-            errors.append("provider.model_selection.policy must require evaluation")
+        if model_selection.get("policy") != "private_pilot_default_with_comparative_evaluation":
+            errors.append("provider.model_selection.policy must retain the private comparison gate")
         if model_selection.get("fixed_model") is not None:
             errors.append("provider.model_selection.fixed_model must remain null")
+        if model_selection.get("default_model") != "gpt-5.6-luna":
+            errors.append("provider.model_selection.default_model must remain gpt-5.6-luna")
+        if model_selection.get("allowed_models") != ["gpt-5.6-luna", "gpt-5.6-terra"]:
+            errors.append("provider.model_selection.allowed_models must remain Luna and Terra")
         dimensions = set(
             string_list(
                 model_selection.get("selection_dimensions"),
@@ -379,6 +469,8 @@ def validate_contract(
             errors.append("provider.request_contract.state_mode must remain single_turn_http")
         if request_contract.get("tools") != []:
             errors.append("provider.request_contract.tools must remain empty")
+        if request_contract.get("structured_output") is not True:
+            errors.append("provider.request_contract.structured_output must remain true")
 
     secret_handling = provider.get("secret_handling")
     if not isinstance(secret_handling, dict):
@@ -528,7 +620,7 @@ def validate_contract(
         errors.append("output_contract.format must remain structured_json")
     if set(
         string_list(output_contract.get("required_fields"), "output_contract.required_fields", errors)
-    ) != {"decision", "language", "answer", "citations"}:
+    ) != {"decision", "language", "answer", "citations", "refusal_category"}:
         errors.append("output_contract.required_fields must retain the reviewed response envelope")
     if set(
         string_list(
@@ -567,6 +659,13 @@ def validate_contract(
         language = case.get("language")
         if language not in INITIAL_LANGUAGES:
             errors.append(f"{case_id}: unsupported initial language {language}")
+        prompts = case.get("prompts")
+        if not isinstance(prompts, dict) or set(prompts) != set(INITIAL_LANGUAGES):
+            errors.append(f"{case_id}: executable RU/EN prompts are required")
+        else:
+            for prompt_language, prompt in prompts.items():
+                if not isinstance(prompt, str) or not prompt.strip() or len(prompt) > 600:
+                    errors.append(f"{case_id}: invalid {prompt_language} evaluation prompt")
         decision = case.get("expected_decision")
         if decision == "answer":
             case_claims = string_list(
@@ -660,8 +759,8 @@ def run_self_tests(root: Path = ROOT) -> int:
     tests.append(("missing disabled route gate", mutation, registry, graph, "disabled_route_deployed must remain true"))
 
     mutation = copy.deepcopy(contract)
-    mutation["backend_skeleton"]["provider_call_enabled"] = True
-    tests.append(("premature provider call", mutation, registry, graph, "provider_call_enabled must remain False"))
+    mutation["backend_skeleton"]["provider_call_enabled"] = False
+    tests.append(("missing private provider path", mutation, registry, graph, "provider_call_enabled must remain True"))
 
     mutation = copy.deepcopy(contract)
     mutation["output_contract"]["citations_required_for_answer"] = False
@@ -726,8 +825,8 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
     print(
-        "Public AI readiness validation PASS: disabled backend-skeleton lifecycle, "
-        "provider isolation, evidence grounding, refusal suite, and privacy boundary."
+        "Public AI readiness validation PASS: private Preview lifecycle, production "
+        "isolation, evidence grounding, refusal suite, and privacy boundary."
     )
     return 0
 
