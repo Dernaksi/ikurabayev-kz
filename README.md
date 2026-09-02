@@ -70,13 +70,15 @@ reviewed block model, with separate byte-level provenance and no runtime
 dependency. PR #58 accepts the architecture and offline readiness gate for a
 future real public AI assistant. Issue #59 and PR #60 implement fail-closed
 Gate B as a disabled Cloudflare Pages Function, deterministic server-side
-grounding bundle, and offline tests. Issue #61 implements Gate C as a private
-Preview-only provider pilot: production and the public concierge remain
+grounding bundle, and offline tests. Issue #61 and merged PR #62 implement Gate
+C as a private Preview-only provider pilot: production and the public concierge remain
 disabled, while an authenticated non-production branch may call the OpenAI
 Responses API with `store: false`, no tools, bounded grounding, strict
 citations, and a two-request-per-minute application limit. Repeated RU/EN Terra
-Preview evaluation passes the checked-in suite on the final Gate C commit;
-public activation and final Luna-versus-Terra selection remain unauthorized. A
+and Luna Preview evaluations pass the checked-in suite. Issue #63 selects Luna
+for the private pilot because it retained task success without retries at a
+substantially lower conservative uncached cost estimate; Terra remains a
+controlled fallback. Public activation remains unauthorized. A
 bounded Kazakh language pass has corrected interface and
 terminology defects, and the owner-approved exact Kazakh display name
 `Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The
