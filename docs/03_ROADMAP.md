@@ -115,7 +115,7 @@ Status: in progress / post-launch maintenance
 
 ## Phase 6 - Public AI Assistant Architecture
 
-Status: in progress / Gates A-B accepted; private Gate C passed Preview evaluation in PR #62
+Status: in progress / Gates A-C accepted; Luna selected for the private pilot
 
 - Keep the visible AI console prototype/static/public-facts-only. Production
   continues to return a fail-closed response and does not expose the Gate C
@@ -133,10 +133,13 @@ Status: in progress / Gates A-B accepted; private Gate C passed Preview evaluati
 - Gate C permits a provider call only on an authenticated non-production Preview
   branch with explicit variables, a private token, the reviewed model allowlist,
   `store: false`, no tools, bounded retrieval, and strict output validation.
-- Repeated Terra Preview evaluation now passes the checked-in RU/EN suite,
-  including deterministic privacy refusals and a bounded validation-only retry.
-  This does not authorize production, a public endpoint, or final model
-  selection; Luna comparison and Gate D remain separate work.
+- Repeated Terra and Luna Preview evaluations pass the checked-in RU/EN suite.
+  Issue #63 selects Luna for the private pilot after 32/32 Luna variants passed
+  without provider retries; Terra remains a controlled fallback. The comparison
+  is bounded evidence, not a general benchmark.
+- Gate D remains separate work and requires explicit owner approval. Gate C
+  acceptance and model selection do not authorize Production or a public
+  endpoint.
 - Require the offline public-AI validator, refusal suite, and repeated live
   model evaluations to pass before any bounded public endpoint is proposed.
 - Do not combine real AI/API launch work with visual design ports unless a

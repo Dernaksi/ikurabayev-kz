@@ -370,7 +370,7 @@ def validate_contract(
             "provider_timeout_ms": 15000,
             "max_output_tokens": 700,
             "public_activation_authorized": False,
-            "live_evaluation_status": "terra_preview_repeated_ru_en_passed",
+            "live_evaluation_status": "luna_selected_after_ru_en_comparison",
         }
         for key, expected in expected_pilot.items():
             if private_pilot.get(key) != expected:
@@ -424,14 +424,24 @@ def validate_contract(
     if not isinstance(model_selection, dict):
         errors.append("provider.model_selection: expected an object")
     else:
-        if model_selection.get("policy") != "private_pilot_default_with_comparative_evaluation":
-            errors.append("provider.model_selection.policy must retain the private comparison gate")
-        if model_selection.get("fixed_model") is not None:
-            errors.append("provider.model_selection.fixed_model must remain null")
+        if model_selection.get("policy") != (
+            "private_pilot_luna_selected_with_controlled_terra_fallback"
+        ):
+            errors.append("provider.model_selection.policy must retain the reviewed pilot selection")
+        if model_selection.get("fixed_model") != "gpt-5.6-luna":
+            errors.append("provider.model_selection.fixed_model must remain gpt-5.6-luna")
         if model_selection.get("default_model") != "gpt-5.6-luna":
             errors.append("provider.model_selection.default_model must remain gpt-5.6-luna")
         if model_selection.get("allowed_models") != ["gpt-5.6-luna", "gpt-5.6-terra"]:
             errors.append("provider.model_selection.allowed_models must remain Luna and Terra")
+        if model_selection.get("selection_issue") != 63:
+            errors.append("provider.model_selection.selection_issue must remain 63")
+        if model_selection.get("selected_at") != "2026-09-02":
+            errors.append("provider.model_selection.selected_at must remain 2026-09-02")
+        if model_selection.get("pricing_reference") != (
+            "https://developers.openai.com/api/docs/pricing"
+        ):
+            errors.append("provider.model_selection.pricing_reference must use the official pricing page")
         dimensions = set(
             string_list(
                 model_selection.get("selection_dimensions"),

@@ -1,8 +1,8 @@
 # Public AI Assistant Architecture
 
-Status: Gates A-B accepted; private Gate C implemented under issue #61
+Status: Gates A-C accepted; Luna selected for the private pilot under issue #63
 
-Reviewed: 2026-08-27
+Reviewed: 2026-09-02
 
 ## Purpose
 
@@ -37,10 +37,10 @@ The proposed v0 assistant uses:
   graph;
 - structured answers with claim/source citations or a categorized refusal.
 
-No final public model is fixed. Gate C uses Luna as the cost-controlled default
-and permits Terra only for an explicit comparison. The candidates must be
-measured with the checked-in evaluation cases for grounded-answer success,
-refusal success, latency, token use, and cost per successful answer.
+No public model is authorized. Gate C fixes Luna for the private pilot and
+retains Terra only as a controlled fallback and re-evaluation candidate. The
+selection uses the checked-in cases for grounded-answer success, refusal
+success, latency, token use, and cost per successful answer.
 
 ## Current Gate C Implementation
 
@@ -55,8 +55,8 @@ Gate B remains the production behavior. Gate C adds a separate private path:
 - only a non-production Preview branch with `AI_PILOT_ENABLED=true`, a matching
   private `X-Pilot-Token`, `OPENAI_API_KEY`, and an allowlisted server-side model
   may call the provider;
-- `gpt-5.6-luna` is the default pilot candidate; `gpt-5.6-terra` is available
-  only for explicit comparative evaluation;
+- `gpt-5.6-luna` is the selected private-pilot model; `gpt-5.6-terra` is
+  available only as a controlled fallback or explicit re-evaluation candidate;
 - the application admits at most two requests per minute per active isolate,
   below the configured private provider-project limit of three requests per
   minute; a globally durable edge limiter remains a Gate D requirement;
@@ -102,10 +102,26 @@ case IDs, language, decision, latency, token counts, attempt count, model,
 status, and pass/fail; request and response content and credentials were not
 logged.
 
+On 2026-09-02, `gpt-5.6-luna` completed two full authenticated Preview rounds
+on the merged Gate C code: 32/32 RU/EN variants passed. All 16 provider-backed
+variants completed in one attempt, and deterministic refusals continued to
+bypass the provider. The observed Luna provider-backed latency was 3,544 ms on
+average (3,107 ms median; 8,875 ms maximum). One Luna round used 13,747 input
+and 1,225 output tokens. The final Terra round used 15,052 input and 1,095
+output tokens across eight provider-backed variants, with one retry; its
+observed average latency was 2,686 ms (2,245 ms median; 5,523 ms maximum).
+
+Using the official standard short-context prices checked on 2026-09-02 -- Terra
+at $2 per million input tokens and $12 per million output tokens, and Luna at
+$0.20 and $1.20 respectively -- with no input-cache discount, the observed
+Terra round is estimated at $0.043244 and one Luna round at $0.0042194. Luna was
+therefore about 90% less expensive for the bounded successful sample, while its
+average latency was about 32% higher. The sample sizes differ, so these figures
+are Gate C decision evidence rather than a general model benchmark. Issue #63
+selects Luna for the private pilot; Terra remains a controlled fallback.
+
 This is Gate C evidence, not authorization for a public service. Production,
-the visible concierge, and the canonical Pages host remain fail-closed. Luna
-has not completed the same final UTF-8 evaluation sequence, so final
-Luna-versus-Terra selection remains open.
+the visible concierge, and the canonical Pages host remain fail-closed.
 
 ### Preview control-plane configuration
 
@@ -115,12 +131,12 @@ The Gate C branch requires these settings in Cloudflare **Preview only**:
 - encrypted secret `AI_PILOT_TOKEN`, at least 32 characters and unrelated to
   the provider key;
 - text variable `AI_PILOT_ENABLED` with exact value `true`;
-- text variable `AI_PILOT_MODEL` with `gpt-5.6-luna` for the first run.
+- text variable `AI_PILOT_MODEL` with the selected value `gpt-5.6-luna`.
 
 Do not add these settings to Production. The provider key alone never enables
-the path. Changing `AI_PILOT_MODEL` to `gpt-5.6-terra` is reserved for a later
-controlled comparison after the Luna baseline. Secret values must not be pasted
-into issues, pull requests, logs, screenshots, or evaluation output.
+the path. Changing `AI_PILOT_MODEL` to `gpt-5.6-terra` is reserved for a
+controlled fallback test or explicit re-evaluation. Secret values must not be
+pasted into issues, pull requests, logs, screenshots, or evaluation output.
 
 ## System Boundary
 
@@ -332,8 +348,8 @@ commit or paste the local token.
 
 Gate C includes executable prompts for all cases in Russian and English. A
 model or prompt is acceptable only after repeated Preview runs meet the checked
-expectations. The live evaluation remains pending deployment and is not
-simulated by the offline suite.
+expectations. Terra and Luna have completed the bounded live evaluation; the
+offline suite does not simulate or replace that evidence.
 
 ## Rollout Plan
 
@@ -351,11 +367,12 @@ simulated by the offline suite.
   edge-rate-limit verification for Gate C, where provider traffic first exists;
 - preserve the local concierge as the production fallback.
 
-### Gate C — private provider pilot
+### Gate C — private provider pilot (accepted in PR #62)
 
 - configure credentials as Preview-only Cloudflare secrets outside GitHub;
 - require a separate pilot token and explicit Preview enable flag;
-- default to Luna and compare Terra only through repeated RU/EN evaluations;
+- use the Issue #63 Luna selection and retain Terra only as a controlled
+  fallback or re-evaluation candidate;
 - keep application/provider rate limits and the small spend ceiling active;
 - test provider failures with offline stubs before any paid evaluation;
 - keep the endpoint unavailable to general visitors and production.
@@ -377,9 +394,11 @@ The API-specific choices were checked against the official OpenAI
 [API deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist),
 [Responses migration guide](https://developers.openai.com/api/docs/guides/migrate-to-responses),
 and [Structured Outputs guide](https://developers.openai.com/api/docs/guides/structured-outputs)
-on 2026-08-27. The guidance identifies the Responses API as the starting point
-for current applications, recommends selecting a model through representative
-evaluation, supports stateless `store: false` requests, recommends a
+on 2026-09-02. Model costs were checked against the official OpenAI
+[API pricing page](https://developers.openai.com/api/docs/pricing). The guidance
+identifies the Responses API as the starting point for current applications,
+recommends selecting a model through representative evaluation, supports
+stateless `store: false` requests, recommends a
 privacy-preserving safety identifier for end-user applications, and says plain
 HTTP is appropriate for one-request/one-answer workflows.
 

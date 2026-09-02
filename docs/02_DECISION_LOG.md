@@ -442,7 +442,7 @@ Gate B was merged through PR #60.
 
 ### 2026-08-27 - Implement a private Preview-only OpenAI provider pilot
 
-Status: proposed
+Status: accepted
 
 Context:
 The owner completed the bounded OpenAI project, model, spend, retention, hosted
@@ -480,6 +480,14 @@ before a provider call. A single observed valid-HTTP but invalid structured
 output led to one bounded validation-only retry without weakening citation or
 privacy verification. The final full round on commit `463aae7` passed all 16
 checked-in RU/EN variants; the credential RU case exercised the retry and
-passed. This evidence supports Gate C private-pilot review only. Production and
-public activation remain unauthorized, and final Luna-versus-Terra selection is
-still open.
+passed. PR #62 was then merged, accepting Gate C without enabling Production.
+
+On 2026-09-02, Issue #63 compared the same checked-in cases with
+`gpt-5.6-luna`. Two complete RU/EN rounds passed 32/32 variants; all 16
+provider-backed variants completed in one attempt, while deterministic refusal
+cases continued to bypass the provider. For the bounded observed samples, Luna
+had higher latency but an estimated uncached per-round cost about 90% below
+Terra at the official standard rates checked that day. Luna is therefore fixed
+for the private pilot, with Terra retained only as a controlled fallback and
+re-evaluation candidate. The sample sizes differ and do not constitute a
+general model benchmark. Production and public activation remain unauthorized.

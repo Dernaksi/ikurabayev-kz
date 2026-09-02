@@ -74,6 +74,8 @@ prototype.
   endpoint or provider call.
 - PR #60 implements Gate B as a disabled providerless Pages Function with a
   deterministic server-side grounding bundle and offline failure-path tests.
+- PR #62 implements and accepts Gate C as an authenticated Preview-only OpenAI
+  provider pilot while keeping Production and the visible concierge fail-closed.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
   Cloudflare Pages preview hosts across desktop and 390x844 mobile checks;
   canonical metadata, robots, sitemap, and the privacy boundary remained intact.
@@ -92,13 +94,10 @@ the current release.
 
 ## Active Work
 
-- Issue #61 adds Gate C as a private provider pilot. Provider traffic requires
-  an authenticated non-production Preview branch, explicit enablement, a
-  private token, Luna or Terra, a two-request-per-minute application limit, and
-  strict output/citation validation. Repeated RU/EN Terra Preview evaluation
-  passes the checked-in suite, including deterministic refusals and the bounded
-  validation retry. Production and the visible concierge remain fail-closed;
-  PR #62 awaits final owner review and merge approval.
+- Issue #63 records the bounded Gate C model comparison. Luna passed two full
+  RU/EN rounds (32/32 variants) with no provider retry and is selected for the
+  private pilot; Terra remains a controlled fallback. Production and the
+  visible concierge remain fail-closed.
 
 ## Next Recommended Tasks
 
@@ -111,9 +110,9 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Review PR #62 for squash merge as the private Gate C pilot. Keep public
-   activation unauthorized; final Luna-versus-Terra selection and any Gate D
-   proposal remain separate future work.
+3. Review the Issue #63 model-selection PR. Keep public activation unauthorized;
+   any Gate D proposal remains separate future work with its own issue and
+   explicit owner approval.
 
 ## Active Branch Convention
 
