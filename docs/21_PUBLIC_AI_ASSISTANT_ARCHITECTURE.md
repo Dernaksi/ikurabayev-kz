@@ -1,15 +1,16 @@
 # Public AI Assistant Architecture
 
-Status: Gates A-C accepted; Gate D1 fail-closed readiness proposed in issue #65
+Status: Gates A-D1 accepted; Gate D2a control-plane readiness proposed in issue #67
 
 Reviewed: 2026-09-02
 
 ## Purpose
 
 This document defines the smallest safe architecture for turning the existing
-local public-facts-only concierge into a real AI assistant. Gates A-C are
-accepted. Gate D1 adds production-readiness controls that still cannot activate
-the public service without separate control-plane work and owner approval.
+local public-facts-only concierge into a real AI assistant. Gates A-D1 are
+accepted. Gate D2a prepares a non-public rate-limit gateway that still cannot
+activate the public service without separate control-plane work, QA, and owner
+approval.
 
 The first live version should answer short questions about Iskander Kurabayev's
 reviewed public profile, research, publications, patents, credentials, and
@@ -30,6 +31,8 @@ The proposed v0 assistant uses:
   to remain fail-closed behind independent production controls;
 - the OpenAI Responses API from the server side only;
 - a Cloudflare secret binding for the provider credential;
+- an internal Pages Service Binding to a non-public Worker that owns the
+  Cloudflare Rate Limiting binding;
 - one request and one answer over HTTP, with `store: false`;
 - no model tools, web search, uploads, persistent memory, response chaining,
   background jobs, analytics, or content logging;
@@ -60,8 +63,8 @@ Gate B remains the production behavior. Gate C adds a separate private path:
   available only as a controlled fallback or explicit re-evaluation candidate;
 - the application admits at most two requests per minute per active isolate,
   below the configured private provider-project limit of three requests per
-  minute; Gate D1 additionally requires a Cloudflare Rate Limiting binding for
-  any future production provider call;
+  minute; Gate D1 additionally requires a working Cloudflare limiter for any
+  future production provider call;
 - each provider request uses `/v1/responses`, `store: false`, `background:
   false`, no tools, a 700-token output ceiling, a 15-second timeout, an
   ephemeral session hash, and Structured Outputs through `text.format`;
@@ -140,9 +143,9 @@ the path. Changing `AI_PILOT_MODEL` to `gpt-5.6-terra` is reserved for a
 controlled fallback test or explicit re-evaluation. Secret values must not be
 pasted into issues, pull requests, logs, screenshots, or evaluation output.
 
-## Current Gate D1 Readiness
+## Accepted Gate D1 Readiness
 
-Issue #65 prepares a public runner without activating it or changing the local
+PR #66 accepted a public runner without activating it or changing the local
 concierge. The runner can call the provider only when all of these conditions
 are true at once:
 
@@ -151,8 +154,8 @@ are true at once:
   production origin;
 - `AI_PUBLIC_MODEL` is exactly the selected `gpt-5.6-luna` model;
 - a non-empty server-side `OPENAI_API_KEY` is present;
-- `AI_PUBLIC_RATE_LIMITER` exposes the reviewed Cloudflare `limit({key})`
-  binding and admits the shared route key.
+- `AI_PUBLIC_RATE_LIMITER` exposes the reviewed internal Service Binding and
+  its gateway admits the shared route key.
 
 Missing, malformed, rejected, or throwing configuration fails closed before an
 OpenAI call. Deterministic privacy, raw-material, prompt-injection, and
@@ -167,21 +170,43 @@ This is code readiness only. `public_activation.enabled`,
 current visible concierge still makes no network request, and current
 Production continues to return the disabled 503 response.
 
-### Gate D control-plane blockers
+## Proposed Gate D2a Control-Plane Readiness
 
-Before activation, create a separate OpenAI production project and key, set a
-small hard spend cap and alerts, configure the Cloudflare limiter, decide the
-bounded moderation policy, and complete adversarial/privacy/accessibility/
-mobile/rollback QA. The official Cloudflare binding requires Wrangler 4.36.0 or
-later; the current Pages deployment reports Wrangler 3.114.17 and no Wrangler
-configuration. Issue #65 deliberately adds neither a dependency nor a Wrangler
-configuration until that deployment change is reviewed separately.
+Cloudflare Pages Functions supports Service Bindings but does not support the
+Rate Limiting binding directly. Issue #67 therefore prepares this internal path:
+
+```text
+Pages Function
+  -> AI_PUBLIC_RATE_LIMITER internal Service Binding
+  -> ikurabayev-public-ai-rate-limiter Worker
+  -> PUBLIC_AI_RATE_LIMITER Rate Limiting binding
+```
+
+The isolated Worker pins Wrangler 4.36.0, has no public route or preview URL,
+and admits at most two requests per 60 seconds per Cloudflare location. The
+Pages adapter accepts only a 204 admission response, treats 429 as rejection,
+and fails closed on missing configuration, exceptions, malformed values, or
+every other status. The shared route key avoids storing or rate-limiting by IP.
+
+The owner approved bounded Wrangler use, set the future OpenAI Production
+project hard limit to USD 10, and selected Russian and English for the initial
+provider mode. Recommended spend alerts are USD 5 and USD 8. Alerts notify but
+do not stop traffic, and hard-limit enforcement is not instantaneous. Kazakh
+provider answers remain deferred pending owner linguistic evaluation.
+
+Gate D2a does not deploy the Worker, configure the Service Binding, create the
+Production provider project or key, set `AI_PUBLIC_ENABLED=true`, or connect the
+visible concierge. Because a root Pages Wrangler file would become the source
+of truth for existing Dashboard-managed configuration, none is created here.
+Any later migration must first download and audit the current Pages project
+configuration. The exact owner-operated order is recorded in
+`docs/22_PUBLIC_AI_CONTROL_PLANE_RUNBOOK.md`.
 
 The limiter uses one shared route key per Cloudflare location to avoid storing
 or rate-limiting on IP addresses. Cloudflare documents this API as permissive,
 eventually consistent, and unsuitable for exact cost accounting. The OpenAI
-project hard spend cap is therefore an independent requirement, not a substitute
-for the edge limiter.
+project USD 10 hard spend limit is therefore an independent requirement, not a
+substitute for the edge limiter.
 
 ## System Boundary
 
@@ -191,7 +216,8 @@ Visitor browser
   | POST /api/ai/ask (same origin, <= 600 characters)
   v
 Cloudflare edge boundary
-  |- validate language, size, origin, and rate limit
+  |- validate language, size, and origin
+  |- call the internal rate-limit gateway through a Service Binding
   |- select only allowlisted public claim/relation records
   |- keep prompts and answers out of logs
   |
@@ -237,8 +263,8 @@ identifier and is not persisted.
 The backend is the only component allowed to call the model provider. It must:
 
 - enforce same-origin HTTPS requests and explicit request/response limits;
-- require the reviewed Cloudflare limiter binding before any public provider
-  call;
+- require the reviewed internal Cloudflare rate-limit gateway before any public
+  provider call;
 - map questions to allowlisted public records only;
 - keep request and response content out of logs;
 - send `store: false` and an empty tools list;
@@ -372,11 +398,13 @@ The contract includes eight initial cases:
 - refusals for a private credential identifier, unpublished results,
   unsupported inference, prompt injection, and an out-of-scope request.
 
-The offline validator also runs nineteen bounded mutations that try to enable
+The offline validator also runs twenty-three bounded mutations that try to enable
 storage, tools, direct client credential access, premature endpoint/UI launch,
 an unreviewed control plane, public provider retries, uncited answers, unknown
-evidence IDs, and other prohibited changes. The backend suite has 40 offline
-stubbed cases, including the new production configuration and limiter gates.
+evidence IDs, a raised spend limit, premature Kazakh provider mode, and other
+prohibited changes. The backend suite has 41 offline stubbed cases, including
+the Production configuration and internal limiter-gateway gates. The isolated
+Worker adds six offline request and failure-path tests.
 
 ```powershell
 python tools/check_public_ai.py
@@ -426,7 +454,7 @@ offline suite does not simulate or replace that evidence.
 - test provider failures with offline stubs before any paid evaluation;
 - keep the endpoint unavailable to general visitors and production.
 
-### Gate D1 — fail-closed public readiness (issue #65)
+### Gate D1 — fail-closed public readiness (accepted in PR #66)
 
 - require exact production branch, origin, model, secret, kill-switch, and
   Cloudflare limiter configuration;
@@ -436,9 +464,25 @@ offline suite does not simulate or replace that evidence.
 - preserve the Gate C private pilot and deterministic refusal boundary;
 - merge only after offline/backend/privacy review.
 
-### Gate D2 — bounded public activation
+### Gate D2a — control-plane code readiness (issue #67)
 
-- obtain explicit owner approval;
+- pin Wrangler 4.36.0 only inside the isolated rate-limit Worker;
+- keep the Worker private with no route or preview URL;
+- enforce two requests per 60 seconds through its Rate Limiting binding;
+- call it only through a Production Pages Service Binding;
+- keep Worker deployment, Service Binding configuration, provider credentials,
+  activation, and UI networking outside the PR;
+- verify the Worker with offline tests and a Wrangler dry-run.
+
+### Gate D2b — owner-operated control plane and bounded public activation
+
+- create the separate OpenAI Production project with the USD 10 hard limit and
+  USD 5/USD 8 alerts;
+- deploy the non-public limiter Worker and configure the Production-only Pages
+  Service Binding;
+- complete the moderation decision and full adversarial/privacy/cost/rollback
+  QA;
+- obtain explicit owner approval immediately before activation;
 - activate the backend behind the existing concierge UI;
 - complete desktop/mobile accessibility, privacy, abuse, cost, and production
   QA;
@@ -473,16 +517,24 @@ official Cloudflare Pages Functions
 on 2026-08-26. File-based routing maps the handler path, while `_routes.json`
 restricts invocation to the single approved endpoint.
 
-The Gate D1 limiter contract was checked against the official Cloudflare
+The Gate D limiter contract was checked against the official Cloudflare
 [Rate Limiting binding documentation](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
-on 2026-09-02. The binding returns `{ success }` from `limit({key})`, is local
-to each Cloudflare location, and is explicitly not an exact accounting system.
+on 2026-09-02. The binding returns `{ success }` from `limit({key})`, requires
+Wrangler 4.36.0 or later, is local to each Cloudflare location, and is explicitly
+not an exact accounting system. The official Cloudflare Pages
+[bindings documentation](https://developers.cloudflare.com/pages/functions/bindings/)
+confirms that Service Bindings are supported while direct Rate Limiting bindings
+are not listed for Pages Functions. The official Pages
+[Wrangler configuration guide](https://developers.cloudflare.com/pages/functions/wrangler-configuration/)
+says a root configuration becomes the source of truth and recommends downloading
+existing Dashboard configuration before migration.
 
 ## Remaining Decisions After Implementation
 
-- a reviewed Wrangler 4.36+ deployment/configuration path for the Cloudflare
-  binding;
-- a separate OpenAI production project/key, small hard spend cap, and alerts;
+- deployment of the reviewed non-public Worker and configuration of the
+  Production-only Pages Service Binding;
+- a separate OpenAI Production project/key with the owner-approved USD 10 hard
+  limit and recommended USD 5/USD 8 alerts;
 - the bounded moderation decision and public issue-report workflow;
 - desktop/mobile accessibility, adversarial, privacy, cost, and rollback QA;
 - whether live Kazakh support is ready after owner linguistic evaluation.

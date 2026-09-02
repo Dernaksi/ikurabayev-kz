@@ -2,9 +2,9 @@
 
 ## Current Phase
 
-Public AI assistant Gate D1 fail-closed readiness; Claude Design v1.1 remains
-the visual baseline and the visible production concierge remains a local-only
-prototype.
+Public AI assistant Gate D2a control-plane code readiness; Claude Design v1.1
+remains the visual baseline and the visible production concierge remains a
+local-only prototype.
 
 ## Recently Completed
 
@@ -78,6 +78,8 @@ prototype.
   provider pilot while keeping Production and the visible concierge fail-closed.
 - PR #64 selects Luna for the private pilot after the bounded Terra/Luna
   comparison; Issue #63 is closed and Terra remains a controlled fallback.
+- PR #66 accepts Gate D1 as a fail-closed Production runner boundary without
+  configuring credentials, a limiter, paid traffic, or UI networking.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
   Cloudflare Pages preview hosts across desktop and 390x844 mobile checks;
   canonical metadata, robots, sitemap, and the privacy boundary remained intact.
@@ -96,10 +98,11 @@ the current release.
 
 ## Active Work
 
-- Issue #65 prepares Gate D1 code readiness without activation. The production
-  runner must require the exact kill-switch, production branch/origin, Luna,
-  server-side key, and Cloudflare limiter, and must fail closed if any control
-  is absent. Production provider traffic and UI networking remain disabled.
+- Issue #67 prepares Gate D2a code readiness without activation. It adds an
+  isolated Wrangler 4.36.0 non-public Worker with a two-per-minute Cloudflare
+  Rate Limiting binding, plus the internal Pages Service Binding adapter and
+  fail-closed tests. The Worker and Service Binding remain undeployed and
+  unconfigured; Production provider traffic and UI networking remain disabled.
 
 ## Next Recommended Tasks
 
@@ -112,10 +115,12 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Review the Issue #65 Gate D1 readiness PR. Keep public activation
-   unauthorized until the separate OpenAI production project, spend controls,
-   Cloudflare limiter, moderation decision, full QA, and owner approval are
-   complete.
+3. Review the Issue #67 Gate D2a readiness PR. After merge, prepare the separate
+   OpenAI Production project with the owner-approved USD 10 hard limit and
+   recommended USD 5/USD 8 alerts, deploy the non-public limiter Worker, and
+   configure its Production-only Pages Service Binding. Keep
+   `AI_PUBLIC_ENABLED` absent until moderation, full QA, rollback verification,
+   and a final explicit owner approval are complete.
 
 ## Active Branch Convention
 

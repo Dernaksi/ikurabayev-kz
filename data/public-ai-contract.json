@@ -3,11 +3,11 @@
   "contract_id": "public-ai-assistant-v0",
   "reviewed_at": "2026-09-02",
   "lifecycle": {
-    "status": "public_activation_readiness",
+    "status": "public_control_plane_readiness",
     "public_endpoint_enabled": false,
     "disabled_route_deployed": true,
     "paid_api_calls_enabled": true,
-    "next_gate": "owner-approved control-plane configuration and activation PR"
+    "next_gate": "owner-configured production project, service binding, moderation, QA, and activation PR"
   },
   "backend_skeleton": {
     "adapter": "Cloudflare Pages Functions",
@@ -17,7 +17,7 @@
     "provider_call_enabled": true,
     "grounding_bundle_path": "functions/api/ai/_grounding.js",
     "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
-    "rate_limit_status": "private_fixed_window_plus_required_public_cloudflare_binding"
+    "rate_limit_status": "private_fixed_window_plus_prepared_public_service_gateway"
   },
   "private_pilot": {
     "issue": 61,
@@ -44,8 +44,8 @@
     "live_evaluation_status": "luna_selected_after_ru_en_comparison"
   },
   "public_activation": {
-    "issue": 65,
-    "status": "code_readiness_only",
+    "issue": 67,
+    "status": "control_plane_code_readiness",
     "enabled": false,
     "enable_variable": "AI_PUBLIC_ENABLED",
     "model_variable": "AI_PUBLIC_MODEL",
@@ -53,9 +53,17 @@
       "OPENAI_API_KEY"
     ],
     "rate_limiter_binding": "AI_PUBLIC_RATE_LIMITER",
+    "rate_limiter_transport": "cloudflare_pages_service_binding",
+    "rate_limiter_worker": "ikurabayev-public-ai-rate-limiter",
+    "rate_limiter_worker_binding": "PUBLIC_AI_RATE_LIMITER",
+    "rate_limiter_worker_config_path": "workers/public-ai-rate-limiter/wrangler.jsonc",
     "rate_limiter_key": "public-ai:/api/ai/ask",
+    "rate_limiter_requests_per_minute": 2,
+    "rate_limiter_success_status": 204,
+    "rate_limiter_rejected_status": 429,
     "rate_limit_scope": "shared_route_key_per_cloudflare_location",
     "rate_limit_accuracy": "permissive_eventually_consistent_not_cost_accounting",
+    "pages_direct_rate_limit_binding_supported": false,
     "fixed_model": "gpt-5.6-luna",
     "max_provider_attempts": 1,
     "production_branches": [
@@ -70,19 +78,41 @@
     "explicit_owner_activation_required": true,
     "ui_network_enabled": false,
     "control_plane_ready": false,
+    "production_project_configured": false,
+    "rate_limiter_worker_deployed": false,
+    "service_binding_configured": false,
     "current_pages_wrangler": "3.114.17",
+    "rate_limiter_worker_wrangler": "4.36.0",
     "minimum_rate_limit_binding_wrangler": "4.36.0",
+    "root_pages_config_status": "not_created_pending_dashboard_config_download",
+    "owner_decisions": {
+      "decided_at": "2026-09-02",
+      "hard_spend_limit_usd": 10,
+      "initial_public_languages": [
+        "ru",
+        "en"
+      ],
+      "wrangler_tooling_approved": true
+    },
+    "recommended_spend_alerts_usd": [
+      5,
+      8
+    ],
     "activation_prerequisites": [
-      "separate_openai_production_project_and_key",
-      "small_hard_spend_limit_and_alerts",
-      "cloudflare_rate_limiter_binding",
+      "separate_openai_production_project_hard_limit_usd_10_and_key",
+      "recommended_spend_alerts_usd_5_and_8",
+      "cloudflare_non_public_rate_limit_worker_deployed",
+      "cloudflare_pages_service_binding_configured",
       "moderation_risk_decision",
       "adversarial_privacy_accessibility_mobile_and_rollback_qa",
       "explicit_owner_activation_approval"
     ],
     "references": [
       "https://developers.openai.com/api/docs/guides/production-best-practices",
+      "https://developers.openai.com/api/docs/guides/spend-limits",
       "https://developers.openai.com/api/docs/guides/safety-best-practices",
+      "https://developers.cloudflare.com/pages/functions/bindings/",
+      "https://developers.cloudflare.com/pages/functions/wrangler-configuration/",
       "https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/"
     ]
   },

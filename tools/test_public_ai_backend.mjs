@@ -69,7 +69,7 @@ function publicEnv(overrides = {}) {
   return {
     AI_PUBLIC_ENABLED: "true",
     AI_PUBLIC_MODEL: "gpt-5.6-luna",
-    AI_PUBLIC_RATE_LIMITER: {limit: async () => ({success: true})},
+    AI_PUBLIC_RATE_LIMITER: {fetch: async () => new Response(null, {status: 204})},
     CF_PAGES_BRANCH: "main",
     OPENAI_API_KEY: "test-only-openai-key",
     ...overrides,
@@ -261,6 +261,9 @@ addTest("public assistant policy is fail closed and bounded", async () => {
   ]);
   assert.equal(PUBLIC_ASSISTANT_POLICY.rateLimiterBinding, "AI_PUBLIC_RATE_LIMITER");
   assert.equal(PUBLIC_ASSISTANT_POLICY.rateLimiterKey, "public-ai:/api/ai/ask");
+  assert.equal(PUBLIC_ASSISTANT_POLICY.rateLimiterTransport, "cloudflare_pages_service_binding");
+  assert.equal(PUBLIC_ASSISTANT_POLICY.rateLimiterSuccessStatus, 204);
+  assert.equal(PUBLIC_ASSISTANT_POLICY.rateLimiterRejectedStatus, 429);
 });
 
 addTest("every answer evaluation retrieves its required claim in RU and EN", async () => {
@@ -455,6 +458,7 @@ addTest("public mode requires every reviewed production control", async () => {
 addTest("public durable rate limit rejection occurs before provider", async () => {
   let calls = 0;
   let limiterKey;
+  let limiterMethod;
   const response = await handleRequest(makeRequest({
     language: "en",
     question: "What is the energy auditor credential?",
@@ -462,9 +466,10 @@ addTest("public durable rate limit rejection occurs before provider", async () =
   }), {
     env: publicEnv({
       AI_PUBLIC_RATE_LIMITER: {
-        limit: async ({key}) => {
-          limiterKey = key;
-          return {success: false};
+        fetch: async (request) => {
+          limiterKey = request.headers.get("X-Public-AI-Rate-Limit-Key");
+          limiterMethod = request.method;
+          return new Response(null, {status: 429});
         },
       },
     }),
@@ -473,7 +478,30 @@ addTest("public durable rate limit rejection occurs before provider", async () =
   assert.equal(response.status, 429);
   assert.equal(response.headers.get("Retry-After"), "60");
   assert.equal(limiterKey, "public-ai:/api/ai/ask");
+  assert.equal(limiterMethod, "POST");
   assert.equal(calls, 0);
+});
+
+addTest("public rate-limit service failures stay fail closed", async () => {
+  const variants = [
+    {fetch: async () => { throw new Error("offline"); }},
+    {fetch: async () => ({status: 204})},
+    {fetch: async () => new Response(null, {status: 200})},
+    {fetch: async () => new Response(null, {status: 503})},
+  ];
+  let providerCalls = 0;
+  for (const limiter of variants) {
+    const response = await handleRequest(makeRequest({
+      language: "en",
+      question: "What is the energy auditor credential?",
+      session: SESSION,
+    }), {
+      env: publicEnv({AI_PUBLIC_RATE_LIMITER: limiter}),
+      fetchFn: async () => { providerCalls += 1; },
+    });
+    assert.equal(response.status, 503);
+  }
+  assert.equal(providerCalls, 0);
 });
 
 addTest("public deterministic privacy refusal bypasses limiter and provider", async () => {
@@ -486,9 +514,9 @@ addTest("public deterministic privacy refusal bypasses limiter and provider", as
   }), {
     env: publicEnv({
       AI_PUBLIC_RATE_LIMITER: {
-        limit: async () => {
+        fetch: async () => {
           limiterCalls += 1;
-          return {success: true};
+          return new Response(null, {status: 204});
         },
       },
     }),
@@ -522,9 +550,9 @@ addTest("public mode sends one stateless Luna request after durable admission", 
   }), {
     env: publicEnv({
       AI_PUBLIC_RATE_LIMITER: {
-        limit: async ({key}) => {
-          limiterKey = key;
-          return {success: true};
+        fetch: async (request) => {
+          limiterKey = request.headers.get("X-Public-AI-Rate-Limit-Key");
+          return new Response(null, {status: 204});
         },
       },
     }),

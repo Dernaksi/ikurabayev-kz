@@ -78,10 +78,14 @@ citations, and a two-request-per-minute application limit. Repeated RU/EN Terra
 and Luna Preview evaluations pass the checked-in suite. Issue #63 selects Luna
 for the private pilot because it retained task success without retries at a
 substantially lower conservative uncached cost estimate; Terra remains a
-controlled fallback. Issue #65 prepares Gate D1 as a fail-closed production
-runner requiring an exact kill-switch, production branch/origin, Luna,
-server-side key, and Cloudflare limiter. Public activation, control-plane
-readiness, and concierge networking remain disabled. A
+controlled fallback. PR #66 accepts Gate D1 as a fail-closed production runner
+requiring an exact kill-switch, production branch/origin, Luna, server-side
+key, and Cloudflare limiter. Issue #67 prepares Gate D2a with a pinned Wrangler
+4.36.0 non-public rate-limit Worker and an internal Pages Service Binding
+protocol. The owner has approved a USD 10 hard project cap and RU/EN as the
+initial live languages. Public activation, control-plane readiness, Worker
+deployment, Service Binding, Production key setup, and concierge networking
+remain disabled or unconfigured. A
 bounded Kazakh language pass has corrected interface and
 terminology defects, and the owner-approved exact Kazakh display name
 `Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The
@@ -128,5 +132,7 @@ change.
 - [docs/20_KAZAKH_LANGUAGE_REVIEW.md](docs/20_KAZAKH_LANGUAGE_REVIEW.md) -
   bounded Kazakh copy audit, corrections, and approved identity boundary.
 - [docs/21_PUBLIC_AI_ASSISTANT_ARCHITECTURE.md](docs/21_PUBLIC_AI_ASSISTANT_ARCHITECTURE.md) -
-  proposed same-origin, evidence-grounded public AI assistant architecture and
-  rollout gates.
+  accepted evidence-grounded assistant boundary and staged fail-closed rollout
+  gates.
+- [docs/22_PUBLIC_AI_CONTROL_PLANE_RUNBOOK.md](docs/22_PUBLIC_AI_CONTROL_PLANE_RUNBOOK.md) -
+  fail-closed Gate D2a deployment order and owner-operated secret boundaries.
