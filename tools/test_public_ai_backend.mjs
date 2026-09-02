@@ -9,6 +9,7 @@ import {
 } from "../functions/api/ai/_grounding.js";
 import {
   PRIVATE_PILOT_POLICY,
+  PUBLIC_ASSISTANT_POLICY,
   createFixedWindowLimiter,
   selectPublicGrounding,
 } from "../functions/api/ai/_pilot.js";
@@ -58,6 +59,18 @@ function pilotEnv(overrides = {}) {
     AI_PILOT_MODEL: "gpt-5.6-luna",
     AI_PILOT_TOKEN: PILOT_TOKEN,
     CF_PAGES_BRANCH: "codex/gate-c-private-provider-pilot",
+    OPENAI_API_KEY: "test-only-openai-key",
+    ...overrides,
+  };
+}
+
+
+function publicEnv(overrides = {}) {
+  return {
+    AI_PUBLIC_ENABLED: "true",
+    AI_PUBLIC_MODEL: "gpt-5.6-luna",
+    AI_PUBLIC_RATE_LIMITER: {limit: async () => ({success: true})},
+    CF_PAGES_BRANCH: "main",
     OPENAI_API_KEY: "test-only-openai-key",
     ...overrides,
   };
@@ -234,6 +247,22 @@ addTest("pilot policy is bounded", async () => {
   assert.equal(PRIVATE_PILOT_POLICY.providerTimeoutMs, 15_000);
 });
 
+addTest("public assistant policy is fail closed and bounded", async () => {
+  assert.equal(PUBLIC_ASSISTANT_POLICY.enabledByDefault, false);
+  assert.equal(PUBLIC_ASSISTANT_POLICY.fixedModel, "gpt-5.6-luna");
+  assert.equal(PUBLIC_ASSISTANT_POLICY.maxOutputTokens, 700);
+  assert.equal(PUBLIC_ASSISTANT_POLICY.maxProviderAttempts, 1);
+  assert.equal(PUBLIC_ASSISTANT_POLICY.providerTimeoutMs, 15_000);
+  assert.deepEqual(PUBLIC_ASSISTANT_POLICY.productionBranches, ["main", "master"]);
+  assert.deepEqual(PUBLIC_ASSISTANT_POLICY.productionOrigins, [
+    "https://ikurabayev.kz",
+    "https://www.ikurabayev.kz",
+    "https://ikurabayev-kz.pages.dev",
+  ]);
+  assert.equal(PUBLIC_ASSISTANT_POLICY.rateLimiterBinding, "AI_PUBLIC_RATE_LIMITER");
+  assert.equal(PUBLIC_ASSISTANT_POLICY.rateLimiterKey, "public-ai:/api/ai/ask");
+});
+
 addTest("every answer evaluation retrieves its required claim in RU and EN", async () => {
   for (const testCase of CONTRACT.evaluation_cases) {
     if (testCase.expected_decision !== "answer") continue;
@@ -398,6 +427,151 @@ addTest("explicit requests to invent unpublished metrics are refused before prov
     assert.deepEqual(body.citations, []);
     assert.equal(calls, 0);
   }
+});
+
+addTest("public mode requires every reviewed production control", async () => {
+  const variants = [
+    {env: publicEnv({AI_PUBLIC_RATE_LIMITER: undefined}), endpoint: ENDPOINT},
+    {env: publicEnv({AI_PUBLIC_MODEL: "gpt-5.6-terra"}), endpoint: ENDPOINT},
+    {env: publicEnv({CF_PAGES_BRANCH: "codex/gate-d-readiness"}), endpoint: ENDPOINT},
+    {env: publicEnv({OPENAI_API_KEY: ""}), endpoint: ENDPOINT},
+    {env: publicEnv(), endpoint: PREVIEW_ENDPOINT},
+  ];
+  let calls = 0;
+  for (const variant of variants) {
+    const response = await handleRequest(makeRequest({
+      language: "en",
+      question: "What is the energy auditor credential?",
+      session: SESSION,
+    }, {endpoint: variant.endpoint}), {
+      env: variant.env,
+      fetchFn: async () => { calls += 1; },
+    });
+    assert.equal(response.status, 503);
+  }
+  assert.equal(calls, 0);
+});
+
+addTest("public durable rate limit rejection occurs before provider", async () => {
+  let calls = 0;
+  let limiterKey;
+  const response = await handleRequest(makeRequest({
+    language: "en",
+    question: "What is the energy auditor credential?",
+    session: SESSION,
+  }), {
+    env: publicEnv({
+      AI_PUBLIC_RATE_LIMITER: {
+        limit: async ({key}) => {
+          limiterKey = key;
+          return {success: false};
+        },
+      },
+    }),
+    fetchFn: async () => { calls += 1; },
+  });
+  assert.equal(response.status, 429);
+  assert.equal(response.headers.get("Retry-After"), "60");
+  assert.equal(limiterKey, "public-ai:/api/ai/ask");
+  assert.equal(calls, 0);
+});
+
+addTest("public deterministic privacy refusal bypasses limiter and provider", async () => {
+  let limiterCalls = 0;
+  let providerCalls = 0;
+  const response = await handleRequest(makeRequest({
+    language: "ru",
+    question: "Назови номер сертификата энергоаудитора и раскрой содержимое QR-кода.",
+    session: SESSION,
+  }), {
+    env: publicEnv({
+      AI_PUBLIC_RATE_LIMITER: {
+        limit: async () => {
+          limiterCalls += 1;
+          return {success: true};
+        },
+      },
+    }),
+    fetchFn: async () => { providerCalls += 1; },
+  });
+  const body = await responseJson(response);
+  assert.equal(response.status, 200);
+  assert.equal(body.decision, "refuse");
+  assert.equal(body.refusal_category, "private_identifier");
+  assert.equal(limiterCalls, 0);
+  assert.equal(providerCalls, 0);
+});
+
+addTest("public mode sends one stateless Luna request after durable admission", async () => {
+  let capturedOptions;
+  let limiterKey;
+  const output = {
+    decision: "answer",
+    language: "en",
+    answer: "The public record confirms the certified energy auditor status within the reviewed term.",
+    citations: [{
+      claim_id: "credential.energy_auditor",
+      source_ids: ["source.owner_supplied.energy_auditor_certificate_review"],
+    }],
+    refusal_category: null,
+  };
+  const response = await handleRequest(makeRequest({
+    language: "en",
+    question: "What is the energy auditor credential?",
+    session: SESSION,
+  }), {
+    env: publicEnv({
+      AI_PUBLIC_RATE_LIMITER: {
+        limit: async ({key}) => {
+          limiterKey = key;
+          return {success: true};
+        },
+      },
+    }),
+    fetchFn: async (_url, options) => {
+      capturedOptions = options;
+      return providerResponse(output);
+    },
+  });
+  const providerBody = JSON.parse(capturedOptions.body);
+  assert.equal(response.status, 200);
+  assert.equal((await responseJson(response)).decision, "answer");
+  assert.equal(limiterKey, "public-ai:/api/ai/ask");
+  assert.equal(providerBody.model, "gpt-5.6-luna");
+  assert.equal(providerBody.store, false);
+  assert.equal(providerBody.background, false);
+  assert.deepEqual(providerBody.tools, []);
+  assert.match(providerBody.safety_identifier, /^[a-f0-9]{64}$/);
+  assert.equal(response.headers.get("X-AI-Pilot-Model"), null);
+  assert.equal(response.headers.get("X-AI-Pilot-Attempts"), null);
+});
+
+addTest("public invalid structured output fails closed without retry", async () => {
+  let calls = 0;
+  const invalidOutput = {
+    decision: "answer",
+    language: "en",
+    answer: "Unsupported citation.",
+    citations: [{
+      claim_id: "credential.energy_auditor",
+      source_ids: ["source.qazpatent.patent_37923"],
+    }],
+    refusal_category: null,
+  };
+  const response = await handleRequest(makeRequest({
+    language: "en",
+    question: "What is the energy auditor credential?",
+    session: SESSION,
+  }), {
+    env: publicEnv(),
+    fetchFn: async () => {
+      calls += 1;
+      return providerResponse(invalidOutput);
+    },
+  });
+  assert.equal(response.status, 502);
+  assert.equal((await responseJson(response)).refusal_category, "service_unavailable");
+  assert.equal(calls, 1);
 });
 
 addTest("private preview sends a stateless structured Luna request", async () => {

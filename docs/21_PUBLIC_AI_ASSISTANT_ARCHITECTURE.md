@@ -1,15 +1,15 @@
 # Public AI Assistant Architecture
 
-Status: Gates A-C accepted; Luna selected for the private pilot under issue #63
+Status: Gates A-C accepted; Gate D1 fail-closed readiness proposed in issue #65
 
 Reviewed: 2026-09-02
 
 ## Purpose
 
 This document defines the smallest safe architecture for turning the existing
-local public-facts-only concierge into a real AI assistant. Gates A and B are
-accepted. Gate C adds an authenticated Preview-only provider path, not a public
-AI launch.
+local public-facts-only concierge into a real AI assistant. Gates A-C are
+accepted. Gate D1 adds production-readiness controls that still cannot activate
+the public service without separate control-plane work and owner approval.
 
 The first live version should answer short questions about Iskander Kurabayev's
 reviewed public profile, research, publications, patents, credentials, and
@@ -26,8 +26,8 @@ The proposed v0 assistant uses:
 
 - the existing static concierge as the user interface;
 - a same-origin `POST /api/ai/ask` endpoint implemented as a Cloudflare Pages
-  Function, fail-closed in production and provider-capable only in private
-  Preview during Gate C;
+  Function, provider-capable in the authenticated private Preview and prepared
+  to remain fail-closed behind independent production controls;
 - the OpenAI Responses API from the server side only;
 - a Cloudflare secret binding for the provider credential;
 - one request and one answer over HTTP, with `store: false`;
@@ -37,10 +37,11 @@ The proposed v0 assistant uses:
   graph;
 - structured answers with claim/source citations or a categorized refusal.
 
-No public model is authorized. Gate C fixes Luna for the private pilot and
-retains Terra only as a controlled fallback and re-evaluation candidate. The
-selection uses the checked-in cases for grounded-answer success, refusal
-success, latency, token use, and cost per successful answer.
+Public activation is not authorized. Luna is fixed for the private pilot and
+the future bounded public mode; Terra remains only a controlled private fallback
+and re-evaluation candidate. The selection uses the checked-in cases for
+grounded-answer success, refusal success, latency, token use, and cost per
+successful answer.
 
 ## Current Gate C Implementation
 
@@ -59,7 +60,8 @@ Gate B remains the production behavior. Gate C adds a separate private path:
   available only as a controlled fallback or explicit re-evaluation candidate;
 - the application admits at most two requests per minute per active isolate,
   below the configured private provider-project limit of three requests per
-  minute; a globally durable edge limiter remains a Gate D requirement;
+  minute; Gate D1 additionally requires a Cloudflare Rate Limiting binding for
+  any future production provider call;
 - each provider request uses `/v1/responses`, `store: false`, `background:
   false`, no tools, a 700-token output ceiling, a 15-second timeout, an
   ephemeral session hash, and Structured Outputs through `text.format`;
@@ -138,6 +140,49 @@ the path. Changing `AI_PILOT_MODEL` to `gpt-5.6-terra` is reserved for a
 controlled fallback test or explicit re-evaluation. Secret values must not be
 pasted into issues, pull requests, logs, screenshots, or evaluation output.
 
+## Current Gate D1 Readiness
+
+Issue #65 prepares a public runner without activating it or changing the local
+concierge. The runner can call the provider only when all of these conditions
+are true at once:
+
+- the exact kill switch `AI_PUBLIC_ENABLED=true` is present;
+- `CF_PAGES_BRANCH` is `main` or `master`, and the request uses an allowlisted
+  production origin;
+- `AI_PUBLIC_MODEL` is exactly the selected `gpt-5.6-luna` model;
+- a non-empty server-side `OPENAI_API_KEY` is present;
+- `AI_PUBLIC_RATE_LIMITER` exposes the reviewed Cloudflare `limit({key})`
+  binding and admits the shared route key.
+
+Missing, malformed, rejected, or throwing configuration fails closed before an
+OpenAI call. Deterministic privacy, raw-material, prompt-injection, and
+invented-metric refusals still bypass the provider. A public request gets one
+provider attempt only; the private pilot retains its bounded validation-only
+retry. Public responses expose no pilot authentication, model, attempt, or token
+usage headers.
+
+This is code readiness only. `public_activation.enabled`,
+`public_activation.control_plane_ready`, and
+`public_activation.ui_network_enabled` remain `false` in the contract. The
+current visible concierge still makes no network request, and current
+Production continues to return the disabled 503 response.
+
+### Gate D control-plane blockers
+
+Before activation, create a separate OpenAI production project and key, set a
+small hard spend cap and alerts, configure the Cloudflare limiter, decide the
+bounded moderation policy, and complete adversarial/privacy/accessibility/
+mobile/rollback QA. The official Cloudflare binding requires Wrangler 4.36.0 or
+later; the current Pages deployment reports Wrangler 3.114.17 and no Wrangler
+configuration. Issue #65 deliberately adds neither a dependency nor a Wrangler
+configuration until that deployment change is reviewed separately.
+
+The limiter uses one shared route key per Cloudflare location to avoid storing
+or rate-limiting on IP addresses. Cloudflare documents this API as permissive,
+eventually consistent, and unsuitable for exact cost accounting. The OpenAI
+project hard spend cap is therefore an independent requirement, not a substitute
+for the edge limiter.
+
 ## System Boundary
 
 ```text
@@ -192,7 +237,8 @@ identifier and is not persisted.
 The backend is the only component allowed to call the model provider. It must:
 
 - enforce same-origin HTTPS requests and explicit request/response limits;
-- apply an edge rate limit before public enablement;
+- require the reviewed Cloudflare limiter binding before any public provider
+  call;
 - map questions to allowlisted public records only;
 - keep request and response content out of logs;
 - send `store: false` and an empty tools list;
@@ -311,7 +357,8 @@ memory, injected instructions cannot grant additional capability.
 - Invalid input: reject before a provider call.
 - Rate limit exceeded: return a localized retry-later response.
 - Grounding miss: return `insufficient_public_evidence`.
-- Invalid or uncited model output: discard it and return a safe refusal.
+- Invalid or uncited model output: discard it and return a safe refusal; public
+  mode does not retry the provider.
 - Provider timeout or outage: keep the current local concierge fallback and
   label it clearly as the public-facts-only prototype.
 - Backend disabled: the existing static site remains fully usable.
@@ -325,9 +372,11 @@ The contract includes eight initial cases:
 - refusals for a private credential identifier, unpublished results,
   unsupported inference, prompt injection, and an out-of-scope request.
 
-The offline validator also runs fourteen bounded mutations that try to enable
-storage, tools, direct client credential access, premature endpoint launch,
-uncited answers, unknown evidence IDs, and other prohibited changes.
+The offline validator also runs nineteen bounded mutations that try to enable
+storage, tools, direct client credential access, premature endpoint/UI launch,
+an unreviewed control plane, public provider retries, uncited answers, unknown
+evidence IDs, and other prohibited changes. The backend suite has 40 offline
+stubbed cases, including the new production configuration and limiter gates.
 
 ```powershell
 python tools/check_public_ai.py
@@ -377,7 +426,17 @@ offline suite does not simulate or replace that evidence.
 - test provider failures with offline stubs before any paid evaluation;
 - keep the endpoint unavailable to general visitors and production.
 
-### Gate D — bounded public activation
+### Gate D1 — fail-closed public readiness (issue #65)
+
+- require exact production branch, origin, model, secret, kill-switch, and
+  Cloudflare limiter configuration;
+- keep all public activation, UI networking, and control-plane readiness flags
+  false;
+- use one provider attempt per admitted public request;
+- preserve the Gate C private pilot and deterministic refusal boundary;
+- merge only after offline/backend/privacy review.
+
+### Gate D2 — bounded public activation
 
 - obtain explicit owner approval;
 - activate the backend behind the existing concierge UI;
@@ -392,6 +451,8 @@ authorize later gates automatically.
 
 The API-specific choices were checked against the official OpenAI
 [API deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist),
+[production best-practices guide](https://developers.openai.com/api/docs/guides/production-best-practices),
+[safety best-practices guide](https://developers.openai.com/api/docs/guides/safety-best-practices),
 [Responses migration guide](https://developers.openai.com/api/docs/guides/migrate-to-responses),
 and [Structured Outputs guide](https://developers.openai.com/api/docs/guides/structured-outputs)
 on 2026-09-02. Model costs were checked against the official OpenAI
@@ -412,11 +473,18 @@ official Cloudflare Pages Functions
 on 2026-08-26. File-based routing maps the handler path, while `_routes.json`
 restricts invocation to the single approved endpoint.
 
+The Gate D1 limiter contract was checked against the official Cloudflare
+[Rate Limiting binding documentation](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
+on 2026-09-02. The binding returns `{ success }` from `limit({key})`, is local
+to each Cloudflare location, and is explicitly not an exact accounting system.
+
 ## Remaining Decisions After Implementation
 
-- repeated RU/EN Luna results and whether a Terra comparison is justified;
-- current pricing and cost per successful answer after measured token use;
-- a globally durable Cloudflare abuse-control binding before Gate D;
+- a reviewed Wrangler 4.36+ deployment/configuration path for the Cloudflare
+  binding;
+- a separate OpenAI production project/key, small hard spend cap, and alerts;
+- the bounded moderation decision and public issue-report workflow;
+- desktop/mobile accessibility, adversarial, privacy, cost, and rollback QA;
 - whether live Kazakh support is ready after owner linguistic evaluation.
 
-None of these decisions authorizes Gate D or changes the production concierge.
+None of these decisions authorizes Gate D2 or changes the production concierge.

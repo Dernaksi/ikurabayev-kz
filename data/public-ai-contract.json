@@ -3,21 +3,21 @@
   "contract_id": "public-ai-assistant-v0",
   "reviewed_at": "2026-09-02",
   "lifecycle": {
-    "status": "private_provider_pilot",
+    "status": "public_activation_readiness",
     "public_endpoint_enabled": false,
     "disabled_route_deployed": true,
     "paid_api_calls_enabled": true,
-    "next_gate": "owner-approved bounded public activation issue"
+    "next_gate": "owner-approved control-plane configuration and activation PR"
   },
   "backend_skeleton": {
     "adapter": "Cloudflare Pages Functions",
     "function_path": "functions/api/ai/ask.js",
     "routes_path": "site/_routes.json",
-    "runtime_mode": "private_preview",
+    "runtime_mode": "private_preview_plus_fail_closed_public_readiness",
     "provider_call_enabled": true,
     "grounding_bundle_path": "functions/api/ai/_grounding.js",
     "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
-    "rate_limit_status": "private_fixed_window_2_rpm_plus_provider_project_limits"
+    "rate_limit_status": "private_fixed_window_plus_required_public_cloudflare_binding"
   },
   "private_pilot": {
     "issue": 61,
@@ -42,6 +42,49 @@
     "max_output_tokens": 700,
     "public_activation_authorized": false,
     "live_evaluation_status": "luna_selected_after_ru_en_comparison"
+  },
+  "public_activation": {
+    "issue": 65,
+    "status": "code_readiness_only",
+    "enabled": false,
+    "enable_variable": "AI_PUBLIC_ENABLED",
+    "model_variable": "AI_PUBLIC_MODEL",
+    "secret_bindings": [
+      "OPENAI_API_KEY"
+    ],
+    "rate_limiter_binding": "AI_PUBLIC_RATE_LIMITER",
+    "rate_limiter_key": "public-ai:/api/ai/ask",
+    "rate_limit_scope": "shared_route_key_per_cloudflare_location",
+    "rate_limit_accuracy": "permissive_eventually_consistent_not_cost_accounting",
+    "fixed_model": "gpt-5.6-luna",
+    "max_provider_attempts": 1,
+    "production_branches": [
+      "main",
+      "master"
+    ],
+    "production_origins": [
+      "https://ikurabayev.kz",
+      "https://www.ikurabayev.kz",
+      "https://ikurabayev-kz.pages.dev"
+    ],
+    "explicit_owner_activation_required": true,
+    "ui_network_enabled": false,
+    "control_plane_ready": false,
+    "current_pages_wrangler": "3.114.17",
+    "minimum_rate_limit_binding_wrangler": "4.36.0",
+    "activation_prerequisites": [
+      "separate_openai_production_project_and_key",
+      "small_hard_spend_limit_and_alerts",
+      "cloudflare_rate_limiter_binding",
+      "moderation_risk_decision",
+      "adversarial_privacy_accessibility_mobile_and_rollback_qa",
+      "explicit_owner_activation_approval"
+    ],
+    "references": [
+      "https://developers.openai.com/api/docs/guides/production-best-practices",
+      "https://developers.openai.com/api/docs/guides/safety-best-practices",
+      "https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/"
+    ]
   },
   "transport": {
     "public_path": "/api/ai/ask",

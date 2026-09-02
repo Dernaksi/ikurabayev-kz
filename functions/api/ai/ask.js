@@ -2,7 +2,7 @@ import {
   PUBLIC_AI_GROUNDING,
   PUBLIC_AI_GROUNDING_SHA256,
 } from "./_grounding.js";
-import {runPrivatePilot} from "./_pilot.js";
+import {runPrivatePilot, runPublicAssistant} from "./_pilot.js";
 
 
 const ALLOWED_LANGUAGES = new Set(["ru", "en"]);
@@ -142,19 +142,29 @@ export async function handleRequest(request, runtime = {}) {
     return errorResponse(503, "grounding_unavailable", "Public grounding is unavailable.");
   }
 
-  const pilot = await runPrivatePilot({
-    request,
-    language,
-    question: normalizedQuestion,
-    session,
-    env: runtime.env,
-    fetchFn: runtime.fetchFn,
-    rateLimiter: runtime.rateLimiter,
-  });
-  if (!runtime.env || runtime.env.AI_PILOT_ENABLED !== "true") {
-    pilot.body.answer = DISABLED_MESSAGE[language];
+  const publicModeRequested = runtime.env?.AI_PUBLIC_ENABLED === "true";
+  const assistant = publicModeRequested
+    ? await runPublicAssistant({
+      request,
+      language,
+      question: normalizedQuestion,
+      session,
+      env: runtime.env,
+      fetchFn: runtime.fetchFn,
+    })
+    : await runPrivatePilot({
+      request,
+      language,
+      question: normalizedQuestion,
+      session,
+      env: runtime.env,
+      fetchFn: runtime.fetchFn,
+      rateLimiter: runtime.rateLimiter,
+    });
+  if (!publicModeRequested && (!runtime.env || runtime.env.AI_PILOT_ENABLED !== "true")) {
+    assistant.body.answer = DISABLED_MESSAGE[language];
   }
-  return jsonResponse(pilot.status, pilot.body, pilot.headers);
+  return jsonResponse(assistant.status, assistant.body, assistant.headers);
 }
 
 

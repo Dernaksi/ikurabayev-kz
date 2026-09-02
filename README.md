@@ -78,7 +78,10 @@ citations, and a two-request-per-minute application limit. Repeated RU/EN Terra
 and Luna Preview evaluations pass the checked-in suite. Issue #63 selects Luna
 for the private pilot because it retained task success without retries at a
 substantially lower conservative uncached cost estimate; Terra remains a
-controlled fallback. Public activation remains unauthorized. A
+controlled fallback. Issue #65 prepares Gate D1 as a fail-closed production
+runner requiring an exact kill-switch, production branch/origin, Luna,
+server-side key, and Cloudflare limiter. Public activation, control-plane
+readiness, and concierge networking remain disabled. A
 bounded Kazakh language pass has corrected interface and
 terminology defects, and the owner-approved exact Kazakh display name
 `Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The

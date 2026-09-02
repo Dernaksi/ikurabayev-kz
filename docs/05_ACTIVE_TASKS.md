@@ -2,8 +2,8 @@
 
 ## Current Phase
 
-Public AI assistant private Preview pilot; Claude Design v1.1 remains the
-visual baseline and the visible production concierge remains a local-only
+Public AI assistant Gate D1 fail-closed readiness; Claude Design v1.1 remains
+the visual baseline and the visible production concierge remains a local-only
 prototype.
 
 ## Recently Completed
@@ -76,6 +76,8 @@ prototype.
   deterministic server-side grounding bundle and offline failure-path tests.
 - PR #62 implements and accepts Gate C as an authenticated Preview-only OpenAI
   provider pilot while keeping Production and the visible concierge fail-closed.
+- PR #64 selects Luna for the private pilot after the bounded Terra/Luna
+  comparison; Issue #63 is closed and Terra remains a controlled fallback.
 - Production QA on 2026-08-22 confirmed the update on the apex, `www`, and
   Cloudflare Pages preview hosts across desktop and 390x844 mobile checks;
   canonical metadata, robots, sitemap, and the privacy boundary remained intact.
@@ -94,10 +96,10 @@ the current release.
 
 ## Active Work
 
-- Issue #63 records the bounded Gate C model comparison. Luna passed two full
-  RU/EN rounds (32/32 variants) with no provider retry and is selected for the
-  private pilot; Terra remains a controlled fallback. Production and the
-  visible concierge remain fail-closed.
+- Issue #65 prepares Gate D1 code readiness without activation. The production
+  runner must require the exact kill-switch, production branch/origin, Luna,
+  server-side key, and Cloudflare limiter, and must fail closed if any control
+  is absent. Production provider traffic and UI networking remain disabled.
 
 ## Next Recommended Tasks
 
@@ -110,9 +112,10 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Review the Issue #63 model-selection PR. Keep public activation unauthorized;
-   any Gate D proposal remains separate future work with its own issue and
-   explicit owner approval.
+3. Review the Issue #65 Gate D1 readiness PR. Keep public activation
+   unauthorized until the separate OpenAI production project, spend controls,
+   Cloudflare limiter, moderation decision, full QA, and owner approval are
+   complete.
 
 ## Active Branch Convention
 
