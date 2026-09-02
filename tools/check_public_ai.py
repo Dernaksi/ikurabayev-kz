@@ -163,6 +163,10 @@ def validate_backend_files(
         'type: "json_schema"',
         'request.headers.get("X-Pilot-Token")',
         'env?.AI_PILOT_ENABLED === "true"',
+        'env?.AI_PUBLIC_ENABLED !== "true"',
+        'env.AI_PUBLIC_RATE_LIMITER.limit',
+        'export async function runPublicAssistant',
+        'maxProviderAttempts: PUBLIC_MAX_PROVIDER_ATTEMPTS',
         '"service_unavailable"',
         "PRODUCTION_BRANCHES",
         "validateProviderOutput",
@@ -319,8 +323,8 @@ def validate_contract(
     if not isinstance(lifecycle, dict):
         errors.append("lifecycle: expected an object")
     else:
-        if lifecycle.get("status") != "private_provider_pilot":
-            errors.append("lifecycle.status must remain private_provider_pilot")
+        if lifecycle.get("status") != "public_activation_readiness":
+            errors.append("lifecycle.status must remain public_activation_readiness")
         false_flags(
             lifecycle,
             ("public_endpoint_enabled",),
@@ -328,11 +332,13 @@ def validate_contract(
             errors,
         )
         if lifecycle.get("paid_api_calls_enabled") is not True:
-            errors.append("lifecycle.paid_api_calls_enabled must be true only for the private pilot")
+            errors.append("lifecycle.paid_api_calls_enabled must remain true for the private pilot")
         if lifecycle.get("disabled_route_deployed") is not True:
             errors.append("lifecycle.disabled_route_deployed must remain true")
-        if lifecycle.get("next_gate") != "owner-approved bounded public activation issue":
-            errors.append("lifecycle.next_gate must require a separate public-activation issue")
+        if lifecycle.get("next_gate") != (
+            "owner-approved control-plane configuration and activation PR"
+        ):
+            errors.append("lifecycle.next_gate must retain the separate activation approval")
 
     backend = contract.get("backend_skeleton")
     if not isinstance(backend, dict):
@@ -342,11 +348,11 @@ def validate_contract(
             "adapter": "Cloudflare Pages Functions",
             "function_path": "functions/api/ai/ask.js",
             "routes_path": "site/_routes.json",
-            "runtime_mode": "private_preview",
+            "runtime_mode": "private_preview_plus_fail_closed_public_readiness",
             "provider_call_enabled": True,
             "grounding_bundle_path": "functions/api/ai/_grounding.js",
             "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
-            "rate_limit_status": "private_fixed_window_2_rpm_plus_provider_project_limits",
+            "rate_limit_status": "private_fixed_window_plus_required_public_cloudflare_binding",
         }
         for key, expected in expected_backend.items():
             if backend.get(key) != expected:
@@ -379,6 +385,66 @@ def validate_contract(
             errors.append("private_pilot.secret_bindings must retain the two reviewed binding names")
         if private_pilot.get("allowed_models") != ["gpt-5.6-luna", "gpt-5.6-terra"]:
             errors.append("private_pilot.allowed_models must remain Luna and Terra")
+
+    public_activation = contract.get("public_activation")
+    if not isinstance(public_activation, dict):
+        errors.append("public_activation: expected an object")
+    else:
+        expected_public_activation = {
+            "issue": 65,
+            "status": "code_readiness_only",
+            "enable_variable": "AI_PUBLIC_ENABLED",
+            "model_variable": "AI_PUBLIC_MODEL",
+            "rate_limiter_binding": "AI_PUBLIC_RATE_LIMITER",
+            "rate_limiter_key": "public-ai:/api/ai/ask",
+            "rate_limit_scope": "shared_route_key_per_cloudflare_location",
+            "rate_limit_accuracy": "permissive_eventually_consistent_not_cost_accounting",
+            "fixed_model": "gpt-5.6-luna",
+            "max_provider_attempts": 1,
+            "current_pages_wrangler": "3.114.17",
+            "minimum_rate_limit_binding_wrangler": "4.36.0",
+            "explicit_owner_activation_required": True,
+        }
+        for key, expected in expected_public_activation.items():
+            if public_activation.get(key) != expected:
+                errors.append(f"public_activation.{key} must remain {expected!r}")
+        false_flags(
+            public_activation,
+            ("enabled", "ui_network_enabled", "control_plane_ready"),
+            "public_activation",
+            errors,
+        )
+        if public_activation.get("secret_bindings") != ["OPENAI_API_KEY"]:
+            errors.append("public_activation.secret_bindings must contain only OPENAI_API_KEY")
+        if public_activation.get("production_branches") != ["main", "master"]:
+            errors.append("public_activation.production_branches must remain main and master")
+        if public_activation.get("production_origins") != [
+            "https://ikurabayev.kz",
+            "https://www.ikurabayev.kz",
+            "https://ikurabayev-kz.pages.dev",
+        ]:
+            errors.append("public_activation.production_origins must retain the reviewed hosts")
+        required_prerequisites = {
+            "separate_openai_production_project_and_key",
+            "small_hard_spend_limit_and_alerts",
+            "cloudflare_rate_limiter_binding",
+            "moderation_risk_decision",
+            "adversarial_privacy_accessibility_mobile_and_rollback_qa",
+            "explicit_owner_activation_approval",
+        }
+        prerequisites = set(string_list(
+            public_activation.get("activation_prerequisites"),
+            "public_activation.activation_prerequisites",
+            errors,
+        ))
+        if not required_prerequisites <= prerequisites:
+            errors.append("public_activation: required control-plane prerequisites missing")
+        if public_activation.get("references") != [
+            "https://developers.openai.com/api/docs/guides/production-best-practices",
+            "https://developers.openai.com/api/docs/guides/safety-best-practices",
+            "https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/",
+        ]:
+            errors.append("public_activation.references must retain the reviewed official guides")
 
     transport = contract.get("transport")
     if not isinstance(transport, dict):
@@ -765,6 +831,26 @@ def run_self_tests(root: Path = ROOT) -> int:
     tests.append(("premature endpoint", mutation, registry, graph, "public_endpoint_enabled must remain false"))
 
     mutation = copy.deepcopy(contract)
+    mutation["public_activation"]["enabled"] = True
+    tests.append(("premature public activation", mutation, registry, graph, "public_activation.enabled must remain false"))
+
+    mutation = copy.deepcopy(contract)
+    mutation["public_activation"]["control_plane_ready"] = True
+    tests.append(("unreviewed control plane", mutation, registry, graph, "control_plane_ready must remain false"))
+
+    mutation = copy.deepcopy(contract)
+    mutation["public_activation"]["ui_network_enabled"] = True
+    tests.append(("premature UI networking", mutation, registry, graph, "ui_network_enabled must remain false"))
+
+    mutation = copy.deepcopy(contract)
+    mutation["public_activation"]["rate_limiter_binding"] = ""
+    tests.append(("missing public limiter", mutation, registry, graph, "rate_limiter_binding must remain"))
+
+    mutation = copy.deepcopy(contract)
+    mutation["public_activation"]["max_provider_attempts"] = 2
+    tests.append(("public provider retry", mutation, registry, graph, "max_provider_attempts must remain 1"))
+
+    mutation = copy.deepcopy(contract)
     mutation["lifecycle"]["disabled_route_deployed"] = False
     tests.append(("missing disabled route gate", mutation, registry, graph, "disabled_route_deployed must remain true"))
 
@@ -811,8 +897,8 @@ def run_self_tests(root: Path = ROOT) -> int:
         return 1
 
     print(
-        "Public AI mutation self-tests PASS: 14/14 bounded in-memory "
-        "mutations rejected without filesystem changes."
+        f"Public AI mutation self-tests PASS: {len(tests)}/{len(tests)} bounded "
+        "in-memory mutations rejected without filesystem changes."
     )
     return 0
 
@@ -822,7 +908,7 @@ def main() -> int:
     parser.add_argument(
         "--self-test",
         action="store_true",
-        help="run fourteen bounded in-memory mutation tests after baseline validation",
+        help="run bounded in-memory mutation tests after baseline validation",
     )
     args = parser.parse_args()
     if args.self_test:

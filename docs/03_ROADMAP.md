@@ -115,7 +115,7 @@ Status: in progress / post-launch maintenance
 
 ## Phase 6 - Public AI Assistant Architecture
 
-Status: in progress / Gates A-C accepted; Luna selected for the private pilot
+Status: in progress / Gates A-C accepted; Gate D1 readiness under issue #65
 
 - Keep the visible AI console prototype/static/public-facts-only. Production
   continues to return a fail-closed response and does not expose the Gate C
@@ -137,9 +137,14 @@ Status: in progress / Gates A-C accepted; Luna selected for the private pilot
   Issue #63 selects Luna for the private pilot after 32/32 Luna variants passed
   without provider retries; Terra remains a controlled fallback. The comparison
   is bounded evidence, not a general benchmark.
-- Gate D remains separate work and requires explicit owner approval. Gate C
-  acceptance and model selection do not authorize Production or a public
-  endpoint.
+- Gate D1 prepares a fail-closed production runner that requires an exact
+  kill-switch, production branch/origin, Luna, server-side key, and Cloudflare
+  limiter. Contract flags for activation, control-plane readiness, and UI
+  networking remain false.
+- Gate D2 remains separate work and requires a distinct OpenAI production
+  project/key, hard spend cap and alerts, configured durable limiter, moderation
+  decision, full QA, and explicit owner approval. Gate D1 does not authorize
+  Production provider traffic or a public UI.
 - Require the offline public-AI validator, refusal suite, and repeated live
   model evaluations to pass before any bounded public endpoint is proposed.
 - Do not combine real AI/API launch work with visual design ports unless a

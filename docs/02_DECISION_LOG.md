@@ -491,3 +491,36 @@ Terra at the official standard rates checked that day. Luna is therefore fixed
 for the private pilot, with Terra retained only as a controlled fallback and
 re-evaluation candidate. The sample sizes differ and do not constitute a
 general model benchmark. Production and public activation remain unauthorized.
+
+### 2026-09-02 - Prepare fail-closed Gate D public controls before activation
+
+Status: proposed
+
+Context:
+Gate C and the Luna selection are accepted, but the production route still
+returns 503 and the visible concierge remains local-only. A public provider path
+needs independent production identity, abuse, spend, rollback, and owner-approval
+controls. Official OpenAI production and safety guidance recommends protected
+keys, separate staging/production projects, spend controls, adversarial testing,
+bounded input/output, safety identifiers, and human oversight. Cloudflare's
+Rate Limiting binding requires Wrangler 4.36.0 or later, while the current Pages
+deployment reports 3.114.17 and no Wrangler configuration.
+
+Decision:
+Issue #65 prepares code readiness without activation. Add a public runner that
+requires the exact production branch and origin, `AI_PUBLIC_ENABLED=true`, the
+fixed `gpt-5.6-luna` model, a server-side OpenAI key, and a working
+`AI_PUBLIC_RATE_LIMITER` binding. Any absent, malformed, rejecting, or throwing
+control fails closed before OpenAI. Use one provider attempt per public request,
+retain deterministic pre-provider privacy refusals, and expose no pilot debug
+headers. Keep contract flags for public activation, control-plane readiness, and
+UI networking false.
+
+Consequences:
+Merging Gate D1 will not launch public AI or make the concierge send network
+requests. A separate OpenAI production project/key, small hard spend cap and
+alerts, Cloudflare binding deployment path, moderation decision, full QA, and
+explicit owner approval remain prerequisites for Gate D2. The shared limiter
+key avoids storing or rate-limiting by IP, but Cloudflare documents the binding
+as per-location, permissive, eventually consistent, and unsuitable for exact
+cost accounting; the provider hard spend cap remains independently required.
