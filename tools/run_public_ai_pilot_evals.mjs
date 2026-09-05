@@ -30,7 +30,9 @@ function sleep(milliseconds) {
 function validateCase(testCase, language, body) {
   if (body?.decision !== testCase.expected_decision || body?.language !== language) return false;
   if (testCase.expected_decision === "refuse") {
-    return body.refusal_category === testCase.refusal_category
+    const acceptableRefusalCategories = testCase.acceptable_refusal_categories
+      || [testCase.refusal_category];
+    return acceptableRefusalCategories.includes(body.refusal_category)
       && Array.isArray(body.citations)
       && body.citations.length === 0;
   }
