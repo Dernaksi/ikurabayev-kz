@@ -3,6 +3,7 @@ import {PUBLIC_AI_GROUNDING} from "./_grounding.js";
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const DEFAULT_MODEL = "gpt-5.6-luna";
+const MODERATION_MODEL = "omni-moderation-latest";
 const ALLOWED_MODELS = new Set([DEFAULT_MODEL, "gpt-5.6-terra"]);
 const MAX_OUTPUT_TOKENS = 700;
 const MAX_RESPONSE_CHARACTERS = 2400;
@@ -235,6 +236,7 @@ function buildProviderRequest({language, question, safetyIdentifier, grounding, 
     model,
     store: false,
     background: false,
+    moderation: {model: MODERATION_MODEL},
     tools: [],
     safety_identifier: safetyIdentifier,
     max_output_tokens: MAX_OUTPUT_TOKENS,
@@ -295,6 +297,25 @@ function parseValidatedProviderOutput(providerJson, language, grounding) {
     return null;
   }
   return validateProviderOutput(output, language, grounding) ? output : null;
+}
+
+
+function moderationResultAllows(result) {
+  return Boolean(result)
+    && typeof result === "object"
+    && !Array.isArray(result)
+    && result.type === "moderation_result"
+    && result.flagged === false;
+}
+
+
+function moderationAllowsProviderOutput(providerJson) {
+  const moderation = providerJson?.moderation;
+  return Boolean(moderation)
+    && typeof moderation === "object"
+    && !Array.isArray(moderation)
+    && moderationResultAllows(moderation.input)
+    && moderationResultAllows(moderation.output);
 }
 
 
@@ -532,6 +553,7 @@ async function runProviderRequest({
       ].join(" "),
     };
     let providerJson;
+    let providerJsonParsed = true;
     try {
       const providerResponse = await fetchFn(OPENAI_RESPONSES_URL, {
         method: "POST",
@@ -550,12 +572,16 @@ async function runProviderRequest({
       } catch {
         if (controller.signal.aborted) return {status: 503, body: unavailableBody};
         providerJson = null;
+        providerJsonParsed = false;
       }
     } catch {
       return {status: 503, body: unavailableBody};
     } finally {
       // The deadline covers response headers and body consumption.
       clearTimeout(timeout);
+    }
+    if (providerJsonParsed && !moderationAllowsProviderOutput(providerJson)) {
+      return {status: 503, body: unavailableBody};
     }
     const usage = providerJson?.usage || {};
     if (Number.isInteger(usage.input_tokens) && usage.input_tokens >= 0) {
