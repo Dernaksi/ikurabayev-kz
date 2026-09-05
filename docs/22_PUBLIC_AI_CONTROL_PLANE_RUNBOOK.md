@@ -41,7 +41,7 @@ a shared `public-ai:/api/ai/ask` key. It admits at most two calls per 60 seconds
 per Cloudflare location. Cloudflare describes these counters as permissive and
 eventually consistent, so the OpenAI hard spend limit remains the cost backstop.
 
-## Current State
+## State At Gate D2a PR Creation
 
 | Control | State after Gate D2a PR |
 | --- | --- |
@@ -54,6 +54,57 @@ eventually consistent, so the OpenAI hard spend limit remains the cost backstop.
 | Pages Service Binding | Not configured |
 | Moderation decision | Pending |
 | Production QA and rollback drill | Pending |
+
+## 2026-09-05 Control-Plane And Offline QA Record
+
+PR #68 was merged. This dated record distinguishes observed configuration from
+functional end-to-end evidence; it does not authorize activation.
+
+- The separate Production OpenAI project was configured in the dashboard with
+  Luna only, an enforced USD 10 monthly limit, and USD 5/USD 8 alerts. Hard-limit
+  enforcement latency can still allow a small overshoot.
+- The owner reported saving the Production key and the Pages Service Binding
+  `AI_PUBLIC_RATE_LIMITER` with the `Default` entrypoint. Secret values were not
+  inspected. The reported key and binding are not yet functionally verified in
+  a Production provider request.
+- Wrangler 4.36.0 deployed the non-public rate-limit Worker. Deployment output
+  confirmed `PUBLIC_AI_RATE_LIMITER` at 2 requests/60 seconds and no deploy
+  targets. The active Worker version was verified through Wrangler.
+- Pages redeployed the merged `d4cc806` source successfully. The public homepage
+  returned 200; valid RU/EN requests returned the expected disabled 503 with
+  `Cache-Control: no-store`; a foreign-origin request returned 403. These checks
+  do not prove that the limiter or provider key works, because the disabled
+  path does not exercise them.
+- Issue #69 fixes a timeout found during offline QA: the abort timer was cleared
+  after headers, before JSON body consumption. A fake-clock test first failed
+  against that implementation, then passed with the deadline kept active through
+  body consumption. Both public and private modes return generic 503 on an
+  abort and do not retry it. Ordinary malformed JSON retains one public attempt
+  or at most two private attempts.
+- Offline rollback checks cover RU/EN with a missing, false, uppercase, or
+  boolean enable flag, missing key, and missing Service Binding. All cases
+  return 503 before either the limiter or provider is called. This is not a
+  live enabled-to-disabled rollback drill.
+
+Remaining launch gates:
+
+1. Decide and implement moderation. Current deterministic phrase filters cover
+   selected privacy and injection requests; they are not a general harmful-content
+   classifier. Structured citation validation checks IDs and schema, not whether
+   every sentence is semantically supported by its cited source. OpenAI's
+   [safety guidance](https://developers.openai.com/api/docs/guides/safety-best-practices)
+   recommends moderation or a use-case-specific filtering system, adversarial
+   testing, and clear limitations. A moderation API integration would require a
+   separately reviewed request path and appropriate key permissions; none is
+   added by Issue #69.
+2. Verify the deployed internal binding and key end-to-end under a separately
+   approved bounded test procedure; do not enable public traffic as a shortcut.
+3. Complete adversarial, privacy, accessibility, mobile, cost, and live rollback
+   QA for the actual network-enabled UI. The current local-only UI cannot stand
+   in for those checks.
+4. Obtain explicit owner activation approval. Keep `AI_PUBLIC_ENABLED` absent
+   and the machine-readable activation/readiness flags false until the remaining
+   gates are closed and recorded through review.
 
 ## Repository Verification
 

@@ -531,9 +531,9 @@ async function runProviderRequest({
         "For a refusal, use citations [] and one non-null allowed refusal_category.",
       ].join(" "),
     };
-    let providerResponse;
+    let providerJson;
     try {
-      providerResponse = await fetchFn(OPENAI_RESPONSES_URL, {
+      const providerResponse = await fetchFn(OPENAI_RESPONSES_URL, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${env.OPENAI_API_KEY}`,
@@ -542,20 +542,20 @@ async function runProviderRequest({
         body: JSON.stringify(attemptBody),
         signal: controller.signal,
       });
+      if (!providerResponse?.ok) {
+        return {status: 503, body: unavailableBody};
+      }
+      try {
+        providerJson = await providerResponse.json();
+      } catch {
+        if (controller.signal.aborted) return {status: 503, body: unavailableBody};
+        providerJson = null;
+      }
     } catch {
       return {status: 503, body: unavailableBody};
     } finally {
+      // The deadline covers response headers and body consumption.
       clearTimeout(timeout);
-    }
-    if (!providerResponse?.ok) {
-      return {status: 503, body: unavailableBody};
-    }
-
-    let providerJson;
-    try {
-      providerJson = await providerResponse.json();
-    } catch {
-      providerJson = null;
     }
     const usage = providerJson?.usage || {};
     if (Number.isInteger(usage.input_tokens) && usage.input_tokens >= 0) {

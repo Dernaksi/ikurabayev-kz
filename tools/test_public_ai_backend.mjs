@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import {mock} from "node:test";
 import {readFile} from "node:fs/promises";
 import {
   handleRequest,
@@ -838,6 +839,106 @@ addTest("provider failure stays generic and fail closed", async () => {
   assert.equal(response.status, 503);
   assert.equal(JSON.stringify(body).includes("provider detail"), false);
   assert.equal(calls, 1);
+});
+
+addTest("provider deadline includes stalled response bodies in both modes", async () => {
+  for (const isPublic of [true, false]) {
+    mock.timers.enable({apis: ["setTimeout"]});
+    let releaseBody;
+    let signal;
+    let calls = 0;
+    let bodyStarted;
+    const started = new Promise((resolve) => { bodyStarted = resolve; });
+    const pending = handleRequest(makeRequest({
+      language: "en",
+      question: "What is the energy auditor credential?",
+      session: SESSION,
+    }, isPublic ? {} : {endpoint: PREVIEW_ENDPOINT, pilotToken: PILOT_TOKEN}), {
+      env: isPublic ? publicEnv() : pilotEnv(),
+      rateLimiter: {take: () => true},
+      fetchFn: async (_url, options) => {
+        calls += 1;
+        signal = options.signal;
+        return {
+          ok: true,
+          json: () => new Promise((resolve, reject) => {
+            releaseBody = () => resolve({});
+            signal.addEventListener("abort", () => reject(new Error("test-only body detail")), {once: true});
+            bodyStarted();
+          }),
+        };
+      },
+    });
+    try {
+      await started;
+      mock.timers.tick(PRIVATE_PILOT_POLICY.providerTimeoutMs - 1);
+      assert.equal(signal.aborted, false);
+      mock.timers.tick(1);
+      assert.equal(signal.aborted, true, "deadline must remain active after headers");
+      const response = await pending;
+      const body = await responseJson(response);
+      assert.equal(response.status, 503);
+      assert.equal(body.refusal_category, "service_unavailable");
+      assert.equal(JSON.stringify(body).includes("test-only body detail"), false);
+      assert.equal(calls, 1, "timeouts must not become validation retries");
+    } finally {
+      // Release the pending body even when the old implementation fails the assertion.
+      releaseBody?.();
+      await pending;
+      mock.timers.reset();
+    }
+  }
+});
+
+addTest("malformed provider JSON retains bounded validation attempts", async () => {
+  for (const isPublic of [true, false]) {
+    let calls = 0;
+    const response = await handleRequest(makeRequest({
+      language: "en",
+      question: "What is the energy auditor credential?",
+      session: SESSION,
+    }, isPublic ? {} : {endpoint: PREVIEW_ENDPOINT, pilotToken: PILOT_TOKEN}), {
+      env: isPublic ? publicEnv() : pilotEnv(),
+      rateLimiter: {take: () => true},
+      fetchFn: async () => {
+        calls += 1;
+        return new Response("not JSON", {status: 200});
+      },
+    });
+    assert.equal(response.status, 502);
+    assert.equal((await responseJson(response)).refusal_category, "service_unavailable");
+    assert.equal(calls, isPublic ? 1 : 2);
+  }
+});
+
+addTest("public rollback controls stop both provider and limiter in RU and EN", async () => {
+  const overrides = [
+    {AI_PUBLIC_ENABLED: undefined},
+    {AI_PUBLIC_ENABLED: "false"},
+    {AI_PUBLIC_ENABLED: "TRUE"},
+    {AI_PUBLIC_ENABLED: true},
+    {OPENAI_API_KEY: undefined},
+    {AI_PUBLIC_RATE_LIMITER: undefined},
+  ];
+  for (const language of ["ru", "en"]) {
+    for (const override of overrides) {
+      let calls = 0;
+      const response = await handleRequest(makeRequest({
+        language,
+        question: "What is the energy auditor credential?",
+        session: SESSION,
+      }), {
+        env: publicEnv({
+          AI_PUBLIC_RATE_LIMITER: {fetch: async () => { calls += 1; }},
+          ...override,
+        }),
+        fetchFn: async () => { calls += 1; },
+      });
+      assert.equal(response.status, 503);
+      assert.equal((await responseJson(response)).language, language);
+      assert.equal(calls, 0);
+    }
+  }
 });
 
 addTest("backend source keeps logging and browser storage disabled", async () => {
