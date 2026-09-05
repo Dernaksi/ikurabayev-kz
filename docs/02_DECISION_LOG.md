@@ -494,7 +494,7 @@ general model benchmark. Production and public activation remain unauthorized.
 
 ### 2026-09-02 - Prepare fail-closed Gate D public controls before activation
 
-Status: proposed
+Status: accepted
 
 Context:
 Gate C and the Luna selection are accepted, but the production route still
@@ -524,3 +524,39 @@ explicit owner approval remain prerequisites for Gate D2. The shared limiter
 key avoids storing or rate-limiting by IP, but Cloudflare documents the binding
 as per-location, permissive, eventually consistent, and unsuitable for exact
 cost accounting; the provider hard spend cap remains independently required.
+
+Execution note:
+Gate D1 was merged through PR #66. Production remains fail-closed, the public
+activation and UI-network flags remain false, and no Production provider
+credential or limiter was configured by that merge.
+
+### 2026-09-02 - Prepare an internal Rate Limiting gateway for Gate D2a
+
+Status: proposed
+
+Context:
+Gate D1 requires a working `AI_PUBLIC_RATE_LIMITER` before a Production provider
+call. Cloudflare Pages Functions does not support the Rate Limiting binding
+directly, while it does support Service Bindings to Workers. The owner approved
+Wrangler for this bounded infrastructure component, selected Russian and English
+for the initial provider languages, and fixed the OpenAI Production project hard
+spend limit at USD 10.
+
+Decision:
+Issue #67 prepares an isolated, non-public Worker using exactly Wrangler 4.36.0.
+The Worker owns a `PUBLIC_AI_RATE_LIMITER` binding limited to two requests per
+60 seconds per Cloudflare location. The Pages Function calls it only through an
+internal Production Service Binding named `AI_PUBLIC_RATE_LIMITER`; a 204 admits
+the request, a 429 rejects it, and every missing, malformed, unexpected, or
+throwing response fails closed before OpenAI. Do not hand-write a root Pages
+Wrangler configuration over the current Dashboard-managed project settings.
+
+Consequences:
+Gate D2a adds code, tests, and a deployment runbook only. It does not deploy the
+Worker, create the Service Binding, configure the OpenAI Production project or
+key, enable `AI_PUBLIC_ENABLED`, connect the visible concierge, or authorize
+paid Production traffic. The USD 10 hard limit must be enforced in the separate
+OpenAI Production project because Cloudflare's limiter is permissive,
+eventually consistent, per-location, and not an exact cost-accounting system.
+Recommended spend alerts are USD 5 and USD 8; alerts do not replace the hard
+limit. Kazakh provider answers remain deferred pending linguistic evaluation.

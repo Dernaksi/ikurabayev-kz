@@ -8,8 +8,8 @@
   },
   "output": {
     "path": "functions/api/ai/_grounding.js",
-    "payload_sha256": "b05dbc2f5042f24e040e565c29a06763ac6c9f0ccf1a188657f64e28bbc3e5e6",
-    "sha256": "d171a63138c35ca532efd8fa2298b15cdb27d70be7c2f9c842bf005733f39bcf"
+    "payload_sha256": "d44269cb3fee53a4ced7bc9668544b7a1d66632066cfdc5b26420fee0f575422",
+    "sha256": "6aa06ca55d1411e34b8ba253a6f166f1b2a04d6e4ccdbcf3355a5c71a8e823a3"
   },
   "reviewed_at": "2026-09-02",
   "runtime_boundary": "server_side_only",
@@ -17,7 +17,7 @@
   "sources": [
     {
       "path": "data/public-ai-contract.json",
-      "sha256": "6d14c47d8f5c27f9a938359f42c56ec531d2633be6124f8e9c0f7514e5b664cf"
+      "sha256": "3a9ebe24996b5a3a7bf21957edb9454543e64afe50b67db825b999450535466d"
     },
     {
       "path": "data/public-facts.json",

@@ -472,10 +472,25 @@ function publicConfiguration(request, env) {
   if (!PRODUCTION_ORIGINS.has(origin)) return null;
   if (typeof env?.OPENAI_API_KEY !== "string" || !env.OPENAI_API_KEY) return null;
   if (String(env?.AI_PUBLIC_MODEL || "").trim() !== DEFAULT_MODEL) return null;
-  if (!env?.AI_PUBLIC_RATE_LIMITER || typeof env.AI_PUBLIC_RATE_LIMITER.limit !== "function") {
+  if (!env?.AI_PUBLIC_RATE_LIMITER || typeof env.AI_PUBLIC_RATE_LIMITER.fetch !== "function") {
     return null;
   }
-  return {model: DEFAULT_MODEL, rateLimiter: env.AI_PUBLIC_RATE_LIMITER};
+  return {model: DEFAULT_MODEL, rateLimiterService: env.AI_PUBLIC_RATE_LIMITER};
+}
+
+
+async function requestPublicRateLimit(rateLimiterService) {
+  const response = await rateLimiterService.fetch(new Request(
+    "https://public-ai-rate-limiter.internal/limit",
+    {
+      method: "POST",
+      headers: {"X-Public-AI-Rate-Limit-Key": PUBLIC_RATE_LIMITER_KEY},
+    },
+  ));
+  if (!(response instanceof Response)) throw new TypeError("Invalid rate-limit response");
+  if (response.status === 204) return true;
+  if (response.status === 429) return false;
+  throw new TypeError("Unexpected rate-limit response");
 }
 
 
@@ -642,16 +657,13 @@ export async function runPublicAssistant({
     return {status: 200, body: localizedPolicyRefusal(language, policyCategory)};
   }
 
-  let limitResult;
+  let admitted;
   try {
-    limitResult = await configuration.rateLimiter.limit({key: PUBLIC_RATE_LIMITER_KEY});
+    admitted = await requestPublicRateLimit(configuration.rateLimiterService);
   } catch {
     return {status: 503, body: unavailableBody};
   }
-  if (!limitResult || typeof limitResult.success !== "boolean") {
-    return {status: 503, body: unavailableBody};
-  }
-  if (!limitResult.success) {
+  if (!admitted) {
     return {
       status: 429,
       headers: {"Retry-After": "60"},
@@ -693,5 +705,8 @@ export const PUBLIC_ASSISTANT_POLICY = Object.freeze({
   productionOrigins: [...PRODUCTION_ORIGINS],
   rateLimiterBinding: "AI_PUBLIC_RATE_LIMITER",
   rateLimiterKey: PUBLIC_RATE_LIMITER_KEY,
+  rateLimiterTransport: "cloudflare_pages_service_binding",
+  rateLimiterSuccessStatus: 204,
+  rateLimiterRejectedStatus: 429,
   providerTimeoutMs: PROVIDER_TIMEOUT_MS,
 });

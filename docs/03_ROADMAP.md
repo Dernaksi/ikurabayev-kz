@@ -115,7 +115,7 @@ Status: in progress / post-launch maintenance
 
 ## Phase 6 - Public AI Assistant Architecture
 
-Status: in progress / Gates A-C accepted; Gate D1 readiness under issue #65
+Status: in progress / Gates A-D1 accepted; Gate D2a readiness under issue #67
 
 - Keep the visible AI console prototype/static/public-facts-only. Production
   continues to return a fail-closed response and does not expose the Gate C
@@ -139,12 +139,22 @@ Status: in progress / Gates A-C accepted; Gate D1 readiness under issue #65
   is bounded evidence, not a general benchmark.
 - Gate D1 prepares a fail-closed production runner that requires an exact
   kill-switch, production branch/origin, Luna, server-side key, and Cloudflare
-  limiter. Contract flags for activation, control-plane readiness, and UI
-  networking remain false.
-- Gate D2 remains separate work and requires a distinct OpenAI production
-  project/key, hard spend cap and alerts, configured durable limiter, moderation
-  decision, full QA, and explicit owner approval. Gate D1 does not authorize
-  Production provider traffic or a public UI.
+  limiter. PR #66 accepted this code boundary while contract flags for
+  activation, control-plane readiness, and UI networking remained false.
+- Gate D2a prepares an isolated Wrangler 4.36.0 Worker with a two-per-minute
+  Rate Limiting binding and an internal Pages Service Binding adapter. Direct
+  Pages Rate Limiting bindings are unsupported; the Worker has no public route
+  or preview URL. Issue #67 adds code and a runbook without deploying or
+  configuring either binding.
+- The owner fixed the OpenAI Production project hard limit at USD 10, selected
+  RU+EN for the initial provider mode, and approved bounded Wrangler use.
+  Recommended spend alerts are USD 5 and USD 8; Kazakh provider mode remains
+  deferred pending linguistic evaluation.
+- Gate D2b remains separate owner-operated control-plane and QA work. It
+  requires a distinct OpenAI Production project/key, the USD 10 hard limit and
+  alerts, deployed non-public limiter Worker, configured Production Service
+  Binding, moderation decision, full QA, and explicit owner approval. Neither
+  Gate D1 nor D2a authorizes Production provider traffic or a public UI.
 - Require the offline public-AI validator, refusal suite, and repeated live
   model evaluations to pass before any bounded public endpoint is proposed.
 - Do not combine real AI/API launch work with visual design ports unless a

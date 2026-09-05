@@ -164,7 +164,8 @@ def validate_backend_files(
         'request.headers.get("X-Pilot-Token")',
         'env?.AI_PILOT_ENABLED === "true"',
         'env?.AI_PUBLIC_ENABLED !== "true"',
-        'env.AI_PUBLIC_RATE_LIMITER.limit',
+        'env.AI_PUBLIC_RATE_LIMITER.fetch',
+        '"https://public-ai-rate-limiter.internal/limit"',
         'export async function runPublicAssistant',
         'maxProviderAttempts: PUBLIC_MAX_PROVIDER_ATTEMPTS',
         '"service_unavailable"',
@@ -183,6 +184,70 @@ def validate_backend_files(
     for pattern, label in forbidden_pilot.items():
         if re.search(pattern, pilot, flags=re.IGNORECASE):
             errors.append(f"private pilot: prohibited {label} construct")
+
+    worker_root = root / "workers" / "public-ai-rate-limiter"
+    worker_package = load_json(worker_root / "package.json", errors, "rate-limit Worker package")
+    if worker_package.get("private") is not True:
+        errors.append("rate-limit Worker package: must remain private")
+    if worker_package.get("devDependencies") != {"wrangler": "4.36.0"}:
+        errors.append("rate-limit Worker package: Wrangler must remain pinned to 4.36.0")
+    if not (worker_root / "pnpm-lock.yaml").is_file():
+        errors.append("rate-limit Worker package: pnpm-lock.yaml is required")
+    try:
+        pnpm_workspace = (worker_root / "pnpm-workspace.yaml").read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        errors.append(f"rate-limit Worker package: cannot read pnpm-workspace.yaml: {exc}")
+        pnpm_workspace = ""
+    if pnpm_workspace.replace("\r\n", "\n") != (
+        "allowBuilds:\n"
+        "  esbuild: true\n"
+        "  sharp: true\n"
+        "  workerd: true\n"
+    ):
+        errors.append("rate-limit Worker package: build-script allowlist must remain exact")
+
+    worker_config = load_json(
+        worker_root / "wrangler.jsonc", errors, "rate-limit Worker Wrangler config"
+    )
+    expected_worker_config = {
+        "name": "ikurabayev-public-ai-rate-limiter",
+        "main": "src/index.js",
+        "compatibility_date": "2026-09-02",
+        "workers_dev": False,
+        "preview_urls": False,
+        "send_metrics": False,
+    }
+    for key, expected in expected_worker_config.items():
+        if worker_config.get(key) != expected:
+            errors.append(f"rate-limit Worker config: {key} must remain {expected!r}")
+    if "routes" in worker_config or "route" in worker_config:
+        errors.append("rate-limit Worker config: public routes are prohibited")
+    if worker_config.get("ratelimits") != [{
+        "name": "PUBLIC_AI_RATE_LIMITER",
+        "namespace_id": "2026090201",
+        "simple": {"limit": 2, "period": 60},
+    }]:
+        errors.append("rate-limit Worker config: reviewed binding and 2 RPM limit must remain exact")
+
+    worker_path = worker_root / "src" / "index.js"
+    try:
+        worker = worker_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        errors.append(f"rate-limit Worker: cannot read source: {exc}")
+        worker = ""
+    for marker in (
+        'const RATE_LIMIT_KEY = "public-ai:/api/ai/ask"',
+        'request.method !== "POST"',
+        'env.PUBLIC_AI_RATE_LIMITER.limit({key: RATE_LIMIT_KEY})',
+        'return emptyResponse(204)',
+        'return emptyResponse(429',
+        'return emptyResponse(503)',
+    ):
+        if marker not in worker:
+            errors.append(f"rate-limit Worker: required marker missing: {marker}")
+    for pattern, label in forbidden_pilot.items():
+        if re.search(pattern, worker, flags=re.IGNORECASE):
+            errors.append(f"rate-limit Worker: prohibited {label} construct")
 
     eval_path = root / "tools" / "run_public_ai_pilot_evals.mjs"
     try:
@@ -323,8 +388,8 @@ def validate_contract(
     if not isinstance(lifecycle, dict):
         errors.append("lifecycle: expected an object")
     else:
-        if lifecycle.get("status") != "public_activation_readiness":
-            errors.append("lifecycle.status must remain public_activation_readiness")
+        if lifecycle.get("status") != "public_control_plane_readiness":
+            errors.append("lifecycle.status must remain public_control_plane_readiness")
         false_flags(
             lifecycle,
             ("public_endpoint_enabled",),
@@ -336,7 +401,7 @@ def validate_contract(
         if lifecycle.get("disabled_route_deployed") is not True:
             errors.append("lifecycle.disabled_route_deployed must remain true")
         if lifecycle.get("next_gate") != (
-            "owner-approved control-plane configuration and activation PR"
+            "owner-configured production project, service binding, moderation, QA, and activation PR"
         ):
             errors.append("lifecycle.next_gate must retain the separate activation approval")
 
@@ -352,7 +417,7 @@ def validate_contract(
             "provider_call_enabled": True,
             "grounding_bundle_path": "functions/api/ai/_grounding.js",
             "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
-            "rate_limit_status": "private_fixed_window_plus_required_public_cloudflare_binding",
+            "rate_limit_status": "private_fixed_window_plus_prepared_public_service_gateway",
         }
         for key, expected in expected_backend.items():
             if backend.get(key) != expected:
@@ -391,18 +456,28 @@ def validate_contract(
         errors.append("public_activation: expected an object")
     else:
         expected_public_activation = {
-            "issue": 65,
-            "status": "code_readiness_only",
+            "issue": 67,
+            "status": "control_plane_code_readiness",
             "enable_variable": "AI_PUBLIC_ENABLED",
             "model_variable": "AI_PUBLIC_MODEL",
             "rate_limiter_binding": "AI_PUBLIC_RATE_LIMITER",
+            "rate_limiter_transport": "cloudflare_pages_service_binding",
+            "rate_limiter_worker": "ikurabayev-public-ai-rate-limiter",
+            "rate_limiter_worker_binding": "PUBLIC_AI_RATE_LIMITER",
+            "rate_limiter_worker_config_path": "workers/public-ai-rate-limiter/wrangler.jsonc",
             "rate_limiter_key": "public-ai:/api/ai/ask",
+            "rate_limiter_requests_per_minute": 2,
+            "rate_limiter_success_status": 204,
+            "rate_limiter_rejected_status": 429,
             "rate_limit_scope": "shared_route_key_per_cloudflare_location",
             "rate_limit_accuracy": "permissive_eventually_consistent_not_cost_accounting",
+            "pages_direct_rate_limit_binding_supported": False,
             "fixed_model": "gpt-5.6-luna",
             "max_provider_attempts": 1,
             "current_pages_wrangler": "3.114.17",
+            "rate_limiter_worker_wrangler": "4.36.0",
             "minimum_rate_limit_binding_wrangler": "4.36.0",
+            "root_pages_config_status": "not_created_pending_dashboard_config_download",
             "explicit_owner_activation_required": True,
         }
         for key, expected in expected_public_activation.items():
@@ -410,7 +485,14 @@ def validate_contract(
                 errors.append(f"public_activation.{key} must remain {expected!r}")
         false_flags(
             public_activation,
-            ("enabled", "ui_network_enabled", "control_plane_ready"),
+            (
+                "enabled",
+                "ui_network_enabled",
+                "control_plane_ready",
+                "production_project_configured",
+                "rate_limiter_worker_deployed",
+                "service_binding_configured",
+            ),
             "public_activation",
             errors,
         )
@@ -424,10 +506,20 @@ def validate_contract(
             "https://ikurabayev-kz.pages.dev",
         ]:
             errors.append("public_activation.production_origins must retain the reviewed hosts")
+        if public_activation.get("owner_decisions") != {
+            "decided_at": "2026-09-02",
+            "hard_spend_limit_usd": 10,
+            "initial_public_languages": ["ru", "en"],
+            "wrangler_tooling_approved": True,
+        }:
+            errors.append("public_activation.owner_decisions must retain the approved budget, languages, and tooling")
+        if public_activation.get("recommended_spend_alerts_usd") != [5, 8]:
+            errors.append("public_activation.recommended_spend_alerts_usd must remain 5 and 8")
         required_prerequisites = {
-            "separate_openai_production_project_and_key",
-            "small_hard_spend_limit_and_alerts",
-            "cloudflare_rate_limiter_binding",
+            "separate_openai_production_project_hard_limit_usd_10_and_key",
+            "recommended_spend_alerts_usd_5_and_8",
+            "cloudflare_non_public_rate_limit_worker_deployed",
+            "cloudflare_pages_service_binding_configured",
             "moderation_risk_decision",
             "adversarial_privacy_accessibility_mobile_and_rollback_qa",
             "explicit_owner_activation_approval",
@@ -441,7 +533,10 @@ def validate_contract(
             errors.append("public_activation: required control-plane prerequisites missing")
         if public_activation.get("references") != [
             "https://developers.openai.com/api/docs/guides/production-best-practices",
+            "https://developers.openai.com/api/docs/guides/spend-limits",
             "https://developers.openai.com/api/docs/guides/safety-best-practices",
+            "https://developers.cloudflare.com/pages/functions/bindings/",
+            "https://developers.cloudflare.com/pages/functions/wrangler-configuration/",
             "https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/",
         ]:
             errors.append("public_activation.references must retain the reviewed official guides")
@@ -839,12 +934,28 @@ def run_self_tests(root: Path = ROOT) -> int:
     tests.append(("unreviewed control plane", mutation, registry, graph, "control_plane_ready must remain false"))
 
     mutation = copy.deepcopy(contract)
+    mutation["public_activation"]["rate_limiter_worker_deployed"] = True
+    tests.append(("unverified limiter deployment", mutation, registry, graph, "rate_limiter_worker_deployed must remain false"))
+
+    mutation = copy.deepcopy(contract)
+    mutation["public_activation"]["service_binding_configured"] = True
+    tests.append(("unverified service binding", mutation, registry, graph, "service_binding_configured must remain false"))
+
+    mutation = copy.deepcopy(contract)
     mutation["public_activation"]["ui_network_enabled"] = True
     tests.append(("premature UI networking", mutation, registry, graph, "ui_network_enabled must remain false"))
 
     mutation = copy.deepcopy(contract)
     mutation["public_activation"]["rate_limiter_binding"] = ""
     tests.append(("missing public limiter", mutation, registry, graph, "rate_limiter_binding must remain"))
+
+    mutation = copy.deepcopy(contract)
+    mutation["public_activation"]["owner_decisions"]["hard_spend_limit_usd"] = 100
+    tests.append(("unbounded public budget", mutation, registry, graph, "owner_decisions must retain"))
+
+    mutation = copy.deepcopy(contract)
+    mutation["public_activation"]["owner_decisions"]["initial_public_languages"].append("kk")
+    tests.append(("premature Kazakh provider mode", mutation, registry, graph, "owner_decisions must retain"))
 
     mutation = copy.deepcopy(contract)
     mutation["public_activation"]["max_provider_attempts"] = 2
