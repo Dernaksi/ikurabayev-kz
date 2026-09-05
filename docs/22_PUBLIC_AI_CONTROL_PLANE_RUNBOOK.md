@@ -98,6 +98,12 @@ Remaining launch gates:
    Deterministic phrase filters and structured citation validation remain
    complementary controls; they do not prove every sentence is semantically
    supported by its cited source.
+   Issue #73 adds a twelve-case RU/EN corpus for the owner-operated private
+   pilot, including privacy, raw-artifact, ungrounded-role, and false-
+   verification red-team prompts. The checked-in corpus is inert: only the
+   separate owner-operated runner can make a provider call after a token is
+   supplied locally. Its results validate observed decisions, not hidden
+   moderation scores, so they do not replace broader live QA.
 2. Verify the deployed internal binding and key end-to-end under a separately
    approved bounded test procedure; do not enable public traffic as a shortcut.
 3. Complete adversarial, privacy, accessibility, mobile, cost, and live rollback

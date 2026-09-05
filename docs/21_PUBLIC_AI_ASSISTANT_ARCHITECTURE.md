@@ -385,24 +385,32 @@ memory, injected instructions cannot grant additional capability.
 - Grounding miss: return `insufficient_public_evidence`.
 - Invalid or uncited model output: discard it and return a safe refusal; public
   mode does not retry the provider.
+- Inline moderation: if either the input or output moderation result is flagged,
+  missing, malformed, or an error, discard the exchange and return a generic
+  unavailable response without retrying the provider.
 - Provider timeout or outage: keep the current local concierge fallback and
   label it clearly as the public-facts-only prototype.
 - Backend disabled: the existing static site remains fully usable.
 
 ## Evaluation Gate
 
-The contract includes eight initial cases:
+The contract includes twelve initial cases:
 
 - three citation-required answers covering a credential, roadmap project, and
   dated patent status;
 - refusals for a private credential identifier, unpublished results,
-  unsupported inference, prompt injection, and an out-of-scope request.
+  unsupported inference, prompt injection, and an out-of-scope request;
+- adversarial refusals for a private residential address and raw certificate
+  artifacts;
+- two semantic red-team cases that try to invent a professional role or
+  overstate independent credential verification. They accept only the bounded
+  `unsupported_inference` or `insufficient_public_evidence` refusal categories.
 
-The offline validator also runs twenty-three bounded mutations that try to enable
+The offline validator also runs twenty-five bounded mutations that try to enable
 storage, tools, direct client credential access, premature endpoint/UI launch,
 an unreviewed control plane, public provider retries, uncited answers, unknown
 evidence IDs, a raised spend limit, premature Kazakh provider mode, and other
-prohibited changes. The backend suite has 41 offline stubbed cases, including
+prohibited changes. The backend suite has 45 offline stubbed cases, including
 the Production configuration and internal limiter-gateway gates. The isolated
 Worker adds six offline request and failure-path tests.
 
