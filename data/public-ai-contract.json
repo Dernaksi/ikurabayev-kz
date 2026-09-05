@@ -1,23 +1,23 @@
 {
   "schema_version": "0.1",
   "contract_id": "public-ai-assistant-v0",
-  "reviewed_at": "2026-09-02",
+  "reviewed_at": "2026-09-05",
   "lifecycle": {
     "status": "public_control_plane_readiness",
     "public_endpoint_enabled": false,
     "disabled_route_deployed": true,
     "paid_api_calls_enabled": true,
-    "next_gate": "owner-configured production project, service binding, moderation, QA, and activation PR"
+    "next_gate": "merge the networked UI, then set the production kill switch and verify it"
   },
   "backend_skeleton": {
     "adapter": "Cloudflare Pages Functions",
     "function_path": "functions/api/ai/ask.js",
     "routes_path": "site/_routes.json",
-    "runtime_mode": "private_preview_plus_fail_closed_public_readiness",
+    "runtime_mode": "private_preview_plus_fail_closed_public_readiness_with_ru_en_ui",
     "provider_call_enabled": true,
     "grounding_bundle_path": "functions/api/ai/_grounding.js",
     "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
-    "rate_limit_status": "private_fixed_window_plus_prepared_public_service_gateway"
+    "rate_limit_status": "private_fixed_window_plus_configured_public_service_gateway"
   },
   "private_pilot": {
     "issue": 61,
@@ -40,12 +40,12 @@
     "provider_project_tokens_per_minute": 10000,
     "provider_timeout_ms": 15000,
     "max_output_tokens": 700,
-    "public_activation_authorized": false,
+    "public_activation_authorized": true,
     "live_evaluation_status": "luna_selected_after_ru_en_comparison"
   },
   "public_activation": {
     "issue": 67,
-    "status": "control_plane_code_readiness",
+    "status": "owner_authorized_ui_activation_pending_production_toggle",
     "enabled": false,
     "enable_variable": "AI_PUBLIC_ENABLED",
     "model_variable": "AI_PUBLIC_MODEL",
@@ -76,11 +76,11 @@
       "https://ikurabayev-kz.pages.dev"
     ],
     "explicit_owner_activation_required": true,
-    "ui_network_enabled": false,
+    "ui_network_enabled": true,
     "control_plane_ready": false,
-    "production_project_configured": false,
-    "rate_limiter_worker_deployed": false,
-    "service_binding_configured": false,
+    "production_project_configured": true,
+    "rate_limiter_worker_deployed": true,
+    "service_binding_configured": true,
     "current_pages_wrangler": "3.114.17",
     "rate_limiter_worker_wrangler": "4.36.0",
     "minimum_rate_limit_binding_wrangler": "4.36.0",
@@ -133,7 +133,7 @@
       "https://developers.openai.com/api/docs/guides/migrate-to-responses",
       "https://developers.openai.com/api/docs/guides/structured-outputs"
     ],
-    "reference_checked_at": "2026-09-02",
+    "reference_checked_at": "2026-09-05",
     "model_selection": {
       "policy": "private_pilot_luna_selected_with_controlled_terra_fallback",
       "fixed_model": "gpt-5.6-luna",

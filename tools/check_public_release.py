@@ -855,8 +855,21 @@ def validate_concierge() -> None:
         if stale in text:
             fail(f"concierge.js contains stale mixed-language Kazakh UI: {stale}")
 
+    required_public_ai_client_markers = (
+        'fetch("/api/ai/ask"',
+        'method: "POST"',
+        'credentials: "omit"',
+        '"Content-Type": "application/json"',
+        "session: sessionId",
+        'var hasAI = lang === "ru" || lang === "en"',
+    )
+    for marker in required_public_ai_client_markers:
+        if marker not in text:
+            fail(f"concierge.js public AI client marker is missing: {marker}")
+    if text.count('fetch("/api/ai/ask"') != 1:
+        fail("concierge.js must make exactly one same-origin public AI fetch call")
+
     forbidden_runtime = {
-        r"\bfetch\s*\(": "fetch",
         r"\bXMLHttpRequest\b": "XMLHttpRequest",
         r"\bWebSocket\b": "WebSocket",
         r"\bEventSource\b": "EventSource",

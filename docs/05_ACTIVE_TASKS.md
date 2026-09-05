@@ -2,9 +2,9 @@
 
 ## Current Phase
 
-Public AI assistant Gate D2a control-plane code readiness; Claude Design v1.1
-remains the visual baseline and the visible production concierge remains a
-local-only prototype.
+Public AI assistant UI activation for RU/EN; Claude Design v1.1 remains the
+visual baseline. The exact Production kill switch stays off until the reviewed
+networked concierge is deployed and verified.
 
 ## Recently Completed
 
@@ -98,11 +98,10 @@ the current release.
 
 ## Active Work
 
-- Issue #67 prepares Gate D2a code readiness without activation. It adds an
-  isolated Wrangler 4.36.0 non-public Worker with a two-per-minute Cloudflare
-  Rate Limiting binding, plus the internal Pages Service Binding adapter and
-  fail-closed tests. The Worker and Service Binding remain undeployed and
-  unconfigured; Production provider traffic and UI networking remain disabled.
+- Issue #75 connects the reviewed RU/EN concierge to the existing same-origin
+  public endpoint with `credentials: "omit"`, no browser storage, tracking, or
+  application text logging. Kazakh remains local-only. The owner authorized the
+  final Production toggle after merge and bounded live verification.
 
 ## Next Recommended Tasks
 
@@ -115,12 +114,10 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Review the Issue #67 Gate D2a readiness PR. After merge, prepare the separate
-   OpenAI Production project with the owner-approved USD 10 hard limit and
-   recommended USD 5/USD 8 alerts, deploy the non-public limiter Worker, and
-   configure its Production-only Pages Service Binding. Keep
-   `AI_PUBLIC_ENABLED` absent until moderation, full QA, rollback verification,
-   and a final explicit owner approval are complete.
+3. Merge and deploy Issue #75, set the exact Production variable
+   `AI_PUBLIC_ENABLED=true`, then verify one normal RU/EN response, one privacy
+   refusal, rate limiting, and rollback. Keep no question or answer text in
+   application logs.
 
 ## Active Branch Convention
 
