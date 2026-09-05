@@ -158,6 +158,13 @@
       "store": false,
       "state_mode": "single_turn_http",
       "background": false,
+      "inline_moderation": {
+        "model": "omni-moderation-latest",
+        "input_result_required": true,
+        "output_result_required": true,
+        "flagged_content_policy": "fail_closed_without_retry",
+        "failure_policy": "fail_closed_without_retry"
+      },
       "tools": [],
       "web_search": false,
       "file_uploads": false,

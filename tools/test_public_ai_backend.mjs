@@ -81,6 +81,10 @@ function publicEnv(overrides = {}) {
 function providerResponse(output, overrides = {}) {
   return new Response(JSON.stringify({
     status: "completed",
+    moderation: {
+      input: {type: "moderation_result", flagged: false},
+      output: {type: "moderation_result", flagged: false},
+    },
     output: [{
       type: "message",
       status: "completed",
@@ -569,6 +573,7 @@ addTest("public mode sends one stateless Luna request after durable admission", 
   assert.equal(providerBody.model, "gpt-5.6-luna");
   assert.equal(providerBody.store, false);
   assert.equal(providerBody.background, false);
+  assert.deepEqual(providerBody.moderation, {model: "omni-moderation-latest"});
   assert.deepEqual(providerBody.tools, []);
   assert.match(providerBody.safety_identifier, /^[a-f0-9]{64}$/);
   assert.equal(response.headers.get("X-AI-Pilot-Model"), null);
@@ -601,6 +606,66 @@ addTest("public invalid structured output fails closed without retry", async () 
   assert.equal(response.status, 502);
   assert.equal((await responseJson(response)).refusal_category, "service_unavailable");
   assert.equal(calls, 1);
+});
+
+addTest("inline moderation fails closed before a flagged or invalid provider result escapes", async () => {
+  const validOutput = {
+    decision: "answer",
+    language: "en",
+    answer: "The public record confirms the certified energy auditor status within the reviewed term.",
+    citations: [{
+      claim_id: "credential.energy_auditor",
+      source_ids: ["source.owner_supplied.energy_auditor_certificate_review"],
+    }],
+    refusal_category: null,
+  };
+  const unsafeModerationResults = [
+    {
+      label: "flagged input",
+      moderation: {
+        input: {type: "moderation_result", flagged: true},
+        output: {type: "moderation_result", flagged: false},
+      },
+    },
+    {
+      label: "flagged output",
+      moderation: {
+        input: {type: "moderation_result", flagged: false},
+        output: {type: "moderation_result", flagged: true},
+      },
+    },
+    {label: "missing moderation"},
+    {
+      label: "moderation error",
+      moderation: {
+        input: {type: "moderation_result", flagged: false},
+        output: {type: "error", message: "test-only moderation detail"},
+      },
+    },
+  ];
+
+  for (const isPublic of [true, false]) {
+    for (const {label, moderation} of unsafeModerationResults) {
+      let calls = 0;
+      const response = await handleRequest(makeRequest({
+        language: "en",
+        question: "What is the energy auditor credential?",
+        session: SESSION,
+      }, isPublic ? {} : {endpoint: PREVIEW_ENDPOINT, pilotToken: PILOT_TOKEN}), {
+        env: isPublic ? publicEnv() : pilotEnv(),
+        fetchFn: async () => {
+          calls += 1;
+          return providerResponse(validOutput, {moderation});
+        },
+        rateLimiter: {take: () => true},
+      });
+      const body = await responseJson(response);
+      assert.equal(response.status, 503, `${isPublic ? "public" : "pilot"}: ${label}`);
+      assert.equal(body.refusal_category, "service_unavailable");
+      assert.equal(JSON.stringify(body).includes(validOutput.answer), false);
+      assert.equal(calls, 1, `${isPublic ? "public" : "pilot"}: ${label}`);
+    }
+  }
 });
 
 addTest("private preview sends a stateless structured Luna request", async () => {
@@ -639,6 +704,7 @@ addTest("private preview sends a stateless structured Luna request", async () =>
   assert.equal(providerBody.model, "gpt-5.6-luna");
   assert.equal(providerBody.store, false);
   assert.equal(providerBody.background, false);
+  assert.deepEqual(providerBody.moderation, {model: "omni-moderation-latest"});
   assert.deepEqual(providerBody.tools, []);
   assert.equal(providerBody.max_output_tokens, 700);
   assert.equal(providerBody.text.format.type, "json_schema");

@@ -88,15 +88,16 @@ functional end-to-end evidence; it does not authorize activation.
 
 Remaining launch gates:
 
-1. Decide and implement moderation. Current deterministic phrase filters cover
-   selected privacy and injection requests; they are not a general harmful-content
-   classifier. Structured citation validation checks IDs and schema, not whether
-   every sentence is semantically supported by its cited source. OpenAI's
-   [safety guidance](https://developers.openai.com/api/docs/guides/safety-best-practices)
-   recommends moderation or a use-case-specific filtering system, adversarial
-   testing, and clear limitations. A moderation API integration would require a
-   separately reviewed request path and appropriate key permissions; none is
-   added by Issue #69.
+1. Review and test the implemented inline moderation policy in Issue #71. The
+   existing Responses request now asks for `omni-moderation-latest` results for
+   both input and output. A flagged, missing, malformed, or error result returns
+   a generic unavailable response without exposing model text or retrying the
+   provider. This documented Responses feature avoids a second moderation API
+   request and does not broaden the key scope. It is code readiness only:
+   complete adversarial live QA before treating the policy as operational.
+   Deterministic phrase filters and structured citation validation remain
+   complementary controls; they do not prove every sentence is semantically
+   supported by its cited source.
 2. Verify the deployed internal binding and key end-to-end under a separately
    approved bounded test procedure; do not enable public traffic as a shortcut.
 3. Complete adversarial, privacy, accessibility, mobile, cost, and live rollback

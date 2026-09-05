@@ -159,6 +159,9 @@ def validate_backend_files(
         '"gpt-5.6-terra"',
         "store: false",
         "background: false",
+        'moderation: {model: MODERATION_MODEL}',
+        'const MODERATION_MODEL = "omni-moderation-latest"',
+        "moderationAllowsProviderOutput",
         "tools: []",
         'type: "json_schema"',
         'request.headers.get("X-Pilot-Token")',
@@ -642,6 +645,19 @@ def validate_contract(
             errors.append("provider.request_contract.tools must remain empty")
         if request_contract.get("structured_output") is not True:
             errors.append("provider.request_contract.structured_output must remain true")
+        inline_moderation = request_contract.get("inline_moderation")
+        expected_inline_moderation = {
+            "model": "omni-moderation-latest",
+            "input_result_required": True,
+            "output_result_required": True,
+            "flagged_content_policy": "fail_closed_without_retry",
+            "failure_policy": "fail_closed_without_retry",
+        }
+        if inline_moderation != expected_inline_moderation:
+            errors.append(
+                "provider.request_contract.inline_moderation must remain strict fail-closed "
+                "omni-moderation-latest"
+            )
 
     secret_handling = provider.get("secret_handling")
     if not isinstance(secret_handling, dict):
@@ -916,6 +932,16 @@ def run_self_tests(root: Path = ROOT) -> int:
     mutation = copy.deepcopy(contract)
     mutation["provider"]["request_contract"]["tools"] = [{"type": "web_search"}]
     tests.append(("tool enablement", mutation, registry, graph, "tools must remain empty"))
+
+    mutation = copy.deepcopy(contract)
+    mutation["provider"]["request_contract"]["inline_moderation"]["failure_policy"] = "allow"
+    tests.append((
+        "moderation failure bypass",
+        mutation,
+        registry,
+        graph,
+        "inline_moderation must remain strict fail-closed",
+    ))
 
     mutation = copy.deepcopy(contract)
     mutation["provider"]["secret_handling"]["client_direct_access"] = True
