@@ -1,6 +1,7 @@
-/* Neutral Shift Lab — public profile AI concierge prototype.
+/* Neutral Shift Lab — public profile AI concierge.
    Self-contained, no dependencies. Renders into an existing <section id="ask">.
-   Local-only curated answers; no network, model API, tracking, or storage.
+   RU/EN uses one same-origin API request with no browser storage, tracking,
+   cookies, credentials, or client-side secrets. Kazakh remains local-only.
    Multilingual: reads <html lang>. */
 (function () {
   "use strict";
@@ -11,8 +12,9 @@
       eyebrow: "AI Engineering Lab",
       title: "Спросите лабораторию",
       intro: "Задайте вопрос о методе, исследованиях, публикациях или дорожной карте — ассистент отвечает по публичным фактам с проверенными источниками. Приватные данные не раскрываются намеренно.",
-      online: "Prototype UI · Source mode: Public facts only",
+      online: "AI-ассистент · Открытые факты · RU/EN",
       demo: "Prototype UI · Source mode: Public facts only",
+      unavailable: "AI-ассистент временно недоступен. Не вводите личные данные и попробуйте позже.",
       emptyKicker: "// готов к запросу",
       emptyText: "Например: «Как устроен метод определения параметров изоляции?» или «Что такое AI Energy Auditor?» Нажмите подсказку ниже или напишите свой вопрос.",
       placeholder: "Спросите о работе Искандера Казбековича…",
@@ -28,8 +30,9 @@
       eyebrow: "AI Engineering Lab",
       title: "Ask the lab",
       intro: "Ask about the method, research, publications, or roadmap — the assistant answers from public facts with reviewed sources. Private details are intentionally withheld.",
-      online: "Prototype UI · Source mode: Public facts only",
+      online: "AI assistant · Public facts · RU/EN",
       demo: "Prototype UI · Source mode: Public facts only",
+      unavailable: "The AI assistant is temporarily unavailable. Do not enter personal data; please try again later.",
       emptyKicker: "// ready for query",
       emptyText: "For example: “How does the insulation measurement method work?” or “What is the AI Energy Auditor?” Tap a prompt below or type your own question.",
       placeholder: "Ask about Iskander’s work…",
@@ -63,16 +66,16 @@
   /* engineering-console labels */
   var CONSOLE = {
     ru: {
-      mode: "Source mode: Public facts only",
-      flags: ["Prototype UI", "Локально", "Без приватных данных"],
-      proto: "Live AI integration pending",
+      mode: "Режим источников: только открытые факты",
+      flags: ["RU / EN", "Проверяемые источники", "Без файлов"],
+      proto: "Серверный AI · без ключей в браузере",
       q: "ЗАПРОС",
       r: "ОТВЕТ"
     },
     en: {
-      mode: "Source mode: Public facts only",
-      flags: ["Prototype UI", "Local only", "No private data"],
-      proto: "Live AI integration pending",
+      mode: "Source mode: public facts only",
+      flags: ["RU / EN", "Reviewed sources", "No files"],
+      proto: "Server-side AI · no browser keys",
       q: "QUERY",
       r: "RESPONSE"
     },
@@ -165,7 +168,8 @@
     if (!STR[lang]) lang = "ru";
     var T = STR[lang];
     var C = CONSOLE[lang] || CONSOLE.ru;
-    var hasAI = false;
+    var hasAI = lang === "ru" || lang === "en";
+    var sessionId = createSessionId();
 
     mount.classList.add("section", "concierge");
     if (!hasAI) mount.classList.add("demo");
@@ -255,6 +259,31 @@
       }, 14);
     }
 
+    function createSessionId() {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") {
+        return window.crypto.randomUUID();
+      }
+      return "page-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 14);
+    }
+
+    function remoteAnswer(q) {
+      return fetch("/api/ai/ask", {
+        method: "POST",
+        credentials: "omit",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ language: lang, question: q, session: sessionId })
+      })
+        .then(function (response) {
+          return response.json().catch(function () { return null; });
+        })
+        .then(function (body) {
+          if (!body || typeof body.answer !== "string" || !body.answer.trim()) {
+            throw new Error("invalid_public_ai_response");
+          }
+          return body.answer;
+        });
+    }
+
     function ask(q) {
       q = (q || "").trim();
       if (!q || state.busy) return;
@@ -265,12 +294,14 @@
       state.busy = true;
       var typing = showTyping();
 
-      var pending = new Promise(function (res) {
-        setTimeout(function () { res(localAnswer(lang, q)); }, 480);
-      });
+      var pending = hasAI
+        ? remoteAnswer(q)
+        : new Promise(function (res) {
+            setTimeout(function () { res(localAnswer(lang, q)); }, 480);
+          });
 
       pending
-        .catch(function () { return localAnswer(lang, q); })
+        .catch(function () { return T.unavailable || localAnswer(lang, q); })
         .then(function (ans) {
           typing.remove();
           state.busy = false;

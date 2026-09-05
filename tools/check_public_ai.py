@@ -419,9 +419,9 @@ def validate_contract(
         if lifecycle.get("disabled_route_deployed") is not True:
             errors.append("lifecycle.disabled_route_deployed must remain true")
         if lifecycle.get("next_gate") != (
-            "owner-configured production project, service binding, moderation, QA, and activation PR"
+            "merge the networked UI, then set the production kill switch and verify it"
         ):
-            errors.append("lifecycle.next_gate must retain the separate activation approval")
+            errors.append("lifecycle.next_gate must retain the final production-toggle gate")
 
     backend = contract.get("backend_skeleton")
     if not isinstance(backend, dict):
@@ -431,11 +431,11 @@ def validate_contract(
             "adapter": "Cloudflare Pages Functions",
             "function_path": "functions/api/ai/ask.js",
             "routes_path": "site/_routes.json",
-            "runtime_mode": "private_preview_plus_fail_closed_public_readiness",
+            "runtime_mode": "private_preview_plus_fail_closed_public_readiness_with_ru_en_ui",
             "provider_call_enabled": True,
             "grounding_bundle_path": "functions/api/ai/_grounding.js",
             "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
-            "rate_limit_status": "private_fixed_window_plus_prepared_public_service_gateway",
+            "rate_limit_status": "private_fixed_window_plus_configured_public_service_gateway",
         }
         for key, expected in expected_backend.items():
             if backend.get(key) != expected:
@@ -458,7 +458,7 @@ def validate_contract(
             "provider_project_tokens_per_minute": 10000,
             "provider_timeout_ms": 15000,
             "max_output_tokens": 700,
-            "public_activation_authorized": False,
+            "public_activation_authorized": True,
             "live_evaluation_status": "luna_selected_after_ru_en_comparison",
         }
         for key, expected in expected_pilot.items():
@@ -475,7 +475,7 @@ def validate_contract(
     else:
         expected_public_activation = {
             "issue": 67,
-            "status": "control_plane_code_readiness",
+            "status": "owner_authorized_ui_activation_pending_production_toggle",
             "enable_variable": "AI_PUBLIC_ENABLED",
             "model_variable": "AI_PUBLIC_MODEL",
             "rate_limiter_binding": "AI_PUBLIC_RATE_LIMITER",
@@ -501,19 +501,18 @@ def validate_contract(
         for key, expected in expected_public_activation.items():
             if public_activation.get(key) != expected:
                 errors.append(f"public_activation.{key} must remain {expected!r}")
-        false_flags(
-            public_activation,
-            (
-                "enabled",
-                "ui_network_enabled",
-                "control_plane_ready",
-                "production_project_configured",
-                "rate_limiter_worker_deployed",
-                "service_binding_configured",
-            ),
-            "public_activation",
-            errors,
-        )
+        if public_activation.get("enabled") is not False:
+            errors.append("public_activation.enabled must remain false until the production kill switch is set")
+        for field in (
+            "ui_network_enabled",
+            "production_project_configured",
+            "rate_limiter_worker_deployed",
+            "service_binding_configured",
+        ):
+            if public_activation.get(field) is not True:
+                errors.append(f"public_activation.{field} must remain true for the approved UI activation")
+        if public_activation.get("control_plane_ready") is not False:
+            errors.append("public_activation.control_plane_ready must remain false until live verification")
         if public_activation.get("secret_bindings") != ["OPENAI_API_KEY"]:
             errors.append("public_activation.secret_bindings must contain only OPENAI_API_KEY")
         if public_activation.get("production_branches") != ["main", "master"]:
@@ -989,16 +988,16 @@ def run_self_tests(root: Path = ROOT) -> int:
     tests.append(("unreviewed control plane", mutation, registry, graph, "control_plane_ready must remain false"))
 
     mutation = copy.deepcopy(contract)
-    mutation["public_activation"]["rate_limiter_worker_deployed"] = True
-    tests.append(("unverified limiter deployment", mutation, registry, graph, "rate_limiter_worker_deployed must remain false"))
+    mutation["public_activation"]["rate_limiter_worker_deployed"] = False
+    tests.append(("missing limiter deployment", mutation, registry, graph, "rate_limiter_worker_deployed must remain true"))
 
     mutation = copy.deepcopy(contract)
-    mutation["public_activation"]["service_binding_configured"] = True
-    tests.append(("unverified service binding", mutation, registry, graph, "service_binding_configured must remain false"))
+    mutation["public_activation"]["service_binding_configured"] = False
+    tests.append(("missing service binding", mutation, registry, graph, "service_binding_configured must remain true"))
 
     mutation = copy.deepcopy(contract)
-    mutation["public_activation"]["ui_network_enabled"] = True
-    tests.append(("premature UI networking", mutation, registry, graph, "ui_network_enabled must remain false"))
+    mutation["public_activation"]["ui_network_enabled"] = False
+    tests.append(("missing UI networking", mutation, registry, graph, "ui_network_enabled must remain true"))
 
     mutation = copy.deepcopy(contract)
     mutation["public_activation"]["rate_limiter_binding"] = ""

@@ -1,8 +1,8 @@
 # Public AI Assistant Architecture
 
-Status: Gates A-D1 accepted; Gate D2a control-plane readiness proposed in issue #67
+Status: RU/EN public UI activation authorized; final Production kill switch remains the deployment gate
 
-Reviewed: 2026-09-02
+Reviewed: 2026-09-05
 
 ## Purpose
 
@@ -40,11 +40,10 @@ The proposed v0 assistant uses:
   graph;
 - structured answers with claim/source citations or a categorized refusal.
 
-Public activation is not authorized. Luna is fixed for the private pilot and
-the future bounded public mode; Terra remains only a controlled private fallback
-and re-evaluation candidate. The selection uses the checked-in cases for
-grounded-answer success, refusal success, latency, token use, and cost per
-successful answer.
+The owner authorized the RU/EN public mode without application text logging.
+Luna is fixed for the bounded public mode; Terra remains only a controlled
+private fallback and re-evaluation candidate. The final production kill switch
+is set only after the networked UI is deployed and verified.
 
 ## Current Gate C Implementation
 
@@ -164,11 +163,11 @@ provider attempt only; the private pilot retains its bounded validation-only
 retry. Public responses expose no pilot authentication, model, attempt, or token
 usage headers.
 
-This is code readiness only. `public_activation.enabled`,
-`public_activation.control_plane_ready`, and
-`public_activation.ui_network_enabled` remain `false` in the contract. The
-current visible concierge still makes no network request, and current
-Production continues to return the disabled 503 response.
+This runner remains fail-closed until its exact activation controls are present.
+The owner has since authorized the RU/EN browser connection. The UI sends one
+same-origin request only, omits credentials, does not use browser storage or
+analytics, and keeps Kazakh in its local-only mode. The production kill switch
+remains off until that reviewed UI has deployed.
 
 ## Proposed Gate D2a Control-Plane Readiness
 
@@ -194,9 +193,10 @@ provider mode. Recommended spend alerts are USD 5 and USD 8. Alerts notify but
 do not stop traffic, and hard-limit enforcement is not instantaneous. Kazakh
 provider answers remain deferred pending owner linguistic evaluation.
 
-Gate D2a does not deploy the Worker, configure the Service Binding, create the
-Production provider project or key, set `AI_PUBLIC_ENABLED=true`, or connect the
-visible concierge. Because a root Pages Wrangler file would become the source
+The Worker, Service Binding, and bounded Production project were subsequently
+configured by the owner without disclosing secret material. This architecture
+still does not set `AI_PUBLIC_ENABLED=true` or connect the visible concierge
+until the reviewed UI is deployed. Because a root Pages Wrangler file would become the source
 of truth for existing Dashboard-managed configuration, none is created here.
 Any later migration must first download and audit the current Pages project
 configuration. The exact owner-operated order is recorded in
@@ -219,7 +219,7 @@ Cloudflare edge boundary
   |- validate language, size, and origin
   |- call the internal rate-limit gateway through a Service Binding
   |- select only allowlisted public claim/relation records
-  |- keep prompts and answers out of logs
+  |- application path keeps prompts and answers out of logs
   |
   | server-side Responses API request
   | store=false, no tools, no files, no web search

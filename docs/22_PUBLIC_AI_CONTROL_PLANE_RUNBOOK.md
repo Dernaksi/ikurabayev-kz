@@ -1,13 +1,15 @@
 # Public AI Control-Plane Runbook
 
-Status: Gate D2a code readiness under Issue #67; no public activation
+Status: RU/EN public UI authorized; final Production kill switch pending reviewed UI deployment
 
-Reviewed: 2026-09-02
+Reviewed: 2026-09-05
 
 ## Purpose
 
 This runbook records the safe order for preparing the public AI control plane.
-It does not authorize a Production provider call or a network-enabled concierge.
+The owner has authorized a Production provider call and a network-enabled RU/EN
+concierge without application text logging. The final kill switch is set only
+after the reviewed UI deployment and a live verification.
 Secret values stay in the owner-operated OpenAI and Cloudflare dashboards and
 must never be committed, pasted into issues, or shown in screenshots.
 
@@ -109,9 +111,9 @@ Remaining launch gates:
 3. Complete adversarial, privacy, accessibility, mobile, cost, and live rollback
    QA for the actual network-enabled UI. The current local-only UI cannot stand
    in for those checks.
-4. Obtain explicit owner activation approval. Keep `AI_PUBLIC_ENABLED` absent
-   and the machine-readable activation/readiness flags false until the remaining
-   gates are closed and recorded through review.
+4. Owner activation approval was granted on 2026-09-05. Keep
+   `AI_PUBLIC_ENABLED` absent until the reviewed RU/EN UI is deployed; then set
+   it to exact text `true` and perform the bounded live verification.
 
 ## Repository Verification
 
