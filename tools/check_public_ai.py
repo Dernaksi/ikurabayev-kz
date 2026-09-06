@@ -239,12 +239,18 @@ def validate_backend_files(
             errors.append(f"rate-limit Worker config: {key} must remain {expected!r}")
     if "routes" in worker_config or "route" in worker_config:
         errors.append("rate-limit Worker config: public routes are prohibited")
-    if worker_config.get("ratelimits") != [{
-        "name": "PUBLIC_AI_RATE_LIMITER",
-        "namespace_id": "2026090201",
-        "simple": {"limit": 2, "period": 60},
+    if worker_config.get("durable_objects") != {"bindings": [{
+        "name": "PUBLIC_AI_LIMITER",
+        "class_name": "PublicAiRateLimiter",
+    }]}:
+        errors.append("rate-limit Worker config: reviewed Durable Object binding must remain exact")
+    if worker_config.get("migrations") != [{
+        "tag": "v1",
+        "new_sqlite_classes": ["PublicAiRateLimiter"],
     }]:
-        errors.append("rate-limit Worker config: reviewed binding and 2 RPM limit must remain exact")
+        errors.append("rate-limit Worker config: initial Durable Object migration must remain exact")
+    if "ratelimits" in worker_config:
+        errors.append("rate-limit Worker config: permissive Rate Limiting binding is prohibited")
 
     worker_path = worker_root / "src" / "index.js"
     try:
@@ -255,7 +261,10 @@ def validate_backend_files(
     for marker in (
         'const RATE_LIMIT_KEY = "public-ai:/api/ai/ask"',
         'request.method !== "POST"',
-        'env.PUBLIC_AI_RATE_LIMITER.limit({key: RATE_LIMIT_KEY})',
+        'export class PublicAiRateLimiter',
+        'this.state.storage.transaction',
+        'env.PUBLIC_AI_LIMITER.idFromName',
+        '"https://public-ai-limiter.internal/admit"',
         'return emptyResponse(204)',
         'return emptyResponse(429',
         'return emptyResponse(503)',
@@ -435,7 +444,7 @@ def validate_contract(
             "provider_call_enabled": True,
             "grounding_bundle_path": "functions/api/ai/_grounding.js",
             "grounding_provenance_path": "data/public-ai-grounding-provenance.json",
-            "rate_limit_status": "private_fixed_window_plus_configured_public_service_gateway",
+            "rate_limit_status": "private_fixed_window_plus_strict_public_durable_object_gateway",
         }
         for key, expected in expected_backend.items():
             if backend.get(key) != expected:
@@ -474,27 +483,28 @@ def validate_contract(
         errors.append("public_activation: expected an object")
     else:
         expected_public_activation = {
-            "issue": 67,
-            "status": "owner_authorized_ui_activation_pending_production_toggle",
+            "issue": 77,
+            "status": "strict_global_rate_limit_pending_deployment_and_production_toggle",
             "enable_variable": "AI_PUBLIC_ENABLED",
             "model_variable": "AI_PUBLIC_MODEL",
             "rate_limiter_binding": "AI_PUBLIC_RATE_LIMITER",
             "rate_limiter_transport": "cloudflare_pages_service_binding",
             "rate_limiter_worker": "ikurabayev-public-ai-rate-limiter",
-            "rate_limiter_worker_binding": "PUBLIC_AI_RATE_LIMITER",
+            "rate_limiter_worker_binding": "PUBLIC_AI_LIMITER",
+            "rate_limiter_worker_class": "PublicAiRateLimiter",
             "rate_limiter_worker_config_path": "workers/public-ai-rate-limiter/wrangler.jsonc",
             "rate_limiter_key": "public-ai:/api/ai/ask",
             "rate_limiter_requests_per_minute": 2,
             "rate_limiter_success_status": 204,
             "rate_limiter_rejected_status": 429,
-            "rate_limit_scope": "shared_route_key_per_cloudflare_location",
-            "rate_limit_accuracy": "permissive_eventually_consistent_not_cost_accounting",
+            "rate_limit_scope": "single_global_durable_object_route_counter",
+            "rate_limit_accuracy": "strict_rolling_window_without_request_or_client_content",
             "pages_direct_rate_limit_binding_supported": False,
             "fixed_model": "gpt-5.6-luna",
             "max_provider_attempts": 1,
             "current_pages_wrangler": "3.114.17",
             "rate_limiter_worker_wrangler": "4.36.0",
-            "minimum_rate_limit_binding_wrangler": "4.36.0",
+            "minimum_durable_object_wrangler": "4.36.0",
             "root_pages_config_status": "not_created_pending_dashboard_config_download",
             "explicit_owner_activation_required": True,
         }
@@ -503,14 +513,12 @@ def validate_contract(
                 errors.append(f"public_activation.{key} must remain {expected!r}")
         if public_activation.get("enabled") is not False:
             errors.append("public_activation.enabled must remain false until the production kill switch is set")
-        for field in (
-            "ui_network_enabled",
-            "production_project_configured",
-            "rate_limiter_worker_deployed",
-            "service_binding_configured",
-        ):
+        for field in ("ui_network_enabled", "production_project_configured"):
             if public_activation.get(field) is not True:
                 errors.append(f"public_activation.{field} must remain true for the approved UI activation")
+        for field in ("rate_limiter_worker_deployed", "service_binding_configured"):
+            if public_activation.get(field) is not False:
+                errors.append(f"public_activation.{field} must remain false until strict limiter deployment")
         if public_activation.get("control_plane_ready") is not False:
             errors.append("public_activation.control_plane_ready must remain false until live verification")
         if public_activation.get("secret_bindings") != ["OPENAI_API_KEY"]:
@@ -535,7 +543,7 @@ def validate_contract(
         required_prerequisites = {
             "separate_openai_production_project_hard_limit_usd_10_and_key",
             "recommended_spend_alerts_usd_5_and_8",
-            "cloudflare_non_public_rate_limit_worker_deployed",
+            "cloudflare_non_public_strict_rate_limit_worker_deployed",
             "cloudflare_pages_service_binding_configured",
             "moderation_risk_decision",
             "adversarial_privacy_accessibility_mobile_and_rollback_qa",
@@ -554,7 +562,7 @@ def validate_contract(
             "https://developers.openai.com/api/docs/guides/safety-best-practices",
             "https://developers.cloudflare.com/pages/functions/bindings/",
             "https://developers.cloudflare.com/pages/functions/wrangler-configuration/",
-            "https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/",
+            "https://developers.cloudflare.com/durable-objects/",
         ]:
             errors.append("public_activation.references must retain the reviewed official guides")
 
@@ -988,12 +996,12 @@ def run_self_tests(root: Path = ROOT) -> int:
     tests.append(("unreviewed control plane", mutation, registry, graph, "control_plane_ready must remain false"))
 
     mutation = copy.deepcopy(contract)
-    mutation["public_activation"]["rate_limiter_worker_deployed"] = False
-    tests.append(("missing limiter deployment", mutation, registry, graph, "rate_limiter_worker_deployed must remain true"))
+    mutation["public_activation"]["rate_limiter_worker_deployed"] = True
+    tests.append(("premature strict limiter deployment", mutation, registry, graph, "rate_limiter_worker_deployed must remain false"))
 
     mutation = copy.deepcopy(contract)
-    mutation["public_activation"]["service_binding_configured"] = False
-    tests.append(("missing service binding", mutation, registry, graph, "service_binding_configured must remain true"))
+    mutation["public_activation"]["service_binding_configured"] = True
+    tests.append(("premature strict service binding", mutation, registry, graph, "service_binding_configured must remain false"))
 
     mutation = copy.deepcopy(contract)
     mutation["public_activation"]["ui_network_enabled"] = False

@@ -31,8 +31,8 @@ The proposed v0 assistant uses:
   to remain fail-closed behind independent production controls;
 - the OpenAI Responses API from the server side only;
 - a Cloudflare secret binding for the provider credential;
-- an internal Pages Service Binding to a non-public Worker that owns the
-  Cloudflare Rate Limiting binding;
+- an internal Pages Service Binding to a non-public Worker that owns a strict
+  global Durable Object counter;
 - one request and one answer over HTTP, with `store: false`;
 - no model tools, web search, uploads, persistent memory, response chaining,
   background jobs, analytics, or content logging;
@@ -178,14 +178,15 @@ Rate Limiting binding directly. Issue #67 therefore prepares this internal path:
 Pages Function
   -> AI_PUBLIC_RATE_LIMITER internal Service Binding
   -> ikurabayev-public-ai-rate-limiter Worker
-  -> PUBLIC_AI_RATE_LIMITER Rate Limiting binding
+  -> PUBLIC_AI_LIMITER Durable Object
 ```
 
 The isolated Worker pins Wrangler 4.36.0, has no public route or preview URL,
-and admits at most two requests per 60 seconds per Cloudflare location. The
-Pages adapter accepts only a 204 admission response, treats 429 as rejection,
-and fails closed on missing configuration, exceptions, malformed values, or
-every other status. The shared route key avoids storing or rate-limiting by IP.
+and its one named Durable Object admits at most two requests in a strict rolling
+60-second global window. The Pages adapter accepts only a 204 admission
+response, treats 429 as rejection, and fails closed on missing configuration,
+exceptions, malformed values, or every other status. The object stores only
+integer admission timestamps, never request content or client identifiers.
 
 The owner approved bounded Wrangler use, set the future OpenAI Production
 project hard limit to USD 10, and selected Russian and English for the initial
@@ -202,11 +203,10 @@ Any later migration must first download and audit the current Pages project
 configuration. The exact owner-operated order is recorded in
 `docs/22_PUBLIC_AI_CONTROL_PLANE_RUNBOOK.md`.
 
-The limiter uses one shared route key per Cloudflare location to avoid storing
-or rate-limiting on IP addresses. Cloudflare documents this API as permissive,
-eventually consistent, and unsuitable for exact cost accounting. The OpenAI
-project USD 10 hard spend limit is therefore an independent requirement, not a
-substitute for the edge limiter.
+The limiter uses one named global Durable Object to avoid storing or
+rate-limiting on IP addresses while rejecting a third rapid request
+deterministically. The OpenAI project USD 10 hard spend limit remains an
+independent requirement, not a substitute for the edge limiter.
 
 ## System Boundary
 
@@ -472,11 +472,12 @@ offline suite does not simulate or replace that evidence.
 - preserve the Gate C private pilot and deterministic refusal boundary;
 - merge only after offline/backend/privacy review.
 
-### Gate D2a — control-plane code readiness (issue #67)
+### Gate D2b — strict limiter code readiness (issue #77)
 
 - pin Wrangler 4.36.0 only inside the isolated rate-limit Worker;
 - keep the Worker private with no route or preview URL;
-- enforce two requests per 60 seconds through its Rate Limiting binding;
+- enforce two requests in a strict rolling 60-second window through one Durable
+  Object, storing no text or client identifier;
 - call it only through a Production Pages Service Binding;
 - keep Worker deployment, Service Binding configuration, provider credentials,
   activation, and UI networking outside the PR;
@@ -525,11 +526,11 @@ official Cloudflare Pages Functions
 on 2026-08-26. File-based routing maps the handler path, while `_routes.json`
 restricts invocation to the single approved endpoint.
 
-The Gate D limiter contract was checked against the official Cloudflare
-[Rate Limiting binding documentation](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
-on 2026-09-02. The binding returns `{ success }` from `limit({key})`, requires
-Wrangler 4.36.0 or later, is local to each Cloudflare location, and is explicitly
-not an exact accounting system. The official Cloudflare Pages
+The former Gate D limiter used Cloudflare's Rate Limiting binding, which is
+per-location and eventually consistent. Live bounded verification showed that
+this did not demonstrate the strict public gate needed here. Issue #77 instead
+uses a single named Durable Object, configured with Wrangler 4.36.0 or later,
+that persists only rolling admission timestamps. The official Cloudflare Pages
 [bindings documentation](https://developers.cloudflare.com/pages/functions/bindings/)
 confirms that Service Bindings are supported while direct Rate Limiting bindings
 are not listed for Pages Functions. The official Pages

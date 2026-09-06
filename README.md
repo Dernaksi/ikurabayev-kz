@@ -80,9 +80,9 @@ for the private pilot because it retained task success without retries at a
 substantially lower conservative uncached cost estimate; Terra remains a
 controlled fallback. PR #66 accepts Gate D1 as a fail-closed production runner
 requiring an exact kill-switch, production branch/origin, Luna, server-side
-key, and Cloudflare limiter. Issue #67 prepares Gate D2a with a pinned Wrangler
-4.36.0 non-public rate-limit Worker and an internal Pages Service Binding
-protocol. The owner approved a USD 10 hard project cap, RU/EN as the initial
+key, and Cloudflare limiter. Issue #77 replaces the permissive per-location
+limiter with a strict global Durable Object counter behind the same non-public
+Worker and internal Pages Service Binding protocol. The owner approved a USD 10 hard project cap, RU/EN as the initial
 live languages, and a public assistant without application text logging. The
 reviewed UI connection is pending merge; the exact Production kill switch is
 set only after deployment and a bounded live verification. A

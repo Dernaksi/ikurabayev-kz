@@ -560,3 +560,29 @@ OpenAI Production project because Cloudflare's limiter is permissive,
 eventually consistent, per-location, and not an exact cost-accounting system.
 Recommended spend alerts are USD 5 and USD 8; alerts do not replace the hard
 limit. Kazakh provider answers remain deferred pending linguistic evaluation.
+
+### 2026-09-06 - Replace permissive public limiter with a strict Durable Object gate
+
+Status: proposed
+
+Context:
+A bounded live check found that three rapid ordinary public requests could be
+admitted by the Gate D2a limiter. This is consistent with the documented
+per-location, eventually consistent semantics of the former Rate Limiting
+binding, but it does not meet the project's stricter pre-provider cost gate.
+
+Decision:
+Issue #77 replaces the former binding in the isolated non-public Worker with a
+single named Durable Object. It admits at most two requests in a rolling
+60-second window and persists only integer admission timestamps. The object
+does not receive or store question text, answer text, IP address, session, or
+any other client identifier. The existing Pages Service Binding protocol remains
+the only path to the Worker; it accepts 204, maps 429 to a bounded rejection,
+and otherwise fails closed. Production remains disabled until the reviewed
+Worker migration and binding replacement are deployed and verified.
+
+Consequences:
+The OpenAI USD 10 hard limit remains independent and required. The current
+permissive Worker and Service Binding cannot be treated as a strict public
+launch control. This decision adds no secret, analytics, text logging, or public
+Worker route, and it does not authorize a public AI launch.

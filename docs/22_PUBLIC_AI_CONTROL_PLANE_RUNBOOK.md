@@ -35,13 +35,15 @@ the direct Rate Limiting binding is not in that subset. Gate D2a therefore uses:
 Pages Function
   -> AI_PUBLIC_RATE_LIMITER internal Service Binding
   -> ikurabayev-public-ai-rate-limiter Worker
-  -> PUBLIC_AI_RATE_LIMITER Rate Limiting binding
+  -> PUBLIC_AI_LIMITER Durable Object
 ```
 
 The Worker has `workers_dev: false`, `preview_urls: false`, no public route, and
-a shared `public-ai:/api/ai/ask` key. It admits at most two calls per 60 seconds
-per Cloudflare location. Cloudflare describes these counters as permissive and
-eventually consistent, so the OpenAI hard spend limit remains the cost backstop.
+a shared `public-ai:/api/ai/ask` key. Its single named Durable Object admits at
+most two calls in a rolling 60-second window globally. It persists only integer
+admission timestamps: never question text, answer text, IP address, session, or
+other client identifier. The OpenAI hard spend limit remains the independent
+cost backstop.
 
 ## State At Gate D2a PR Creation
 
@@ -69,9 +71,8 @@ functional end-to-end evidence; it does not authorize activation.
   `AI_PUBLIC_RATE_LIMITER` with the `Default` entrypoint. Secret values were not
   inspected. The reported key and binding are not yet functionally verified in
   a Production provider request.
-- Wrangler 4.36.0 deployed the non-public rate-limit Worker. Deployment output
-  confirmed `PUBLIC_AI_RATE_LIMITER` at 2 requests/60 seconds and no deploy
-  targets. The active Worker version was verified through Wrangler.
+- Wrangler 4.36.0 deployed a non-public Worker using Cloudflare's permissive
+  `PUBLIC_AI_RATE_LIMITER` binding. It had no public route or deploy target.
 - Pages redeployed the merged `d4cc806` source successfully. The public homepage
   returned 200; valid RU/EN requests returned the expected disabled 503 with
   `Cache-Control: no-store`; a foreign-origin request returned 403. These checks
@@ -87,6 +88,20 @@ functional end-to-end evidence; it does not authorize activation.
   boolean enable flag, missing key, and missing Service Binding. All cases
   return 503 before either the limiter or provider is called. This is not a
   live enabled-to-disabled rollback drill.
+
+## 2026-09-06 Strict-Limit Correction
+
+Bounded live verification showed three rapid ordinary requests receiving 200.
+That does not prove the existing Service Binding was broken: the former
+Cloudflare Rate Limiting binding is intentionally per-location and eventually
+consistent. It is nevertheless insufficient for the strict two-request public
+gate required by this project.
+
+Issue #77 replaces that binding in source with one global Durable Object and a
+rolling 60-second counter. The replacement remains undeployed until its PR is
+reviewed and merged. Production `AI_PUBLIC_ENABLED` is `false`; the public
+endpoint was rechecked as 503 after the rollback deployment. No question or
+answer content was logged by the application during these checks.
 
 Remaining launch gates:
 
@@ -106,8 +121,9 @@ Remaining launch gates:
    separate owner-operated runner can make a provider call after a token is
    supplied locally. Its results validate observed decisions, not hidden
    moderation scores, so they do not replace broader live QA.
-2. Verify the deployed internal binding and key end-to-end under a separately
-   approved bounded test procedure; do not enable public traffic as a shortcut.
+2. Deploy the reviewed strict Durable Object Worker, repoint the existing Pages
+   Service Binding, and verify that the third request returns 429 under a
+   bounded test procedure; do not enable public traffic as a shortcut.
 3. Complete adversarial, privacy, accessibility, mobile, cost, and live rollback
    QA for the actual network-enabled UI. The current local-only UI cannot stand
    in for those checks.
@@ -140,7 +156,8 @@ Complete these steps only after the Gate D2a PR is reviewed and merged.
 5. Create a project-scoped API key and copy it directly into a Cloudflare
    Production secret named `OPENAI_API_KEY`. Do not expose the value elsewhere.
 6. Deploy `ikurabayev-public-ai-rate-limiter` from its isolated Wrangler
-   project. The deployment must retain no public route or preview URL.
+   project. Its Durable Object migration must retain no public route or preview
+   URL, and stores only rolling admission timestamps.
 7. Add a Production-only Pages Service Binding named
    `AI_PUBLIC_RATE_LIMITER` targeting that Worker.
 8. Add the Production text variable `AI_PUBLIC_MODEL=gpt-5.6-luna`.
@@ -166,7 +183,8 @@ download, audit, and adopt the complete Pages configuration.
 
 ## Rollback
 
-The primary rollback remains omission or removal of `AI_PUBLIC_ENABLED`.
+The primary rollback remains setting `AI_PUBLIC_ENABLED` to exact text `false`
+and redeploying the current Production source.
 Removing the Pages Service Binding or the Production key also fails closed, but
 the kill switch is the intended first response. The static site and local
 public-facts concierge remain usable without either Worker or OpenAI.
@@ -178,4 +196,4 @@ public-facts concierge remain usable without either Worker or OpenAI.
 - [OpenAI safety best practices](https://developers.openai.com/api/docs/guides/safety-best-practices)
 - [Cloudflare Pages bindings](https://developers.cloudflare.com/pages/functions/bindings/)
 - [Cloudflare Pages Wrangler configuration](https://developers.cloudflare.com/pages/functions/wrangler-configuration/)
-- [Cloudflare Rate Limiting binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
+- [Cloudflare Durable Objects](https://developers.cloudflare.com/durable-objects/)
