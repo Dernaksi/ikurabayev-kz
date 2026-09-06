@@ -492,17 +492,32 @@ addTest("public durable rate limit rejection occurs before provider", async () =
         fetch: async (request) => {
           limiterKey = request.headers.get("X-Public-AI-Rate-Limit-Key");
           limiterMethod = request.method;
-          return new Response(null, {status: 429});
+          return new Response(null, {status: 429, headers: {"Retry-After": "17"}});
         },
       },
     }),
     fetchFn: async () => { calls += 1; },
   });
   assert.equal(response.status, 429);
-  assert.equal(response.headers.get("Retry-After"), "60");
+  assert.equal(response.headers.get("Retry-After"), "17");
   assert.equal(limiterKey, "public-ai:/api/ai/ask");
   assert.equal(limiterMethod, "POST");
   assert.equal(calls, 0);
+});
+
+addTest("public durable rate limit falls back to a bounded retry delay", async () => {
+  const response = await handleRequest(makeRequest({
+    language: "en",
+    question: "What is the energy auditor credential?",
+    session: SESSION,
+  }), {
+    env: publicEnv({
+      AI_PUBLIC_RATE_LIMITER: {fetch: async () => new Response(null, {status: 429})},
+    }),
+    fetchFn: async () => { throw new Error("provider must not be called"); },
+  });
+  assert.equal(response.status, 429);
+  assert.equal(response.headers.get("Retry-After"), "60");
 });
 
 addTest("public rate-limit service failures stay fail closed", async () => {

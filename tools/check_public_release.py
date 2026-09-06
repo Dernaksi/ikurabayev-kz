@@ -862,6 +862,10 @@ def validate_concierge() -> None:
         '"Content-Type": "application/json"',
         "session: sessionId",
         'var hasAI = lang === "ru" || lang === "en"',
+        "Модель: GPT-5.6 Luna",
+        "response.status === 429",
+        'response.headers.get("Retry-After")',
+        "setRequestControlsDisabled",
     )
     for marker in required_public_ai_client_markers:
         if marker not in text:
