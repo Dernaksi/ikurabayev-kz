@@ -591,3 +591,27 @@ permissive Worker and Service Binding cannot be treated as a strict public
 launch control. This decision adds no secret, analytics, text logging, or public
 Worker route. The verified rollback state does not by itself authorize a
 persistent public AI launch.
+
+### 2026-09-06 - Authorize and verify persistent public AI launch
+
+Status: accepted and live verified
+
+Context:
+The strict global limiter, Production Service Binding, USD 10 project cap, and
+rollback control were already verified. The owner then explicitly authorized
+persistent public operation with no application text logging.
+
+Decision:
+Production `AI_PUBLIC_ENABLED` was set to exact text `true` and the current
+`main` deployment was retried. One ordinary Russian request and one ordinary
+English request each returned HTTP 200 with a grounded answer decision. A third
+rapid ordinary request returned HTTP 429 before a provider response. The test
+record contains only language, HTTP status, decision, and citation count; no
+question or answer text, secret, identifier, IP, or session value was retained.
+
+Consequences:
+The RU/EN public assistant is live behind the existing same-origin UI. The
+global two-request rolling gate and the exact `AI_PUBLIC_ENABLED=false`
+rollback remain mandatory. Accessibility, adversarial, privacy, cost, and live
+rollback QA continue as post-launch monitoring and must not be represented as
+completed by this launch record.

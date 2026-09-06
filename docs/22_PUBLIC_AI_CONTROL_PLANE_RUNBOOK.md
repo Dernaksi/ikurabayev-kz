@@ -1,16 +1,16 @@
 # Public AI Control-Plane Runbook
 
-Status: strict limiter deployed and rollback verified; public traffic disabled pending remaining QA
+Status: public RU/EN assistant live; strict limiter and launch checks verified
 
 Reviewed: 2026-09-06
 
 ## Purpose
 
 This runbook records the safe order for preparing the public AI control plane.
-The owner authorized a bounded Production provider call and a network-enabled
-RU/EN concierge without application text logging. The exact kill switch remains
-off outside the completed bounded drill; persistent public traffic requires the
-remaining QA and a fresh owner decision.
+The owner authorized the Production RU/EN concierge without application text
+logging. On 2026-09-06 the owner authorized persistent public traffic after the
+bounded deployment drill. The exact kill switch is now `true`; it remains the
+immediate rollback control while post-launch QA continues.
 Secret values stay in the owner-operated OpenAI and Cloudflare dashboards and
 must never be committed, pasted into issues, or shown in screenshots.
 
@@ -106,7 +106,7 @@ requests. The third request was rejected before any provider call. The exact
 `AI_PUBLIC_ENABLED=false` kill switch was then redeployed and the endpoint
 returned 503. No question or answer content was logged by the application.
 
-Remaining launch gates:
+Post-launch QA remains:
 
 1. Review and test the implemented inline moderation policy in Issue #71. The
    existing Responses request now asks for `omni-moderation-latest` results for
@@ -127,9 +127,9 @@ Remaining launch gates:
 2. Complete adversarial, privacy, accessibility, mobile, cost, and live rollback
    QA for the actual network-enabled UI. The bounded control-plane drill does
    not replace those checks.
-3. Owner activation approval was granted on 2026-09-05. The bounded deployment
-   and rollback drill is complete; request a fresh decision before leaving the
-   kill switch on for persistent public traffic.
+3. Persistent activation was explicitly authorized on 2026-09-06. Retain the
+   exact kill switch and revert it to `false` immediately if a safety or cost
+   concern appears.
 
 ## Repository Verification
 
@@ -142,13 +142,13 @@ pnpm check
 ```
 
 `pnpm check` performs a Wrangler dry-run only. It does not deploy the Worker.
-The main repository validators continue to confirm that Production activation,
-control-plane readiness, and UI networking are false.
+The main repository validators confirm the live Production state, strict
+limiter evidence, privacy boundary, and retained rollback control.
 
-## Persistent-Activation Preflight
+## Live Operating Controls
 
-The completed control-plane steps are retained here for auditability. Future
-persistent activation must start from the remaining QA gates above.
+The completed control-plane steps are retained here for auditability. Keep the
+following controls in place while the assistant is live.
 
 1. Reconfirm the separate Production OpenAI project remains limited to
    `gpt-5.6-luna`, with its enforced USD 10 monthly hard limit and USD 5/USD 8
@@ -160,11 +160,12 @@ persistent activation must start from the remaining QA gates above.
 4. Confirm the Production-only Pages Service Binding named
    `AI_PUBLIC_RATE_LIMITER` still targets that Worker.
 5. Retain the Production text variable `AI_PUBLIC_MODEL=gpt-5.6-luna`.
-6. Keep `AI_PUBLIC_ENABLED=false` until a persistent launch decision.
+6. Keep `AI_PUBLIC_ENABLED=true` only while the public assistant is intended to
+   be live; set exact text `false` and redeploy for immediate rollback.
 7. Complete moderation, adversarial, privacy, mobile, accessibility, cost, and
     rollback QA in a separate issue and PR.
-8. Obtain explicit owner approval immediately before enabling the kill switch
-    and connecting the visible concierge to the backend.
+8. Record any future material activation or rollback decision in a focused
+   issue and pull request.
 
 ## Pages Wrangler Boundary
 

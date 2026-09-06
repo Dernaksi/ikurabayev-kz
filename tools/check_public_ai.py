@@ -415,22 +415,18 @@ def validate_contract(
     if not isinstance(lifecycle, dict):
         errors.append("lifecycle: expected an object")
     else:
-        if lifecycle.get("status") != "strict_limiter_deployed_rollback_verified":
-            errors.append("lifecycle.status must retain the verified rollback state")
-        false_flags(
-            lifecycle,
-            ("public_endpoint_enabled",),
-            "lifecycle",
-            errors,
-        )
+        if lifecycle.get("status") != "public_ai_enabled_live_verified":
+            errors.append("lifecycle.status must retain the verified live public state")
+        if lifecycle.get("public_endpoint_enabled") is not True:
+            errors.append("lifecycle.public_endpoint_enabled must remain true after launch")
         if lifecycle.get("paid_api_calls_enabled") is not True:
             errors.append("lifecycle.paid_api_calls_enabled must remain true for the private pilot")
         if lifecycle.get("disabled_route_deployed") is not True:
             errors.append("lifecycle.disabled_route_deployed must remain true")
         if lifecycle.get("next_gate") != (
-            "complete remaining production QA before deciding on a persistent public launch"
+            "complete post-launch monitoring and the remaining production QA"
         ):
-            errors.append("lifecycle.next_gate must retain the post-verification QA gate")
+            errors.append("lifecycle.next_gate must retain the post-launch QA gate")
 
     backend = contract.get("backend_skeleton")
     if not isinstance(backend, dict):
@@ -484,7 +480,7 @@ def validate_contract(
     else:
         expected_public_activation = {
             "issue": 77,
-            "status": "strict_global_rate_limit_deployed_and_rollback_verified",
+            "status": "public_ai_enabled_live_verified",
             "enable_variable": "AI_PUBLIC_ENABLED",
             "model_variable": "AI_PUBLIC_MODEL",
             "rate_limiter_binding": "AI_PUBLIC_RATE_LIMITER",
@@ -511,16 +507,16 @@ def validate_contract(
         for key, expected in expected_public_activation.items():
             if public_activation.get(key) != expected:
                 errors.append(f"public_activation.{key} must remain {expected!r}")
-        if public_activation.get("enabled") is not False:
-            errors.append("public_activation.enabled must remain false until the production kill switch is set")
+        if public_activation.get("enabled") is not True:
+            errors.append("public_activation.enabled must remain true after the owner-authorized launch")
         for field in ("ui_network_enabled", "production_project_configured"):
             if public_activation.get(field) is not True:
                 errors.append(f"public_activation.{field} must remain true for the approved UI activation")
         for field in ("rate_limiter_worker_deployed", "service_binding_configured"):
             if public_activation.get(field) is not True:
                 errors.append(f"public_activation.{field} must retain the verified strict limiter deployment")
-        if public_activation.get("control_plane_ready") is not False:
-            errors.append("public_activation.control_plane_ready must remain false until remaining production QA")
+        if public_activation.get("control_plane_ready") is not True:
+            errors.append("public_activation.control_plane_ready must remain true after live verification")
         if public_activation.get("live_verification") != {
             "observed_at": "2026-09-06",
             "strict_limit_http_statuses": [200, 200, 429],
@@ -528,6 +524,13 @@ def validate_contract(
             "application_text_logging": False,
         }:
             errors.append("public_activation.live_verification must retain the bounded strict-limit and rollback record")
+        if public_activation.get("persistent_launch_verification") != {
+            "observed_at": "2026-09-06",
+            "ru_en_http_statuses": {"ru": 200, "en": 200},
+            "third_rapid_request_http_status": 429,
+            "application_text_logging": False,
+        }:
+            errors.append("public_activation.persistent_launch_verification must retain the bounded live launch record")
         if public_activation.get("secret_bindings") != ["OPENAI_API_KEY"]:
             errors.append("public_activation.secret_bindings must contain only OPENAI_API_KEY")
         if public_activation.get("production_branches") != ["main", "master"]:
@@ -991,16 +994,16 @@ def run_self_tests(root: Path = ROOT) -> int:
     tests.append(("client secret access", mutation, registry, graph, "client_direct_access must remain false"))
 
     mutation = copy.deepcopy(contract)
-    mutation["lifecycle"]["public_endpoint_enabled"] = True
-    tests.append(("premature endpoint", mutation, registry, graph, "public_endpoint_enabled must remain false"))
+    mutation["lifecycle"]["public_endpoint_enabled"] = False
+    tests.append(("disabled live endpoint", mutation, registry, graph, "public_endpoint_enabled must remain true"))
 
     mutation = copy.deepcopy(contract)
-    mutation["public_activation"]["enabled"] = True
-    tests.append(("premature public activation", mutation, registry, graph, "public_activation.enabled must remain false"))
+    mutation["public_activation"]["enabled"] = False
+    tests.append(("disabled public activation", mutation, registry, graph, "public_activation.enabled must remain true"))
 
     mutation = copy.deepcopy(contract)
-    mutation["public_activation"]["control_plane_ready"] = True
-    tests.append(("unreviewed control plane", mutation, registry, graph, "control_plane_ready must remain false"))
+    mutation["public_activation"]["control_plane_ready"] = False
+    tests.append(("disabled verified control plane", mutation, registry, graph, "control_plane_ready must remain true"))
 
     mutation = copy.deepcopy(contract)
     mutation["public_activation"]["rate_limiter_worker_deployed"] = False
