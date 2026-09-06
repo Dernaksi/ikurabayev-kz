@@ -84,8 +84,10 @@ key, and Cloudflare limiter. Issue #77 replaces the permissive per-location
 limiter with a strict global Durable Object counter behind the same non-public
 Worker and internal Pages Service Binding protocol. The owner approved a USD 10 hard project cap, RU/EN as the initial
 live languages, and a public assistant without application text logging. The
-reviewed UI connection is pending merge; the exact Production kill switch is
-set only after deployment and a bounded live verification. A
+Worker, binding, and bounded Production drill are verified: two requests were
+admitted and the third returned 429; the kill switch was then restored and
+verified as 503. Persistent public launch remains a separate decision after
+the remaining QA. A
 bounded Kazakh language pass has corrected interface and
 terminology defects, and the owner-approved exact Kazakh display name
 `Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The

@@ -415,8 +415,8 @@ def validate_contract(
     if not isinstance(lifecycle, dict):
         errors.append("lifecycle: expected an object")
     else:
-        if lifecycle.get("status") != "public_control_plane_readiness":
-            errors.append("lifecycle.status must remain public_control_plane_readiness")
+        if lifecycle.get("status") != "strict_limiter_deployed_rollback_verified":
+            errors.append("lifecycle.status must retain the verified rollback state")
         false_flags(
             lifecycle,
             ("public_endpoint_enabled",),
@@ -428,9 +428,9 @@ def validate_contract(
         if lifecycle.get("disabled_route_deployed") is not True:
             errors.append("lifecycle.disabled_route_deployed must remain true")
         if lifecycle.get("next_gate") != (
-            "merge the networked UI, then set the production kill switch and verify it"
+            "complete remaining production QA before deciding on a persistent public launch"
         ):
-            errors.append("lifecycle.next_gate must retain the final production-toggle gate")
+            errors.append("lifecycle.next_gate must retain the post-verification QA gate")
 
     backend = contract.get("backend_skeleton")
     if not isinstance(backend, dict):
@@ -484,7 +484,7 @@ def validate_contract(
     else:
         expected_public_activation = {
             "issue": 77,
-            "status": "strict_global_rate_limit_pending_deployment_and_production_toggle",
+            "status": "strict_global_rate_limit_deployed_and_rollback_verified",
             "enable_variable": "AI_PUBLIC_ENABLED",
             "model_variable": "AI_PUBLIC_MODEL",
             "rate_limiter_binding": "AI_PUBLIC_RATE_LIMITER",
@@ -517,10 +517,17 @@ def validate_contract(
             if public_activation.get(field) is not True:
                 errors.append(f"public_activation.{field} must remain true for the approved UI activation")
         for field in ("rate_limiter_worker_deployed", "service_binding_configured"):
-            if public_activation.get(field) is not False:
-                errors.append(f"public_activation.{field} must remain false until strict limiter deployment")
+            if public_activation.get(field) is not True:
+                errors.append(f"public_activation.{field} must retain the verified strict limiter deployment")
         if public_activation.get("control_plane_ready") is not False:
-            errors.append("public_activation.control_plane_ready must remain false until live verification")
+            errors.append("public_activation.control_plane_ready must remain false until remaining production QA")
+        if public_activation.get("live_verification") != {
+            "observed_at": "2026-09-06",
+            "strict_limit_http_statuses": [200, 200, 429],
+            "rollback_http_status": 503,
+            "application_text_logging": False,
+        }:
+            errors.append("public_activation.live_verification must retain the bounded strict-limit and rollback record")
         if public_activation.get("secret_bindings") != ["OPENAI_API_KEY"]:
             errors.append("public_activation.secret_bindings must contain only OPENAI_API_KEY")
         if public_activation.get("production_branches") != ["main", "master"]:
@@ -603,8 +610,8 @@ def validate_contract(
         "https://developers.openai.com/api/docs/guides/structured-outputs",
     ]:
         errors.append("provider: current Responses and Structured Outputs references are required")
-    if provider.get("reference_checked_at") != contract.get("reviewed_at"):
-        errors.append("provider: reference_checked_at must match reviewed_at")
+    if provider.get("reference_checked_at") != "2026-09-05":
+        errors.append("provider: reference_checked_at must retain the last verified provider-reference review")
 
     model_selection = provider.get("model_selection")
     if not isinstance(model_selection, dict):
@@ -996,12 +1003,12 @@ def run_self_tests(root: Path = ROOT) -> int:
     tests.append(("unreviewed control plane", mutation, registry, graph, "control_plane_ready must remain false"))
 
     mutation = copy.deepcopy(contract)
-    mutation["public_activation"]["rate_limiter_worker_deployed"] = True
-    tests.append(("premature strict limiter deployment", mutation, registry, graph, "rate_limiter_worker_deployed must remain false"))
+    mutation["public_activation"]["rate_limiter_worker_deployed"] = False
+    tests.append(("missing verified strict limiter deployment", mutation, registry, graph, "rate_limiter_worker_deployed must retain"))
 
     mutation = copy.deepcopy(contract)
-    mutation["public_activation"]["service_binding_configured"] = True
-    tests.append(("premature strict service binding", mutation, registry, graph, "service_binding_configured must remain false"))
+    mutation["public_activation"]["service_binding_configured"] = False
+    tests.append(("missing verified strict service binding", mutation, registry, graph, "service_binding_configured must retain"))
 
     mutation = copy.deepcopy(contract)
     mutation["public_activation"]["ui_network_enabled"] = False

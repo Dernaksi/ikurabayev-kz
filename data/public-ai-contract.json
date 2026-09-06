@@ -1,13 +1,13 @@
 {
   "schema_version": "0.1",
   "contract_id": "public-ai-assistant-v0",
-  "reviewed_at": "2026-09-05",
+  "reviewed_at": "2026-09-06",
   "lifecycle": {
-    "status": "public_control_plane_readiness",
+    "status": "strict_limiter_deployed_rollback_verified",
     "public_endpoint_enabled": false,
     "disabled_route_deployed": true,
     "paid_api_calls_enabled": true,
-    "next_gate": "merge the networked UI, then set the production kill switch and verify it"
+    "next_gate": "complete remaining production QA before deciding on a persistent public launch"
   },
   "backend_skeleton": {
     "adapter": "Cloudflare Pages Functions",
@@ -45,7 +45,7 @@
   },
   "public_activation": {
     "issue": 77,
-    "status": "strict_global_rate_limit_pending_deployment_and_production_toggle",
+    "status": "strict_global_rate_limit_deployed_and_rollback_verified",
     "enabled": false,
     "enable_variable": "AI_PUBLIC_ENABLED",
     "model_variable": "AI_PUBLIC_MODEL",
@@ -80,8 +80,18 @@
     "ui_network_enabled": true,
     "control_plane_ready": false,
     "production_project_configured": true,
-    "rate_limiter_worker_deployed": false,
-    "service_binding_configured": false,
+    "rate_limiter_worker_deployed": true,
+    "service_binding_configured": true,
+    "live_verification": {
+      "observed_at": "2026-09-06",
+      "strict_limit_http_statuses": [
+        200,
+        200,
+        429
+      ],
+      "rollback_http_status": 503,
+      "application_text_logging": false
+    },
     "current_pages_wrangler": "3.114.17",
     "rate_limiter_worker_wrangler": "4.36.0",
     "minimum_durable_object_wrangler": "4.36.0",

@@ -1,15 +1,16 @@
 # Public AI Control-Plane Runbook
 
-Status: RU/EN public UI authorized; final Production kill switch pending reviewed UI deployment
+Status: strict limiter deployed and rollback verified; public traffic disabled pending remaining QA
 
-Reviewed: 2026-09-05
+Reviewed: 2026-09-06
 
 ## Purpose
 
 This runbook records the safe order for preparing the public AI control plane.
-The owner has authorized a Production provider call and a network-enabled RU/EN
-concierge without application text logging. The final kill switch is set only
-after the reviewed UI deployment and a live verification.
+The owner authorized a bounded Production provider call and a network-enabled
+RU/EN concierge without application text logging. The exact kill switch remains
+off outside the completed bounded drill; persistent public traffic requires the
+remaining QA and a fresh owner decision.
 Secret values stay in the owner-operated OpenAI and Cloudflare dashboards and
 must never be committed, pasted into issues, or shown in screenshots.
 
@@ -97,11 +98,13 @@ Cloudflare Rate Limiting binding is intentionally per-location and eventually
 consistent. It is nevertheless insufficient for the strict two-request public
 gate required by this project.
 
-Issue #77 replaces that binding in source with one global Durable Object and a
-rolling 60-second counter. The replacement remains undeployed until its PR is
-reviewed and merged. Production `AI_PUBLIC_ENABLED` is `false`; the public
-endpoint was rechecked as 503 after the rollback deployment. No question or
-answer content was logged by the application during these checks.
+Issue #77 replaced that binding with one global Durable Object and a rolling
+60-second counter. On 2026-09-06 the non-public Worker was deployed, the
+existing Production Pages Service Binding was verified against it, and a
+bounded Production drill returned 200, 200, then 429 for three rapid ordinary
+requests. The third request was rejected before any provider call. The exact
+`AI_PUBLIC_ENABLED=false` kill switch was then redeployed and the endpoint
+returned 503. No question or answer content was logged by the application.
 
 Remaining launch gates:
 
@@ -121,15 +124,12 @@ Remaining launch gates:
    separate owner-operated runner can make a provider call after a token is
    supplied locally. Its results validate observed decisions, not hidden
    moderation scores, so they do not replace broader live QA.
-2. Deploy the reviewed strict Durable Object Worker, repoint the existing Pages
-   Service Binding, and verify that the third request returns 429 under a
-   bounded test procedure; do not enable public traffic as a shortcut.
-3. Complete adversarial, privacy, accessibility, mobile, cost, and live rollback
-   QA for the actual network-enabled UI. The current local-only UI cannot stand
-   in for those checks.
-4. Owner activation approval was granted on 2026-09-05. Keep
-   `AI_PUBLIC_ENABLED` absent until the reviewed RU/EN UI is deployed; then set
-   it to exact text `true` and perform the bounded live verification.
+2. Complete adversarial, privacy, accessibility, mobile, cost, and live rollback
+   QA for the actual network-enabled UI. The bounded control-plane drill does
+   not replace those checks.
+3. Owner activation approval was granted on 2026-09-05. The bounded deployment
+   and rollback drill is complete; request a fresh decision before leaving the
+   kill switch on for persistent public traffic.
 
 ## Repository Verification
 
@@ -145,26 +145,25 @@ pnpm check
 The main repository validators continue to confirm that Production activation,
 control-plane readiness, and UI networking are false.
 
-## Later Owner-Operated Sequence
+## Persistent-Activation Preflight
 
-Complete these steps only after the Gate D2a PR is reviewed and merged.
+The completed control-plane steps are retained here for auditability. Future
+persistent activation must start from the remaining QA gates above.
 
-1. Create a separate OpenAI project for Production.
-2. Restrict the project to the selected `gpt-5.6-luna` model.
-3. Configure an enforced USD 10 monthly project hard limit.
-4. Configure recommended USD 5 and USD 8 email alerts.
-5. Create a project-scoped API key and copy it directly into a Cloudflare
-   Production secret named `OPENAI_API_KEY`. Do not expose the value elsewhere.
-6. Deploy `ikurabayev-public-ai-rate-limiter` from its isolated Wrangler
-   project. Its Durable Object migration must retain no public route or preview
-   URL, and stores only rolling admission timestamps.
-7. Add a Production-only Pages Service Binding named
-   `AI_PUBLIC_RATE_LIMITER` targeting that Worker.
-8. Add the Production text variable `AI_PUBLIC_MODEL=gpt-5.6-luna`.
-9. Do not add `AI_PUBLIC_ENABLED=true` yet.
-10. Complete moderation, adversarial, privacy, mobile, accessibility, cost, and
+1. Reconfirm the separate Production OpenAI project remains limited to
+   `gpt-5.6-luna`, with its enforced USD 10 monthly hard limit and USD 5/USD 8
+   alerts.
+2. Confirm the project-scoped key remains available only through the Cloudflare
+   Production secret `OPENAI_API_KEY`; do not expose the value elsewhere.
+3. Confirm that the deployed `ikurabayev-public-ai-rate-limiter` retains no
+   public route or preview URL and stores only rolling admission timestamps.
+4. Confirm the Production-only Pages Service Binding named
+   `AI_PUBLIC_RATE_LIMITER` still targets that Worker.
+5. Retain the Production text variable `AI_PUBLIC_MODEL=gpt-5.6-luna`.
+6. Keep `AI_PUBLIC_ENABLED=false` until a persistent launch decision.
+7. Complete moderation, adversarial, privacy, mobile, accessibility, cost, and
     rollback QA in a separate issue and PR.
-11. Obtain explicit owner approval immediately before enabling the kill switch
+8. Obtain explicit owner approval immediately before enabling the kill switch
     and connecting the visible concierge to the backend.
 
 ## Pages Wrangler Boundary

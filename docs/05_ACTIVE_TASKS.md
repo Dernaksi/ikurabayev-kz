@@ -98,10 +98,11 @@ the current release.
 
 ## Active Work
 
-- Issue #77 replaces the permissive per-location Cloudflare limiter with a
+- Issue #77 replaced the permissive per-location Cloudflare limiter with a
   strict two-request global Durable Object window. It stores only aggregate
-  admission timestamps, no question, answer, IP, or session content. Public AI
-  remains disabled until this replacement is deployed and verified.
+  admission timestamps, no question, answer, IP, or session content. The
+  deployed Production drill verified 200, 200, then 429; the kill switch was
+  restored and rechecked as 503. Public AI is currently disabled.
 
 ## Next Recommended Tasks
 
@@ -114,9 +115,9 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Merge and deploy Issue #77, repoint the Pages Service Binding, verify that
-   the third rapid request returns 429, then perform a separate bounded public
-   launch and rollback check. Keep no question or answer text in application
+3. Complete the remaining adversarial, privacy, accessibility, mobile, and
+   cost QA before deciding whether to move from the verified rollback state to
+   a persistent public launch. Keep no question or answer text in application
    logs.
 
 ## Active Branch Convention

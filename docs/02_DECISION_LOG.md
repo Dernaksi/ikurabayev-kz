@@ -532,7 +532,7 @@ credential or limiter was configured by that merge.
 
 ### 2026-09-02 - Prepare an internal Rate Limiting gateway for Gate D2a
 
-Status: proposed
+Status: accepted and control-plane verified
 
 Context:
 Gate D1 requires a working `AI_PUBLIC_RATE_LIMITER` before a Production provider
@@ -563,7 +563,7 @@ limit. Kazakh provider answers remain deferred pending linguistic evaluation.
 
 ### 2026-09-06 - Replace permissive public limiter with a strict Durable Object gate
 
-Status: proposed
+Status: accepted and control-plane verified
 
 Context:
 A bounded live check found that three rapid ordinary public requests could be
@@ -578,11 +578,16 @@ single named Durable Object. It admits at most two requests in a rolling
 does not receive or store question text, answer text, IP address, session, or
 any other client identifier. The existing Pages Service Binding protocol remains
 the only path to the Worker; it accepts 204, maps 429 to a bounded rejection,
-and otherwise fails closed. Production remains disabled until the reviewed
-Worker migration and binding replacement are deployed and verified.
+and otherwise fails closed. The reviewed Worker migration and existing Pages
+Service Binding were deployed and verified on 2026-09-06. A bounded Production
+drill returned 200, 200, and 429 for three rapid ordinary requests; only the
+first two could reach the provider. The kill switch was immediately reset to
+exact text `false`, a fresh Production deployment completed, and the endpoint
+returned 503. No question or answer text was retained in application logs.
 
 Consequences:
-The OpenAI USD 10 hard limit remains independent and required. The current
+The OpenAI USD 10 hard limit remains independent and required. The former
 permissive Worker and Service Binding cannot be treated as a strict public
 launch control. This decision adds no secret, analytics, text logging, or public
-Worker route, and it does not authorize a public AI launch.
+Worker route. The verified rollback state does not by itself authorize a
+persistent public AI launch.
