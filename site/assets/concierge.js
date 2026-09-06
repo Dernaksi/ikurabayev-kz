@@ -13,8 +13,11 @@
       title: "Спросите лабораторию",
       intro: "Задайте вопрос о методе, исследованиях, публикациях или дорожной карте — ассистент отвечает по публичным фактам с проверенными источниками. Приватные данные не раскрываются намеренно.",
       online: "AI-ассистент · Открытые факты · RU/EN",
+      model: "Модель: GPT-5.6 Luna",
       demo: "Prototype UI · Source mode: Public facts only",
       unavailable: "AI-ассистент временно недоступен. Не вводите личные данные и попробуйте позже.",
+      cooldown: "Общий лимит запросов исчерпан. Повторите попытку через {seconds} с.",
+      cooldownNote: "После отсчёта можно попробовать снова.",
       emptyKicker: "// готов к запросу",
       emptyText: "Например: «Как устроен метод определения параметров изоляции?» или «Что такое AI Energy Auditor?» Нажмите подсказку ниже или напишите свой вопрос.",
       placeholder: "Спросите о работе Искандера Казбековича…",
@@ -31,8 +34,11 @@
       title: "Ask the lab",
       intro: "Ask about the method, research, publications, or roadmap — the assistant answers from public facts with reviewed sources. Private details are intentionally withheld.",
       online: "AI assistant · Public facts · RU/EN",
+      model: "Model: GPT-5.6 Luna",
       demo: "Prototype UI · Source mode: Public facts only",
       unavailable: "The AI assistant is temporarily unavailable. Do not enter personal data; please try again later.",
+      cooldown: "The shared request limit is reached. Try again in {seconds}s.",
+      cooldownNote: "You can try again when the countdown ends.",
       emptyKicker: "// ready for query",
       emptyText: "For example: “How does the insulation measurement method work?” or “What is the AI Energy Auditor?” Tap a prompt below or type your own question.",
       placeholder: "Ask about Iskander’s work…",
@@ -49,7 +55,11 @@
       title: "Зертханаға сұрақ қойыңыз",
       intro: "Әдіс, зерттеулер, жарияланымдар немесе даму картасы туралы сұраңыз — көмекші дереккөздері қаралған ашық деректерге сүйеніп жауап береді. Жеке деректер әдейі ашылмайды.",
       online: "Прототиптік интерфейс · Дереккөз режимі: тек ашық деректер",
+      model: "",
       demo: "Прототиптік интерфейс · Дереккөз режимі: тек ашық деректер",
+      unavailable: "",
+      cooldown: "",
+      cooldownNote: "",
       emptyKicker: "// сұрауға дайын",
       emptyText: "Мысалы: «Оқшаулауды өлшеу әдісі қалай жұмыс істейді?» немесе «AI Energy Auditor деген не?» Төмендегі дайын сұрақтардың бірін таңдаңыз немесе өз сұрағыңызды жазыңыз.",
       placeholder: "Ескендір Қазбекұлының жұмысы туралы сұраңыз…",
@@ -191,12 +201,13 @@
       '<div class="concierge-panel">' +
         '<div class="concierge-head">' +
           '<span class="concierge-status">' + esc(hasAI ? T.online : T.demo) + "</span>" +
-          '<span class="concierge-tag">' + esc(C.proto) + "</span>" +
+          '<span class="concierge-tag">' + esc(hasAI ? T.model : C.proto) + "</span>" +
         "</div>" +
         '<div class="concierge-modes">' +
           '<span class="cm-title">' + esc(C.mode) + "</span>" +
           flags +
         "</div>" +
+        '<p class="concierge-cooldown" role="status" aria-live="polite" hidden></p>' +
         '<div class="concierge-log">' +
           '<div class="concierge-empty"><b>' + esc(T.emptyKicker) + "</b><span>" + esc(T.emptyText) + "</span></div>" +
         "</div>" +
@@ -209,7 +220,10 @@
     var log = mount.querySelector(".concierge-log");
     var form = mount.querySelector(".concierge-form");
     var input = mount.querySelector(".concierge-form input");
-    var state = { busy: false };
+    var submit = form.querySelector("button");
+    var chipsButtons = mount.querySelectorAll(".concierge-chips button");
+    var cooldown = mount.querySelector(".concierge-cooldown");
+    var state = { busy: false, cooldownUntil: 0, cooldownTimer: null };
     var tw = null;
 
     function scrollDown() { log.scrollTop = log.scrollHeight; }
@@ -266,6 +280,39 @@
       return "page-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 14);
     }
 
+    function retryAfterSeconds(value) {
+      var seconds = Number(value);
+      return Number.isInteger(seconds) && seconds >= 1 && seconds <= 60 ? seconds : 60;
+    }
+
+    function setRequestControlsDisabled(disabled) {
+      input.disabled = disabled;
+      submit.disabled = disabled;
+      chipsButtons.forEach(function (button) { button.disabled = disabled; });
+    }
+
+    function showCooldown() {
+      var seconds = Math.max(0, Math.ceil((state.cooldownUntil - Date.now()) / 1000));
+      if (seconds === 0) {
+        window.clearInterval(state.cooldownTimer);
+        state.cooldownTimer = null;
+        state.cooldownUntil = 0;
+        cooldown.hidden = true;
+        setRequestControlsDisabled(false);
+        return;
+      }
+      cooldown.hidden = false;
+      cooldown.textContent = T.cooldown.replace("{seconds}", String(seconds)) + " " + T.cooldownNote;
+    }
+
+    function startCooldown(seconds) {
+      state.cooldownUntil = Date.now() + (seconds * 1000);
+      setRequestControlsDisabled(true);
+      window.clearInterval(state.cooldownTimer);
+      showCooldown();
+      state.cooldownTimer = window.setInterval(showCooldown, 250);
+    }
+
     function remoteAnswer(q) {
       return fetch("/api/ai/ask", {
         method: "POST",
@@ -274,19 +321,21 @@
         body: JSON.stringify({ language: lang, question: q, session: sessionId })
       })
         .then(function (response) {
-          return response.json().catch(function () { return null; });
-        })
-        .then(function (body) {
-          if (!body || typeof body.answer !== "string" || !body.answer.trim()) {
-            throw new Error("invalid_public_ai_response");
-          }
-          return body.answer;
+          return response.json().catch(function () { return null; }).then(function (body) {
+            if (response.status === 429) {
+              return {type: "rate_limited", retryAfterSeconds: retryAfterSeconds(response.headers.get("Retry-After"))};
+            }
+            if (!body || typeof body.answer !== "string" || !body.answer.trim()) {
+              throw new Error("invalid_public_ai_response");
+            }
+            return {type: "answer", text: body.answer};
+          });
         });
     }
 
     function ask(q) {
       q = (q || "").trim();
-      if (!q || state.busy) return;
+      if (!q || state.busy || state.cooldownUntil > Date.now()) return;
       var empty = log.querySelector(".concierge-empty");
       if (empty) empty.remove();
       addMsg("user", q);
@@ -297,15 +346,20 @@
       var pending = hasAI
         ? remoteAnswer(q)
         : new Promise(function (res) {
-            setTimeout(function () { res(localAnswer(lang, q)); }, 480);
+            setTimeout(function () { res({type: "answer", text: localAnswer(lang, q)}); }, 480);
           });
 
       pending
-        .catch(function () { return T.unavailable || localAnswer(lang, q); })
-        .then(function (ans) {
+        .catch(function () { return {type: "answer", text: T.unavailable || localAnswer(lang, q)}; })
+        .then(function (result) {
           typing.remove();
           state.busy = false;
-          typewrite(ans);
+          if (result.type === "rate_limited") {
+            typewrite(T.cooldown.replace("{seconds}", String(result.retryAfterSeconds)));
+            startCooldown(result.retryAfterSeconds);
+            return;
+          }
+          typewrite(result.text);
         });
     }
 

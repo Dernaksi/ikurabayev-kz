@@ -3183,6 +3183,22 @@ h3 {
   font-size: 0.7rem;
 }
 
+.concierge-cooldown {
+  margin: 0;
+  border-top: 1px solid rgba(245, 181, 68, 0.3);
+  border-bottom: 1px solid rgba(245, 181, 68, 0.3);
+  background: rgba(245, 181, 68, 0.08);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.55;
+  padding: 0.6rem 1rem;
+}
+
+.concierge-cooldown[hidden] {
+  display: none;
+}
+
 .cm-title {
   color: var(--teal-bright);
   letter-spacing: 0.12em;
@@ -3418,6 +3434,12 @@ h3 {
 .concierge-form button:hover {
   background: var(--teal-bright);
   border-color: var(--teal-bright);
+}
+
+.concierge-form button:disabled,
+.concierge-chips button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
 }
 
 @media (max-width: 520px) {

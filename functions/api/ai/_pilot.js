@@ -520,8 +520,14 @@ async function requestPublicRateLimit(rateLimiterService) {
     },
   ));
   if (!(response instanceof Response)) throw new TypeError("Invalid rate-limit response");
-  if (response.status === 204) return true;
-  if (response.status === 429) return false;
+  if (response.status === 204) return {admitted: true};
+  if (response.status === 429) {
+    const retryAfter = response.headers.get("Retry-After") || "";
+    return {
+      admitted: false,
+      retryAfter: /^(?:[1-9]|[1-5][0-9]|60)$/.test(retryAfter) ? retryAfter : "60",
+    };
+  }
   throw new TypeError("Unexpected rate-limit response");
 }
 
@@ -694,16 +700,16 @@ export async function runPublicAssistant({
     return {status: 200, body: localizedPolicyRefusal(language, policyCategory)};
   }
 
-  let admitted;
+  let admission;
   try {
-    admitted = await requestPublicRateLimit(configuration.rateLimiterService);
+    admission = await requestPublicRateLimit(configuration.rateLimiterService);
   } catch {
     return {status: 503, body: unavailableBody};
   }
-  if (!admitted) {
+  if (!admission.admitted) {
     return {
       status: 429,
-      headers: {"Retry-After": "60"},
+      headers: {"Retry-After": admission.retryAfter},
       body: localizedPublicRefusal(language, "rate_limited"),
     };
   }
