@@ -271,6 +271,24 @@ addTest("public assistant policy is fail closed and bounded", async () => {
   assert.equal(PUBLIC_ASSISTANT_POLICY.rateLimiterRejectedStatus, 429);
 });
 
+addTest("profile-overview questions retrieve only the relevant public profile claims", async () => {
+  const expectedClaimIds = new Set([
+    "identity.name",
+    "role.university.current",
+    "role.astana_energy.current",
+    "research.focus.ungrounded_power_systems",
+  ]);
+  for (const question of [
+    "Чем занимается Искандер Казбекович?",
+    "What does Iskander Kurabayev do?",
+  ]) {
+    const claimIds = new Set(selectPublicGrounding(question).claims.map(({id}) => id));
+    for (const claimId of expectedClaimIds) {
+      assert.equal(claimIds.has(claimId), true, `profile overview did not retrieve ${claimId}`);
+    }
+  }
+});
+
 addTest("every answer evaluation retrieves its required claim in RU and EN", async () => {
   for (const testCase of CONTRACT.evaluation_cases) {
     if (testCase.expected_decision !== "answer") continue;

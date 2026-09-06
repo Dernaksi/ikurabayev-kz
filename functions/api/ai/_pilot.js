@@ -36,6 +36,16 @@ const STOP_WORDS = new Set([
 ]);
 const CLAIM_ALIASES = Object.freeze([
   {terms: ["who is", "кто такой", "имя", "name"], ids: ["identity.name"]},
+  {terms: [
+    "чем занимается", "профессиональная деятельность", "профессиональный профиль",
+    "what does iskander kurabayev do", "what does iskander kazbekovich do",
+    "what does kurabayev do", "professional profile",
+  ], ids: [
+    "identity.name",
+    "role.university.current",
+    "role.astana_energy.current",
+    "research.focus.ungrounded_power_systems",
+  ]},
   {terms: ["образован", "education", "degree", "phd", "master"], ids: [
     "education.phd.electrical_complexes_systems",
     "education.master.electrical_power_engineering",
@@ -248,6 +258,7 @@ function buildProviderRequest({language, question, safetyIdentifier, grounding, 
       "For roadmap_only records, say that the item is in development or a concept and never imply launch or measured performance.",
       "For partially_verified or owner_approved records, answer with the recorded facts and explicitly preserve the recorded qualification; do not strengthen the wording.",
       "Do not refuse solely because a directly relevant record is partially_verified or owner_approved.",
+      "When a profile-overview question is directly matched to supplied current-role or research-focus claims, give a concise overview using only those claims and their recorded qualifications.",
       "Refuse only when no supplied claim directly addresses the question, the request crosses a privacy boundary, or the request is otherwise outside scope.",
       "Use natural professional wording. In Russian, describe a sanitized evidence review as an обезличенная проверка and avoid literal calques.",
       "For an answer, include at least one citation. Copy each claim_id and its source_ids only from citation_allowlist.",

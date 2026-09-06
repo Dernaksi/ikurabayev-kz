@@ -43,7 +43,7 @@ addTest("policy is strict, global, and non-public", async () => {
   assert.equal(RATE_LIMIT_POLICY.durableObjectBinding, "PUBLIC_AI_LIMITER");
   assert.equal(RATE_LIMIT_POLICY.durableObjectClass, "PublicAiRateLimiter");
   assert.equal(RATE_LIMIT_POLICY.key, "public-ai:/api/ai/ask");
-  assert.equal(RATE_LIMIT_POLICY.limit, 2);
+  assert.equal(RATE_LIMIT_POLICY.limit, 5);
   assert.equal(RATE_LIMIT_POLICY.periodSeconds, 60);
   assert.equal(RATE_LIMIT_POLICY.algorithm, "strict_global_rolling_window");
   assert.equal(RATE_LIMIT_POLICY.storesRequestContent, false);
@@ -72,12 +72,13 @@ addTest("missing, throwing, and malformed Durable Object bindings fail closed", 
   assert.equal((await handleRateLimitRequest(request(), malformed)).status, 503);
 });
 
-addTest("Durable Object strictly rejects the third request in its rolling window", async () => {
+addTest("Durable Object strictly rejects the sixth request in its rolling window", async () => {
   let now = 1_000_000;
   const object = new PublicAiRateLimiter(createState(), {}, () => now);
   const admission = () => object.fetch(request({path: "/admit"}));
-  assert.equal((await admission()).status, 204);
-  assert.equal((await admission()).status, 204);
+  for (let index = 0; index < 5; index += 1) {
+    assert.equal((await admission()).status, 204);
+  }
   const rejected = await admission();
   assert.equal(rejected.status, 429);
   assert.equal(rejected.headers.get("Retry-After"), "60");
@@ -90,8 +91,9 @@ addTest("Durable Object strictly rejects the third request in its rolling window
 addTest("gateway forwards admission and bounded retry information", async () => {
   const object = new PublicAiRateLimiter(createState());
   const env = {PUBLIC_AI_LIMITER: durableObjectNamespace(object)};
-  assert.equal((await handleRateLimitRequest(request(), env)).status, 204);
-  assert.equal((await handleRateLimitRequest(request(), env)).status, 204);
+  for (let index = 0; index < 5; index += 1) {
+    assert.equal((await handleRateLimitRequest(request(), env)).status, 204);
+  }
   const response = await handleRateLimitRequest(request(), env);
   assert.equal(response.status, 429);
   assert.match(response.headers.get("Retry-After"), /^([1-9]|[1-5][0-9]|60)$/);

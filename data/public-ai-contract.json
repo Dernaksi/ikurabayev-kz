@@ -59,7 +59,7 @@
     "rate_limiter_worker_class": "PublicAiRateLimiter",
     "rate_limiter_worker_config_path": "workers/public-ai-rate-limiter/wrangler.jsonc",
     "rate_limiter_key": "public-ai:/api/ai/ask",
-    "rate_limiter_requests_per_minute": 2,
+    "rate_limiter_requests_per_minute": 5,
     "rate_limiter_success_status": 204,
     "rate_limiter_rejected_status": 429,
     "rate_limit_scope": "single_global_durable_object_route_counter",
