@@ -98,10 +98,10 @@ the current release.
 
 ## Active Work
 
-- Issue #75 connects the reviewed RU/EN concierge to the existing same-origin
-  public endpoint with `credentials: "omit"`, no browser storage, tracking, or
-  application text logging. Kazakh remains local-only. The owner authorized the
-  final Production toggle after merge and bounded live verification.
+- Issue #77 replaces the permissive per-location Cloudflare limiter with a
+  strict two-request global Durable Object window. It stores only aggregate
+  admission timestamps, no question, answer, IP, or session content. Public AI
+  remains disabled until this replacement is deployed and verified.
 
 ## Next Recommended Tasks
 
@@ -114,10 +114,10 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
    implicitly.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Merge and deploy Issue #75, set the exact Production variable
-   `AI_PUBLIC_ENABLED=true`, then verify one normal RU/EN response, one privacy
-   refusal, rate limiting, and rollback. Keep no question or answer text in
-   application logs.
+3. Merge and deploy Issue #77, repoint the Pages Service Binding, verify that
+   the third rapid request returns 429, then perform a separate bounded public
+   launch and rollback check. Keep no question or answer text in application
+   logs.
 
 ## Active Branch Convention
 

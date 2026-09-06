@@ -6,14 +6,20 @@
   "workers_dev": false,
   "preview_urls": false,
   "send_metrics": false,
-  "ratelimits": [
-    {
-      "name": "PUBLIC_AI_RATE_LIMITER",
-      "namespace_id": "2026090201",
-      "simple": {
-        "limit": 2,
-        "period": 60
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PUBLIC_AI_LIMITER",
+        "class_name": "PublicAiRateLimiter"
       }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "PublicAiRateLimiter"
+      ]
     }
   ]
 }
