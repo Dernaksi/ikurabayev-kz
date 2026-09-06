@@ -2,7 +2,7 @@ const LIMIT_PATH = "/limit";
 const ADMIT_PATH = "/admit";
 const RATE_LIMIT_KEY = "public-ai:/api/ai/ask";
 const LIMITER_OBJECT_NAME = "public-ai-global";
-const LIMIT = 2;
+const LIMIT = 5;
 const WINDOW_MS = 60_000;
 
 
