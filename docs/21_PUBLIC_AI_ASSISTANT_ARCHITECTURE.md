@@ -483,12 +483,13 @@ offline suite does not simulate or replace that evidence.
   activation, and UI networking outside the PR;
 - verify the Worker with offline tests and a Wrangler dry-run.
 
-### Gate D2b — owner-operated control plane and bounded public activation
+### Gate D2c — owner-operated persistent public activation
 
-- create the separate OpenAI Production project with the USD 10 hard limit and
-  USD 5/USD 8 alerts;
-- deploy the non-public limiter Worker and configure the Production-only Pages
-  Service Binding;
+- reconfirm the separate OpenAI Production project retains its USD 10 hard
+  limit and USD 5/USD 8 alerts;
+- retain the deployed non-public limiter Worker and Production-only Pages
+  Service Binding; their bounded 2026-09-06 drill admitted two requests and
+  rejected the third with 429 before a provider call;
 - complete the moderation decision and full adversarial/privacy/cost/rollback
   QA;
 - obtain explicit owner approval immediately before activation;
@@ -540,10 +541,6 @@ existing Dashboard configuration before migration.
 
 ## Remaining Decisions After Implementation
 
-- deployment of the reviewed non-public Worker and configuration of the
-  Production-only Pages Service Binding;
-- a separate OpenAI Production project/key with the owner-approved USD 10 hard
-  limit and recommended USD 5/USD 8 alerts;
 - the bounded moderation decision and public issue-report workflow;
 - desktop/mobile accessibility, adversarial, privacy, cost, and rollback QA;
 - whether live Kazakh support is ready after owner linguistic evaluation.
