@@ -485,6 +485,9 @@ offline suite does not simulate or replace that evidence.
 
 ### Gate D2c — owner-operated persistent public activation
 
+- completed on 2026-09-06 after explicit owner authorization: Production
+  `AI_PUBLIC_ENABLED=true` was redeployed, one RU and one EN ordinary request
+  each returned 200, and a third rapid request returned 429;
 - reconfirm the separate OpenAI Production project retains its USD 10 hard
   limit and USD 5/USD 8 alerts;
 - retain the deployed non-public limiter Worker and Production-only Pages
@@ -492,10 +495,9 @@ offline suite does not simulate or replace that evidence.
   rejected the third with 429 before a provider call;
 - complete the moderation decision and full adversarial/privacy/cost/rollback
   QA;
-- obtain explicit owner approval immediately before activation;
-- activate the backend behind the existing concierge UI;
+- retain the explicit owner activation decision and immediate rollback control;
 - complete desktop/mobile accessibility, privacy, abuse, cost, and production
-  QA;
+  QA as post-launch monitoring;
 - keep an immediate kill switch that restores the local prototype.
 
 Each gate requires its own issue and pull request. This architecture does not

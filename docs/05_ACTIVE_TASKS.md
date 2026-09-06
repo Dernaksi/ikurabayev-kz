@@ -101,8 +101,10 @@ the current release.
 - Issue #77 replaced the permissive per-location Cloudflare limiter with a
   strict two-request global Durable Object window. It stores only aggregate
   admission timestamps, no question, answer, IP, or session content. The
-  deployed Production drill verified 200, 200, then 429; the kill switch was
-  restored and rechecked as 503. Public AI is currently disabled.
+  deployed Production drill verified 200, 200, then 429. The owner authorized
+  a persistent launch on 2026-09-06: RU and EN ordinary requests each returned
+  200, while a third rapid request returned 429. Public AI is currently live
+  without application text logging.
 
 ## Next Recommended Tasks
 
@@ -116,9 +118,8 @@ CVs until the external Astana-Energy profile is corrected and rechecked.
 2. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
 3. Complete the remaining adversarial, privacy, accessibility, mobile, and
-   cost QA before deciding whether to move from the verified rollback state to
-   a persistent public launch. Keep no question or answer text in application
-   logs.
+   cost QA as post-launch monitoring. Keep no question or answer text in
+   application logs and retain the immediate kill switch.
 
 ## Active Branch Convention
 

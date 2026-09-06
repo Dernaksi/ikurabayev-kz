@@ -85,9 +85,10 @@ limiter with a strict global Durable Object counter behind the same non-public
 Worker and internal Pages Service Binding protocol. The owner approved a USD 10 hard project cap, RU/EN as the initial
 live languages, and a public assistant without application text logging. The
 Worker, binding, and bounded Production drill are verified: two requests were
-admitted and the third returned 429; the kill switch was then restored and
-verified as 503. Persistent public launch remains a separate decision after
-the remaining QA. A
+admitted and the third returned 429. On 2026-09-06 the owner authorized a
+persistent launch: the Production kill switch is `true`, one RU and one EN
+ordinary request returned 200, and a third rapid request returned 429. No
+application text logging is enabled; remaining QA continues after launch. A
 bounded Kazakh language pass has corrected interface and
 terminology defects, and the owner-approved exact Kazakh display name
 `Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The
