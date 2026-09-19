@@ -1,8 +1,8 @@
 # Public AI Control-Plane Runbook
 
-Status: public RU/EN assistant live; strict limiter and launch checks verified
+Status: public RU/EN assistant live; five-request repository policy accepted; post-PR #82 Worker deployment confirmation required
 
-Reviewed: 2026-09-06
+Reviewed: 2026-09-20
 
 ## Purpose
 
@@ -39,12 +39,12 @@ Pages Function
   -> PUBLIC_AI_LIMITER Durable Object
 ```
 
-The Worker has `workers_dev: false`, `preview_urls: false`, no public route, and
-a shared `public-ai:/api/ai/ask` key. Its single named Durable Object admits at
-most two calls in a rolling 60-second window globally. It persists only integer
-admission timestamps: never question text, answer text, IP address, session, or
-other client identifier. The OpenAI hard spend limit remains the independent
-cost backstop.
+The reviewed Worker source has `workers_dev: false`, `preview_urls: false`, no
+public route, and a shared `public-ai:/api/ai/ask` key. Its single named Durable
+Object defines at most five admitted calls in a rolling 60-second window
+globally and rejects the sixth. It persists only integer admission timestamps:
+never question text, answer text, IP address, session, or other client
+identifier. The OpenAI hard spend limit remains the independent cost backstop.
 
 ## State At Gate D2a PR Creation
 
@@ -95,8 +95,8 @@ functional end-to-end evidence; it does not authorize activation.
 Bounded live verification showed three rapid ordinary requests receiving 200.
 That does not prove the existing Service Binding was broken: the former
 Cloudflare Rate Limiting binding is intentionally per-location and eventually
-consistent. It is nevertheless insufficient for the strict two-request public
-gate required by this project.
+consistent. It was nevertheless insufficient for the strict two-request public
+gate required at initial launch.
 
 Issue #77 replaced that binding with one global Durable Object and a rolling
 60-second counter. On 2026-09-06 the non-public Worker was deployed, the
@@ -105,6 +105,21 @@ bounded Production drill returned 200, 200, then 429 for three rapid ordinary
 requests. The third request was rejected before any provider call. The exact
 `AI_PUBLIC_ENABLED=false` kill switch was then redeployed and the endpoint
 returned 503. No question or answer content was logged by the application.
+
+## Current Five-Request Policy
+
+PR #82 subsequently raised the reviewed strict global threshold from two to
+five admitted requests per rolling 60-second window. The current Worker source,
+Worker test, machine-readable contract, and offline validator reject the sixth
+request with HTTP 429 and bounded `Retry-After` information. This change does
+not add request content, client identifiers, public Worker routes, retries, or
+provider capabilities.
+
+The initial 200, 200, 429 Production drill remains historical launch and
+rollback evidence; it is not the current threshold. Worker deployment remains
+an owner-operated Cloudflare action outside Git, so operators must confirm that
+the deployed non-public Worker matches the reviewed five-request source after
+PR #82.
 
 Post-launch QA remains:
 
@@ -156,7 +171,8 @@ following controls in place while the assistant is live.
 2. Confirm the project-scoped key remains available only through the Cloudflare
    Production secret `OPENAI_API_KEY`; do not expose the value elsewhere.
 3. Confirm that the deployed `ikurabayev-public-ai-rate-limiter` retains no
-   public route or preview URL and stores only rolling admission timestamps.
+   public route or preview URL, stores only rolling admission timestamps, and
+   uses the reviewed five-request rolling-window policy that rejects the sixth.
 4. Confirm the Production-only Pages Service Binding named
    `AI_PUBLIC_RATE_LIMITER` still targets that Worker.
 5. Retain the Production text variable `AI_PUBLIC_MODEL=gpt-5.6-luna`.

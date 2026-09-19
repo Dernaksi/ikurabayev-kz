@@ -84,11 +84,16 @@ key, and Cloudflare limiter. Issue #77 replaces the permissive per-location
 limiter with a strict global Durable Object counter behind the same non-public
 Worker and internal Pages Service Binding protocol. The owner approved a USD 10 hard project cap, RU/EN as the initial
 live languages, and a public assistant without application text logging. The
-Worker, binding, and bounded Production drill are verified: two requests were
-admitted and the third returned 429. On 2026-09-06 the owner authorized a
-persistent launch: the Production kill switch is `true`, one RU and one EN
-ordinary request returned 200, and a third rapid request returned 429. No
-application text logging is enabled; remaining QA continues after launch. A
+Worker, binding, and bounded Production drill are verified: the initial
+two-request launch gate admitted two requests and returned 429 for the third.
+On 2026-09-06 the owner authorized a persistent launch: the Production kill
+switch is `true`, one RU and one EN ordinary request returned 200, and a third
+rapid request returned 429. PR #82 subsequently raised the reviewed strict
+global policy to five requests per rolling 60-second window; the current Worker,
+test, and machine-readable contract reject the sixth request. The earlier
+200/200/429 drill remains historical launch evidence rather than the current
+threshold. No application text logging is enabled; remaining QA continues after
+launch. A
 bounded Kazakh language pass has corrected interface and
 terminology defects, and the owner-approved exact Kazakh display name
 `Қорабаев Ескендір Қазбекұлы` is now canonical in the Evidence Spine. The

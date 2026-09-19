@@ -610,8 +610,38 @@ record contains only language, HTTP status, decision, and citation count; no
 question or answer text, secret, identifier, IP, or session value was retained.
 
 Consequences:
-The RU/EN public assistant is live behind the existing same-origin UI. The
-global two-request rolling gate and the exact `AI_PUBLIC_ENABLED=false`
-rollback remain mandatory. Accessibility, adversarial, privacy, cost, and live
-rollback QA continue as post-launch monitoring and must not be represented as
-completed by this launch record.
+The RU/EN public assistant is live behind the existing same-origin UI. A strict
+global rolling gate and the exact `AI_PUBLIC_ENABLED=false` rollback remain
+mandatory. The initial launch evidence used the two-request threshold described
+above; the later accepted decision below raises the ongoing reviewed threshold
+to five requests per rolling 60-second window. Accessibility, adversarial,
+privacy, cost, and live rollback QA continue as post-launch monitoring and must
+not be represented as completed by this launch record.
+
+### 2026-09-06 - Raise the strict public AI limit to five requests per minute
+
+Status: accepted
+
+Context:
+The initial strict Durable Object gate deliberately admitted two requests per
+rolling 60-second window. After the bounded launch verified the global gate and
+rollback path, PR #82 updated natural profile routing and explicitly raised the
+reviewed limit without weakening the independent USD 10 project cap,
+fail-closed Service Binding, or no-text-logging boundary.
+
+Decision:
+PR #82 raises the single global Durable Object policy from two to five admitted
+requests per rolling 60-second window. The sixth request is rejected with HTTP
+429 and bounded `Retry-After` information. The object continues to store only
+integer admission timestamps and receives no question, answer, IP, session, or
+other client identifier.
+
+Consequences:
+The current Worker source, Worker test, machine-readable public AI contract,
+and offline validator use the five-request threshold. The earlier 200, 200, 429
+Production drill remains valid historical evidence for initial launch and must
+not be described as the current threshold. Because Worker deployment is an
+owner-operated control-plane action outside Git, operators must confirm that the
+deployed non-public Worker matches the reviewed five-request source after this
+change. The public RU/EN launch remains authorized and the exact
+`AI_PUBLIC_ENABLED=false` rollback remains mandatory.
