@@ -2,9 +2,12 @@
 
 ## Current Phase
 
-Public AI assistant UI activation for RU/EN; Claude Design v1.1 remains the
-visual baseline. The exact Production kill switch stays off until the reviewed
-networked concierge is deployed and verified.
+The RU/EN public AI assistant is live; Claude Design v1.1 remains the visual
+baseline. The exact Production kill switch is `true` while public operation is
+intended and remains the immediate rollback control through an exact `false`
+value and redeployment. The reviewed repository policy admits five requests per
+rolling 60-second global window and rejects the sixth. Post-launch QA remains in
+progress.
 
 ## Recently Completed
 
@@ -103,8 +106,11 @@ the current release.
   admission timestamps, no question, answer, IP, or session content. The
   deployed Production drill verified 200, 200, then 429. The owner authorized
   a persistent launch on 2026-09-06: RU and EN ordinary requests each returned
-  200, while a third rapid request returned 429. Public AI is currently live
-  without application text logging.
+  200, while a third rapid request returned 429. PR #82 subsequently raised the
+  reviewed strict global policy from two to five requests per rolling 60-second
+  window; the current Worker, test, and machine-readable contract reject the
+  sixth request. The initial 200/200/429 result remains historical launch
+  evidence. Public AI is currently live without application text logging.
 
 ## Next Recommended Tasks
 
@@ -112,12 +118,15 @@ The university-role start-date discrepancy is not an active task. Retain the
 employer-source canonical value and keep the start date omitted from generated
 CVs until the external Astana-Energy profile is corrected and rechecked.
 
-1. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile
+1. Record owner-operated confirmation that the deployed non-public limiter
+   Worker matches the reviewed PR #82 five-request policy; repository source,
+   tests, and contract cannot prove this external deployment state.
+2. Decide the long-term semantic roles of the duplicated `/` and `/ru/` profile
    routes without changing the accepted Russian-first information architecture
    implicitly.
-2. Decide whether to implement an optional `www`-to-apex redirect in the
+3. Decide whether to implement an optional `www`-to-apex redirect in the
    Cloudflare control plane; repository canonical metadata already uses apex.
-3. Complete the remaining adversarial, privacy, accessibility, mobile, and
+4. Complete the remaining adversarial, privacy, accessibility, mobile, and
    cost QA as post-launch monitoring. Keep no question or answer text in
    application logs and retain the immediate kill switch.
 

@@ -1,16 +1,16 @@
 # Public AI Assistant Architecture
 
-Status: RU/EN public UI activation authorized; final Production kill switch remains the deployment gate
+Status: RU/EN public assistant live; strict global five-request policy accepted; post-launch QA ongoing
 
-Reviewed: 2026-09-05
+Reviewed: 2026-09-20
 
 ## Purpose
 
-This document defines the smallest safe architecture for turning the existing
-local public-facts-only concierge into a real AI assistant. Gates A-D1 are
-accepted. Gate D2a prepares a non-public rate-limit gateway that still cannot
-activate the public service without separate control-plane work, QA, and owner
-approval.
+This document defines the smallest safe architecture for the live RU/EN public
+AI assistant. Gates A-D2c are accepted: the same-origin UI, non-public strict
+rate-limit gateway, Production provider path, and persistent launch are in
+operation under the exact kill switch. Remaining work is post-launch
+accessibility, adversarial, privacy, cost, and rollback QA.
 
 The first live version should answer short questions about Iskander Kurabayev's
 reviewed public profile, research, publications, patents, credentials, and
@@ -27,8 +27,8 @@ The proposed v0 assistant uses:
 
 - the existing static concierge as the user interface;
 - a same-origin `POST /api/ai/ask` endpoint implemented as a Cloudflare Pages
-  Function, provider-capable in the authenticated private Preview and prepared
-  to remain fail-closed behind independent production controls;
+  Function, available to RU/EN production traffic only while every independent
+  production control is present;
 - the OpenAI Responses API from the server side only;
 - a Cloudflare secret binding for the provider credential;
 - an internal Pages Service Binding to a non-public Worker that owns a strict
@@ -42,17 +42,21 @@ The proposed v0 assistant uses:
 
 The owner authorized the RU/EN public mode without application text logging.
 Luna is fixed for the bounded public mode; Terra remains only a controlled
-private fallback and re-evaluation candidate. The final production kill switch
-is set only after the networked UI is deployed and verified.
+private fallback and re-evaluation candidate. The exact Production kill switch
+is `true` while public operation is intended and remains the immediate rollback
+control through an exact `false` value and redeployment.
 
-## Current Gate C Implementation
+## Accepted Gate C Private Preview Implementation
 
-Gate B remains the production behavior. Gate C adds a separate private path:
+At the Gate C stage, Gate B remained the production behavior and Gate C added a
+separate private Preview path. The following controls remain available for
+bounded private re-evaluation; later Gates D1-D2c separately authorized and
+launched the Production path:
 
 - `site/_routes.json` sends only `/api/ai/ask` to Pages Functions;
 - `functions/api/ai/ask.js` validates method, same origin, media type, exact
   fields, language, session form, size, control characters, and URL retrieval;
-- production, `main`, the canonical `*.pages.dev` host, missing configuration,
+- under Gate C, production, `main`, the canonical `*.pages.dev` host, missing configuration,
   missing/invalid pilot authentication, and unknown model configuration all
   return a localized structured failure before an outbound call;
 - only a non-production Preview branch with `AI_PILOT_ENABLED=true`, a matching
@@ -62,8 +66,8 @@ Gate B remains the production behavior. Gate C adds a separate private path:
   available only as a controlled fallback or explicit re-evaluation candidate;
 - the application admits at most two requests per minute per active isolate,
   below the configured private provider-project limit of three requests per
-  minute; Gate D1 additionally requires a working Cloudflare limiter for any
-  future production provider call;
+  minute; Gate D1 later added the required Cloudflare limiter for Production
+  provider calls;
 - each provider request uses `/v1/responses`, `store: false`, `background:
   false`, no tools, a 700-token output ceiling, a 15-second timeout, an
   ephemeral session hash, and Structured Outputs through `text.format`;
@@ -124,8 +128,9 @@ average latency was about 32% higher. The sample sizes differ, so these figures
 are Gate C decision evidence rather than a general model benchmark. Issue #63
 selects Luna for the private pilot; Terra remains a controlled fallback.
 
-This is Gate C evidence, not authorization for a public service. Production,
-the visible concierge, and the canonical Pages host remain fail-closed.
+This section records Gate C evidence that did not itself authorize a public
+service. Production authorization and the later persistent launch are recorded
+under Gates D1-D2c below.
 
 ### Preview control-plane configuration
 
@@ -164,12 +169,12 @@ retry. Public responses expose no pilot authentication, model, attempt, or token
 usage headers.
 
 This runner remains fail-closed until its exact activation controls are present.
-The owner has since authorized the RU/EN browser connection. The UI sends one
-same-origin request only, omits credentials, does not use browser storage or
-analytics, and keeps Kazakh in its local-only mode. The production kill switch
-remains off until that reviewed UI has deployed.
+The owner subsequently authorized and deployed the RU/EN browser connection.
+The UI sends one same-origin request only, omits credentials, does not use
+browser storage or analytics, and keeps Kazakh in its local-only mode. The
+Production kill switch is now `true` and remains the immediate rollback control.
 
-## Proposed Gate D2a Control-Plane Readiness
+## Accepted Gate D2 Control Plane
 
 Cloudflare Pages Functions supports Service Bindings but does not support the
 Rate Limiting binding directly. Issue #67 therefore prepares this internal path:
@@ -181,32 +186,38 @@ Pages Function
   -> PUBLIC_AI_LIMITER Durable Object
 ```
 
-The isolated Worker pins Wrangler 4.36.0, has no public route or preview URL,
-and its one named Durable Object admits at most two requests in a strict rolling
-60-second global window. The Pages adapter accepts only a 204 admission
-response, treats 429 as rejection, and fails closed on missing configuration,
-exceptions, malformed values, or every other status. The object stores only
-integer admission timestamps, never request content or client identifiers.
+The reviewed Worker source pins Wrangler 4.36.0, has no public route or preview
+URL, and defines one named Durable Object that admits at most five requests in a
+strict rolling 60-second global window. The sixth request is rejected. The Pages
+adapter accepts only a 204 admission response, treats 429 as rejection, and
+fails closed on missing configuration, exceptions, malformed values, or every
+other status. The object stores only integer admission timestamps, never request
+content or client identifiers.
 
-The owner approved bounded Wrangler use, set the future OpenAI Production
-project hard limit to USD 10, and selected Russian and English for the initial
+The owner approved bounded Wrangler use, set the OpenAI Production project hard
+limit to USD 10, and selected Russian and English for the initial
 provider mode. Recommended spend alerts are USD 5 and USD 8. Alerts notify but
 do not stop traffic, and hard-limit enforcement is not instantaneous. Kazakh
 provider answers remain deferred pending owner linguistic evaluation.
 
 The Worker, Service Binding, and bounded Production project were subsequently
-configured by the owner without disclosing secret material. This architecture
-still does not set `AI_PUBLIC_ENABLED=true` or connect the visible concierge
-until the reviewed UI is deployed. Because a root Pages Wrangler file would become the source
-of truth for existing Dashboard-managed configuration, none is created here.
+configured by the owner without disclosing secret material. Gate D2c later set
+`AI_PUBLIC_ENABLED=true` and deployed the reviewed RU/EN networked concierge.
+Because a root Pages Wrangler file would become the source of truth for existing
+Dashboard-managed configuration, none is created here.
 Any later migration must first download and audit the current Pages project
 configuration. The exact owner-operated order is recorded in
 `docs/22_PUBLIC_AI_CONTROL_PLANE_RUNBOOK.md`.
 
 The limiter uses one named global Durable Object to avoid storing or
-rate-limiting on IP addresses while rejecting a third rapid request
-deterministically. The OpenAI project USD 10 hard spend limit remains an
-independent requirement, not a substitute for the edge limiter.
+rate-limiting on IP addresses while rejecting a sixth request within the rolling
+window. The OpenAI project USD 10 hard spend limit remains an independent
+requirement, not a substitute for the edge limiter. The initial 200, 200, 429
+Production drill remains historical launch evidence for the former two-request
+threshold. Because the separate Worker deployment is an owner-operated action
+outside Git, the live deployment of the PR #82 five-request source must be
+confirmed in the Cloudflare control plane rather than inferred from repository
+state.
 
 ## System Boundary
 
@@ -472,12 +483,12 @@ offline suite does not simulate or replace that evidence.
 - preserve the Gate C private pilot and deterministic refusal boundary;
 - merge only after offline/backend/privacy review.
 
-### Gate D2b — strict limiter code readiness (issue #77)
+### Gate D2b — strict limiter code readiness (issue #77, threshold updated in PR #82)
 
 - pin Wrangler 4.36.0 only inside the isolated rate-limit Worker;
 - keep the Worker private with no route or preview URL;
-- enforce two requests in a strict rolling 60-second window through one Durable
-  Object, storing no text or client identifier;
+- enforce five requests in a strict rolling 60-second window through one Durable
+  Object, reject the sixth, and store no text or client identifier;
 - call it only through a Production Pages Service Binding;
 - keep Worker deployment, Service Binding configuration, provider credentials,
   activation, and UI networking outside the PR;
@@ -488,6 +499,9 @@ offline suite does not simulate or replace that evidence.
 - completed on 2026-09-06 after explicit owner authorization: Production
   `AI_PUBLIC_ENABLED=true` was redeployed, one RU and one EN ordinary request
   each returned 200, and a third rapid request returned 429;
+- treat that 200/200/429 result as historical launch evidence; PR #82 later
+  raised the reviewed current threshold to five requests per rolling 60-second
+  window, with the sixth rejected;
 - reconfirm the separate OpenAI Production project retains its USD 10 hard
   limit and USD 5/USD 8 alerts;
 - retain the deployed non-public limiter Worker and Production-only Pages
@@ -500,8 +514,9 @@ offline suite does not simulate or replace that evidence.
   QA as post-launch monitoring;
 - keep an immediate kill switch that restores the local prototype.
 
-Each gate requires its own issue and pull request. This architecture does not
-authorize later gates automatically.
+Each gate requires its own issue and pull request. The persistent RU/EN launch
+is authorized and live; later capability, language, privacy, or control-plane
+changes are not authorized automatically.
 
 ## Official API Basis
 
@@ -547,4 +562,6 @@ existing Dashboard configuration before migration.
 - desktop/mobile accessibility, adversarial, privacy, cost, and rollback QA;
 - whether live Kazakh support is ready after owner linguistic evaluation.
 
-None of these decisions authorizes Gate D2 or changes the production concierge.
+These remaining decisions do not reverse the accepted RU/EN launch. Any change
+to capabilities, languages, privacy boundaries, or production controls still
+requires a focused issue, review, and pull request.
